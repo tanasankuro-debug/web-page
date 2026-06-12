@@ -373,6 +373,21 @@ const PM25_RANGES = [
 const HUMIDITY_COLOR = '#38BDF8';
 const WIND_COLOR     = '#94A3B8';
 
+/* ── Count-up animation ──────────────────────────────────────────────────── */
+function animateCountUp(el, toValue, decimals, duration) {
+  if (prefersReducedMotion || toValue == null || isNaN(toValue)) return;
+  const start = performance.now();
+  function step(now) {
+    const t = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const val = toValue * eased;
+    el.textContent = decimals > 0 ? val.toFixed(decimals) : String(Math.round(val));
+    if (t < 1) requestAnimationFrame(step);
+    else el.textContent = decimals > 0 ? toValue.toFixed(decimals) : String(Math.round(toValue));
+  }
+  requestAnimationFrame(step);
+}
+
 /* ── Card update helper ──────────────────────────────────────────────────── */
 function setCard(idSuffix, value, unit, subText, color) {
   const valEl  = document.getElementById(`lc-${idSuffix}-val`);
@@ -380,10 +395,25 @@ function setCard(idSuffix, value, unit, subText, color) {
   const barEl  = document.getElementById(`lc-${idSuffix}-bar`);
   const cardEl = document.getElementById(`lc-${idSuffix}`);
 
-  if (valEl)  { valEl.textContent  = value != null ? value : '—'; }
+  if (valEl) {
+    if (value != null) {
+      const num = parseFloat(value);
+      const decimals = String(value).includes('.') ? String(value).split('.')[1].length : 0;
+      if (!prefersReducedMotion && !isNaN(num)) {
+        animateCountUp(valEl, num, decimals, 600);
+      } else {
+        valEl.textContent = value;
+      }
+    } else {
+      valEl.textContent = '—';
+    }
+  }
   if (subEl)  { subEl.textContent  = subText || ''; }
   if (barEl)  { barEl.style.background = color; }
-  if (cardEl) { cardEl.querySelector('.live-card-val').style.color = color; }
+  if (cardEl) {
+    const ddEl = cardEl.querySelector('.live-card-val');
+    if (ddEl) ddEl.style.color = color;
+  }
 }
 
 /* ── Sparkline ───────────────────────────────────────────────────────────── */
@@ -504,7 +534,7 @@ function renderLivePanel(weather, airQuality) {
 
   // PM2.5 card
   setCard('pm25',
-    pm25 != null ? pm25.toFixed(1) : null,
+    pm25 != null ? String(Math.round(pm25)) : null,
     'µg/m³', pm25Info.label, pm25Info.color);
 
   // Sparkline
@@ -548,26 +578,34 @@ async function fetchLiveData() {
   if (errorEl)   errorEl.hidden   = true;
   if (panelEl)   panelEl.hidden   = true;
 
-  try {
-    const [wResult, aqResult] = await Promise.allSettled([
-      fetch(LIVE_WEATHER_URL).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }),
-      fetch(LIVE_AQ_URL).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-    ]);
+  console.log('[live data] Fetching:', LIVE_WEATHER_URL, LIVE_AQ_URL);
 
-    const weather    = wResult.status  === 'fulfilled' ? wResult.value  : null;
-    const airQuality = aqResult.status === 'fulfilled' ? aqResult.value : null;
+  const [wResult, aqResult] = await Promise.allSettled([
+    fetch(LIVE_WEATHER_URL)
+      .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(d => { if (d.error) throw new Error(d.reason || 'Open-Meteo forecast error'); return d; }),
 
-    // At least one endpoint must succeed to render
-    if (!weather && !airQuality) throw new Error('all endpoints failed');
+    fetch(LIVE_AQ_URL)
+      .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(d => { if (d.error) throw new Error(d.reason || 'Open-Meteo air quality error'); return d; })
+  ]);
 
-    if (loadingEl) loadingEl.hidden = true;
-    renderLivePanel(weather, airQuality);
+  if (wResult.status  === 'rejected') console.error('[live data] forecast failed:', wResult.reason);
+  if (aqResult.status === 'rejected') console.error('[live data] air quality failed:', aqResult.reason);
 
-  } catch (err) {
-    console.warn('[live data]', err.message);
-    if (loadingEl) loadingEl.hidden = true;
-    if (errorEl)   errorEl.hidden   = false;
+  const weather    = wResult.status  === 'fulfilled' ? wResult.value  : null;
+  const airQuality = aqResult.status === 'fulfilled' ? aqResult.value : null;
+
+  console.log('[live data] weather:', weather, 'air quality:', airQuality);
+
+  if (loadingEl) loadingEl.hidden = true;
+
+  if (!weather && !airQuality) {
+    if (errorEl) errorEl.hidden = false;
+    return;
   }
+
+  renderLivePanel(weather, airQuality);
 }
 
 function initLiveData() {
