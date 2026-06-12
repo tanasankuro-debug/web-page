@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ทำความเข้าใจปรากฏการณ์ความร้อนที่กำลังเปลี่ยนเมืองขอนแก่น — โดมความร้อน เกาะความร้อนเมือง และแนวทางรับมือ" />
+  <title>Heat Safe Khon Kaen — ปรากฏการณ์ความร้อนในเมือง</title>
+
+  <!-- Fonts: Barlow Condensed (display headings) + Noto Sans Thai (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- MapLibre GL JS — satellite map section -->
+  <link href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Skip navigation for keyboard/screen-reader users -->
+  <a class="skip-link" href="#main-content">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <!-- =====================================================================
+       STICKY HEADER
+  ====================================================================== -->
+  <header id="site-header" role="banner">
+    <div class="header-inner container">
+
+      <a href="#hero" class="site-logo" aria-label="Heat Safe Khon Kaen — กลับหน้าแรก">
+        <span class="logo-heat">Heat Safe</span>
+        <span class="logo-city">Khon Kaen</span>
+      </a>
+
+      <nav id="main-nav" aria-label="เมนูหลัก">
+        <ul class="nav-links" role="list">
+          <li><a href="#intro"      class="nav-link">บทนำ</a></li>
+          <li><a href="#live"       class="nav-link">สภาพอากาศสด</a></li>
+          <li><a href="#comparison" class="nav-link">สองปรากฏการณ์</a></li>
+          <li><a href="#heat-dome"  class="nav-link">โดมความร้อน</a></li>
+          <li><a href="#uhi"        class="nav-link">เกาะความร้อน</a></li>
+          <li><a href="#research"      class="nav-link">งานวิจัย</a></li>
+          <li><a href="#satellite-map" class="nav-link">ดาวเทียม</a></li>
+          <li><a href="#impacts"       class="nav-link">ผลกระทบ</a></li>
+          <li><a href="#solutions"  class="nav-link">รับมือ</a></li>
+        </ul>
+        <!-- TODO: app URL — replace href="#" with the real companion app URL -->
+        <a href="#" class="btn btn-primary btn-sm nav-cta" aria-label="เปิดแผนที่ความร้อนเรียลไทม์">
+          &#x1F321; แผนที่เรียลไทม์
+        </a>
+      </nav>
+
+      <button class="hamburger" id="hamburger"
+              aria-label="เปิด/ปิดเมนูนำทาง"
+              aria-expanded="false"
+              aria-controls="main-nav">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </button>
+
+    </div>
+  </header>
+
+
+  <!-- =====================================================================
+       MAIN CONTENT
+  ====================================================================== -->
+  <main id="main-content">
+
+    <!-- ─── 1. HERO ─────────────────────────────────────────────────────── -->
+    <section id="hero" class="hero" aria-label="หน้าหลัก Heat Safe Khon Kaen">
+
+      <div class="hero-bg" aria-hidden="true">
+        <!-- TODO: replace image — Khon Kaen cityscape or satellite thermal image (recommended: 1600×900) -->
+        <img src="https://placehold.co/1600x900/0B0F1A/1E3A8A?text=Khon+Kaen+Thermal+View"
+             alt="ภาพ thermal imaging ของเมืองขอนแก่นจากมุมสูง"
+             class="hero-img" loading="eager" width="1600" height="900" />
+        <div class="hero-overlay" aria-hidden="true"></div>
+      </div>
+
+      <div class="hero-content container">
+        <p class="hero-badge reveal">ข้อมูลสาธารณะ &middot; ขอนแก่น ประเทศไทย &middot; 2568</p>
+        <h1 class="hero-title reveal">
+          Heat Safe<br />
+          <span class="hero-title-accent">Khon Kaen</span>
+        </h1>
+        <p class="hero-sub reveal">
+          ทำความเข้าใจปรากฏการณ์ความร้อนที่กำลังเปลี่ยนเมืองขอนแก่น<br class="break-md" />
+          และเราจะรับมือได้อย่างไร
+        </p>
+        <p class="hero-intro reveal">
+          ปี 2567 ทำลายสถิติอุณหภูมิโลกสูงสุดเป็นประวัติการณ์
+          และเมืองต่าง ๆ ทั่วโลกกำลังร้อนขึ้นเร็วกว่าพื้นที่ชนบทโดยเฉลี่ย
+          ขอนแก่น — ศูนย์กลางภาคอีสาน — ไม่ใช่ข้อยกเว้น
+        </p>
+        <div class="hero-actions reveal">
+          <a href="#intro"  class="btn btn-primary">อ่านบทความ</a>
+          <!-- TODO: app URL — replace href="#" with the real companion app URL -->
+          <a href="#" class="btn btn-outline">ดูแผนที่จริง &#x2192;</a>
+        </div>
+      </div>
+
+      <!-- Signature thermal gradient bar at hero bottom -->
+      <div class="thermal-hero-bar" aria-hidden="true"></div>
+    </section>
+
+
+    <!-- ─── 2. TABLE OF CONTENTS ─────────────────────────────────────────── -->
+    <section id="toc" class="section-toc" aria-label="สารบัญ">
+      <div class="container">
+        <div class="toc-card reveal">
+          <h2 class="toc-heading">สารบัญ</h2>
+          <nav aria-label="สารบัญบทความ">
+            <ol class="toc-list" role="list">
+              <li>
+                <a href="#intro" class="toc-link" data-target="intro">
+                  <span class="toc-num">01</span>
+                  ทำไมขอนแก่นถึงร้อนขึ้น
+                </a>
+              </li>
+              <li>
+                <a href="#live" class="toc-link" data-target="live">
+                  <span class="toc-num">02</span>
+                  สภาพอากาศขอนแก่นตอนนี้ — ข้อมูลสด
+                </a>
+              </li>
+              <li>
+                <a href="#comparison" class="toc-link" data-target="comparison">
+                  <span class="toc-num">03</span>
+                  สองปรากฏการณ์ที่ไม่เหมือนกัน
+                </a>
+              </li>
+              <li>
+                <a href="#heat-dome" class="toc-link" data-target="heat-dome">
+                  <span class="toc-num">04</span>
+                  โดมความร้อนคืออะไร
+                </a>
+              </li>
+              <li>
+                <a href="#uhi" class="toc-link" data-target="uhi">
+                  <span class="toc-num">05</span>
+                  เกาะความร้อนเมืองคืออะไร
+                </a>
+              </li>
+              <li>
+                <a href="#research" class="toc-link" data-target="research">
+                  <span class="toc-num">06</span>
+                  สถานการณ์ในขอนแก่น — งานวิจัยท้องถิ่น
+                </a>
+              </li>
+              <li>
+                <a href="#satellite-map" class="toc-link" data-target="satellite-map">
+                  <span class="toc-num">07</span>
+                  ภาพดาวเทียมและอุณหภูมิพื้นผิว
+                </a>
+              </li>
+              <li>
+                <a href="#impacts" class="toc-link" data-target="impacts">
+                  <span class="toc-num">08</span>
+                  ผลกระทบ
+                </a>
+              </li>
+              <li>
+                <a href="#solutions" class="toc-link" data-target="solutions">
+                  <span class="toc-num">09</span>
+                  เราทำอะไรได้ — แนวทางรับมือ
+                </a>
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── 3. INTRODUCTION ──────────────────────────────────────────────── -->
+    <section id="intro" class="section article-section" aria-labelledby="intro-heading">
+      <div class="container article-container">
+
+        <p class="section-label reveal">บทนำ</p>
+        <h2 id="intro-heading" class="section-heading reveal">
+          ทำไมขอนแก่น<br />ถึงร้อนขึ้น
+        </h2>
+
+        <div class="thermal-divider reveal" aria-hidden="true"></div>
+
+        <div class="article-body">
+          <p class="lead reveal">
+            ขอนแก่นคือศูนย์กลางภาคอีสาน — เมืองที่เติบโตรวดเร็ว
+            มีอาคารพาณิชย์และที่อยู่อาศัยหนาแน่น
+            และกำลังเผชิญกับความท้าทายด้านความร้อนที่ทวีความรุนแรงขึ้นทุกปี
+          </p>
+
+          <p class="reveal">
+            ปี 2567 (2024) ทำลายสถิติอุณหภูมิเฉลี่ยโลกสูงสุดเป็นประวัติการณ์
+            ตามรายงานขององค์การอุตุนิยมวิทยาโลก (WMO)
+            ขณะที่รายงานของธนาคารโลก (2025)
+            ชี้ว่าเมืองต่าง ๆ ในเอเชียตะวันออกเฉียงใต้กำลังเผชิญกับปรากฏการณ์ความร้อนอย่างน้อย
+            2 ชนิดพร้อมกัน ซึ่งมีสาเหตุและวิธีรับมือที่แตกต่างกันอย่างสิ้นเชิง
+          </p>
+
+          <p class="reveal">
+            บทความนี้จะอธิบายให้ชัดขึ้นว่า
+            <strong>โดมความร้อน</strong> (Heat Dome) และ
+            <strong>เกาะความร้อนเมือง</strong> (Urban Heat Island หรือ UHI)
+            แตกต่างกันอย่างไร
+            เพราะทั้งสองมักถูกใช้สลับกันในสื่อและการสนทนาทั่วไป
+            ทั้งที่จริงแล้วเป็นคนละปรากฏการณ์กัน
+            — และการแยกแยะออกจากกันมีความสำคัญอย่างยิ่งสำหรับการวางนโยบาย
+            การออกแบบเมือง และการปกป้องตนเองในชีวิตประจำวัน
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ─── LIVE CONDITIONS ─────────────────────────────────────────────────
+         Data fetched from Open-Meteo (no API key). See script.js initLiveData().
+    ─────────────────────────────────────────────────────────────────────────── -->
+    <section id="live" class="section section-alt" aria-labelledby="live-heading">
+      <div class="container">
+
+        <p class="section-label reveal">ข้อมูลสด</p>
+        <h2 id="live-heading" class="section-heading reveal">
+          สภาพอากาศ<br />ขอนแก่นตอนนี้
+        </h2>
+        <p class="section-intro reveal">
+          ข้อมูลสดจาก Open-Meteo อัปเดตอัตโนมัติทุก 10 นาที
+          &middot; ขอนแก่น 16.44°N 102.82°E
+        </p>
+
+        <!-- Loading state -->
+        <div id="live-loading" class="live-loading" role="status" aria-label="กำลังโหลดข้อมูล">
+          <div class="live-skel-grid" aria-hidden="true">
+            <div class="live-skel-card"></div>
+            <div class="live-skel-card"></div>
+            <div class="live-skel-card"></div>
+            <div class="live-skel-card"></div>
+            <div class="live-skel-card"></div>
+            <div class="live-skel-card"></div>
+          </div>
+          <p class="live-loading-text">กำลังโหลดข้อมูล...</p>
+        </div>
+
+        <!-- Error state -->
+        <div id="live-error" class="live-error" hidden role="alert">
+          <span class="live-error-icon" aria-hidden="true">&#x26A0;&#xFE0F;</span>
+          <p>โหลดข้อมูลสดไม่สำเร็จ กรุณาลองรีเฟรชอีกครั้ง</p>
+          <button id="live-retry" class="btn btn-outline btn-sm">ลองใหม่อีกครั้ง</button>
+        </div>
+
+        <!-- Live data panel (shown by JS) -->
+        <div id="live-panel" hidden>
+
+          <div class="live-meta">
+            <p class="live-timestamp" id="live-timestamp" aria-live="polite" aria-atomic="true">
+              อัปเดตล่าสุด: —
+            </p>
+            <p class="live-source">แหล่งข้อมูล: Open-Meteo Forecast &amp; Air Quality API</p>
+          </div>
+
+          <!-- 6-card stats grid — structure in HTML, values injected by JS -->
+          <dl class="live-grid" id="live-grid" aria-label="ข้อมูลสภาพอากาศปัจจุบันขอนแก่น">
+
+            <!-- Temperature -->
+            <div class="live-card" id="lc-temp">
+              <div class="live-card-bar" id="lc-temp-bar"></div>
+              <div class="live-card-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                  <path d="M16 4v13.27A5 5 0 1 0 21 22V4a5 5 0 0 0-10 0v13.27A5 5 0 1 0 21 22"/>
+                  <circle cx="16" cy="22" r="3" fill="currentColor" stroke="none"/>
+                </svg>
+              </div>
+              <dt class="live-card-label">อุณหภูมิ</dt>
+              <dd class="live-card-val"><span id="lc-temp-val">—</span><span class="live-unit">°C</span></dd>
+              <dd class="live-card-sub" id="lc-temp-sub">ขอนแก่น</dd>
+            </div>
+
+            <!-- Feels like -->
+            <div class="live-card" id="lc-feels">
+              <div class="live-card-bar" id="lc-feels-bar"></div>
+              <div class="live-card-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                  <circle cx="16" cy="8" r="4"/>
+                  <path d="M10 32v-8l-3-6a3 3 0 0 1 3-4h12a3 3 0 0 1 3 4l-3 6v8"/>
+                  <path d="M9 20h14" opacity=".4"/>
+                </svg>
+              </div>
+              <dt class="live-card-label">รู้สึกเหมือน</dt>
+              <dd class="live-card-val"><span id="lc-feels-val">—</span><span class="live-unit">°C</span></dd>
+              <dd class="live-card-sub">ดัชนีความร้อน</dd>
+            </div>
+
+            <!-- Humidity -->
+            <div class="live-card" id="lc-humidity">
+              <div class="live-card-bar" id="lc-humidity-bar"></div>
+              <div class="live-card-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                  <path d="M16 4 C16 4 6 16 6 21a10 10 0 0 0 20 0C26 16 16 4 16 4z"/>
+                </svg>
+              </div>
+              <dt class="live-card-label">ความชื้น</dt>
+              <dd class="live-card-val"><span id="lc-humidity-val">—</span><span class="live-unit">%</span></dd>
+              <dd class="live-card-sub">ความชื้นสัมพัทธ์</dd>
+            </div>
+
+            <!-- Wind -->
+            <div class="live-card" id="lc-wind">
+              <div class="live-card-bar" id="lc-wind-bar"></div>
+              <div class="live-card-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                  <path d="M4 12h16a4 4 0 0 0 0-8"/>
+                  <path d="M4 18h20a4 4 0 0 1 0 8H22"/>
+                  <path d="M4 24h12"/>
+                </svg>
+              </div>
+              <dt class="live-card-label">ลม</dt>
+              <dd class="live-card-val"><span id="lc-wind-val">—</span><span class="live-unit">km/h</span></dd>
+              <dd class="live-card-sub">ความเร็วลม</dd>
+            </div>
+
+            <!-- UV Index -->
+            <div class="live-card" id="lc-uv">
+              <div class="live-card-bar" id="lc-uv-bar"></div>
+              <div class="live-card-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                  <circle cx="16" cy="16" r="5"/>
+                  <path d="M16 3v3M16 26v3M3 16h3M26 16h3M7.2 7.2l2.1 2.1M22.7 22.7l2.1 2.1M22.7 9.3l-2.1 2.1M7.2 24.8l2.1-2.1"/>
+                </svg>
+              </div>
+              <dt class="live-card-label">ดัชนี UV</dt>
+              <dd class="live-card-val"><span id="lc-uv-val">—</span><span class="live-unit"></span></dd>
+              <dd class="live-card-sub" id="lc-uv-sub">—</dd>
+            </div>
+
+            <!-- PM2.5 -->
+            <div class="live-card" id="lc-pm25">
+              <div class="live-card-bar" id="lc-pm25-bar"></div>
+              <div class="live-card-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                  <circle cx="10" cy="20" r="5"/><circle cx="22" cy="17" r="6"/><circle cx="16" cy="24" r="4"/>
+                  <path d="M4 14c0-4 3-7 7-7" opacity=".5"/>
+                  <path d="M21 8c2 1 4 3 4 6" opacity=".5"/>
+                </svg>
+              </div>
+              <dt class="live-card-label">PM2.5</dt>
+              <dd class="live-card-val"><span id="lc-pm25-val">—</span><span class="live-unit">µg/m³</span></dd>
+              <dd class="live-card-sub" id="lc-pm25-sub">—</dd>
+            </div>
+
+          </dl>
+
+          <!-- 24-hour sparkline -->
+          <div class="sparkline-section">
+            <h3 class="sparkline-title">แนวโน้มอุณหภูมิ 24 ชั่วโมง</h3>
+            <div class="sparkline-wrap">
+              <svg id="sparkline"
+                   class="sparkline-svg"
+                   viewBox="0 0 600 90"
+                   preserveAspectRatio="none"
+                   role="img"
+                   aria-label="กราฟแนวโน้มอุณหภูมิ 24 ชั่วโมงข้างหน้าในขอนแก่น">
+                <title>แนวโน้มอุณหภูมิ 24 ชั่วโมงข้างหน้าในขอนแก่น</title>
+              </svg>
+              <div class="sparkline-x-labels" id="sparkline-x" aria-hidden="true"></div>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="live-cta">
+            <!-- TODO: app URL — replace href="#" with the real companion app URL -->
+            <a href="#" class="btn btn-primary">ดูแผนที่ความร้อนเรียลไทม์ &#x2192;</a>
+          </div>
+
+        </div><!-- /#live-panel -->
+
+      </div>
+    </section>
+
+
+    <!-- ─── 4. COMPARISON: TWO PHENOMENA ────────────────────────────────── -->
+    <section id="comparison" class="section section-alt" aria-labelledby="comparison-heading">
+      <div class="container">
+
+        <p class="section-label reveal">หัวใจของบทความ</p>
+        <h2 id="comparison-heading" class="section-heading reveal">
+          สองปรากฏการณ์<br />ที่ไม่เหมือนกัน
+        </h2>
+        <p class="section-intro reveal">
+          สื่อไทยมักใช้คำว่า "โดมความร้อน" และ "เกาะความร้อน" สลับกัน
+          แต่ทั้งสองคือคนละเรื่องกันโดยสิ้นเชิง
+          การเข้าใจความแตกต่างช่วยให้เราเลือกวิธีรับมือได้ถูกต้อง
+        </p>
+
+        <!-- Toggle tab buttons -->
+        <div class="toggle-group reveal" role="tablist" aria-label="เลือกปรากฏการณ์เพื่อดูรายละเอียด">
+          <button class="toggle-btn active"
+                  id="tab-hd"
+                  role="tab"
+                  aria-selected="true"
+                  aria-controls="panel-hd"
+                  data-panel="hd">
+            &#x1F32C; โดมความร้อน
+          </button>
+          <button class="toggle-btn"
+                  id="tab-uhi"
+                  role="tab"
+                  aria-selected="false"
+                  aria-controls="panel-uhi"
+                  data-panel="uhi">
+            &#x1F3D9; เกาะความร้อนเมือง
+          </button>
+        </div>
+
+        <!-- Toggle panel: Heat Dome -->
+        <div class="toggle-panel active" id="panel-hd" role="tabpanel" aria-labelledby="tab-hd">
+          <div class="panel-inner">
+            <figure class="panel-figure">
+              <!-- TODO: replace image — diagram of high-pressure system lid trapping hot air over a region -->
+              <img src="https://placehold.co/600x340/1E3A8A/22D3EE?text=ภาพประกอบ%3A+โดมความร้อน"
+                   alt="แผนภาพแสดงระบบความกดอากาศสูงกดมวลอากาศร้อนไว้เหมือนฝาครอบภูมิภาค"
+                   loading="lazy" width="600" height="340" />
+              <figcaption>โดมความร้อน — ปรากฏการณ์อุตุนิยมวิทยาชั่วคราว</figcaption>
+            </figure>
+            <div class="panel-desc">
+              <h3>โดมความร้อน <span class="panel-en">(Heat Dome)</span></h3>
+              <p>ระบบความกดอากาศสูงกดมวลอากาศร้อนไว้กับพื้นเหมือนฝาครอบยักษ์ ทำให้อุณหภูมิพุ่งสูงผิดปกติทั่วทั้งภูมิภาคในเวลาไม่กี่วัน เป็นปรากฏการณ์ <em>ชั่วคราว</em> แต่รุนแรงมาก</p>
+              <ul class="feature-list">
+                <li><span class="feat-label">ประเภท</span> ปรากฏการณ์อุตุนิยมวิทยา</li>
+                <li><span class="feat-label">ขอบเขต</span> ระดับภูมิภาค / ประเทศ</li>
+                <li><span class="feat-label">ระยะเวลา</span> ชั่วคราว (ไม่กี่วันถึงสัปดาห์)</li>
+                <li><span class="feat-label">สาเหตุ</span> ความกดอากาศสูงกดมวลอากาศร้อนไว้กับที่</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toggle panel: UHI -->
+        <div class="toggle-panel" id="panel-uhi" role="tabpanel" aria-labelledby="tab-uhi" hidden>
+          <div class="panel-inner">
+            <figure class="panel-figure">
+              <!-- TODO: replace image — UHI diagram showing city core hotter than rural surroundings -->
+              <img src="https://placehold.co/600x340/7F1D1D/FACC15?text=ภาพประกอบ%3A+เกาะความร้อนเมือง"
+                   alt="แผนภาพแสดงเขตเมืองร้อนกว่าพื้นที่ชนบทรอบข้างอย่างต่อเนื่อง"
+                   loading="lazy" width="600" height="340" />
+              <figcaption>เกาะความร้อนเมือง — ปรากฏการณ์เรื้อรังในพื้นที่เมือง</figcaption>
+            </figure>
+            <div class="panel-desc">
+              <h3>เกาะความร้อนเมือง <span class="panel-en">(Urban Heat Island)</span></h3>
+              <p>พื้นที่เมืองร้อนกว่าชนบทรอบ ๆ อย่างต่อเนื่อง เพราะคอนกรีต ตึกสูง ถนน ดูดซับความร้อนสะสม และพื้นที่สีเขียวที่ช่วยระบายความร้อนลดลงเรื่อย ๆ</p>
+              <ul class="feature-list">
+                <li><span class="feat-label">ประเภท</span> ปรากฏการณ์ภูมิอากาศเมือง</li>
+                <li><span class="feat-label">ขอบเขต</span> เฉพาะเขตเมืองเทียบกับชนบทรอบ ๆ</li>
+                <li><span class="feat-label">ระยะเวลา</span> ต่อเนื่อง / เกือบถาวร</li>
+                <li><span class="feat-label">สาเหตุ</span> คอนกรีต ตึกสูง พื้นที่สีเขียวลดลง การใช้พลังงาน</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick-compare table -->
+        <div class="compare-table-wrap reveal">
+          <h3 class="compare-table-title">เปรียบเทียบอย่างรวดเร็ว</h3>
+          <div class="table-scroll">
+            <table class="compare-table" aria-label="ตารางเปรียบเทียบโดมความร้อนและเกาะความร้อนเมือง">
+              <thead>
+                <tr>
+                  <th scope="col">หัวข้อ</th>
+                  <th scope="col">&#x1F32C; โดมความร้อน<br /><span class="th-sub">(Heat Dome)</span></th>
+                  <th scope="col">&#x1F3D9; เกาะความร้อนเมือง<br /><span class="th-sub">(Urban Heat Island)</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">ประเภท</th>
+                  <td>ปรากฏการณ์อุตุนิยมวิทยา</td>
+                  <td>ปรากฏการณ์ภูมิอากาศเมือง</td>
+                </tr>
+                <tr>
+                  <th scope="row">สาเหตุ</th>
+                  <td>ความกดอากาศสูงกดมวลอากาศร้อนไว้กับที่เหมือนฝาครอบ</td>
+                  <td>คอนกรีต ตึกสูง พื้นที่สีเขียวลดลง การใช้พลังงาน</td>
+                </tr>
+                <tr>
+                  <th scope="row">ขอบเขต</th>
+                  <td>ระดับภูมิภาค / ประเทศ</td>
+                  <td>เฉพาะเขตเมืองเทียบกับชนบทรอบ ๆ</td>
+                </tr>
+                <tr>
+                  <th scope="row">ระยะเวลา</th>
+                  <td>ชั่วคราว (ไม่กี่วันถึงสัปดาห์)</td>
+                  <td>ต่อเนื่อง / เกือบถาวร</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ─── 5. HEAT DOME ─────────────────────────────────────────────────── -->
+    <section id="heat-dome" class="section article-section" aria-labelledby="hd-heading">
+      <div class="container article-container">
+
+        <p class="section-label reveal">ปรากฏการณ์ที่ 1</p>
+        <h2 id="hd-heading" class="section-heading reveal">
+          โดมความร้อน<br />คืออะไร
+        </h2>
+        <div class="thermal-divider reveal" aria-hidden="true"></div>
+
+        <div class="article-body">
+          <p class="lead reveal">
+            จินตนาการว่ามีฝาครอบขนาดยักษ์ครอบทั้งภูมิภาคไว้
+            ไม่ปล่อยให้อากาศร้อนระบายออก — นั่นคือโดมความร้อน
+          </p>
+
+          <p class="reveal">
+            เมื่อระบบ<strong>ความกดอากาศสูง</strong>ตั้งอยู่เหนือพื้นที่หนึ่งนาน ๆ
+            มันจะกดมวลอากาศร้อนลงมาและกักให้อยู่ใกล้พื้นโลก
+            อากาศที่ถูกกดลงมาจะร้อนขึ้นจากแรงอัด
+            (เหมือนเวลาสูบลมยาง อากาศในกระบอกจะอุ่นขึ้น)
+            และไม่สามารถลอยขึ้นหรือระบายออกได้ตามปกติ
+            ทำให้อุณหภูมิพุ่งขึ้นผิดปกติเป็นเวลาหลายวันหรือหลายสัปดาห์
+          </p>
+
+          <ul class="styled-list reveal">
+            <li>ครอบคลุมพื้นที่กว้างใหญ่ หลายร้อยถึงหลายพัน กม² ในคราวเดียว</li>
+            <li>เกิดขึ้นชั่วคราว — เมื่อระบบความกดอากาศสูงอ่อนกำลังลงหรือเคลื่อนที่ โดมจะสลายตัว</li>
+            <li>ส่งผลกระทบทั้งในเมืองและชนบทพร้อมกัน ไม่เลือกพื้นที่</li>
+            <li>อาจทำให้อุณหภูมิสูงกว่าค่าเฉลี่ย 5–15°C ในช่วงที่รุนแรง</li>
+          </ul>
+
+          <figure class="article-figure reveal">
+            <!-- TODO: replace image — illustration of high-pressure dome trapping hot air over a region (recommended: 820×420) -->
+            <img src="https://placehold.co/820x420/0C4A6E/22D3EE?text=ภาพประกอบ%3A+โดมความร้อน+-+อากาศร้อนถูกกักโดยความกดอากาศสูง"
+                 alt="แผนภาพแสดงระบบความกดอากาศสูงทำหน้าที่เหมือนฝาครอบกักอากาศร้อนไว้เหนือพื้นดิน"
+                 loading="lazy" width="820" height="420" />
+            <figcaption>โดมความร้อน: ความกดอากาศสูงทำหน้าที่เหมือน "ฝาครอบ" กักอากาศร้อนไว้ไม่ให้ระบาย</figcaption>
+          </figure>
+
+          <p class="reveal">
+            กรมอุตุนิยมวิทยาไทย (TMD) ติดตามและพยากรณ์โดมความร้อนในฐานะปรากฏการณ์อุตุนิยมวิทยา
+            ซึ่งแตกต่างจากเกาะความร้อนเมืองที่เป็นปรากฏการณ์ระยะยาว
+            ต้องการข้อมูลภาคพื้นดินและดาวเทียมในการติดตามอย่างต่อเนื่อง
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ─── 6. UHI ────────────────────────────────────────────────────────── -->
+    <section id="uhi" class="section article-section" aria-labelledby="uhi-heading">
+      <div class="container article-container">
+
+        <p class="section-label reveal">ปรากฏการณ์ที่ 2</p>
+        <h2 id="uhi-heading" class="section-heading reveal">
+          เกาะความร้อนเมือง<br />คืออะไร
+        </h2>
+        <div class="thermal-divider reveal" aria-hidden="true"></div>
+
+        <div class="article-body">
+          <p class="lead reveal">
+            เมืองร้อนกว่าชนบทรอบ ๆ อยู่เสมอ
+            — และความแตกต่างนี้รุนแรงที่สุดในตอนกลางคืน
+          </p>
+
+          <p class="reveal">
+            Urban Heat Island (UHI) หรือ เกาะความร้อนเมือง
+            คือปรากฏการณ์ที่พื้นที่ในเขตเมืองมีอุณหภูมิสูงกว่าพื้นที่ชนบทหรือชานเมืองโดยรอบ
+            อย่างมีนัยสำคัญและอย่างต่อเนื่อง
+            ต่างจากโดมความร้อนที่เป็นเหตุการณ์ชั่วคราว
+            UHI เป็นปรากฏการณ์<strong>เรื้อรัง</strong> ที่ดำรงอยู่ตลอดเวลาตราบใดที่เมืองขยายตัว
+          </p>
+
+          <p class="reveal"><strong>สาเหตุหลักของ UHI มี 4 ประการ:</strong></p>
+          <ul class="styled-list reveal">
+            <li>
+              <strong>วัสดุดูดซับความร้อน:</strong>
+              คอนกรีต ยางมะตอย และหลังคาสีเข้มดูดซับความร้อนระหว่างวัน
+              แล้วค่อย ๆ ปล่อยออกในเวลากลางคืน ทำให้คืนในเมืองยังคงร้อน
+            </li>
+            <li>
+              <strong>ตึกสูงบังทิศทางลม:</strong>
+              อาคารหนาแน่นลดความเร็วลมและการระบายอากาศ
+              ทำให้ความร้อนสะสมในระดับถนน
+            </li>
+            <li>
+              <strong>พื้นที่สีเขียวลดลง:</strong>
+              ต้นไม้และพืชพรรณช่วยระเหยน้ำ (evapotranspiration)
+              ซึ่งทำให้อากาศเย็นลง เมื่อสิ่งเหล่านี้ถูกแทนที่ด้วยคอนกรีต
+              กลไกการระบายความร้อนตามธรรมชาติก็หายไป
+            </li>
+            <li>
+              <strong>ความร้อนจากกิจกรรมมนุษย์:</strong>
+              ยานพาหนะ เครื่องปรับอากาศ โรงงาน ปล่อยความร้อนเพิ่มเข้าสู่บรรยากาศโดยตรง
+            </li>
+          </ul>
+
+          <figure class="article-figure reveal">
+            <!-- TODO: replace image — thermal photograph or satellite LST map showing city core hotter than surroundings (recommended: 820×420) -->
+            <img src="https://placehold.co/820x420/7F1D1D/FACC15?text=ภาพ+Thermal%3A+ใจกลางเมืองร้อนกว่าพื้นที่รอบข้าง"
+                 alt="ภาพ thermal หรือ LST map แสดงเขตเมืองขอนแก่นมีอุณหภูมิสูงกว่าพื้นที่ชนบทโดยรอบ"
+                 loading="lazy" width="820" height="420" />
+            <figcaption>เกาะความร้อนเมือง: ใจกลางเมืองและพื้นที่คอนกรีตหนาแน่น (สีแดง-ส้ม) ร้อนกว่าพื้นที่สีเขียวรอบนอก (สีน้ำเงิน)</figcaption>
+          </figure>
+
+          <!-- Callout box linking to the companion app -->
+          <aside class="callout callout-hot reveal" aria-label="เชื่อมต่อกับแอปแผนที่ความร้อน">
+            <div class="callout-icon" aria-hidden="true">&#x1F321;</div>
+            <div class="callout-body">
+              <strong>เชื่อมต่อกับข้อมูลจริง</strong>
+              <p>
+                ชั้น <em>Heat Accumulation</em> และ <em>Hotspot</em> ในแอป Heat Map
+                คือการวัดปรากฏการณ์เกาะความร้อนนี้แบบเรียลไทม์
+                สำหรับพื้นที่ขอนแก่นโดยเฉพาะ
+              </p>
+              <!-- TODO: app URL — replace href="#" with the real companion app URL -->
+              <a href="#" class="btn btn-primary btn-sm">เปิดแผนที่ความร้อนขอนแก่น &#x2192;</a>
+            </div>
+          </aside>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ─── 7. LOCAL RESEARCH ─────────────────────────────────────────────── -->
+    <section id="research" class="section section-alt" aria-labelledby="research-heading">
+      <div class="container">
+
+        <p class="section-label reveal">งานวิจัยท้องถิ่น</p>
+        <h2 id="research-heading" class="section-heading reveal">สถานการณ์ในขอนแก่น</h2>
+        <p class="section-intro reveal">
+          ปรากฏการณ์เกาะความร้อนในขอนแก่นไม่ใช่การคาดเดา
+          — มีงานวิจัยเชิงประจักษ์รองรับจากนักวิจัยในมหาวิทยาลัยขอนแก่นเอง
+        </p>
+
+        <div class="research-card reveal">
+          <div class="research-card-header">
+            <span class="research-badge">Research Spotlight</span>
+            <span class="research-institution">มหาวิทยาลัยขอนแก่น · วิทยาลัยการคอมพิวเตอร์</span>
+          </div>
+
+          <div class="research-body">
+            <figure class="research-figure">
+              <!-- TODO: replace image — Sentinel-3 LST map of Khon Kaen from the study (recommended: 500×320) -->
+              <img src="https://placehold.co/500x320/1E3A8A/FACC15?text=Sentinel-3+LST+Map%0AKhon+Kaen+2017%E2%80%932022"
+                   alt="แผนที่แสดง Land Surface Temperature (LST) ของเมืองขอนแก่น จากข้อมูลดาวเทียม Sentinel-3 ช่วงปี 2560–2565"
+                   loading="lazy" width="500" height="320" />
+              <figcaption>ภาพจากดาวเทียม Sentinel-3 แสดงอุณหภูมิพื้นผิว (LST) ขอนแก่น 2560–2565</figcaption>
+            </figure>
+
+            <div class="research-text">
+              <h3>การศึกษาเชิงพื้นที่-เวลาของ LST และเกาะความร้อน</h3>
+              <p>
+                <strong>นักวิจัย:</strong>
+                ศักดิ์พด ทองเหลืองนาค และ รศมี สุวรรณวรกมล<br />
+                วิทยาลัยการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น
+              </p>
+              <p>
+                การศึกษาวิเคราะห์รูปแบบ<strong>เชิงพื้นที่และเวลา (spatiotemporal)</strong>
+                ของ Land Surface Temperature (LST), เกาะความร้อนเมือง,
+                และพื้นที่เสี่ยงต่อความเครียดจากความร้อน
+                โดยใช้เทคนิค <strong>Geoinformatics</strong>
+                และข้อมูลจากดาวเทียม <strong>Sentinel-3 (ช่วงปี 2560–2565)</strong>
+              </p>
+              <p>
+                งานวิจัยนี้เป็นส่วนหนึ่งของการศึกษาเมืองเขตร้อนภายในแผ่นดิน (tropical inland city)
+                และเมืองชายฝั่ง (coastal city) ในประเทศไทย
+                เผยแพร่ใน <em>Applied Environmental Research</em>
+              </p>
+
+              <div class="research-highlight">
+                <p>
+                  การวัดในลักษณะเดียวกัน — LST จากดาวเทียม,
+                  การกระจายของเกาะความร้อน, จุดร้อน (Hotspot)
+                  — คือสิ่งที่แอปแผนที่ความร้อนขอนแก่นนำมาแสดงผลแบบเรียลไทม์
+                </p>
+              </div>
+
+              <p class="research-contact">
+                <small>
+                  สนใจข้อมูลการวิจัยเพิ่มเติม:
+                  ติดต่อได้ทางวิทยาลัยการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น
+                </small>
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ─── SATELLITE MAP ──────────────────────────────────────────────────
+         MapLibre GL JS map · sources defined in config.js
+         initSatelliteMap() in script.js renders the map and wires buttons.
+    ─────────────────────────────────────────────────────────────────────────── -->
+    <section id="satellite-map" class="section article-section" aria-labelledby="satmap-heading">
+      <div class="container">
+
+        <p class="section-label reveal">ดาวเทียม &amp; ข้อมูลพื้นผิว</p>
+        <h2 id="satmap-heading" class="section-heading reveal">
+          ภาพดาวเทียมและ<br />อุณหภูมิพื้นผิว
+        </h2>
+        <p class="section-intro reveal">
+          สำรวจภาพถ่ายดาวเทียมหลายแหล่งและข้อมูล Land Surface Temperature (LST)
+          ที่ใช้ในงานวิจัยเกาะความร้อนเมือง — เปลี่ยนชั้นได้ด้วยปุ่มด้านล่าง
+        </p>
+
+        <!-- Layer switcher buttons -->
+        <div class="layer-switcher reveal" role="group" aria-label="เลือกชั้นแผนที่">
+          <button class="layer-btn active" data-map-layer="sentinel2_2024"
+                  aria-pressed="true">Sentinel-2 2024</button>
+          <button class="layer-btn" data-map-layer="sentinel2_2016"
+                  aria-pressed="false">Sentinel-2 2016</button>
+          <button class="layer-btn" data-map-layer="esriSatellite"
+                  aria-pressed="false">Esri ดาวเทียม</button>
+          <button class="layer-btn" data-map-layer="modisLST"
+                  aria-pressed="false">MODIS LST</button>
+          <button class="layer-btn" data-map-layer="nasaTrueColor"
+                  aria-pressed="false">NASA สี</button>
+          <button class="layer-btn" data-map-layer="esriRelief"
+                  aria-pressed="false">ภูมิประเทศ</button>
+          <button class="layer-btn" data-map-layer="tmdForecast"
+                  aria-pressed="false">TMD พยากรณ์</button>
+          <button class="layer-btn" data-map-layer="osm"
+                  aria-pressed="false">แผนที่ถนน</button>
+        </div>
+
+        <!-- MapLibre container -->
+        <div class="map-wrap reveal">
+          <div id="satellite-map-el"
+               class="map-el"
+               role="application"
+               aria-label="แผนที่ดาวเทียมขอนแก่น — ใช้แป้นพิมพ์เพื่อนำทาง"></div>
+          <div class="map-overlay-label" id="map-layer-label" aria-live="polite">
+            Sentinel-2 2024
+          </div>
+        </div>
+
+        <p class="map-note reveal">
+          <strong>Sentinel-2 2024/2016:</strong> ภาพ cloud-free จาก ESA Copernicus ผ่าน EOxCloudless
+          · <strong>MODIS LST:</strong> อุณหภูมิพื้นผิวรายเดือนจาก NASA GIBS (เดือนล่าสุด)
+          · <strong>NASA สี:</strong> True Color จาก MODIS Terra
+          · <strong>TMD พยากรณ์:</strong> ชั้นพยากรณ์จากกรมอุตุนิยมวิทยา
+        </p>
+
+      </div>
+    </section>
+
+
+    <!-- ─── 8. IMPACTS ───────────────────────────────────────────────────── -->
+    <section id="impacts" class="section article-section" aria-labelledby="impacts-heading">
+      <div class="container">
+
+        <p class="section-label reveal">ผลกระทบ</p>
+        <h2 id="impacts-heading" class="section-heading reveal">
+          ความร้อนส่งผล<br />กระทบอย่างไร
+        </h2>
+        <div class="thermal-divider reveal" aria-hidden="true"></div>
+
+        <div class="impact-grid">
+
+          <!-- Health -->
+          <article class="impact-card reveal" aria-label="ผลกระทบด้านสุขภาพ">
+            <div class="impact-top-bar impact-health" aria-hidden="true"></div>
+            <div class="impact-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M24 42s-16-9.3-16-22a16 16 0 0 1 32 0c0 12.7-16 22-16 22z"/>
+                <path d="M18 23h12M24 17v12"/>
+              </svg>
+            </div>
+            <h3>สุขภาพ</h3>
+            <p>ความร้อนสูงเกินนำไปสู่ <strong>ความเครียดจากความร้อน</strong> (heat stress) และ <strong>โรคลมแดด</strong> (heat stroke) กลุ่มเสี่ยงสูง ได้แก่ ผู้สูงอายุ แรงงานกลางแจ้ง เด็กเล็ก และผู้ป่วยโรคเรื้อรัง</p>
+            <!-- TODO: add specific statistics — e.g. annual heat-related hospital admissions in Khon Kaen from สสจ. ขอนแก่น -->
+            <p class="stat-placeholder">[ สถิติ: จำนวนผู้ป่วยจากความร้อนในขอนแก่น — เพิ่มข้อมูลจากสาธารณสุขจังหวัด ]</p>
+          </article>
+
+          <!-- Economic -->
+          <article class="impact-card reveal" aria-label="ผลกระทบด้านเศรษฐกิจ">
+            <div class="impact-top-bar impact-economic" aria-hidden="true"></div>
+            <div class="impact-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M8 36V20l16-12 16 12v16H8z"/>
+                <path d="M20 36v-8h8v8"/>
+                <circle cx="24" cy="20" r="3"/>
+              </svg>
+            </div>
+            <h3>เศรษฐกิจ</h3>
+            <p>อุณหภูมิสูงทำให้ <strong>ค่าไฟฟ้าพุ่งสูง</strong> จากการใช้เครื่องปรับอากาศอย่างต่อเนื่อง และ <strong>ลดผลิตภาพแรงงาน</strong> โดยเฉพาะงานกลางแจ้งและภาคการเกษตร ซึ่งเป็นฐานเศรษฐกิจสำคัญของภาคอีสาน</p>
+            <!-- TODO: add specific statistics — e.g. peak electricity demand increase, labor productivity loss estimates for the region -->
+            <p class="stat-placeholder">[ สถิติ: ค่าไฟฟ้าเพิ่มขึ้น X% ในฤดูร้อน / ผลผลิตแรงงานกลางแจ้งลดลง — เพิ่มข้อมูล ]</p>
+          </article>
+
+          <!-- Quality of life -->
+          <article class="impact-card reveal" aria-label="ผลกระทบด้านคุณภาพชีวิต">
+            <div class="impact-top-bar impact-life" aria-hidden="true"></div>
+            <div class="impact-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <circle cx="24" cy="24" r="16"/>
+                <path d="M16 28s2.7 4 8 4 8-4 8-4"/>
+                <circle cx="18.5" cy="21" r="1.5" fill="currentColor" stroke="none"/>
+                <circle cx="29.5" cy="21" r="1.5" fill="currentColor" stroke="none"/>
+              </svg>
+            </div>
+            <h3>คุณภาพชีวิต</h3>
+            <p>ความร้อนที่ทนไม่ไหวทำให้ <strong>พื้นที่สาธารณะ</strong> ใช้งานได้ยากขึ้น คุณภาพอากาศแย่ลงจากโอโซนผิวดินที่ก่อตัวในสภาวะอุณหภูมิสูง และส่งผลต่อสุขภาวะของคนเมืองโดยรวม</p>
+            <!-- TODO: add specific statistics — e.g. days exceeding heat-index thresholds, outdoor-comfort surveys -->
+            <p class="stat-placeholder">[ สถิติ: จำนวนวันที่ดัชนีความร้อนเกินเกณฑ์ปลอดภัยในขอนแก่น — เพิ่มข้อมูล ]</p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── 9. SOLUTIONS ─────────────────────────────────────────────────── -->
+    <section id="solutions" class="section section-alt" aria-labelledby="solutions-heading">
+      <div class="container">
+
+        <p class="section-label reveal">แนวทางรับมือ</p>
+        <h2 id="solutions-heading" class="section-heading reveal">เราทำอะไรได้</h2>
+        <p class="section-intro reveal">
+          การรับมือกับความร้อนเมืองต้องการทั้งการเปลี่ยนแปลงเชิงนโยบาย
+          และการปรับตัวในระดับบุคคล
+        </p>
+
+        <div class="solutions-grid">
+
+          <!-- City / Policy column -->
+          <div class="solutions-col reveal">
+            <div class="solutions-col-header">
+              <span class="sol-col-icon" aria-hidden="true">&#x1F3DB;</span>
+              <h3>เมือง / นโยบาย</h3>
+            </div>
+            <ul class="solutions-list">
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F333;</span>
+                <div>
+                  <strong>เพิ่มพื้นที่สีเขียวและต้นไม้</strong>
+                  <p>สวนสาธารณะ ต้นไม้ข้างทาง และสวนแนวตั้ง ช่วยระเหยน้ำและลด UHI ได้อย่างมีประสิทธิภาพ</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F3E0;</span>
+                <div>
+                  <strong>หลังคาเย็นและพื้นผิวสะท้อนแสง</strong>
+                  <p>Cool roof และถนนแบบซึมน้ำ (permeable pavement) ลดการดูดซับและสะสมความร้อน</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F32C;</span>
+                <div>
+                  <strong>การวางผังเมืองที่รักษาแนวลม</strong>
+                  <p>การออกแบบที่ระบุและรักษาแนวลมธรรมชาติช่วยให้อากาศหมุนเวียนและความร้อนระบายได้</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F4A7;</span>
+                <div>
+                  <strong>แหล่งน้ำในพื้นที่เมือง</strong>
+                  <p>น้ำพุ บึงธรรมชาติ และพื้นที่ริมน้ำ ช่วยลดอุณหภูมิแวดล้อมได้ถึง 2–3°C</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Individual column -->
+          <div class="solutions-col reveal">
+            <div class="solutions-col-header">
+              <span class="sol-col-icon" aria-hidden="true">&#x1F464;</span>
+              <h3>ระดับบุคคล</h3>
+            </div>
+            <ul class="solutions-list">
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F552;</span>
+                <div>
+                  <strong>หลีกเลี่ยงแดดในช่วงพีค</strong>
+                  <p>ช่วง 11.00–15.00 น. คือเวลาที่ความร้อนสูงสุด ออกนอกบ้านเฉพาะเมื่อจำเป็น สวมหมวก และหาร่มเงา</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F4A7;</span>
+                <div>
+                  <strong>ดื่มน้ำให้เพียงพอ</strong>
+                  <p>ร่างกายระบายความร้อนผ่านเหงื่อ ดื่มน้ำสม่ำเสมอแม้ยังไม่รู้สึกกระหาย</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F5FA;</span>
+                <div>
+                  <strong>ตรวจสอบแผนที่ความร้อนก่อนออกจากบ้าน</strong>
+                  <!-- TODO: app URL — replace href="#" with the real companion app URL -->
+                  <p>แอป <a href="#" class="inline-link">Heat Map ขอนแก่น</a> แสดงจุดร้อนและการสะสมความร้อนในเขตเมืองแบบเรียลไทม์ ช่วยวางแผนเส้นทางได้</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F91D;</span>
+                <div>
+                  <strong>ดูแลเพื่อนบ้านกลุ่มเปราะบาง</strong>
+                  <p>ผู้สูงอายุและผู้ป่วยเรื้อรังมีความเสี่ยงสูงกว่า การเยี่ยมเยือนและช่วยเหลือในช่วงคลื่นความร้อนช่วยรักษาชีวิตได้</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── 10. TEMPERATURE SCALE WIDGET ────────────────────────────────── -->
+    <section class="section section-widget" aria-labelledby="widget-heading">
+      <div class="container">
+
+        <p class="section-label reveal">เครื่องมือการเรียนรู้</p>
+        <h2 id="widget-heading" class="section-heading reveal">ระดับความเสี่ยงความร้อน</h2>
+        <p class="section-intro reveal">
+          ลากแถบเลื่อนเพื่อสำรวจระดับความเสี่ยงตามมาตรวัดที่ใช้ในแผนที่ความร้อน
+        </p>
+
+        <div class="temp-widget reveal" aria-label="เครื่องมือแสดงระดับความเสี่ยงความร้อนตามอุณหภูมิ">
+          <div class="temp-track-wrap">
+            <div class="temp-track" aria-hidden="true">
+              <div class="temp-indicator" id="temp-indicator"></div>
+            </div>
+            <input
+              type="range"
+              id="temp-slider"
+              class="temp-range"
+              min="25" max="50" value="32" step="1"
+              aria-label="เลือกอุณหภูมิระหว่าง 25 ถึง 50 องศาเซลเซียส"
+              aria-valuemin="25"
+              aria-valuemax="50"
+              aria-valuenow="32"
+              aria-valuetext="32 องศา — ระวัง"
+            />
+          </div>
+          <div class="temp-axis" aria-hidden="true">
+            <span>25°C</span><span>30°C</span><span>35°C</span><span>40°C</span><span>45°C</span><span>50°C</span>
+          </div>
+          <div class="temp-display" id="temp-display" aria-live="polite" aria-atomic="true">
+            <div class="temp-val" id="temp-val">32°C</div>
+            <div class="temp-risk" id="temp-risk" data-level="warn">ระวัง</div>
+            <p class="temp-desc" id="temp-desc">เริ่มรู้สึกไม่สบาย ควรดื่มน้ำสม่ำเสมอและหลีกเลี่ยงการออกกำลังกายหนักกลางแจ้งในช่วงเที่ยง</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ─── 11. CONCLUSION / CTA ─────────────────────────────────────────── -->
+    <section id="conclusion" class="section section-cta" aria-labelledby="conclusion-heading">
+      <div class="container">
+        <div class="cta-inner reveal">
+          <h2 id="conclusion-heading" class="section-heading">
+            ความร้อนเมืองคือ<br />ความท้าทายร่วมกัน
+          </h2>
+          <p class="cta-body">
+            ขอนแก่นกำลังร้อนขึ้นจากทั้งโดมความร้อนชั่วคราวและเกาะความร้อนเมืองที่สะสมอยู่เรื้อรัง
+            การเข้าใจความแตกต่างช่วยให้เราตัดสินใจได้ดีขึ้น
+            — ทั้งในฐานะประชาชนและในฐานะผู้กำหนดนโยบาย
+            ติดตามข้อมูลอุณหภูมิแบบเรียลไทม์ เพื่อวางแผนและปกป้องตัวเองได้ทุกวัน
+          </p>
+          <!-- TODO: app URL — replace href="#" with the real companion app URL -->
+          <a href="#" class="btn btn-primary btn-lg">เปิดดูแผนที่ความร้อนขอนแก่นเรียลไทม์ &#x2192;</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================================
+       FOOTER
+  ====================================================================== -->
+  <footer id="footer" role="contentinfo">
+    <div class="container">
+
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="footer-logo">Heat Safe Khon Kaen</span>
+          <p>หน้าข้อมูลสาธารณะ ประกอบแอปแผนที่ความร้อนขอนแก่น</p>
+        </div>
+        <nav class="footer-nav" aria-label="ลิงก์ท้ายหน้า">
+          <a href="#intro">บทนำ</a>
+          <a href="#comparison">สองปรากฏการณ์</a>
+          <a href="#research">งานวิจัย</a>
+          <a href="#impacts">ผลกระทบ</a>
+          <a href="#solutions">รับมือ</a>
+        </nav>
+      </div>
+
+      <div class="thermal-divider" aria-hidden="true"></div>
+
+      <!-- References -->
+      <section aria-labelledby="refs-heading" class="references">
+        <h2 id="refs-heading" class="refs-heading">แหล่งอ้างอิง</h2>
+        <ol class="refs-list">
+          <li>
+            Tongleamnak, S. &amp; Suwanwerakamtorn, R.
+            วิทยาลัยการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น.
+            "Spatiotemporal Patterns of Land Surface Temperature, Urban Heat Island,
+            and Potential Heat Stress Risk Areas Assessment for Tropical Inland City
+            and Coastal City in Thailand."
+            <em>Applied Environmental Research</em>.
+          </li>
+          <li>
+            World Bank (2025).
+            "Shaping a Cooler Bangkok: Tackling Urban Heat for a More Livable City."
+            Washington, D.C.: The World Bank.
+          </li>
+          <li>
+            กรมอุตุนิยมวิทยา (TMD). ระบบพยากรณ์และเฝ้าระวังสภาพอากาศ.
+            <a href="https://www.tmd.go.th" target="_blank" rel="noopener noreferrer">www.tmd.go.th</a>
+          </li>
+          <li>
+            GISTDA สำนักงานพัฒนาเทคโนโลยีอวกาศและภูมิสารสนเทศ.
+            ภาพถ่ายดาวเทียมและข้อมูลความร้อนเมือง.
+            <a href="https://www.gistda.or.th" target="_blank" rel="noopener noreferrer">www.gistda.or.th</a>
+          </li>
+          <li>
+            NASA. MODIS Land Surface Temperature dataset;
+            NASA Climate Kids — "What is a heat island?"
+            <a href="https://climatekids.nasa.gov" target="_blank" rel="noopener noreferrer">climatekids.nasa.gov</a>
+          </li>
+          <li>
+            ESA / Copernicus. Sentinel-3 satellite data
+            used in local KKU research study (2017–2022).
+          </li>
+        </ol>
+      </section>
+
+      <div class="footer-bottom">
+        <p>&copy; 2568 Heat Safe Khon Kaen — หน้าข้อมูลประกอบแอปแผนที่ความร้อนขอนแก่น</p>
+        <p>สร้างด้วย HTML, CSS, JavaScript ล้วน &middot; ไม่มีการติดตามข้อมูล</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Back to top button -->
+  <button id="back-to-top" class="back-to-top" aria-label="กลับขึ้นด้านบนสุด" hidden>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+  </button>
+
+  <!-- MapLibre GL JS -->
+  <script src="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js"></script>
+
+  <!-- Supabase JS client (CDN)
+       Uncomment once HSKK_CONFIG.supabase.url and .anonKey are filled in config.js.
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  -->
+
+  <!-- App config (all API endpoints & layer definitions) — must load before script.js -->
+  <script src="config.js"></script>
+
+  <script src="script.js"></script>
+</body>
+</html>
