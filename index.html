@@ -11,7 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/live.css" />
+  <link rel="stylesheet" href="css/map.css" />
 
   <!-- MapLibre GL JS — satellite map section -->
   <link href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css" rel="stylesheet" />
@@ -1062,9 +1067,15 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   -->
 
-  <!-- App config (all API endpoints & layer definitions) — must load before script.js -->
+  <!-- App config — must load first -->
   <script src="config.js"></script>
 
-  <script src="script.js"></script>
+  <!-- App scripts — load order matters -->
+  <script src="js/utils.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/widgets.js"></script>
+  <script src="js/live.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>

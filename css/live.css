@@ -1,0 +1,186 @@
+/* ==========================================================================
+   Heat Safe Khon Kaen — live.css
+   Live weather data section: skeleton, error, cards, sparkline
+   ========================================================================== */
+
+/* ── Loading skeletons ──────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+
+.live-loading { display: flex; flex-direction: column; gap: 1.25rem; }
+
+.live-skel-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.live-skel-card {
+  height: 140px;
+  border-radius: var(--radius);
+  background: linear-gradient(90deg,
+    var(--bg-card) 25%,
+    rgba(255,255,255,0.05) 50%,
+    var(--bg-card) 75%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.6s infinite linear;
+}
+
+.live-loading-text {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  animation: shimmer 1.6s infinite linear;
+  background: linear-gradient(90deg, var(--text-muted) 25%, var(--text-sec) 50%, var(--text-muted) 75%);
+  background-size: 400px 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Error state ─────────────────────────────────────────────────────────── */
+.live-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2.5rem;
+  background: var(--bg-card);
+  border: 1px dashed rgba(239,68,68,0.3);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.live-error-icon { font-size: 2.5rem; }
+.live-error p { color: var(--text-sec); font-size: 0.9375rem; }
+
+/* ── Metadata row ────────────────────────────────────────────────────────── */
+.live-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.live-timestamp { font-size: 0.8125rem; font-weight: 600; color: var(--cool); }
+.live-source    { font-size: 0.75rem; color: var(--text-muted); }
+
+/* ── Stats grid ──────────────────────────────────────────────────────────── */
+.live-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.live-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.25rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  overflow: hidden;
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.live-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+
+.live-card-bar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--grad-thermal);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.live-card-icon {
+  width: 32px;
+  height: 32px;
+  color: var(--text-muted);
+  margin-bottom: 0.2rem;
+  flex-shrink: 0;
+}
+
+.live-card-icon svg { width: 100%; height: 100%; }
+
+.live-card-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-family: var(--font-display);
+}
+
+.live-card-val {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.5vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text);
+  transition: color 0.4s var(--ease);
+}
+
+.live-unit { font-size: 0.6em; font-weight: 600; opacity: 0.75; margin-left: 0.1em; }
+
+.live-card-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  transition: color 0.4s var(--ease);
+}
+
+/* ── Sparkline ──────────────────────────────────────────────────────────── */
+.sparkline-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.sparkline-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-sec);
+  font-family: var(--font-display);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+.sparkline-wrap { position: relative; display: flex; flex-direction: column; gap: 0.35rem; }
+
+.sparkline-svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+.sparkline-x-labels { display: flex; justify-content: space-between; padding-inline: 4px; }
+.sparkline-x-labels span { font-size: 0.68rem; color: var(--text-muted); font-family: var(--font-display); }
+
+/* ── CTA ─────────────────────────────────────────────────────────────────── */
+.live-cta { display: flex; justify-content: center; padding-top: 0.5rem; }
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .live-grid      { grid-template-columns: repeat(2, 1fr); }
+  .live-skel-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 440px) {
+  .live-grid      { grid-template-columns: 1fr; }
+  .live-skel-grid { grid-template-columns: 1fr; }
+  .live-meta      { flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-skel-card,
+  .live-loading-text { animation: none; }
+}

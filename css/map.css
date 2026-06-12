@@ -1,0 +1,124 @@
+/* ==========================================================================
+   Heat Safe Khon Kaen — map.css
+   Satellite map section: layer switcher, MapLibre overrides
+   ========================================================================== */
+
+/* ── Layer switcher ─────────────────────────────────────────────────────── */
+.layer-switcher {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.9rem;
+}
+
+.layer-btn {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-sec);
+  cursor: pointer;
+  transition: background var(--dur) var(--ease),
+              color var(--dur) var(--ease),
+              border-color var(--dur) var(--ease);
+  white-space: nowrap;
+}
+
+.layer-btn:hover { border-color: var(--border-hover); color: var(--text); }
+
+.layer-btn.active {
+  background: linear-gradient(135deg, var(--hot), var(--fire));
+  border-color: transparent;
+  color: var(--text);
+  box-shadow: 0 2px 10px rgba(239,68,68,0.25);
+}
+
+.layer-btn:focus-visible { outline: 3px solid var(--cool); outline-offset: 3px; }
+
+/* ── Map container ──────────────────────────────────────────────────────── */
+.map-wrap {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.map-el { width: 100%; height: clamp(340px, 50vw, 520px); }
+
+.map-overlay-label {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 5;
+  background: rgba(11,15,26,0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text);
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: var(--font-display);
+  letter-spacing: 0.06em;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  pointer-events: none;
+}
+
+/* ── MapLibre dark theme overrides ──────────────────────────────────────── */
+.map-el .maplibregl-ctrl-attrib {
+  background: rgba(11,15,26,0.75) !important;
+  color: var(--text-muted) !important;
+  font-size: 0.65rem !important;
+  border-radius: var(--radius-sm) !important;
+}
+
+.map-el .maplibregl-ctrl-attrib a { color: var(--cool) !important; }
+
+.map-el .maplibregl-ctrl-group {
+  background: rgba(20,28,46,0.9) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+}
+
+.map-el .maplibregl-ctrl-group button {
+  background: transparent !important;
+  color: var(--text) !important;
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.map-el .maplibregl-ctrl-group button:hover { background: var(--bg-hover) !important; }
+
+.maplibregl-popup-content {
+  background: var(--bg-card) !important;
+  color: var(--text) !important;
+  font-family: var(--font-body) !important;
+  font-size: 0.875rem !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 0.6rem 0.9rem !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+  border-top-color: var(--border) !important;
+}
+
+.map-note {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-top: 0.75rem;
+}
+
+.map-note strong { color: var(--text-sec); }
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .layer-switcher { gap: 0.3rem; }
+  .layer-btn { font-size: 0.74rem; padding: 0.35rem 0.7rem; }
+}
