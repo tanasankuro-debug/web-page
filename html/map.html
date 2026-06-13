@@ -1,0 +1,304 @@
+﻿<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="แผนที่เรียลไทม์ขอนแก่น — อุณหภูมิ PM2.5 ฝน ภาพดาวเทียม และข้อมูลสดจาก Open-Meteo" />
+  <title>แผนที่เรียลไทม์ — Heat Safe Khon Kaen</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/live.css" />
+  <link rel="stylesheet" href="../css/map.css" />
+  <link rel="stylesheet" href="../css/mappage.css" />
+
+  <link href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css" rel="stylesheet" />
+</head>
+<body class="map-page">
+
+  <a class="skip-link" href="#map-canvas">ข้ามไปยังแผนที่</a>
+
+  <!-- =====================================================================
+       STICKY HEADER
+  ====================================================================== -->
+  <header id="site-header" role="banner">
+    <div class="header-inner container">
+
+      <a href="index.html" class="site-logo" aria-label="Heat Safe Khon Kaen — กลับหน้าแรก">
+        <span class="logo-heat">Heat Safe</span>
+        <span class="logo-city">Khon Kaen</span>
+      </a>
+
+      <nav id="main-nav" aria-label="เมนูหลัก">
+        <ul class="nav-links" role="list">
+          <li><a href="index.html"  class="nav-link">หน้าแรก</a></li>
+          <li><a href="heat.html"   class="nav-link">&#x2600;&#xFE0F; ความร้อน</a></li>
+          <li><a href="dust.html"   class="nav-link">&#x1F32B;&#xFE0F; ฝุ่น PM2.5</a></li>
+          <li><a href="rain.html"   class="nav-link">&#x1F327;&#xFE0F; ฝน/พายุ</a></li>
+          <li><a href="flood.html"  class="nav-link">&#x1F30A; น้ำท่วม</a></li>
+        </ul>
+        <a href="index.html" class="btn btn-outline btn-sm nav-cta">
+          &#x2190; หน้าแรก
+        </a>
+      </nav>
+
+      <button class="hamburger" id="hamburger"
+              aria-label="เปิด/ปิดเมนูนำทาง"
+              aria-expanded="false"
+              aria-controls="main-nav">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </button>
+
+    </div>
+  </header>
+
+
+  <!-- =====================================================================
+       MAP PAGE: sidebar + canvas
+  ====================================================================== -->
+  <main class="map-main" id="map-canvas">
+
+    <!-- ─── SIDEBAR ──────────────────────────────────────────────────────── -->
+    <aside class="map-sidebar" id="map-sidebar" aria-label="ข้อมูลสดและชั้นแผนที่">
+      <div class="map-sidebar-inner">
+
+        <!-- Sidebar heading -->
+        <div>
+          <p class="sidebar-heading">&#x1F5FA;&#xFE0F; ขอนแก่น เรียลไทม์</p>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin-top:0.25rem;">
+            16.44°N 102.82°E &middot; Open-Meteo API
+          </p>
+        </div>
+
+        <!-- ─── LIVE DATA ────────────────────────────────────────────────── -->
+        <div>
+          <p class="sidebar-section-label">ข้อมูลสด</p>
+
+          <!-- Loading state -->
+          <div id="live-loading" class="live-loading" role="status" aria-label="กำลังโหลดข้อมูล" style="margin-top:0.75rem;">
+            <div class="live-skel-grid" aria-hidden="true">
+              <div class="live-skel-card"></div>
+              <div class="live-skel-card"></div>
+              <div class="live-skel-card"></div>
+              <div class="live-skel-card"></div>
+              <div class="live-skel-card"></div>
+              <div class="live-skel-card"></div>
+            </div>
+            <p class="live-loading-text">กำลังโหลดข้อมูล...</p>
+          </div>
+
+          <!-- Error state -->
+          <div id="live-error" class="live-error" hidden role="alert" style="margin-top:0.75rem;">
+            <span class="live-error-icon" aria-hidden="true">&#x26A0;&#xFE0F;</span>
+            <p>โหลดข้อมูลสดไม่สำเร็จ</p>
+            <button id="live-retry" class="btn btn-outline btn-sm">ลองใหม่</button>
+          </div>
+
+          <!-- Live panel (populated by live.js) -->
+          <div id="live-panel" hidden>
+
+            <!-- 6-card grid -->
+            <dl class="live-grid" id="live-grid" aria-label="ข้อมูลสภาพอากาศปัจจุบันขอนแก่น" style="margin-top:0.75rem;">
+
+              <div class="live-card" id="lc-temp">
+                <div class="live-card-bar" id="lc-temp-bar"></div>
+                <div class="live-card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                    <path d="M16 4v13.27A5 5 0 1 0 21 22V4a5 5 0 0 0-10 0v13.27A5 5 0 1 0 21 22"/>
+                    <circle cx="16" cy="22" r="3" fill="currentColor" stroke="none"/>
+                  </svg>
+                </div>
+                <dt class="live-card-label">อุณหภูมิ</dt>
+                <dd class="live-card-val"><span id="lc-temp-val">—</span><span class="live-unit">°C</span></dd>
+                <dd class="live-card-sub" id="lc-temp-sub">ขอนแก่น</dd>
+              </div>
+
+              <div class="live-card" id="lc-feels">
+                <div class="live-card-bar" id="lc-feels-bar"></div>
+                <div class="live-card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                    <circle cx="16" cy="8" r="4"/>
+                    <path d="M10 32v-8l-3-6a3 3 0 0 1 3-4h12a3 3 0 0 1 3 4l-3 6v8"/>
+                  </svg>
+                </div>
+                <dt class="live-card-label">รู้สึกเหมือน</dt>
+                <dd class="live-card-val"><span id="lc-feels-val">—</span><span class="live-unit">°C</span></dd>
+                <dd class="live-card-sub">ดัชนีความร้อน</dd>
+              </div>
+
+              <div class="live-card" id="lc-humidity">
+                <div class="live-card-bar" id="lc-humidity-bar"></div>
+                <div class="live-card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                    <path d="M16 4 C16 4 6 16 6 21a10 10 0 0 0 20 0C26 16 16 4 16 4z"/>
+                  </svg>
+                </div>
+                <dt class="live-card-label">ความชื้น</dt>
+                <dd class="live-card-val"><span id="lc-humidity-val">—</span><span class="live-unit">%</span></dd>
+                <dd class="live-card-sub">ความชื้นสัมพัทธ์</dd>
+              </div>
+
+              <div class="live-card" id="lc-wind">
+                <div class="live-card-bar" id="lc-wind-bar"></div>
+                <div class="live-card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                    <path d="M4 12h16a4 4 0 0 0 0-8"/>
+                    <path d="M4 18h20a4 4 0 0 1 0 8H22"/>
+                    <path d="M4 24h12"/>
+                  </svg>
+                </div>
+                <dt class="live-card-label">ลม</dt>
+                <dd class="live-card-val"><span id="lc-wind-val">—</span><span class="live-unit">km/h</span></dd>
+                <dd class="live-card-sub">ความเร็วลม</dd>
+              </div>
+
+              <div class="live-card" id="lc-uv">
+                <div class="live-card-bar" id="lc-uv-bar"></div>
+                <div class="live-card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                    <circle cx="16" cy="16" r="5"/>
+                    <path d="M16 3v3M16 26v3M3 16h3M26 16h3M7.2 7.2l2.1 2.1M22.7 22.7l2.1 2.1M22.7 9.3l-2.1 2.1M7.2 24.8l2.1-2.1"/>
+                  </svg>
+                </div>
+                <dt class="live-card-label">ดัชนี UV</dt>
+                <dd class="live-card-val"><span id="lc-uv-val">—</span><span class="live-unit"></span></dd>
+                <dd class="live-card-sub" id="lc-uv-sub">—</dd>
+              </div>
+
+              <div class="live-card" id="lc-pm25">
+                <div class="live-card-bar" id="lc-pm25-bar"></div>
+                <div class="live-card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+                    <circle cx="10" cy="20" r="5"/><circle cx="22" cy="17" r="6"/><circle cx="16" cy="24" r="4"/>
+                    <path d="M4 14c0-4 3-7 7-7" opacity=".5"/>
+                    <path d="M21 8c2 1 4 3 4 6" opacity=".5"/>
+                  </svg>
+                </div>
+                <dt class="live-card-label">PM2.5</dt>
+                <dd class="live-card-val"><span id="lc-pm25-val">—</span><span class="live-unit">µg/m³</span></dd>
+                <dd class="live-card-sub" id="lc-pm25-sub">—</dd>
+              </div>
+
+            </dl>
+
+            <!-- Compact sparkline -->
+            <div class="sparkline-section" style="margin-top:0.875rem;">
+              <h3 class="sparkline-title">อุณหภูมิ 24 ชั่วโมง</h3>
+              <div class="sparkline-wrap">
+                <svg id="sparkline"
+                     class="sparkline-svg"
+                     viewBox="0 0 600 90"
+                     preserveAspectRatio="none"
+                     role="img"
+                     aria-label="กราฟแนวโน้มอุณหภูมิ 24 ชั่วโมงข้างหน้า">
+                  <title>แนวโน้มอุณหภูมิ 24 ชั่วโมงข้างหน้า</title>
+                </svg>
+                <div class="sparkline-x-labels" id="sparkline-x" aria-hidden="true"></div>
+              </div>
+            </div>
+
+            <!-- Timestamp -->
+            <p class="sidebar-live-meta" id="live-timestamp" aria-live="polite" aria-atomic="true">
+              อัปเดตล่าสุด: —
+            </p>
+
+          </div><!-- /#live-panel -->
+        </div>
+
+        <!-- ─── LAYER SWITCHER ───────────────────────────────────────────── -->
+        <div>
+          <p class="sidebar-section-label">ชั้นแผนที่</p>
+          <div class="layer-btn-group" role="group" aria-label="เลือกชั้นแผนที่" style="margin-top:0.625rem;">
+            <button class="layer-btn active" data-map-layer="esriSatellite" aria-pressed="true">
+              &#x1F30D; Esri ดาวเทียม
+            </button>
+            <button class="layer-btn" data-map-layer="esriRelief" aria-pressed="false">
+              &#x26F0;&#xFE0F; ภูมิประเทศ
+            </button>
+            <button class="layer-btn" data-map-layer="osm" aria-pressed="false">
+              &#x1F5FA;&#xFE0F; แผนที่ถนน
+            </button>
+          </div>
+        </div>
+
+        <!-- ─── DATA SOURCE ──────────────────────────────────────────────── -->
+        <p class="sidebar-live-meta" style="margin-top:auto;padding-top:0.75rem;border-top:1px solid var(--border);">
+          ข้อมูลสภาพอากาศ: <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer" style="color:var(--cool);">Open-Meteo</a><br />
+          ภาพถ่ายดาวเทียม: Sentinel-2 / NASA MODIS / Esri<br />
+          อัปเดตอัตโนมัติทุก 10 นาที
+        </p>
+
+      </div>
+    </aside><!-- /.map-sidebar -->
+
+
+    <!-- ─── MAP CANVAS ───────────────────────────────────────────────────── -->
+    <div class="map-canvas">
+
+      <!-- Mobile sidebar toggle -->
+      <button class="map-sidebar-toggle" id="sidebar-toggle" aria-expanded="false" aria-controls="map-sidebar">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+          <line x1="3" y1="5"  x2="17" y2="5"/>
+          <line x1="3" y1="10" x2="17" y2="10"/>
+          <line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+        ข้อมูลและชั้นแผนที่
+      </button>
+
+      <!-- MapLibre container -->
+      <div id="satellite-map-el"
+           class="map-el"
+           role="application"
+           aria-label="แผนที่ขอนแก่น — ใช้แป้นพิมพ์เพื่อนำทาง"></div>
+
+      <!-- Current layer label overlay -->
+      <div class="map-overlay-label" id="map-layer-label" aria-live="polite">
+        Sentinel-2 2024
+      </div>
+
+    </div><!-- /.map-canvas -->
+
+  </main>
+
+
+  <!-- MapLibre GL JS — must load before map.js -->
+  <script src="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js"></script>
+
+  <!-- App config — must load first -->
+  <script src="../js/config.js"></script>
+
+  <!-- App scripts -->
+  <script src="../js/utils.js"></script>
+  <script src="../js/nav.js"></script>
+  <script src="../js/widgets.js"></script>
+  <script src="../js/live.js"></script>
+  <script src="../js/map.js"></script>
+  <script src="../js/main.js"></script>
+
+  <!-- Mobile sidebar toggle (map page only) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle  = document.getElementById('sidebar-toggle');
+      const sidebar = document.getElementById('map-sidebar');
+      if (!toggle || !sidebar) return;
+      toggle.addEventListener('click', () => {
+        const isOpen = sidebar.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', String(isOpen));
+      });
+      document.getElementById('satellite-map-el')?.addEventListener('click', () => {
+        if (sidebar.classList.contains('open')) {
+          sidebar.classList.remove('open');
+          toggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

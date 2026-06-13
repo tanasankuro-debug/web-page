@@ -1,0 +1,206 @@
+/* ==========================================================================
+   Heat Safe Khon Kaen — mappage.css
+   Full-screen map page layout: sidebar + MapLibre canvas
+   ========================================================================== */
+
+/* ── PAGE LEVEL ─────────────────────────────────────────────────────────── */
+body.map-page {
+  overflow: hidden;
+  height: 100dvh;
+}
+
+.map-main {
+  display: flex;
+  margin-top: var(--header-h);
+  height: calc(100dvh - var(--header-h));
+  overflow: hidden;
+}
+
+/* ── SIDEBAR ─────────────────────────────────────────────────────────────── */
+.map-sidebar {
+  width: 320px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: var(--bg-card);
+  border-right: 1px solid var(--border);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-hover) transparent;
+}
+
+.map-sidebar-inner {
+  padding: 1rem 1.125rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+  flex: 1;
+}
+
+.sidebar-heading {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.03em;
+}
+
+.sidebar-section-label {
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── COMPACT LIVE GRID override ─────────────────────────────────────────── */
+.map-sidebar .live-grid {
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 0.5rem;
+}
+
+.map-sidebar .live-card {
+  padding: 0.75rem;
+}
+
+.map-sidebar .live-card-icon {
+  width: 1.375rem;
+  height: 1.375rem;
+  margin-bottom: 0.375rem;
+}
+
+.map-sidebar .live-card-val {
+  font-size: clamp(1.375rem, 3vw, 1.625rem) !important;
+}
+
+.map-sidebar .live-card-sub {
+  font-size: 0.6875rem !important;
+}
+
+/* Compact sparkline */
+.map-sidebar .sparkline-section { margin-top: 0; }
+.map-sidebar .sparkline-title   { font-size: 0.8125rem; margin-bottom: 0.375rem; }
+.map-sidebar .sparkline-wrap    { gap: 0; }
+.map-sidebar .sparkline-svg     { height: 60px; }
+.map-sidebar .sparkline-x-labels { font-size: 0.625rem; }
+
+/* Timestamp / source */
+.sidebar-live-meta {
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ── LAYER SWITCHER (vertical in sidebar) ───────────────────────────────── */
+.layer-btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3125rem;
+}
+
+.layer-btn-group .layer-btn {
+  width: 100%;
+  text-align: left;
+  justify-content: flex-start;
+  padding: 0.5rem 0.875rem;
+  font-size: 0.8125rem;
+  border-radius: var(--radius-sm);
+}
+
+/* ── MAP CANVAS ─────────────────────────────────────────────────────────── */
+.map-canvas {
+  flex: 1;
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.map-canvas #satellite-map-el {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.map-canvas .map-overlay-label {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1rem;
+  background: rgba(11,15,26,0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius-sm);
+  padding: 0.3rem 0.75rem;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-sec);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ── MOBILE TOGGLE ──────────────────────────────────────────────────────── */
+.map-sidebar-toggle {
+  display: none;
+  position: absolute;
+  top: 0.875rem;
+  left: 0.875rem;
+  z-index: 20;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.45rem 0.875rem;
+  background: rgba(11,15,26,0.88);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--dur);
+}
+
+.map-sidebar-toggle:hover { background: var(--bg-hover); }
+
+.map-sidebar-toggle svg {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .map-sidebar { width: 280px; }
+}
+
+@media (max-width: 640px) {
+  .map-main { position: relative; }
+
+  .map-sidebar {
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    width: min(310px, 88vw);
+    z-index: 100;
+    transform: translateX(-105%);
+    transition: transform 0.3s var(--ease);
+    box-shadow: none;
+  }
+
+  .map-sidebar.open {
+    transform: translateX(0);
+    box-shadow: 4px 0 40px rgba(0,0,0,0.55);
+  }
+
+  .map-canvas {
+    position: absolute;
+    inset: 0;
+  }
+
+  .map-sidebar-toggle { display: flex; }
+}

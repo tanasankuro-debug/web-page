@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="th" dir="ltr">
 <head>
   <meta charset="UTF-8" />
@@ -11,14 +11,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/base.css" />
-  <link rel="stylesheet" href="css/layout.css" />
-  <link rel="stylesheet" href="css/hero.css" />
-  <link rel="stylesheet" href="css/components.css" />
-  <link rel="stylesheet" href="css/live.css" />
-  <link rel="stylesheet" href="css/map.css" />
-  <link rel="stylesheet" href="css/themes.css" />
-  <link rel="stylesheet" href="css/topics.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/hero.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/live.css" />
+  <link rel="stylesheet" href="../css/map.css" />
+  <link rel="stylesheet" href="../css/themes.css" />
+  <link rel="stylesheet" href="../css/topics.css" />
 
   <!-- MapLibre GL JS — satellite map section -->
   <link href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css" rel="stylesheet" />
@@ -47,9 +47,8 @@
           <li><a href="rain.html"   class="nav-link">&#x1F327;&#xFE0F; ฝน/พายุ</a></li>
           <li><a href="flood.html"  class="nav-link">&#x1F30A; น้ำท่วม</a></li>
         </ul>
-        <!-- TODO: app URL — replace href="#" with the real companion app URL -->
-        <a href="#" class="btn btn-primary btn-sm nav-cta" aria-label="เปิดแผนที่ความร้อนเรียลไทม์">
-          &#x1F321; แผนที่เรียลไทม์
+        <a href="map.html" class="btn btn-primary btn-sm nav-cta" aria-label="เปิดแผนที่เรียลไทม์">
+          &#x1F5FA; แผนที่เรียลไทม์
         </a>
       </nav>
 
@@ -76,8 +75,8 @@
 
       <div class="hero-bg" aria-hidden="true">
         <video class="hero-img" autoplay loop muted playsinline
-               poster="assets/khonkaen-poster.jpg">
-          <source src="assets/khonkean.mp4" type="video/mp4" />
+               poster="../assets/khonkaen-poster.jpg">
+          <source src="../assets/khonkean.mp4" type="video/mp4" />
         </video>
         <div class="hero-overlay" aria-hidden="true"></div>
       </div>
@@ -91,8 +90,7 @@
         <p class="hero-sub reveal">ความร้อนเมืองขอนแก่น</p>
         <div class="hero-actions reveal">
           <a href="#intro"  class="btn btn-primary">อ่านบทความ</a>
-          <!-- TODO: app URL — replace href="#" with the real companion app URL -->
-          <a href="#" class="btn btn-outline">ดูแผนที่จริง &#x2192;</a>
+          <a href="map.html" class="btn btn-outline">ดูแผนที่จริง &#x2192;</a>
         </div>
       </div>
 
@@ -365,8 +363,7 @@
 
           <!-- CTA -->
           <div class="live-cta">
-            <!-- TODO: app URL — replace href="#" with the real companion app URL -->
-            <a href="#" class="btn btn-primary">ดูแผนที่ความร้อนเรียลไทม์ &#x2192;</a>
+            <a href="map.html" class="btn btn-primary">ดูแผนที่ความร้อนเรียลไทม์ &#x2192;</a>
           </div>
 
         </div><!-- /#live-panel -->
@@ -1137,7 +1134,7 @@
             <figure class="research-figure">
               <!-- Drop assets/khonkaen-lst.jpg (or .png) to replace the SVG illustration.
                    The <img> shows automatically; the SVG hides via onerror when the file exists. -->
-              <img src="assets/khonkaen-lst.jpg"
+              <img src="../assets/khonkaen-lst.jpg"
                    alt="แผนที่อุณหภูมิพื้นผิว (LST) ของเมืองขอนแก่น แสดงพื้นที่สะสมความร้อนในเขตเมือง"
                    loading="lazy"
                    onerror="this.hidden=true;var f=this.closest('figure');f.querySelector('svg').hidden=false;f.querySelector('.cap-real').hidden=true;f.querySelector('.cap-svg').hidden=false;" />
@@ -1321,20 +1318,10 @@
 
         <!-- Layer switcher buttons -->
         <div class="layer-switcher reveal" role="group" aria-label="เลือกชั้นแผนที่">
-          <button class="layer-btn active" data-map-layer="sentinel2_2024"
-                  aria-pressed="true">Sentinel-2 2024</button>
-          <button class="layer-btn" data-map-layer="sentinel2_2016"
-                  aria-pressed="false">Sentinel-2 2016</button>
-          <button class="layer-btn" data-map-layer="esriSatellite"
-                  aria-pressed="false">Esri ดาวเทียม</button>
-          <button class="layer-btn" data-map-layer="modisLST"
-                  aria-pressed="false">MODIS LST</button>
-          <button class="layer-btn" data-map-layer="nasaTrueColor"
-                  aria-pressed="false">NASA สี</button>
+          <button class="layer-btn active" data-map-layer="esriSatellite"
+                  aria-pressed="true">Esri ดาวเทียม</button>
           <button class="layer-btn" data-map-layer="esriRelief"
                   aria-pressed="false">ภูมิประเทศ</button>
-          <button class="layer-btn" data-map-layer="tmdForecast"
-                  aria-pressed="false">TMD พยากรณ์</button>
           <button class="layer-btn" data-map-layer="osm"
                   aria-pressed="false">แผนที่ถนน</button>
         </div>
@@ -1575,8 +1562,7 @@
             — ทั้งในฐานะประชาชนและในฐานะผู้กำหนดนโยบาย
             ติดตามข้อมูลอุณหภูมิแบบเรียลไทม์ เพื่อวางแผนและปกป้องตัวเองได้ทุกวัน
           </p>
-          <!-- TODO: app URL — replace href="#" with the real companion app URL -->
-          <a href="#" class="btn btn-primary btn-lg">เปิดดูแผนที่ความร้อนขอนแก่นเรียลไทม์ &#x2192;</a>
+          <a href="map.html" class="btn btn-primary btn-lg">เปิดดูแผนที่ความร้อนขอนแก่นเรียลไทม์ &#x2192;</a>
         </div>
       </div>
     </section>
@@ -1668,14 +1654,14 @@
   -->
 
   <!-- App config — must load first -->
-  <script src="config.js"></script>
+  <script src="../js/config.js"></script>
 
   <!-- App scripts — load order matters -->
-  <script src="js/utils.js"></script>
-  <script src="js/nav.js"></script>
-  <script src="js/widgets.js"></script>
-  <script src="js/live.js"></script>
-  <script src="js/map.js"></script>
-  <script src="js/main.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/nav.js"></script>
+  <script src="../js/widgets.js"></script>
+  <script src="../js/live.js"></script>
+  <script src="../js/map.js"></script>
+  <script src="../js/main.js"></script>
 </body>
 </html>

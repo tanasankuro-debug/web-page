@@ -96,66 +96,6 @@ window.HSKK_CONFIG = {
       attribution: 'Tiles © Esri — Source: USGS, ESRI, TANA, DeLorme, NPS'
     },
 
-    /* 6 ── EOxCloudless Sentinel-2 2024 (cloud-free mosaic, WMTS) */
-    sentinel2_2024: {
-      label: 'Sentinel-2 2024',
-      sourceType: 'raster',
-      /* WMTS REST: TileMatrix/TileRow/TileCol → {z}/{y}/{x} */
-      tiles: ['https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2024_3857/default/GoogleMapsCompatible/{z}/{y}/{x}.jpg'],
-      tileSize: 256,
-      maxzoom: 14,
-      attribution: 'EOxCloudless 2024 © <a href="https://eox.at">EOX IT Services GmbH</a> (CC BY 4.0)'
-    },
-
-    /* 6b ── EOxCloudless Sentinel-2 2016 (historical baseline) */
-    sentinel2_2016: {
-      label: 'Sentinel-2 2016',
-      sourceType: 'raster',
-      tiles: ['https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless-2016_3857/default/GoogleMapsCompatible/{z}/{y}/{x}.jpg'],
-      tileSize: 256,
-      maxzoom: 14,
-      attribution: 'EOxCloudless 2016 © <a href="https://eox.at">EOX IT Services GmbH</a> (CC BY 4.0)'
-    },
-
-    /* 4 ── NASA GIBS — MODIS Terra Land Surface Temperature Monthly (WMTS)
-       TIME is set dynamically by JS to the most recent full month.
-       Max zoom is Level 7 for this product.
-    */
-    modisLST: {
-      label: 'MODIS อุณหภูมิพื้นผิว',
-      sourceType: 'raster',
-      /* {DATE} replaced at runtime with YYYY-MM-DD (first of prior month) */
-      tileTemplate: 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/MODIS_Terra_L3_Land_Surface_Temp_Monthly_Day/default/{DATE}/GoogleMapsCompatible_Level7/{z}/{y}/{x}.jpg',
-      tiles: [], /* populated by initSatelliteMap() after substituting DATE */
-      tileSize: 256,
-      maxzoom: 7,
-      attribution: 'NASA GIBS / MODIS Terra — Land Surface Temperature'
-    },
-
-    /* 5 ── NASA GIBS WMTS — MODIS Terra True Color (archive 2000 – present) */
-    nasaTrueColor: {
-      label: 'NASA True Color',
-      sourceType: 'raster',
-      tileTemplate: 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/{DATE}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg',
-      tiles: [],
-      tileSize: 256,
-      maxzoom: 9,
-      attribution: 'NASA GIBS / MODIS Terra True Color Corrected Reflectance'
-    },
-
-    /* 3 ── TMD Forecast Tiles (temperature forecast overlay)
-       TODO: verify exact layer name/path with TMD API docs.
-       Possible paths: /t2m, /rain, /wind — check wxmap.tmd.go.th for catalogue.
-    */
-    tmdForecast: {
-      label: 'พยากรณ์ TMD',
-      sourceType: 'raster',
-      tiles: ['https://wxmap.tmd.go.th/api/fcst/tiled/{z}/{x}/{y}.png'], /* TODO: confirm layer path */
-      tileSize: 256,
-      maxzoom: 12,
-      attribution: '© กรมอุตุนิยมวิทยา (TMD)'
-    },
-
     /* 10 ── AWS Terrain Tiles — Mapzen Terrarium DEM (raster-dem for 3D terrain)
        Used as MapLibre terrain source, not a visible raster layer.
        encoding: 'terrarium' decodes R,G,B → elevation in metres.

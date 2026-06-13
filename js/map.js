@@ -35,9 +35,7 @@ function initSatelliteMap() {
   const mapLayers = [];
 
   const LAYER_ORDER = [
-    'osm', 'esriRelief', 'esriSatellite',
-    'sentinel2_2016', 'sentinel2_2024',
-    'nasaTrueColor', 'modisLST', 'tmdForecast'
+    'osm', 'esriRelief', 'esriSatellite'
   ];
 
   LAYER_ORDER.forEach(id => {
@@ -56,7 +54,7 @@ function initSatelliteMap() {
       id,
       type: 'raster',
       source: id,
-      layout: { visibility: id === 'sentinel2_2024' ? 'visible' : 'none' }
+      layout: { visibility: id === 'esriSatellite' ? 'visible' : 'none' }
     });
   });
 

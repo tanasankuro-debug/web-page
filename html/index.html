@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="th" dir="ltr">
 <head>
   <meta charset="UTF-8" />
@@ -10,12 +10,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/base.css" />
-  <link rel="stylesheet" href="css/layout.css" />
-  <link rel="stylesheet" href="css/hero.css" />
-  <link rel="stylesheet" href="css/components.css" />
-  <link rel="stylesheet" href="css/themes.css" />
-  <link rel="stylesheet" href="css/topics.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/hero.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/themes.css" />
+  <link rel="stylesheet" href="../css/topics.css" />
 </head>
 <body>
 
@@ -40,8 +40,7 @@
           <li><a href="rain.html"   class="nav-link">&#x1F327;&#xFE0F; ฝน/พายุ</a></li>
           <li><a href="flood.html"  class="nav-link">&#x1F30A; น้ำท่วม</a></li>
         </ul>
-        <!-- TODO: app URL — replace href="#" with the real companion app URL -->
-        <a href="#" class="btn btn-primary btn-sm nav-cta" aria-label="เปิดแผนที่เรียลไทม์">
+        <a href="map.html" class="btn btn-primary btn-sm nav-cta" aria-label="เปิดแผนที่เรียลไทม์">
           &#x1F5FA; แผนที่เรียลไทม์
         </a>
       </nav>
@@ -69,8 +68,8 @@
 
       <div class="hero-bg" aria-hidden="true">
         <video class="hero-img" autoplay loop muted playsinline
-               poster="assets/khonkaen-poster.jpg">
-          <source src="assets/khonkean.mp4" type="video/mp4" />
+               poster="../assets/khonkaen-poster.jpg">
+          <source src="../assets/khonkean.mp4" type="video/mp4" />
         </video>
         <div class="hero-overlay" aria-hidden="true"></div>
       </div>
@@ -91,8 +90,7 @@
         </p>
         <div class="hero-actions reveal">
           <a href="#hazards" class="btn btn-primary">เลือกหัวข้อ</a>
-          <!-- TODO: app URL — replace href="#" with the real companion app URL -->
-          <a href="#" class="btn btn-outline">ดูแผนที่เรียลไทม์ &#x2192;</a>
+          <a href="map.html" class="btn btn-outline">ดูแผนที่เรียลไทม์ &#x2192;</a>
         </div>
       </div>
 
@@ -201,8 +199,7 @@
             ติดตามข้อมูลอุณหภูมิ ฝุ่น และสภาพอากาศแบบเรียลไทม์
             เพื่อวางแผนและปกป้องตัวเองได้ทุกวัน
           </p>
-          <!-- TODO: app URL — replace href="#" with the real companion app URL -->
-          <a href="#" class="btn btn-primary btn-lg">เปิดแผนที่เรียลไทม์ขอนแก่น &#x2192;</a>
+          <a href="map.html" class="btn btn-primary btn-lg">เปิดแผนที่เรียลไทม์ขอนแก่น &#x2192;</a>
         </div>
       </div>
     </section>
@@ -245,12 +242,12 @@
     </svg>
   </button>
 
-  <script src="config.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/nav.js"></script>
-  <script src="js/widgets.js"></script>
-  <script src="js/live.js"></script>
-  <script src="js/map.js"></script>
-  <script src="js/main.js"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/nav.js"></script>
+  <script src="../js/widgets.js"></script>
+  <script src="../js/live.js"></script>
+  <script src="../js/map.js"></script>
+  <script src="../js/main.js"></script>
 </body>
 </html>
