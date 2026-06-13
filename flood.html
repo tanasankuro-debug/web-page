@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="น้ำท่วม ในขอนแก่น — สาเหตุ พื้นที่เสี่ยง การรับมือ การป้องกัน และหน่วยงานที่เกี่ยวข้อง" />
+  <title>Flood — Heat Safe Khon Kaen</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/themes.css" />
+  <link rel="stylesheet" href="css/topics.css" />
+</head>
+<body data-theme="flood">
+
+  <a class="skip-link" href="#main-content">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <!-- =====================================================================
+       STICKY HEADER
+  ====================================================================== -->
+  <header id="site-header" role="banner">
+    <div class="header-inner container">
+
+      <a href="index.html" class="site-logo" aria-label="Heat Safe Khon Kaen — กลับหน้าแรก">
+        <span class="logo-heat">Heat Safe</span>
+        <span class="logo-city">Khon Kaen</span>
+      </a>
+
+      <nav id="main-nav" aria-label="เมนูหลัก">
+        <ul class="nav-links" role="list">
+          <li><a href="index.html"  class="nav-link">หน้าแรก</a></li>
+          <li><a href="heat.html"   class="nav-link">&#x2600;&#xFE0F; ความร้อน</a></li>
+          <li><a href="dust.html"   class="nav-link">&#x1F32B;&#xFE0F; ฝุ่น PM2.5</a></li>
+          <li><a href="rain.html"   class="nav-link">&#x1F327;&#xFE0F; ฝน/พายุ</a></li>
+          <li><a href="flood.html"  class="nav-link active">&#x1F30A; น้ำท่วม</a></li>
+        </ul>
+        <a href="#" class="btn btn-primary btn-sm nav-cta" aria-label="เปิดแผนที่เรียลไทม์">
+          &#x1F5FA; แผนที่เรียลไทม์
+        </a>
+      </nav>
+
+      <button class="hamburger" id="hamburger"
+              aria-label="เปิด/ปิดเมนูนำทาง"
+              aria-expanded="false"
+              aria-controls="main-nav">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </button>
+
+    </div>
+  </header>
+
+
+  <main id="main-content">
+
+    <!-- ─── HERO ─────────────────────────────────────────────────────────── -->
+    <section id="hero" class="hero" aria-label="Flood — น้ำท่วมเมือง">
+
+      <div class="hero-bg" aria-hidden="true">
+        <video class="hero-img" autoplay loop muted playsinline
+               poster="assets/khonkaen-poster.jpg">
+          <source src="assets/khonkean.mp4" type="video/mp4" />
+        </video>
+        <div class="hero-overlay" aria-hidden="true"></div>
+      </div>
+
+      <div class="hero-content container">
+        <p class="hero-badge reveal">น้ำท่วม &middot; ขอนแก่น ประเทศไทย &middot; 2568</p>
+        <h1 class="hero-title reveal">
+          <span class="hero-title-accent">FLOOD</span>
+        </h1>
+        <p class="hero-sub reveal">น้ำท่วมเมือง</p>
+        <div class="hero-actions reveal">
+          <a href="#causes" class="btn btn-primary">อ่านบทความ</a>
+          <a href="https://www.disaster.go.th" target="_blank" rel="noopener noreferrer" class="btn btn-outline">ประกาศ ปภ. สด &#x2192;</a>
+        </div>
+      </div>
+
+      <div class="thermal-hero-bar" aria-hidden="true"></div>
+    </section>
+
+
+    <!-- ─── TOC ──────────────────────────────────────────────────────────── -->
+    <section id="toc" class="section-toc" aria-label="สารบัญ">
+      <div class="container">
+        <div class="toc-card reveal">
+          <h2 class="toc-heading">สารบัญ</h2>
+          <nav aria-label="สารบัญบทความ">
+            <ol class="toc-list" role="list">
+              <li><a href="#causes"     class="toc-link" data-target="causes"><span class="toc-num">01</span>สาเหตุของน้ำท่วมในขอนแก่น</a></li>
+              <li><a href="#risk-areas" class="toc-link" data-target="risk-areas"><span class="toc-num">02</span>พื้นที่เสี่ยงและรูปแบบน้ำท่วม</a></li>
+              <li><a href="#response"   class="toc-link" data-target="response"><span class="toc-num">03</span>การรับมือเมื่อน้ำท่วม</a></li>
+              <li><a href="#prevention" class="toc-link" data-target="prevention"><span class="toc-num">04</span>การป้องกันระยะยาว</a></li>
+              <li><a href="#agencies"   class="toc-link" data-target="agencies"><span class="toc-num">05</span>หน่วยงานที่เกี่ยวข้อง</a></li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── 01. สาเหตุ ───────────────────────────────────────────────────── -->
+    <section id="causes" class="section article-section" aria-labelledby="causes-heading">
+      <div class="container article-container">
+
+        <p class="section-label reveal">01 · สาเหตุ</p>
+        <h2 id="causes-heading" class="section-heading reveal">
+          ทำไมขอนแก่น<br />ถึงเกิดน้ำท่วม
+        </h2>
+        <div class="thermal-divider reveal" aria-hidden="true"></div>
+
+        <div class="article-body">
+          <p class="lead reveal">
+            น้ำท่วมในขอนแก่นเกิดจากหลายปัจจัยที่ทับซ้อนกัน
+            ตั้งแต่สภาพภูมิอากาศตามธรรมชาติจนถึงการเปลี่ยนแปลงจากการพัฒนาเมือง
+          </p>
+
+          <ul class="styled-list reveal">
+            <li>
+              <strong>ฝนสะสมปริมาณสูงในช่วงมรสุม:</strong>
+              เมื่อฝนตกต่อเนื่องหลายวัน ดินอิ่มน้ำจนไม่สามารถดูดซับเพิ่มได้
+              น้ำจะไหลบ่าลงสู่พื้นที่ลุ่มต่ำและชุมชนริมลำน้ำ
+            </li>
+            <li>
+              <strong>น้ำล้นตลิ่งจากแม่น้ำและลำน้ำสาขา:</strong>
+              ลำน้ำพองและลำน้ำสาขาเมื่อรับน้ำเกินขีดความสามารถ
+              น้ำจะล้นตลิ่งเข้าท่วมพื้นที่เกษตรและชุมชนริมฝั่ง
+            </li>
+            <li>
+              <strong>น้ำท่วมเมือง (Urban Flooding):</strong>
+              การขยายตัวของเมืองทับพื้นที่รับน้ำตามธรรมชาติ
+              ทำให้น้ำไม่มีที่ไป ระบายลงท่อน้ำฝนที่ไม่เพียงพอ
+              เกิดน้ำท่วมขังรวดเร็วแม้ฝนตกเพียงไม่กี่ชั่วโมง
+            </li>
+            <li>
+              <strong>เมืองขยายทับพื้นที่รับน้ำและพื้นที่ชุ่มน้ำ:</strong>
+              พื้นที่บึง หนอง และทุ่งนาที่เคยทำหน้าที่รับน้ำหลากถูกถมและพัฒนาเป็นที่อยู่อาศัย
+              ลดความสามารถในการรับมือน้ำท่วมของเมืองลงอย่างมาก
+            </li>
+            <li>
+              <strong>การเปลี่ยนแปลงสภาพภูมิอากาศ:</strong>
+              ฝนตกหนักขึ้นและถี่ขึ้น พายุรุนแรงขึ้น
+              ร่วมกับปรากฏการณ์ลานีญาทำให้ฤดูน้ำท่วมคาดเดาได้ยากขึ้น
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ─── 02. พื้นที่เสี่ยง ─────────────────────────────────────────────── -->
+    <section id="risk-areas" class="section section-alt article-section" aria-labelledby="risk-heading">
+      <div class="container article-container">
+
+        <p class="section-label reveal">02 · พื้นที่เสี่ยง</p>
+        <h2 id="risk-heading" class="section-heading reveal">
+          พื้นที่เสี่ยง<br />น้ำท่วมในขอนแก่น
+        </h2>
+        <div class="thermal-divider reveal" aria-hidden="true"></div>
+
+        <div class="article-body">
+          <p class="lead reveal">
+            น้ำท่วมในขอนแก่นมี 2 รูปแบบหลัก — น้ำท่วมเมืองฉับพลันและน้ำท่วมพื้นที่เกษตรริมน้ำ
+            แต่ละรูปแบบมีลักษณะความเสี่ยงที่ต่างกัน
+          </p>
+
+          <ul class="styled-list reveal">
+            <li>
+              <strong>พื้นที่ลุ่มริมลำน้ำพอง:</strong>
+              ชุมชนที่ตั้งอยู่ใกล้ลำน้ำพองในเขตอำเภอเมืองและอำเภอรอบนอก
+              เสี่ยงน้ำท่วมเมื่อปริมาณน้ำในเขื่อนอุบลรัตน์ปล่อยน้ำเพิ่ม
+            </li>
+            <li>
+              <strong>พื้นที่ท่วมซ้ำซาก (Recurrent Flood Zone):</strong>
+              พื้นที่ที่มีประวัติน้ำท่วมทุกปีหรือทุก 2-3 ปี
+              มักเป็นพื้นที่เกษตรและชุมชนห่างไกลที่ยังไม่มีระบบป้องกันน้ำท่วม
+            </li>
+            <li>
+              <strong>ถนนและย่านเมืองที่ระบายน้ำช้า:</strong>
+              ถนนสายหลักและถนนในซอยบางแห่งในตัวเมืองขอนแก่น
+              ประสบปัญหาน้ำท่วมขังฉับพลันเมื่อฝนตกหนักเกิน 50 มม./ชม.
+            </li>
+            <li>
+              <strong>พื้นที่ใต้สะพานและทางลอด:</strong>
+              จุดรวมน้ำตามธรรมชาติที่เสี่ยงน้ำท่วมสูงอย่างรวดเร็ว
+              อันตรายสำหรับผู้ขับขี่ที่ไม่ทราบระดับน้ำ
+            </li>
+          </ul>
+
+          <div class="risk-placeholder reveal">
+            <span>&#x26A0;&#xFE0F;</span>
+            [ TODO: ระบุพื้นที่และตำบล/ชุมชนในขอนแก่นที่มีประวัติน้ำท่วมซ้ำซาก — ข้อมูลจาก ปภ.จังหวัด/เทศบาล ]
+          </div>
+
+          <div class="app-link-box reveal">
+            <div class="app-link-box-icon" aria-hidden="true">&#x1F5FA;&#xFE0F;</div>
+            <div>
+              <p>ตรวจสอบแผนที่พื้นที่เสี่ยงน้ำท่วมและระดับน้ำแบบเรียลไทม์ผ่านแอปแผนที่ขอนแก่น</p>
+              <!-- TODO: app URL — replace href="#" with real companion app URL -->
+              <a href="#" class="btn btn-primary btn-sm" style="margin-top:0.5rem;">เปิดแผนที่เรียลไทม์ &#x2192;</a>
+            </div>
+          </div>
+
+          <aside class="callout callout-hot reveal" aria-label="ข้อมูลน้ำเขื่อนอุบลรัตน์">
+            <div class="callout-icon" aria-hidden="true">&#x1F6A8;</div>
+            <div class="callout-body">
+              <strong>ติดตามระดับน้ำเขื่อนอุบลรัตน์</strong>
+              <p>
+                การปล่อยน้ำจากเขื่อนอุบลรัตน์ส่งผลโดยตรงต่อระดับน้ำในลำน้ำพอง
+                ติดตามประกาศจากกรมชลประทานก่อนฤดูน้ำหลาก
+              </p>
+              <a href="https://www.rid.go.th" target="_blank" rel="noopener noreferrer"
+                 class="btn btn-primary btn-sm">กรมชลประทาน &#x2192;</a>
+            </div>
+          </aside>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ─── 03. การรับมือ ────────────────────────────────────────────────── -->
+    <section id="response" class="section article-section" aria-labelledby="response-heading">
+      <div class="container article-container">
+
+        <p class="section-label reveal">03 · การรับมือ</p>
+        <h2 id="response-heading" class="section-heading reveal">
+          เมื่อน้ำท่วม<br />ทำอย่างไร
+        </h2>
+        <div class="thermal-divider reveal" aria-hidden="true"></div>
+
+        <div class="article-body">
+          <p class="lead reveal">
+            การตอบสนองอย่างรวดเร็วและมีแผนล่วงหน้าช่วยลดความเสียหายและรักษาชีวิตได้
+          </p>
+
+          <ul class="styled-list reveal">
+            <li>
+              <strong>ติดตาม ปภ. และประกาศจังหวัดอย่างใกล้ชิด:</strong>
+              ตรวจสอบประกาศจากกรมป้องกันและบรรเทาสาธารณภัย สายด่วน 1784
+              และกองบัญชาการป้องกันและบรรเทาสาธารณภัยจังหวัดขอนแก่น
+            </li>
+            <li>
+              <strong>เตรียมกระเป๋าฉุกเฉิน (Go-Bag):</strong>
+              เอกสารสำคัญ (ถ่ายสำเนาและเก็บในถุงกันน้ำ), ยา, น้ำดื่ม, อาหารแห้ง 3 วัน
+              ชุดเปลี่ยน โทรศัพท์สำรอง แบตสำรอง และไฟฉาย
+            </li>
+            <li>
+              <strong>อพยพเมื่อมีคำสั่งหรือน้ำเริ่มสูง:</strong>
+              อย่ารอจนน้ำสูงเกิน 50 ซม. — เดินทางก่อนถนนถูกน้ำตัด
+              ไปยังศูนย์อพยพที่กำหนดไว้ล่วงหน้า
+            </li>
+            <li>
+              <strong>ปิดไฟฟ้าในจุดที่น้ำอาจเข้าถึง:</strong>
+              ก่อนน้ำจะเข้าบ้านให้ปิดสวิตช์ไฟฟ้าในชั้นล่าง
+              ถอดปลั๊กอุปกรณ์ไฟฟ้าและยกขึ้นสูง
+            </li>
+            <li>
+              <strong>อย่าขับรถลุยน้ำท่วมถนน:</strong>
+              น้ำลึกเพียง 30 ซม. สามารถพัดรถขนาดเล็กไปได้
+              น้ำที่ไหลแรงอันตรายกว่าน้ำนิ่งมาก หยุดรถและถอยกลับ
+            </li>
+          </ul>
+
+          <div class="prevention-note reveal">
+            <strong>หลังน้ำลด:</strong>
+            อย่าเดินลุยน้ำที่ยังขังอยู่ — อาจปนเปื้อนสารพิษหรือปิดบังหลุมหรือท่อที่เปิดอยู่
+            ตรวจสอบความเสียหายของโครงสร้างอาคารก่อนเข้าพัก
+            และทำความสะอาดฆ่าเชื้อพื้นที่ทุกจุดที่น้ำท่วมถึง
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ─── 04. การป้องกัน ─────────────────────────────────────────────── -->
+    <section id="prevention" class="section section-alt" aria-labelledby="prevention-heading">
+      <div class="container">
+
+        <p class="section-label reveal">04 · การป้องกัน</p>
+        <h2 id="prevention-heading" class="section-heading reveal">การป้องกันระยะยาว</h2>
+        <p class="section-intro reveal">
+          การป้องกันน้ำท่วมที่ยั่งยืนต้องผสมผสานโครงสร้างพื้นฐานสีเขียว
+          กับการวางผังเมืองที่คำนึงถึงระบบน้ำตามธรรมชาติ
+        </p>
+
+        <div class="solutions-grid">
+
+          <div class="solutions-col reveal">
+            <div class="solutions-col-header">
+              <span class="sol-col-icon" aria-hidden="true">&#x1F3DB;&#xFE0F;</span>
+              <h3>เมือง / นโยบาย</h3>
+            </div>
+            <ul class="solutions-list">
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F30F;</span>
+                <div>
+                  <strong>ฟื้นฟูพื้นที่รับน้ำและพื้นที่ชุ่มน้ำ</strong>
+                  <p>หยุดการถมบึงและทุ่งนาที่เป็น "ฟองน้ำธรรมชาติ"
+                     และฟื้นฟูพื้นที่ชุ่มน้ำที่เสื่อมโทรมเพื่อเพิ่มความสามารถรับน้ำ</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F6B0;</span>
+                <div>
+                  <strong>พัฒนาโครงสร้างพื้นฐานระบายน้ำ</strong>
+                  <p>ขุดลอกลำน้ำ ขยายท่อระบายน้ำ สร้างแก้มลิง
+                     และปรับปรุงสถานีสูบน้ำในจุดที่น้ำท่วมซ้ำ</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F4CB;</span>
+                <div>
+                  <strong>วางผังเมืองที่ป้องกันน้ำท่วม</strong>
+                  <p>กำหนดโซนห้ามก่อสร้างในพื้นที่เสี่ยงน้ำท่วม
+                     และบังคับใช้กฎระเบียบเกี่ยวกับการระบายน้ำในโครงการก่อสร้างใหม่</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F4F1;</span>
+                <div>
+                  <strong>ระบบเตือนภัยน้ำท่วมล่วงหน้า</strong>
+                  <p>ติดตั้งเซ็นเซอร์วัดระดับน้ำในจุดเสี่ยง
+                     เชื่อมต่อกับระบบแจ้งเตือนฉุกเฉินท้องถิ่นเพื่อให้ประชาชนอพยพได้ทันเวลา</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="solutions-col reveal">
+            <div class="solutions-col-header">
+              <span class="sol-col-icon" aria-hidden="true">&#x1F464;</span>
+              <h3>ระดับบุคคล</h3>
+            </div>
+            <ul class="solutions-list">
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F3E0;</span>
+                <div>
+                  <strong>ประเมินความเสี่ยงของบ้าน</strong>
+                  <p>ตรวจสอบว่าบ้านอยู่ในพื้นที่เสี่ยงน้ำท่วมหรือไม่
+                     และพิจารณาปรับยกพื้นหรือติดตั้งประตูกั้นน้ำ</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F4E6;</span>
+                <div>
+                  <strong>เตรียมกระเป๋าฉุกเฉินและแผนอพยพ</strong>
+                  <p>ทำแผนล่วงหน้าว่าจะอพยพไปที่ไหน ใช้เส้นทางใด
+                     และนัดหมายจุดพบปะสำหรับสมาชิกในครอบครัว</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F4B0;</span>
+                <div>
+                  <strong>ทำประกันภัยน้ำท่วม</strong>
+                  <p>พิจารณาทำประกันภัยบ้านและทรัพย์สินที่ครอบคลุมน้ำท่วม
+                     โดยเฉพาะถ้าอยู่ในพื้นที่เสี่ยงสูง</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F331;</span>
+                <div>
+                  <strong>ไม่ทิ้งขยะในท่อระบายน้ำ</strong>
+                  <p>ขยะที่อุดตันท่อระบายน้ำเป็นสาเหตุสำคัญของน้ำท่วมขังในเมือง
+                     การดูแลรับผิดชอบหน้าบ้านช่วยได้มาก</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── 05. หน่วยงาน ─────────────────────────────────────────────────── -->
+    <section id="agencies" class="section article-section" aria-labelledby="agencies-heading">
+      <div class="container">
+
+        <p class="section-label reveal">05 · หน่วยงาน</p>
+        <h2 id="agencies-heading" class="section-heading reveal">หน่วยงานที่เกี่ยวข้อง</h2>
+        <p class="section-intro reveal">หน่วยงานภาครัฐที่รับผิดชอบป้องกัน เตือนภัย และบรรเทาทุกข์จากอุทกภัย</p>
+
+        <div class="agency-grid">
+
+          <article class="agency-card reveal">
+            <div class="agency-header">
+              <div class="agency-icon" aria-hidden="true">&#x1F691;</div>
+              <div class="agency-name">
+                <h3>กรมป้องกันและบรรเทาสาธารณภัย</h3>
+                <p class="agency-abbr">ปภ. / DDPM</p>
+              </div>
+            </div>
+            <p>ออกประกาศเตือนภัย ประสานงานการอพยพ และบรรเทาทุกข์ผู้ประสบภัยน้ำท่วม
+               สายด่วน 1784 ตลอด 24 ชั่วโมง</p>
+            <a href="https://www.disaster.go.th" target="_blank" rel="noopener noreferrer" class="agency-link">disaster.go.th &#x2192;</a>
+          </article>
+
+          <article class="agency-card reveal">
+            <div class="agency-header">
+              <div class="agency-icon" aria-hidden="true">&#x1F4A7;</div>
+              <div class="agency-name">
+                <h3>กรมชลประทาน</h3>
+                <p class="agency-abbr">RID — Royal Irrigation Department</p>
+              </div>
+            </div>
+            <p>บริหารจัดการน้ำในเขื่อนและอ่างเก็บน้ำ ควบคุมการปล่อยน้ำจากเขื่อนอุบลรัตน์
+               และดูแลระบบชลประทานในภาคอีสาน</p>
+            <a href="https://www.rid.go.th" target="_blank" rel="noopener noreferrer" class="agency-link">rid.go.th &#x2192;</a>
+          </article>
+
+          <article class="agency-card reveal">
+            <div class="agency-header">
+              <div class="agency-icon" aria-hidden="true">&#x1F30A;</div>
+              <div class="agency-name">
+                <h3>สำนักงานทรัพยากรน้ำแห่งชาติ</h3>
+                <p class="agency-abbr">สทนช. / ONWR</p>
+              </div>
+            </div>
+            <p>วางนโยบายและบูรณาการการบริหารจัดการน้ำระดับประเทศ
+               ประสานงานระหว่างหน่วยงานที่เกี่ยวข้องกับน้ำท่วมและภัยแล้ง</p>
+            <a href="https://www.onwr.go.th" target="_blank" rel="noopener noreferrer" class="agency-link">onwr.go.th &#x2192;</a>
+          </article>
+
+          <article class="agency-card reveal">
+            <div class="agency-header">
+              <div class="agency-icon" aria-hidden="true">&#x1F3D9;&#xFE0F;</div>
+              <div class="agency-name">
+                <h3>เทศบาลนครขอนแก่น</h3>
+                <p class="agency-abbr">KKC — Khon Kaen City Municipality</p>
+              </div>
+            </div>
+            <p>ดูแลระบบระบายน้ำในเขตเมือง จัดตั้งศูนย์อพยพชั่วคราว
+               และประสานงานรับมือน้ำท่วมขังภายในเขตเทศบาล</p>
+            <a href="https://www.kkc.go.th" target="_blank" rel="noopener noreferrer" class="agency-link">kkc.go.th &#x2192;</a>
+          </article>
+
+          <article class="agency-card reveal">
+            <div class="agency-header">
+              <div class="agency-icon" aria-hidden="true">&#x1F321;&#xFE0F;</div>
+              <div class="agency-name">
+                <h3>กรมอุตุนิยมวิทยา</h3>
+                <p class="agency-abbr">TMD — Thai Meteorological Department</p>
+              </div>
+            </div>
+            <p>พยากรณ์ฝนตกหนักและออกประกาศเตือนภัยพายุ
+               ข้อมูลปริมาณฝนสะสมใช้ประกอบการประเมินความเสี่ยงน้ำท่วม</p>
+            <a href="https://www.tmd.go.th" target="_blank" rel="noopener noreferrer" class="agency-link">tmd.go.th &#x2192;</a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── CTA ──────────────────────────────────────────────────────────── -->
+    <section id="conclusion" class="section section-cta" aria-labelledby="flood-cta-heading">
+      <div class="container">
+        <div class="cta-inner reveal">
+          <h2 id="flood-cta-heading" class="section-heading">
+            รู้พื้นที่เสี่ยง<br />เตรียมแผนก่อนน้ำมา
+          </h2>
+          <p class="cta-body">
+            น้ำท่วมส่วนใหญ่คาดการณ์ได้ล่วงหน้า
+            การเตรียมพร้อมและรู้แผนอพยพทำให้ผลกระทบลดลงได้มาก
+          </p>
+          <div class="hero-actions" style="justify-content:center;">
+            <a href="https://www.disaster.go.th" target="_blank" rel="noopener noreferrer" class="btn btn-primary">ประกาศ ปภ. สด &#x2192;</a>
+            <a href="index.html" class="btn btn-outline">&#x2190; กลับหน้าแรก</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================================
+       FOOTER
+  ====================================================================== -->
+  <footer id="footer" role="contentinfo">
+    <div class="container">
+
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="footer-logo">Heat Safe Khon Kaen</span>
+          <p>หน้าข้อมูลสาธารณะ ประกอบแอปแผนที่เรียลไทม์ขอนแก่น</p>
+        </div>
+        <nav class="footer-nav" aria-label="ลิงก์ท้ายหน้า">
+          <a href="heat.html">ความร้อน</a>
+          <a href="dust.html">ฝุ่น PM2.5</a>
+          <a href="rain.html">ฝน/พายุ</a>
+          <a href="flood.html">น้ำท่วม</a>
+        </nav>
+      </div>
+
+      <div class="thermal-divider" aria-hidden="true"></div>
+
+      <section aria-labelledby="refs-heading" class="references">
+        <h2 id="refs-heading" class="refs-heading">แหล่งอ้างอิง</h2>
+        <ol class="refs-list">
+          <li>กรมป้องกันและบรรเทาสาธารณภัย (ปภ.). ระบบข้อมูลอุทกภัย. <a href="https://www.disaster.go.th" target="_blank" rel="noopener noreferrer">disaster.go.th</a></li>
+          <li>กรมชลประทาน (RID). ข้อมูลอ่างเก็บน้ำและสถานีวัดน้ำ. <a href="https://www.rid.go.th" target="_blank" rel="noopener noreferrer">rid.go.th</a></li>
+          <li>สำนักงานทรัพยากรน้ำแห่งชาติ (สทนช.). แผนบริหารจัดการน้ำ ลุ่มน้ำชี-มูล. <a href="https://www.onwr.go.th" target="_blank" rel="noopener noreferrer">onwr.go.th</a></li>
+          <li>World Bank (2025). Thailand Flood Risk Assessment and Urban Resilience Report. Washington D.C.</li>
+        </ol>
+      </section>
+
+      <div class="footer-bottom">
+        <p>&copy; 2568 Heat Safe Khon Kaen</p>
+        <p>สร้างด้วย HTML, CSS, JavaScript ล้วน &middot; ไม่มีการติดตามข้อมูล</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <button id="back-to-top" class="back-to-top" aria-label="กลับขึ้นด้านบนสุด" hidden>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+  </button>
+
+  <script src="config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/widgets.js"></script>
+  <script src="js/live.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

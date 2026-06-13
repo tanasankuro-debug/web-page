@@ -1,0 +1,98 @@
+/* ==========================================================================
+   Heat Safe Khon Kaen — themes.css
+   Per-topic accent color overrides via body[data-theme="..."]
+   Base (heat) theme uses existing vars from base.css — no override needed.
+   ========================================================================== */
+
+/* ── DUST (PM2.5) — purple / violet scale ─────────────────────────────────── */
+[data-theme="dust"] {
+  --cool:  #A78BFA;
+  --hot:   #7C3AED;
+  --warm:  #C026D3;
+  --grad-thermal: linear-gradient(to right, #22C55E, #A3E635, #FACC15, #FB923C, #EF4444, #C026D3, #7C3AED);
+}
+
+[data-theme="dust"] .hero-overlay {
+  background: linear-gradient(-45deg,
+    rgba(11,15,26,0.55),
+    rgba(76,29,149,0.32),
+    rgba(11,15,26,0.50),
+    rgba(88,28,135,0.22),
+    rgba(11,15,26,0.55)
+  );
+  background-size: 400% 400%;
+  animation: thermalShimmer 14s ease infinite;
+}
+
+[data-theme="dust"] .hero-badge {
+  border-color: rgba(167,139,250,0.35);
+}
+
+[data-theme="dust"] .hero-title-accent {
+  background: linear-gradient(135deg, #FACC15, #FB923C, #EF4444, #A855F7, #7C3AED);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── RAIN / STORM — blue / teal scale ─────────────────────────────────────── */
+[data-theme="rain"] {
+  --cool:  #38BDF8;
+  --hot:   #0EA5E9;
+  --warm:  #7DD3FC;
+  --grad-thermal: linear-gradient(to right, #1E3A8A, #1D4ED8, #0EA5E9, #38BDF8, #7DD3FC, #BAE6FD);
+}
+
+[data-theme="rain"] .hero-overlay {
+  background: linear-gradient(-45deg,
+    rgba(11,15,26,0.55),
+    rgba(14,165,233,0.28),
+    rgba(11,15,26,0.50),
+    rgba(7,89,133,0.22),
+    rgba(11,15,26,0.55)
+  );
+  background-size: 400% 400%;
+  animation: thermalShimmer 14s ease infinite;
+}
+
+[data-theme="rain"] .hero-badge {
+  border-color: rgba(56,189,248,0.35);
+}
+
+[data-theme="rain"] .hero-title-accent {
+  background: linear-gradient(135deg, #BAE6FD, #38BDF8, #0EA5E9, #0284C7, #1D4ED8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── FLOOD — deep blue / navy + cyan ──────────────────────────────────────── */
+[data-theme="flood"] {
+  --cool:  #22D3EE;
+  --hot:   #1D4ED8;
+  --warm:  #0EA5E9;
+  --grad-thermal: linear-gradient(to right, #1E3A8A, #1E40AF, #1D4ED8, #0284C7, #0EA5E9, #22D3EE);
+}
+
+[data-theme="flood"] .hero-overlay {
+  background: linear-gradient(-45deg,
+    rgba(11,15,26,0.58),
+    rgba(29,78,216,0.35),
+    rgba(11,15,26,0.52),
+    rgba(30,58,138,0.28),
+    rgba(11,15,26,0.58)
+  );
+  background-size: 400% 400%;
+  animation: thermalShimmer 14s ease infinite;
+}
+
+[data-theme="flood"] .hero-badge {
+  border-color: rgba(34,211,238,0.35);
+}
+
+[data-theme="flood"] .hero-title-accent {
+  background: linear-gradient(135deg, #7DD3FC, #22D3EE, #0EA5E9, #1D4ED8, #1E3A8A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

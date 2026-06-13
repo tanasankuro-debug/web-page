@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ฝน/พายุ ในขอนแก่น — สาเหตุ พื้นที่เสี่ยง การรับมือ การป้องกัน และหน่วยงานที่เกี่ยวข้อง" />
+  <title>Rainstorm — Heat Safe Khon Kaen</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/themes.css" />
+  <link rel="stylesheet" href="css/topics.css" />
+</head>
+<body data-theme="rain">
+
+  <a class="skip-link" href="#main-content">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <!-- =====================================================================
+       STICKY HEADER
+  ====================================================================== -->
+  <header id="site-header" role="banner">
+    <div class="header-inner container">
+
+      <a href="index.html" class="site-logo" aria-label="Heat Safe Khon Kaen — กลับหน้าแรก">
+        <span class="logo-heat">Heat Safe</span>
+        <span class="logo-city">Khon Kaen</span>
+      </a>
+
+      <nav id="main-nav" aria-label="เมนูหลัก">
+        <ul class="nav-links" role="list">
+          <li><a href="index.html"  class="nav-link">หน้าแรก</a></li>
+          <li><a href="heat.html"   class="nav-link">&#x2600;&#xFE0F; ความร้อน</a></li>
+          <li><a href="dust.html"   class="nav-link">&#x1F32B;&#xFE0F; ฝุ่น PM2.5</a></li>
+          <li><a href="rain.html"   class="nav-link active">&#x1F327;&#xFE0F; ฝน/พายุ</a></li>
+          <li><a href="flood.html"  class="nav-link">&#x1F30A; น้ำท่วม</a></li>
+        </ul>
+        <a href="#" class="btn btn-primary btn-sm nav-cta" aria-label="เปิดแผนที่เรียลไทม์">
+          &#x1F5FA; แผนที่เรียลไทม์
+        </a>
+      </nav>
+
+      <button class="hamburger" id="hamburger"
+              aria-label="เปิด/ปิดเมนูนำทาง"
+              aria-expanded="false"
+              aria-controls="main-nav">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </button>
+
+    </div>
+  </header>
+
+
+  <main id="main-content">
+
+    <!-- ─── HERO ─────────────────────────────────────────────────────────── -->
+    <section id="hero" class="hero" aria-label="Rainstorm — ฝนและพายุ">
+
+      <div class="hero-bg" aria-hidden="true">
+        <video class="hero-img" autoplay loop muted playsinline
+               poster="assets/khonkaen-poster.jpg">
+          <source src="assets/khonkean.mp4" type="video/mp4" />
+        </video>
+        <div class="hero-overlay" aria-hidden="true"></div>
+      </div>
+
+      <div class="hero-content container">
+        <p class="hero-badge reveal">ฝน/พายุ &middot; ขอนแก่น ประเทศไทย &middot; 2568</p>
+        <h1 class="hero-title reveal">
+          RAIN<br />
+          <span class="hero-title-accent">STORM</span>
+        </h1>
+        <p class="hero-sub reveal">ฝนและพายุ</p>
+        <div class="hero-actions reveal">
+          <a href="#causes" class="btn btn-primary">อ่านบทความ</a>
+          <a href="https://www.tmd.go.th" target="_blank" rel="noopener noreferrer" class="btn btn-outline">พยากรณ์อากาศสด &#x2192;</a>
+        </div>
+      </div>
+
+      <div class="thermal-hero-bar" aria-hidden="true"></div>
+    </section>
+
+
+    <!-- ─── TOC ──────────────────────────────────────────────────────────── -->
+    <section id="toc" class="section-toc" aria-label="สารบัญ">
+      <div class="container">
+        <div class="toc-card reveal">
+          <h2 class="toc-heading">สารบัญ</h2>
+          <nav aria-label="สารบัญบทความ">
+            <ol class="toc-list" role="list">
+              <li><a href="#causes"     class="toc-link" data-target="causes"><span class="toc-num">01</span>สาเหตุของฝน/พายุในภาคอีสาน</a></li>
+              <li><a href="#risk-areas" class="toc-link" data-target="risk-areas"><span class="toc-num">02</span>พื้นที่เสี่ยงในขอนแก่น</a></li>
+              <li><a href="#response"   class="toc-link" data-target="response"><span class="toc-num">03</span>การรับมือเมื่อเกิดพายุ</a></li>
+              <li><a href="#prevention" class="toc-link" data-target="prevention"><span class="toc-num">04</span>การป้องกัน</a></li>
+              <li><a href="#agencies"   class="toc-link" data-target="agencies"><span class="toc-num">05</span>หน่วยงานที่เกี่ยวข้อง</a></li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── 01. สาเหตุ ───────────────────────────────────────────────────── -->
+    <section id="causes" class="section article-section" aria-labelledby="causes-heading">
+      <div class="container article-container">
+
+        <p class="section-label reveal">01 · สาเหตุ</p>
+        <h2 id="causes-heading" class="section-heading reveal">
+          ทำไมภาคอีสาน<br />ถึงมีฝนตกหนัก
+        </h2>
+        <div class="thermal-divider reveal" aria-hidden="true"></div>
+
+        <div class="article-body">
+          <p class="lead reveal">
+            ภาคอีสานและขอนแก่นรับมรสุมจากทั้งอ่าวไทยและมหาสมุทรอินเดีย
+            ประกอบกับอิทธิพลจากพายุหมุนเขตร้อน ทำให้ฝนตกหนักเกิดขึ้นได้ทุกปี
+          </p>
+
+          <ul class="styled-list reveal">
+            <li>
+              <strong>มรสุมตะวันตกเฉียงใต้ (พ.ค.–ต.ค.):</strong>
+              ลมมรสุมพัดพาความชื้นจากมหาสมุทรอินเดียผ่านอ่าวไทยเข้ามาในแผ่นดิน
+              ทำให้ภาคอีสานมีฝนตกสม่ำเสมอตลอดช่วงฤดูฝน
+            </li>
+            <li>
+              <strong>ร่องมรสุม (ITCZ) พาดผ่าน:</strong>
+              เขตบรรจบของลมมรสุม (Intertropical Convergence Zone)
+              เคลื่อนตัวขึ้นลงตามฤดูกาล เมื่อพาดผ่านภาคอีสานจะทำให้เกิดฝนตกหนักติดต่อกัน
+            </li>
+            <li>
+              <strong>พายุหมุนเขตร้อนจากทะเลจีนใต้:</strong>
+              ไต้ฝุ่นและพายุโซนร้อนที่เคลื่อนตัวเข้าสู่อ่าวเวียดนาม
+              มักพัดพาปริมาณฝนขนาดใหญ่เข้ามาในภาคอีสานหลังอ่อนกำลังลง
+            </li>
+            <li>
+              <strong>ปรากฏการณ์ลานีญา (La Niña):</strong>
+              เพิ่มปริมาณน้ำฝนในภูมิภาคเอเชียตะวันออกเฉียงใต้อย่างมีนัยสำคัญ
+              ปีที่เกิดลานีญาจะมีฝนมากกว่าค่าเฉลี่ยและน้ำท่วมบ่อยขึ้น
+            </li>
+            <li>
+              <strong>พายุฤดูร้อน (Thunderstorm):</strong>
+              ในช่วงเดือน มี.ค.–พ.ค. มักเกิดพายุฝนฟ้าคะนองฉับพลัน
+              มีลมกระโชกแรง ฟ้าผ่า และฝนตกหนักในช่วงสั้น ๆ
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ─── 02. พื้นที่เสี่ยง ─────────────────────────────────────────────── -->
+    <section id="risk-areas" class="section section-alt article-section" aria-labelledby="risk-heading">
+      <div class="container article-container">
+
+        <p class="section-label reveal">02 · พื้นที่เสี่ยง</p>
+        <h2 id="risk-heading" class="section-heading reveal">
+          พื้นที่เสี่ยง<br />ในขอนแก่น
+        </h2>
+        <div class="thermal-divider reveal" aria-hidden="true"></div>
+
+        <div class="article-body">
+          <p class="lead reveal">
+            พื้นที่เสี่ยงจากฝน/พายุในขอนแก่นแบ่งได้หลายประเภทตามลักษณะภัย
+          </p>
+
+          <ul class="styled-list reveal">
+            <li>
+              <strong>พื้นที่ลุ่มต่ำและที่ราบริมลำน้ำ:</strong>
+              บริเวณที่น้ำระบายออกช้าจะประสบกับน้ำท่วมขังเมื่อฝนตกหนักต่อเนื่อง
+            </li>
+            <li>
+              <strong>ชุมชนเมืองที่ระบายน้ำไม่ทัน (Urban Flooding):</strong>
+              ถนนและซอยในตัวเมืองที่ท่อระบายน้ำมีขนาดเล็กไม่เพียงพอกับปริมาณน้ำฝนจะเกิดน้ำท่วมฉับพลัน
+            </li>
+            <li>
+              <strong>พื้นที่ใต้สายไฟฟ้าและต้นไม้ขนาดใหญ่:</strong>
+              ลมกระโชกแรงจากพายุฝนฟ้าคะนองอาจทำให้กิ่งไม้หักและเสาไฟฟ้าล้มได้
+            </li>
+            <li>
+              <strong>พื้นที่การเกษตรรอบนอก:</strong>
+              ฝนตกหนักในฤดูเก็บเกี่ยวส่งผลกระทบต่อผลผลิตข้าวและพืชไร่
+            </li>
+          </ul>
+
+          <div class="risk-placeholder reveal">
+            <span>&#x26A0;&#xFE0F;</span>
+            [ TODO: ระบุพื้นที่เฉพาะในขอนแก่นที่มักประสบอุทกภัยจากฝนตกหนัก — ข้อมูลจากเทศบาล/ปภ. ]
+          </div>
+
+          <aside class="callout callout-hot reveal" aria-label="พยากรณ์อากาศสด">
+            <div class="callout-icon" aria-hidden="true">&#x1F32A;&#xFE0F;</div>
+            <div class="callout-body">
+              <strong>ติดตามสภาพอากาศแบบเรียลไทม์</strong>
+              <p>
+                กรมอุตุนิยมวิทยาให้ข้อมูลพยากรณ์ฝนและประกาศเตือนภัยพายุล่วงหน้า
+                ตรวจสอบทุกวันก่อนออกจากบ้าน
+              </p>
+              <a href="https://www.tmd.go.th" target="_blank" rel="noopener noreferrer"
+                 class="btn btn-primary btn-sm">พยากรณ์อากาศ TMD &#x2192;</a>
+            </div>
+          </aside>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ─── 03. การรับมือ ────────────────────────────────────────────────── -->
+    <section id="response" class="section article-section" aria-labelledby="response-heading">
+      <div class="container article-container">
+
+        <p class="section-label reveal">03 · การรับมือ</p>
+        <h2 id="response-heading" class="section-heading reveal">
+          เมื่อเกิดพายุ<br />ทำอย่างไร
+        </h2>
+        <div class="thermal-divider reveal" aria-hidden="true"></div>
+
+        <div class="article-body">
+          <p class="lead reveal">
+            ในช่วงพายุฝนฟ้าคะนองหรือฝนตกหนัก ความปลอดภัยขึ้นอยู่กับการตัดสินใจที่รวดเร็วและถูกต้อง
+          </p>
+
+          <ul class="styled-list reveal">
+            <li>
+              <strong>ติดตามประกาศเตือนภัยอย่างต่อเนื่อง:</strong>
+              ตรวจสอบแจ้งเตือนจากกรมอุตุนิยมวิทยา (TMD) และกรมป้องกันและบรรเทาสาธารณภัย (ปภ.)
+              ผ่านแอป สื่อสังคมออนไลน์ทางการ หรือวิทยุ
+            </li>
+            <li>
+              <strong>หลีกเลี่ยงการเดินทางช่วงพายุ:</strong>
+              ถ้าไม่จำเป็นให้อยู่ในอาคาร หลีกเลี่ยงการขับรถในพื้นที่น้ำท่วมขัง
+              น้ำลึก 30 ซม. สามารถพัดรถขนาดเล็กไปได้
+            </li>
+            <li>
+              <strong>ระวังฟ้าผ่าและลมกระโชก:</strong>
+              อยู่ห่างจากต้นไม้ขนาดใหญ่ สายไฟฟ้า และที่โล่ง
+              หากอยู่กลางแจ้งให้หาอาคารคอนกรีตหลบเป็นด่วน ห้ามหลบใต้ต้นไม้
+            </li>
+            <li>
+              <strong>เตรียมพร้อมรับมือน้ำท่วมขัง:</strong>
+              ถ้าน้ำเริ่มท่วมบนถนนให้ยกของขึ้นสูง ปิดไฟฟ้าในวงจรที่อาจถูกน้ำ
+              และอย่าเดินลุยน้ำโดยไม่ทราบความลึก
+            </li>
+            <li>
+              <strong>ตรวจสอบสภาพอาคารหลังพายุ:</strong>
+              มองหาความเสียหายจากลม หลังคารั่ว และสายไฟฟ้าขาด
+              แจ้งหน่วยงานที่เกี่ยวข้องทันทีหากพบอันตราย
+            </li>
+          </ul>
+
+          <div class="prevention-note reveal">
+            <strong>สัญญาณอันตรายที่ต้องระวัง:</strong>
+            ฟ้าแลบถี่ขึ้น ลมแรงฉับพลัน ท้องฟ้าสีเขียวเข้ม หรือเสียงคำราม
+            คือสัญญาณว่าพายุรุนแรงกำลังมาใกล้ — ให้หลบในอาคารแข็งแรงทันที
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ─── 04. การป้องกัน ─────────────────────────────────────────────── -->
+    <section id="prevention" class="section section-alt" aria-labelledby="prevention-heading">
+      <div class="container">
+
+        <p class="section-label reveal">04 · การป้องกัน</p>
+        <h2 id="prevention-heading" class="section-heading reveal">การป้องกัน</h2>
+        <p class="section-intro reveal">
+          การป้องกันผลกระทบจากฝน/พายุต้องทำทั้งในระดับโครงสร้างพื้นฐานและการเตรียมพร้อมส่วนบุคคล
+        </p>
+
+        <div class="solutions-grid">
+
+          <div class="solutions-col reveal">
+            <div class="solutions-col-header">
+              <span class="sol-col-icon" aria-hidden="true">&#x1F3DB;&#xFE0F;</span>
+              <h3>เมือง / นโยบาย</h3>
+            </div>
+            <ul class="solutions-list">
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F6B0;</span>
+                <div>
+                  <strong>ปรับปรุงระบบระบายน้ำในเมือง</strong>
+                  <p>ขยายขนาดท่อระบายน้ำและเพิ่มสถานีสูบน้ำในจุดวิกฤต
+                     ลดน้ำท่วมขังในชุมชนเมืองช่วงฝนตกหนัก</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F9F9;</span>
+                <div>
+                  <strong>ลอกท่อและคูคลองก่อนฤดูฝน</strong>
+                  <p>การทำความสะอาดระบบระบายน้ำก่อนฤดูฝน (เม.ย.) ลดความเสี่ยงน้ำท่วมได้อย่างมีประสิทธิภาพ</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F4F1;</span>
+                <div>
+                  <strong>ระบบพยากรณ์และเตือนภัยล่วงหน้า</strong>
+                  <p>เชื่อมต่อข้อมูล TMD กับระบบแจ้งเตือนฉุกเฉินของท้องถิ่น
+                     เพื่อให้ประชาชนเตรียมพร้อมก่อนพายุมาถึง</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F333;</span>
+                <div>
+                  <strong>ตัดแต่งต้นไม้ริมถนนก่อนฤดูพายุ</strong>
+                  <p>กิ่งไม้ขนาดใหญ่ที่ตายแล้วหรืออยู่ใกล้สายไฟฟ้า
+                     เป็นความเสี่ยงหลักในช่วงลมแรง</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="solutions-col reveal">
+            <div class="solutions-col-header">
+              <span class="sol-col-icon" aria-hidden="true">&#x1F464;</span>
+              <h3>ระดับบุคคล</h3>
+            </div>
+            <ul class="solutions-list">
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F4E1;</span>
+                <div>
+                  <strong>ติดตามพยากรณ์อากาศทุกวัน</strong>
+                  <p>ตรวจสอบแอป TMD หรือ open-meteo ก่อนวางแผนกิจกรรมกลางแจ้ง
+                     โดยเฉพาะช่วงเดือน พ.ค.–ต.ค.</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F4E6;</span>
+                <div>
+                  <strong>เตรียมอุปกรณ์ฉุกเฉิน</strong>
+                  <p>ไฟฉาย แบตสำรอง ยา อาหารแห้ง และน้ำดื่มสำรองอย่างน้อย 3 วัน
+                     ควรเตรียมไว้ที่บ้านก่อนฤดูพายุ</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F3E0;</span>
+                <div>
+                  <strong>ตรวจสอบสภาพอาคาร</strong>
+                  <p>ตรวจหลังคา ประตู หน้าต่าง และระบบไฟฟ้าก่อนฤดูฝน
+                     ซ่อมส่วนที่ชำรุดก่อนพายุมาถึง</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F9ED;</span>
+                <div>
+                  <strong>วางแผนเส้นทางหนีภัย</strong>
+                  <p>รู้ว่าศูนย์พักพิงชั่วคราวที่ใกล้ที่สุดอยู่ที่ไหน
+                     และมีแผนสำหรับการอพยพหากสถานการณ์รุนแรง</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── 05. หน่วยงาน ─────────────────────────────────────────────────── -->
+    <section id="agencies" class="section article-section" aria-labelledby="agencies-heading">
+      <div class="container">
+
+        <p class="section-label reveal">05 · หน่วยงาน</p>
+        <h2 id="agencies-heading" class="section-heading reveal">หน่วยงานที่เกี่ยวข้อง</h2>
+        <p class="section-intro reveal">หน่วยงานภาครัฐที่รับผิดชอบพยากรณ์ แจ้งเตือน และบรรเทาผลกระทบจากฝน/พายุ</p>
+
+        <div class="agency-grid">
+
+          <article class="agency-card reveal">
+            <div class="agency-header">
+              <div class="agency-icon" aria-hidden="true">&#x1F321;&#xFE0F;</div>
+              <div class="agency-name">
+                <h3>กรมอุตุนิยมวิทยา</h3>
+                <p class="agency-abbr">TMD — Thai Meteorological Department</p>
+              </div>
+            </div>
+            <p>พยากรณ์อากาศและออกประกาศเตือนภัยพายุ ฝนตกหนัก และลมแรงล่วงหน้า
+               เป็นแหล่งข้อมูลหลักสำหรับการวางแผนรับมือ</p>
+            <a href="https://www.tmd.go.th" target="_blank" rel="noopener noreferrer" class="agency-link">tmd.go.th &#x2192;</a>
+          </article>
+
+          <article class="agency-card reveal">
+            <div class="agency-header">
+              <div class="agency-icon" aria-hidden="true">&#x1F691;</div>
+              <div class="agency-name">
+                <h3>กรมป้องกันและบรรเทาสาธารณภัย</h3>
+                <p class="agency-abbr">ปภ. / DDPM</p>
+              </div>
+            </div>
+            <p>ประสานงานการอพยพและบรรเทาทุกข์เมื่อเกิดภัยพิบัติ
+               ออกประกาศเตือนและดำเนินการช่วยเหลือพื้นที่ประสบภัย</p>
+            <a href="https://www.disaster.go.th" target="_blank" rel="noopener noreferrer" class="agency-link">disaster.go.th &#x2192;</a>
+          </article>
+
+          <article class="agency-card reveal">
+            <div class="agency-header">
+              <div class="agency-icon" aria-hidden="true">&#x1F3D9;&#xFE0F;</div>
+              <div class="agency-name">
+                <h3>เทศบาลนครขอนแก่น</h3>
+                <p class="agency-abbr">KKC — Khon Kaen City Municipality</p>
+              </div>
+            </div>
+            <p>ดูแลระบบระบายน้ำในเขตเมือง ตัดแต่งต้นไม้ และประสานงานรับมือน้ำท่วมขัง
+               ในพื้นที่รับผิดชอบของเทศบาล</p>
+            <a href="https://www.kkc.go.th" target="_blank" rel="noopener noreferrer" class="agency-link">kkc.go.th &#x2192;</a>
+          </article>
+
+          <article class="agency-card reveal">
+            <div class="agency-header">
+              <div class="agency-icon" aria-hidden="true">&#x26A1;&#xFE0F;</div>
+              <div class="agency-name">
+                <h3>การไฟฟ้าส่วนภูมิภาค</h3>
+                <p class="agency-abbr">PEA — Provincial Electricity Authority</p>
+              </div>
+            </div>
+            <p>ตรวจสอบและซ่อมสายไฟฟ้าที่เสียหายจากพายุ
+               ดำเนินการตัดกระแสไฟฟ้าในพื้นที่อันตรายระหว่างพายุ</p>
+            <a href="https://www.pea.co.th" target="_blank" rel="noopener noreferrer" class="agency-link">pea.co.th &#x2192;</a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── CTA ──────────────────────────────────────────────────────────── -->
+    <section id="conclusion" class="section section-cta" aria-labelledby="rain-cta-heading">
+      <div class="container">
+        <div class="cta-inner reveal">
+          <h2 id="rain-cta-heading" class="section-heading">
+            พายุบอกล่วงหน้าได้<br />ถ้าติดตามสม่ำเสมอ
+          </h2>
+          <p class="cta-body">
+            ติดตามพยากรณ์อากาศทุกวัน เตรียมพร้อมก่อนฤดูฝน
+            และรู้จักสัญญาณเตือนภัยเพื่อรักษาความปลอดภัยของตัวเองและครอบครัว
+          </p>
+          <div class="hero-actions" style="justify-content:center;">
+            <a href="https://www.tmd.go.th" target="_blank" rel="noopener noreferrer" class="btn btn-primary">พยากรณ์อากาศสด &#x2192;</a>
+            <a href="index.html" class="btn btn-outline">&#x2190; กลับหน้าแรก</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================================
+       FOOTER
+  ====================================================================== -->
+  <footer id="footer" role="contentinfo">
+    <div class="container">
+
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="footer-logo">Heat Safe Khon Kaen</span>
+          <p>หน้าข้อมูลสาธารณะ ประกอบแอปแผนที่เรียลไทม์ขอนแก่น</p>
+        </div>
+        <nav class="footer-nav" aria-label="ลิงก์ท้ายหน้า">
+          <a href="heat.html">ความร้อน</a>
+          <a href="dust.html">ฝุ่น PM2.5</a>
+          <a href="rain.html">ฝน/พายุ</a>
+          <a href="flood.html">น้ำท่วม</a>
+        </nav>
+      </div>
+
+      <div class="thermal-divider" aria-hidden="true"></div>
+
+      <section aria-labelledby="refs-heading" class="references">
+        <h2 id="refs-heading" class="refs-heading">แหล่งอ้างอิง</h2>
+        <ol class="refs-list">
+          <li>กรมอุตุนิยมวิทยา (TMD). ระบบพยากรณ์และเฝ้าระวังสภาพอากาศ. <a href="https://www.tmd.go.th" target="_blank" rel="noopener noreferrer">tmd.go.th</a></li>
+          <li>กรมป้องกันและบรรเทาสาธารณภัย (ปภ.). ระบบแจ้งเตือนภัยพิบัติ. <a href="https://www.disaster.go.th" target="_blank" rel="noopener noreferrer">disaster.go.th</a></li>
+          <li>World Bank (2025). Climate Risk Country Profile: Thailand. Washington D.C.</li>
+        </ol>
+      </section>
+
+      <div class="footer-bottom">
+        <p>&copy; 2568 Heat Safe Khon Kaen</p>
+        <p>สร้างด้วย HTML, CSS, JavaScript ล้วน &middot; ไม่มีการติดตามข้อมูล</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <button id="back-to-top" class="back-to-top" aria-label="กลับขึ้นด้านบนสุด" hidden>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+  </button>
+
+  <script src="config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/widgets.js"></script>
+  <script src="js/live.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

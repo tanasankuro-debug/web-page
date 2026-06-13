@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ฝุ่น PM2.5 ในขอนแก่น — สาเหตุ พื้นที่เสี่ยง การรับมือ การป้องกัน และหน่วยงานที่เกี่ยวข้อง" />
+  <title>PM2.5 / Air — Heat Safe Khon Kaen</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/themes.css" />
+  <link rel="stylesheet" href="css/topics.css" />
+</head>
+<body data-theme="dust">
+
+  <a class="skip-link" href="#main-content">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <!-- =====================================================================
+       STICKY HEADER
+  ====================================================================== -->
+  <header id="site-header" role="banner">
+    <div class="header-inner container">
+
+      <a href="index.html" class="site-logo" aria-label="Heat Safe Khon Kaen — กลับหน้าแรก">
+        <span class="logo-heat">Heat Safe</span>
+        <span class="logo-city">Khon Kaen</span>
+      </a>
+
+      <nav id="main-nav" aria-label="เมนูหลัก">
+        <ul class="nav-links" role="list">
+          <li><a href="index.html"  class="nav-link">หน้าแรก</a></li>
+          <li><a href="heat.html"   class="nav-link">&#x2600;&#xFE0F; ความร้อน</a></li>
+          <li><a href="dust.html"   class="nav-link active">&#x1F32B;&#xFE0F; ฝุ่น PM2.5</a></li>
+          <li><a href="rain.html"   class="nav-link">&#x1F327;&#xFE0F; ฝน/พายุ</a></li>
+          <li><a href="flood.html"  class="nav-link">&#x1F30A; น้ำท่วม</a></li>
+        </ul>
+        <a href="#" class="btn btn-primary btn-sm nav-cta" aria-label="เปิดแผนที่เรียลไทม์">
+          &#x1F5FA; แผนที่เรียลไทม์
+        </a>
+      </nav>
+
+      <button class="hamburger" id="hamburger"
+              aria-label="เปิด/ปิดเมนูนำทาง"
+              aria-expanded="false"
+              aria-controls="main-nav">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </button>
+
+    </div>
+  </header>
+
+
+  <main id="main-content">
+
+    <!-- ─── HERO ─────────────────────────────────────────────────────────── -->
+    <section id="hero" class="hero" aria-label="PM2.5 / Air — ฝุ่นละอองในอากาศ">
+
+      <div class="hero-bg" aria-hidden="true">
+        <video class="hero-img" autoplay loop muted playsinline
+               poster="assets/khonkaen-poster.jpg">
+          <source src="assets/khonkean.mp4" type="video/mp4" />
+        </video>
+        <div class="hero-overlay" aria-hidden="true"></div>
+      </div>
+
+      <div class="hero-content container">
+        <p class="hero-badge reveal">ฝุ่น PM2.5 &middot; ขอนแก่น ประเทศไทย &middot; 2568</p>
+        <h1 class="hero-title reveal">
+          PM2.5 /<br />
+          <span class="hero-title-accent">AIR</span>
+        </h1>
+        <p class="hero-sub reveal">ฝุ่นละอองในอากาศ</p>
+        <div class="hero-actions reveal">
+          <a href="#causes" class="btn btn-primary">อ่านบทความ</a>
+          <a href="#" class="btn btn-outline">ดูค่า AQI สด &#x2192;</a>
+        </div>
+      </div>
+
+      <div class="thermal-hero-bar" aria-hidden="true"></div>
+    </section>
+
+
+    <!-- ─── TOC ──────────────────────────────────────────────────────────── -->
+    <section id="toc" class="section-toc" aria-label="สารบัญ">
+      <div class="container">
+        <div class="toc-card reveal">
+          <h2 class="toc-heading">สารบัญ</h2>
+          <nav aria-label="สารบัญบทความ">
+            <ol class="toc-list" role="list">
+              <li><a href="#causes"     class="toc-link" data-target="causes"><span class="toc-num">01</span>สาเหตุของฝุ่น PM2.5</a></li>
+              <li><a href="#risk-areas" class="toc-link" data-target="risk-areas"><span class="toc-num">02</span>พื้นที่เสี่ยงในขอนแก่น</a></li>
+              <li><a href="#response"   class="toc-link" data-target="response"><span class="toc-num">03</span>การรับมือเมื่อค่าฝุ่นสูง</a></li>
+              <li><a href="#prevention" class="toc-link" data-target="prevention"><span class="toc-num">04</span>การป้องกัน</a></li>
+              <li><a href="#agencies"   class="toc-link" data-target="agencies"><span class="toc-num">05</span>หน่วยงานที่เกี่ยวข้อง</a></li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── 01. สาเหตุ ───────────────────────────────────────────────────── -->
+    <section id="causes" class="section article-section" aria-labelledby="causes-heading">
+      <div class="container article-container">
+
+        <p class="section-label reveal">01 · สาเหตุ</p>
+        <h2 id="causes-heading" class="section-heading reveal">
+          ฝุ่น PM2.5<br />มาจากไหน
+        </h2>
+        <div class="thermal-divider reveal" aria-hidden="true"></div>
+
+        <div class="article-body">
+          <p class="lead reveal">
+            PM2.5 คือฝุ่นละอองขนาดเล็กกว่า 2.5 ไมครอน — เล็กพอที่จะผ่านเยื่อบุทางเดินหายใจ
+            เข้าสู่กระแสเลือด และส่งผลต่ออวัยวะสำคัญ
+          </p>
+
+          <p class="reveal">ในภาคอีสานและขอนแก่น แหล่งกำเนิดฝุ่นหลักมี 5 ประเภท:</p>
+
+          <ul class="styled-list reveal">
+            <li>
+              <strong>การเผาในที่โล่ง (ตอซัง / ไร่อ้อย / ป่า):</strong>
+              เป็นสาเหตุหลักช่วงปลายหนาว–ต้นแล้ง (ม.ค.–มี.ค.)
+              ควันจากการเผาตอซังข้าวและไร่อ้อยในภาคอีสานลอยปกคลุมเป็นบริเวณกว้าง
+              ตรวจจับได้จากดาวเทียม GISTDA ผ่านจุดความร้อน (Hotspot)
+            </li>
+            <li>
+              <strong>ไอเสียยานพาหนะ:</strong>
+              รถดีเซลเก่าและรถจักรยานยนต์ปล่อยอนุภาคขนาดเล็กโดยตรง
+              ปัญหาหนักสุดในช่วงจราจรติดขัดบนถนนสายหลัก
+            </li>
+            <li>
+              <strong>ฝุ่นจากการก่อสร้างและอุตสาหกรรม:</strong>
+              พื้นที่ก่อสร้างที่ไม่มีระบบดักฝุ่นสร้างอนุภาคขนาดเล็กต่อเนื่อง
+            </li>
+            <li>
+              <strong>หมอกควันข้ามพรมแดน:</strong>
+              ช่วงที่ลมพัดจากทิศตะวันตกเฉียงเหนือ ควันจากการเผาในประเทศเพื่อนบ้าน
+              (เมียนมา, ลาว) อาจลอยเข้ามาสมทบกับฝุ่นในพื้นที่
+            </li>
+            <li>
+              <strong>สภาพอากาศปิด (Temperature Inversion):</strong>
+              ในช่วงปลายฤดูหนาว อากาศเย็นหนักจะกดอยู่ใกล้พื้น
+              กักฝุ่นและมลพิษไว้ในชั้นบรรยากาศต่ำ ทำให้ค่าฝุ่นพุ่งสูงแม้ในวันที่ไม่มีลม
+            </li>
+          </ul>
+
+          <!-- AQI scale visual -->
+          <div class="reveal" aria-label="มาตรวัดดัชนีคุณภาพอากาศ AQI">
+            <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:0.5rem;">ดัชนีคุณภาพอากาศ (AQI) — มาตรวัดสากล</p>
+            <div class="aqi-scale">
+              <div class="aqi-band" style="background:#22C55E;">ดี<br/>(0–50)</div>
+              <div class="aqi-band" style="background:#A3E635;color:#111;">ปาน<br/>กลาง</div>
+              <div class="aqi-band" style="background:#FACC15;color:#111;">ไม่ดี<br/>กลุ่มเสี่ยง</div>
+              <div class="aqi-band" style="background:#FB923C;">ไม่ดี<br/>(101–150)</div>
+              <div class="aqi-band" style="background:#EF4444;">แย่มาก<br/>(151–200)</div>
+              <div class="aqi-band" style="background:#7C3AED;">อันตราย<br/>(201+)</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ─── 02. พื้นที่เสี่ยง ─────────────────────────────────────────────── -->
+    <section id="risk-areas" class="section section-alt article-section" aria-labelledby="risk-heading">
+      <div class="container article-container">
+
+        <p class="section-label reveal">02 · พื้นที่เสี่ยง</p>
+        <h2 id="risk-heading" class="section-heading reveal">
+          พื้นที่เสี่ยง<br />ในขอนแก่น
+        </h2>
+        <div class="thermal-divider reveal" aria-hidden="true"></div>
+
+        <div class="article-body">
+          <p class="lead reveal">
+            ฝุ่น PM2.5 ไม่ได้กระจายสม่ำเสมอ — บางพื้นที่มีความเข้มข้นสูงกว่าอย่างเห็นได้ชัด
+          </p>
+
+          <ul class="styled-list reveal">
+            <li>
+              <strong>เขตเมืองชั้นในที่จราจรหนาแน่น:</strong>
+              ถนนมิตรภาพ ถนนศรีจันทร์ แยกมะลิวัลย์ และย่านพาณิชยกรรมใจกลางเมือง
+              มีการสะสมของไอเสียจากยานพาหนะตลอดทั้งวัน
+            </li>
+            <li>
+              <strong>ริมถนนสายหลักนอกเมือง:</strong>
+              เส้นทางขนส่งสินค้าหนักในชั่วโมงเร่งด่วน
+            </li>
+            <li>
+              <strong>พื้นที่เกษตรรอบนอกช่วงฤดูเผา:</strong>
+              อำเภอรอบนอกที่มีพื้นที่ปลูกข้าวและอ้อยหนาแน่นจะมีค่าฝุ่นพุ่งสูงในช่วงเก็บเกี่ยว
+            </li>
+          </ul>
+
+          <div class="risk-placeholder reveal">
+            <span>&#x26A0;&#xFE0F;</span>
+            [ TODO: ระบุตำบล/จุดที่มีค่าฝุ่นสูงเป็นประจำในขอนแก่น — เพิ่มข้อมูลจาก Air4Thai / PCD ]
+          </div>
+
+          <aside class="callout callout-hot reveal" aria-label="แหล่งข้อมูลค่าฝุ่นเรียลไทม์">
+            <div class="callout-icon" aria-hidden="true">&#x1F4F1;</div>
+            <div class="callout-body">
+              <strong>ติดตามค่าฝุ่นเรียลไทม์</strong>
+              <p>
+                กรมควบคุมมลพิษเปิดข้อมูล AQI แบบเรียลไทม์ผ่าน Air4Thai
+                สามารถดูจุดตรวจที่ใกล้ที่สุดในขอนแก่นได้ทันที
+              </p>
+              <a href="https://air4thai.pcd.go.th" target="_blank" rel="noopener noreferrer"
+                 class="btn btn-primary btn-sm">เปิด Air4Thai &#x2192;</a>
+            </div>
+          </aside>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ─── 03. การรับมือ ────────────────────────────────────────────────── -->
+    <section id="response" class="section article-section" aria-labelledby="response-heading">
+      <div class="container article-container">
+
+        <p class="section-label reveal">03 · การรับมือ</p>
+        <h2 id="response-heading" class="section-heading reveal">
+          เมื่อค่าฝุ่นสูง<br />ทำอย่างไร
+        </h2>
+        <div class="thermal-divider reveal" aria-hidden="true"></div>
+
+        <div class="article-body">
+          <p class="lead reveal">
+            เมื่อ AQI เกิน 100 (ระดับ "ไม่ดีสำหรับกลุ่มเสี่ยง") ควรเริ่มมาตรการป้องกัน
+          </p>
+
+          <ul class="styled-list reveal">
+            <li>
+              <strong>สวมหน้ากาก N95 หรือ KN95:</strong>
+              หน้ากากอนามัยทั่วไปไม่สามารถกรอง PM2.5 ได้ ต้องใช้หน้ากากที่ระบุ N95/KN95 เท่านั้น
+              ต้องสวมให้แนบสนิทรอบใบหน้า
+            </li>
+            <li>
+              <strong>ใช้เครื่องฟอกอากาศในบ้าน:</strong>
+              เครื่องที่มีแผ่นกรอง HEPA สามารถดักจับ PM2.5 ได้มีประสิทธิภาพ
+              ปิดประตูหน้าต่างขณะใช้งาน
+            </li>
+            <li>
+              <strong>ปิดหน้าต่างและประตูช่วงค่าฝุ่นพีค:</strong>
+              ช่วงเช้า (06:00–09:00) และค่ำ (17:00–20:00) มักมีค่าฝุ่นสูงสุด
+              เนื่องจากจราจรหนาแน่นและอากาศปิด
+            </li>
+            <li>
+              <strong>งดหรือลดกิจกรรมกลางแจ้ง:</strong>
+              โดยเฉพาะการออกกำลังกาย ซึ่งทำให้หายใจแรงขึ้นและรับฝุ่นมากกว่าปกติ
+            </li>
+            <li>
+              <strong>ติดตามค่า AQI อย่างต่อเนื่อง:</strong>
+              ผ่าน Air4Thai (air4thai.pcd.go.th) หรือแอปพลิเคชันที่รับข้อมูลจาก API ของ PCD
+            </li>
+          </ul>
+
+          <div class="prevention-note reveal">
+            <strong>กลุ่มเสี่ยงสูง</strong> ที่ต้องระวังเป็นพิเศษ ได้แก่
+            ผู้สูงอายุ เด็กเล็ก ผู้ป่วยโรคหัวใจและหลอดเลือด และผู้ป่วยโรคระบบทางเดินหายใจ
+            ควรหลีกเลี่ยงการออกนอกบ้านเมื่อ AQI เกิน 50
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ─── 04. การป้องกัน ─────────────────────────────────────────────── -->
+    <section id="prevention" class="section section-alt" aria-labelledby="prevention-heading">
+      <div class="container">
+
+        <p class="section-label reveal">04 · การป้องกัน</p>
+        <h2 id="prevention-heading" class="section-heading reveal">การป้องกัน</h2>
+        <p class="section-intro reveal">
+          การแก้ปัญหาฝุ่นระยะยาวต้องอาศัยทั้งนโยบายเมืองและพฤติกรรมของปัจเจกบุคคล
+        </p>
+
+        <div class="solutions-grid">
+
+          <div class="solutions-col reveal">
+            <div class="solutions-col-header">
+              <span class="sol-col-icon" aria-hidden="true">&#x1F3DB;&#xFE0F;</span>
+              <h3>เมือง / นโยบาย</h3>
+            </div>
+            <ul class="solutions-list">
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F525;</span>
+                <div>
+                  <strong>ลดและควบคุมการเผาในที่โล่ง</strong>
+                  <p>บังคับใช้กฎหมายห้ามเผาตอซังและส่งเสริมการไถกลบแทน
+                     รวมถึงมาตรการทางการเงินจูงใจให้เกษตรกรเลิกเผา</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F68C;</span>
+                <div>
+                  <strong>ส่งเสริมขนส่งสาธารณะและ EV</strong>
+                  <p>ลดจำนวนยานพาหนะเครื่องยนต์สันดาปภายใน
+                     โดยเฉพาะรถดีเซลเก่าที่ไม่มีระบบกรองไอเสีย</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F333;</span>
+                <div>
+                  <strong>เพิ่มพื้นที่สีเขียวดักฝุ่น</strong>
+                  <p>ต้นไม้และพุ่มไม้ขนาดใหญ่ช่วยดักอนุภาคฝุ่นได้จริง
+                     โดยเฉพาะในแนวกันชนริมถนนสายหลัก</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F3D7;&#xFE0F;</span>
+                <div>
+                  <strong>มาตรฐานควบคุมฝุ่นจากการก่อสร้าง</strong>
+                  <p>กำหนดให้โครงการก่อสร้างขนาดใหญ่ต้องมีระบบดักฝุ่น ฉีดน้ำ และกั้นรั้วป้องกัน</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="solutions-col reveal">
+            <div class="solutions-col-header">
+              <span class="sol-col-icon" aria-hidden="true">&#x1F464;</span>
+              <h3>ระดับบุคคล</h3>
+            </div>
+            <ul class="solutions-list">
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F637;</span>
+                <div>
+                  <strong>เตรียมหน้ากาก N95 ไว้เสมอ</strong>
+                  <p>โดยเฉพาะในช่วงปลายหนาว–ต้นแล้ง ควรมีหน้ากากสำรองที่บ้านและในรถ</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F4F1;</span>
+                <div>
+                  <strong>ติดตาม AQI ก่อนออกจากบ้าน</strong>
+                  <p>ตรวจค่า AQI ทุกเช้าผ่าน Air4Thai หรือแอปที่ใช้งาน
+                     วางแผนกิจกรรมกลางแจ้งในช่วงที่ค่าฝุ่นต่ำ</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F3E0;</span>
+                <div>
+                  <strong>ปรับปรุงการกรองอากาศในอาคาร</strong>
+                  <p>ติดแผ่นกรอง HEPA กับเครื่องปรับอากาศหรือพัดลมระบาย
+                     เพื่อกรองฝุ่นก่อนเข้าอาคาร</p>
+                </div>
+              </li>
+              <li>
+                <span class="sol-icon" aria-hidden="true">&#x1F91D;</span>
+                <div>
+                  <strong>แชร์ข้อมูลค่าฝุ่นในชุมชน</strong>
+                  <p>แจ้งเตือนเพื่อนบ้านโดยเฉพาะกลุ่มผู้สูงอายุและผู้ป่วยในชุมชน
+                     เมื่อค่า AQI อยู่ในระดับอันตราย</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── 05. หน่วยงาน ─────────────────────────────────────────────────── -->
+    <section id="agencies" class="section article-section" aria-labelledby="agencies-heading">
+      <div class="container">
+
+        <p class="section-label reveal">05 · หน่วยงาน</p>
+        <h2 id="agencies-heading" class="section-heading reveal">หน่วยงานที่เกี่ยวข้อง</h2>
+        <p class="section-intro reveal">หน่วยงานภาครัฐที่รับผิดชอบติดตาม แจ้งเตือน และแก้ไขปัญหาฝุ่น PM2.5 ในประเทศไทย</p>
+
+        <div class="agency-grid">
+
+          <article class="agency-card reveal">
+            <div class="agency-header">
+              <div class="agency-icon" aria-hidden="true">&#x1F3ED;</div>
+              <div class="agency-name">
+                <h3>กรมควบคุมมลพิษ</h3>
+                <p class="agency-abbr">PCD — Pollution Control Department</p>
+              </div>
+            </div>
+            <p>ติดตามและรายงานค่าคุณภาพอากาศ (AQI) แบบเรียลไทม์ทั่วประเทศ ผ่านระบบ Air4Thai ประกาศเตือนภัยและออกมาตรฐานคุณภาพอากาศ</p>
+            <a href="https://air4thai.pcd.go.th" target="_blank" rel="noopener noreferrer" class="agency-link">air4thai.pcd.go.th &#x2192;</a>
+          </article>
+
+          <article class="agency-card reveal">
+            <div class="agency-header">
+              <div class="agency-icon" aria-hidden="true">&#x1F6F0;&#xFE0F;</div>
+              <div class="agency-name">
+                <h3>GISTDA</h3>
+                <p class="agency-abbr">สำนักงานพัฒนาเทคโนโลยีอวกาศและภูมิสารสนเทศ</p>
+              </div>
+            </div>
+            <p>ติดตามจุดความร้อน (Hotspot) และพื้นที่การเผาจากดาวเทียม ให้ข้อมูลเชิงพื้นที่แก่หน่วยงานที่เกี่ยวข้องในการควบคุมการเผา</p>
+            <a href="https://www.gistda.or.th" target="_blank" rel="noopener noreferrer" class="agency-link">gistda.or.th &#x2192;</a>
+          </article>
+
+          <article class="agency-card reveal">
+            <div class="agency-header">
+              <div class="agency-icon" aria-hidden="true">&#x1FA7A;</div>
+              <div class="agency-name">
+                <h3>กรมควบคุมโรค</h3>
+                <p class="agency-abbr">DDC — Department of Disease Control</p>
+              </div>
+            </div>
+            <p>ออกคำแนะนำด้านสุขภาพเมื่อค่าฝุ่นเกินมาตรฐาน เฝ้าระวังโรคระบบทางเดินหายใจที่เชื่อมโยงกับมลพิษทางอากาศ</p>
+            <a href="https://ddc.moph.go.th" target="_blank" rel="noopener noreferrer" class="agency-link">ddc.moph.go.th &#x2192;</a>
+          </article>
+
+          <article class="agency-card reveal">
+            <div class="agency-header">
+              <div class="agency-icon" aria-hidden="true">&#x1F3D9;&#xFE0F;</div>
+              <div class="agency-name">
+                <h3>เทศบาลนครขอนแก่น</h3>
+                <p class="agency-abbr">KKC — Khon Kaen City Municipality</p>
+              </div>
+            </div>
+            <p>ดูแลคุณภาพสิ่งแวดล้อมในเขตเมือง ประสานงานลดการเผาขยะและดำเนินมาตรการเฉพาะพื้นที่เมื่อค่าฝุ่นวิกฤต</p>
+            <a href="https://www.kkc.go.th" target="_blank" rel="noopener noreferrer" class="agency-link">kkc.go.th &#x2192;</a>
+          </article>
+
+          <article class="agency-card reveal">
+            <div class="agency-header">
+              <div class="agency-icon" aria-hidden="true">&#x1F30D;</div>
+              <div class="agency-name">
+                <h3>กรมอุตุนิยมวิทยา</h3>
+                <p class="agency-abbr">TMD — Thai Meteorological Department</p>
+              </div>
+            </div>
+            <p>พยากรณ์สภาพอากาศและแจ้งช่วงที่อากาศปิด (temperature inversion) ซึ่งส่งผลให้ค่าฝุ่นสะสมสูงผิดปกติ</p>
+            <a href="https://www.tmd.go.th" target="_blank" rel="noopener noreferrer" class="agency-link">tmd.go.th &#x2192;</a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── CTA ──────────────────────────────────────────────────────────── -->
+    <section id="conclusion" class="section section-cta" aria-labelledby="dust-cta-heading">
+      <div class="container">
+        <div class="cta-inner reveal">
+          <h2 id="dust-cta-heading" class="section-heading">
+            ฝุ่น PM2.5 ป้องกันได้<br />ถ้ารู้ทัน
+          </h2>
+          <p class="cta-body">
+            ติดตามค่า AQI ทุกวัน สวมหน้ากากเมื่อจำเป็น
+            และช่วยกันลดการเผาในที่โล่งเพื่ออากาศที่ดีกว่าสำหรับทุกคน
+          </p>
+          <div class="hero-actions" style="justify-content:center;">
+            <a href="https://air4thai.pcd.go.th" target="_blank" rel="noopener noreferrer" class="btn btn-primary">ดูค่า AQI สด &#x2192;</a>
+            <a href="index.html" class="btn btn-outline">&#x2190; กลับหน้าแรก</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================================
+       FOOTER
+  ====================================================================== -->
+  <footer id="footer" role="contentinfo">
+    <div class="container">
+
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="footer-logo">Heat Safe Khon Kaen</span>
+          <p>หน้าข้อมูลสาธารณะ ประกอบแอปแผนที่เรียลไทม์ขอนแก่น</p>
+        </div>
+        <nav class="footer-nav" aria-label="ลิงก์ท้ายหน้า">
+          <a href="heat.html">ความร้อน</a>
+          <a href="dust.html">ฝุ่น PM2.5</a>
+          <a href="rain.html">ฝน/พายุ</a>
+          <a href="flood.html">น้ำท่วม</a>
+        </nav>
+      </div>
+
+      <div class="thermal-divider" aria-hidden="true"></div>
+
+      <section aria-labelledby="refs-heading" class="references">
+        <h2 id="refs-heading" class="refs-heading">แหล่งอ้างอิง</h2>
+        <ol class="refs-list">
+          <li>กรมควบคุมมลพิษ. ระบบรายงานคุณภาพอากาศ Air4Thai. <a href="https://air4thai.pcd.go.th" target="_blank" rel="noopener noreferrer">air4thai.pcd.go.th</a></li>
+          <li>GISTDA. ระบบติดตามจุดความร้อนจากดาวเทียม. <a href="https://www.gistda.or.th" target="_blank" rel="noopener noreferrer">gistda.or.th</a></li>
+          <li>กรมอุตุนิยมวิทยา (TMD). ระบบพยากรณ์อากาศ. <a href="https://www.tmd.go.th" target="_blank" rel="noopener noreferrer">tmd.go.th</a></li>
+          <li>WHO (2021). WHO global air quality guidelines: particulate matter (PM2.5 and PM10). Geneva.</li>
+        </ol>
+      </section>
+
+      <div class="footer-bottom">
+        <p>&copy; 2568 Heat Safe Khon Kaen</p>
+        <p>สร้างด้วย HTML, CSS, JavaScript ล้วน &middot; ไม่มีการติดตามข้อมูล</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <button id="back-to-top" class="back-to-top" aria-label="กลับขึ้นด้านบนสุด" hidden>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+  </button>
+
+  <script src="config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/widgets.js"></script>
+  <script src="js/live.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+/* ==========================================================================
+   Heat Safe Khon Kaen — topics.css
+   Shared styles for hub page and all 4 topic pages.
+   ========================================================================== */
+
+/* ── HUB HAZARD CARDS ══════════════════════════════════════════════════════ */
+.hazard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.hazard-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding: clamp(1.5rem, 3vw, 2rem);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-top: 4px solid transparent;
+  border-radius: var(--radius);
+  color: var(--text);
+  transition: transform var(--dur) var(--ease),
+              border-color var(--dur) var(--ease),
+              box-shadow var(--dur) var(--ease);
+  text-decoration: none;
+}
+
+.hazard-card:hover,
+.hazard-card:focus-visible {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow), 0 0 32px rgba(0,0,0,0.3);
+}
+
+.hazard-card:focus-visible { outline: 3px solid var(--cool); outline-offset: 3px; }
+
+.hazard-heat  { border-top-color: #FB923C; }
+.hazard-dust  { border-top-color: #A78BFA; }
+.hazard-rain  { border-top-color: #38BDF8; }
+.hazard-flood { border-top-color: #22D3EE; }
+
+.hazard-icon  { font-size: 2.75rem; line-height: 1; }
+
+.hazard-card h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.hazard-card p {
+  color: var(--text-sec);
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  line-height: 1.65;
+  flex: 1;
+}
+
+.hazard-link {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin-top: 0.25rem;
+  align-self: flex-start;
+  transition: opacity var(--dur);
+}
+
+.hazard-card:hover .hazard-link { opacity: 0.75; }
+
+.hazard-heat  .hazard-link { color: #FB923C; }
+.hazard-dust  .hazard-link { color: #A78BFA; }
+.hazard-rain  .hazard-link { color: #38BDF8; }
+.hazard-flood .hazard-link { color: #22D3EE; }
+
+/* ── AGENCY CARDS (all topic pages) ════════════════════════════════════════ */
+.agency-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.agency-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  transition: border-color var(--dur);
+}
+
+.agency-card:hover { border-color: var(--border-hover); }
+
+.agency-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.agency-icon {
+  font-size: 1.75rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.agency-name { display: flex; flex-direction: column; gap: 0.125rem; }
+
+.agency-name h3 {
+  font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
+  color: var(--text);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.agency-abbr {
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.agency-card > p {
+  font-size: 0.875rem;
+  color: var(--text-sec);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.agency-link {
+  display: inline-block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--cool);
+  letter-spacing: 0.02em;
+  margin-top: 0.25rem;
+  transition: opacity var(--dur);
+}
+
+.agency-link:hover { opacity: 0.75; }
+.agency-link:focus-visible { outline: 3px solid var(--cool); outline-offset: 2px; border-radius: 3px; }
+
+/* ── TOPIC SECTION UTILITIES ════════════════════════════════════════════════ */
+
+/* AQI scale visual (dust page) */
+.aqi-scale {
+  display: flex;
+  gap: 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin: 1.5rem 0;
+  height: 40px;
+}
+
+.aqi-band {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  padding: 0 0.25rem;
+}
+
+/* Prevention 2-col grid (reuse solutions-grid from components) */
+.prevention-note {
+  background: var(--bg-card);
+  border-left: 3px solid var(--cool);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 1rem 1.25rem;
+  font-size: 0.9375rem;
+  color: var(--text-sec);
+}
+
+/* Risk area placeholder styling */
+.risk-placeholder {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+  color: var(--warm);
+  background: rgba(250,204,21,0.08);
+  border: 1px dashed rgba(250,204,21,0.3);
+  border-radius: var(--radius-sm);
+  padding: 0.3rem 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* App link callout for flood page */
+.app-link-box {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--cool);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.app-link-box-icon { font-size: 1.75rem; flex-shrink: 0; }
+.app-link-box p    { font-size: 0.9375rem; color: var(--text-sec); margin: 0; }
+
+/* ── RESPONSIVE ════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .hazard-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .agency-grid { grid-template-columns: 1fr; }
+}

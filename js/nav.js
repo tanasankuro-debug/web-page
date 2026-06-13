@@ -103,16 +103,14 @@ function initScrollReveal() {
 
 /* ── Scroll Spy ──────────────────────────────────────────────────────────── */
 function initScrollSpy() {
-  const sections = $$('section[id]').filter(s =>
-    ['intro','live','comparison','heat-dome','uhi','research','satellite-map','impacts','solutions'].includes(s.id)
-  );
+  /* Skip structural/non-content sections; spy on everything else */
+  const SKIP = new Set(['hero', 'toc', 'conclusion']);
+  const sections = $$('section[id]').filter(s => !SKIP.has(s.id));
 
   if (!sections.length) return;
 
+  /* Only highlight TOC links — cross-page nav-links keep their static active class */
   function setActive(id) {
-    $$('.nav-link').forEach(link => {
-      link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
-    });
     $$('.toc-link').forEach(link => {
       link.classList.toggle('active', link.dataset.target === id);
     });
