@@ -327,12 +327,15 @@
 
 .research-figure { overflow: hidden; border-right: 1px solid var(--border); }
 
-.research-figure img {
+.research-figure img,
+.research-figure svg {
   width: 100%;
   height: 100%;
-  object-fit: cover;
   min-height: 200px;
+  display: block;
 }
+
+.research-figure img { object-fit: cover; }
 
 .research-figure figcaption {
   padding: 0.65rem 1rem;
