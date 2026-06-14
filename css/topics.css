@@ -11,13 +11,6 @@
 .card-icon--storm { color: #5aa9ff; }
 .card-icon--flood { color: #2dd4bf; }
 
-.nav-icon     { display: inline-flex; width: 18px; height: 18px; vertical-align: -4px; flex-shrink: 0; }
-.nav-icon svg { width: 100%; height: 100%; }
-.nav-icon--heat  { color: #ff7a45; }
-.nav-icon--pm25  { color: #8b7cf6; }
-.nav-icon--storm { color: #5aa9ff; }
-.nav-icon--flood { color: #2dd4bf; }
-
 /* ── HUB HAZARD CARDS ══════════════════════════════════════════════════════ */
 .hazard-grid {
   display: grid;
