@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="แผนที่คุณภาพอากาศ AQI ขอนแก่น เรียลไทม์ — ข้อมูลจากกรมควบคุมมลพิษ Air4Thai" />
+  <title>แผนที่ AQI ขอนแก่น — Heat Safe Khon Kaen</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/mappage.css" />
+  <link rel="stylesheet" href="../css/aqimap.css" />
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css" />
+</head>
+<body class="map-page" data-theme="dust">
+
+  <a class="skip-link" href="#aqi-canvas">ข้ามไปยังแผนที่</a>
+
+  <!-- =====================================================================
+       STICKY HEADER
+  ====================================================================== -->
+  <header id="site-header" role="banner">
+    <div class="header-inner container">
+
+      <a href="index.html" class="site-logo" aria-label="Heat Safe Khon Kaen — กลับหน้าแรก">
+        <span class="logo-heat">Heat Safe</span>
+        <span class="logo-city">Khon Kaen</span>
+      </a>
+
+      <nav id="main-nav" aria-label="เมนูหลัก">
+        <ul class="nav-links" role="list">
+          <li><a href="index.html"  class="nav-link">หน้าแรก</a></li>
+          <li><a href="heat.html"   class="nav-link">&#x2600;&#xFE0F; ความร้อน</a></li>
+          <li><a href="dust.html"   class="nav-link active">&#x1F32B;&#xFE0F; ฝุ่น PM2.5</a></li>
+          <li><a href="rain.html"   class="nav-link">&#x1F327;&#xFE0F; ฝน/พายุ</a></li>
+          <li><a href="flood.html"  class="nav-link">&#x1F30A; น้ำท่วม</a></li>
+        </ul>
+        <a href="dust.html" class="btn btn-outline btn-sm nav-cta">
+          &#x2190; ฝุ่น PM2.5
+        </a>
+      </nav>
+
+      <button class="hamburger" id="hamburger"
+              aria-label="เปิด/ปิดเมนูนำทาง"
+              aria-expanded="false"
+              aria-controls="main-nav">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </button>
+
+    </div>
+  </header>
+
+
+  <!-- =====================================================================
+       MAP PAGE: sidebar + canvas
+  ====================================================================== -->
+  <main class="map-main" id="aqi-canvas">
+
+    <!-- ─── SIDEBAR ──────────────────────────────────────────────────────── -->
+    <aside class="map-sidebar" id="map-sidebar" aria-label="สถานีตรวจวัดอากาศขอนแก่น">
+      <div class="map-sidebar-inner">
+
+        <!-- Title -->
+        <div>
+          <p class="sidebar-heading">&#x1F32B;&#xFE0F; AQI ขอนแก่น</p>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin-top:0.25rem;">
+            คลิกจุดสถานีบนแผนที่เพื่อดูค่าละเอียด
+          </p>
+        </div>
+
+        <!-- Station cards -->
+        <div>
+          <p class="sidebar-section-label">สถานีตรวจวัด</p>
+          <div id="aqi-station-list" class="aqi-sidebar-list" aria-live="polite">
+            <p class="aqi-status">กำลังโหลดข้อมูล...</p>
+          </div>
+        </div>
+
+        <!-- AQI Legend -->
+        <div>
+          <p class="sidebar-section-label">ระดับ AQI</p>
+          <ul class="aqi-legend-vert" aria-label="คำอธิบายระดับ AQI">
+            <li style="--c:#22C55E;"><span class="aqi-dot"></span>0–50 &nbsp;<strong>ดี</strong></li>
+            <li style="--c:#A3E635;"><span class="aqi-dot"></span>51–100 &nbsp;<strong>ปานกลาง</strong></li>
+            <li style="--c:#FACC15;"><span class="aqi-dot"></span>101–150 &nbsp;<strong>ไม่ดีกลุ่มเสี่ยง</strong></li>
+            <li style="--c:#FB923C;"><span class="aqi-dot"></span>151–200 &nbsp;<strong>ไม่ดี</strong></li>
+            <li style="--c:#EF4444;"><span class="aqi-dot"></span>201–300 &nbsp;<strong>แย่มาก</strong></li>
+            <li style="--c:#7C3AED;"><span class="aqi-dot"></span>301+ &nbsp;<strong>อันตราย</strong></li>
+          </ul>
+        </div>
+
+        <!-- Layer switcher -->
+        <div>
+          <p class="sidebar-section-label">ชั้นแผนที่</p>
+          <div class="layer-btn-group" role="group" aria-label="เลือกชั้นแผนที่" style="margin-top:0.5rem;">
+            <button class="layer-btn active" data-aqi-layer="osm" aria-pressed="true">
+              &#x1F5FA;&#xFE0F; แผนที่ถนน
+            </button>
+            <button class="layer-btn" data-aqi-layer="esriSatellite" aria-pressed="false">
+              &#x1F30D; ดาวเทียม Esri
+            </button>
+          </div>
+        </div>
+
+        <!-- Source note -->
+        <p class="sidebar-live-meta" id="aqi-source-label"
+           style="margin-top:auto;padding-top:0.75rem;border-top:1px solid var(--border);">
+          ข้อมูล: กำลังโหลด…
+        </p>
+
+      </div>
+    </aside><!-- /.map-sidebar -->
+
+
+    <!-- ─── MAP CANVAS ───────────────────────────────────────────────────── -->
+    <div class="map-canvas">
+
+      <!-- Mobile sidebar toggle -->
+      <button class="map-sidebar-toggle" id="sidebar-toggle"
+              aria-expanded="false" aria-controls="map-sidebar">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+          <line x1="3" y1="5"  x2="17" y2="5"/>
+          <line x1="3" y1="10" x2="17" y2="10"/>
+          <line x1="3" y1="15" x2="17" y2="15"/>
+        </svg>
+        ข้อมูลสถานี
+      </button>
+
+      <!-- MapLibre map -->
+      <div id="aqi-map-el"
+           class="map-el"
+           role="application"
+           aria-label="แผนที่ AQI ขอนแก่น — คลิกจุดสถานีเพื่อดูรายละเอียด"></div>
+
+    </div><!-- /.map-canvas -->
+
+  </main>
+
+
+  <script src="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/nav.js"></script>
+  <script src="../js/aqimap.js"></script>
+  <script src="../js/main.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      /* Mobile sidebar toggle */
+      const toggle  = document.getElementById('sidebar-toggle');
+      const sidebar = document.getElementById('map-sidebar');
+      if (toggle && sidebar) {
+        toggle.addEventListener('click', () => {
+          const isOpen = sidebar.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', String(isOpen));
+        });
+      }
+      /* Init AQI map */
+      if (typeof initAQIMap === 'function') initAQIMap();
+    });
+  </script>
+</body>
+</html>

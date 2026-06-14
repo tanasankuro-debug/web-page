@@ -1,0 +1,89 @@
+/* ==========================================================================
+   Rain Forecast page — rainforecast.html
+   ========================================================================== */
+
+.rf-page {
+  padding-top: calc(var(--header-h) + 2rem);
+  padding-bottom: 4rem;
+  min-height: 100dvh;
+}
+
+/* ── Page header ─────────────────────────────────────────────────────────── */
+.rf-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.rf-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.rf-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 6vw, 3.5rem);
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.rf-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.rf-back {
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+
+/* ── Reveal animation ────────────────────────────────────────────────────── */
+.rf-reveal {
+  animation: rf-fade-up 0.4s ease both;
+}
+
+.rf-reveal:nth-child(3)  { animation-delay: 0.05s; }
+.rf-reveal:nth-child(4)  { animation-delay: 0.12s; }
+.rf-reveal:nth-child(5)  { animation-delay: 0.19s; }
+
+@keyframes rf-fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Wider daily grid on full page ──────────────────────────────────────── */
+@media (min-width: 900px) {
+  .rf-page .rd-card {
+    padding: 1rem 0.625rem;
+  }
+
+  .rf-page .rd-icon {
+    font-size: 2rem;
+  }
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .rf-page {
+    padding-top: calc(var(--header-h) + 1rem);
+    padding-bottom: 2rem;
+  }
+
+  .rf-page-header {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .rf-back {
+    align-self: flex-start;
+    margin-top: 0;
+  }
+}

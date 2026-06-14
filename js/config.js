@@ -25,6 +25,22 @@ window.HSKK_CONFIG = {
     '&hourly=temperature_2m&forecast_hours=24' +
     '&timezone=Asia%2FBangkok',
 
+  /* ── 1b. Open-Meteo Rain/Storm Forecast ────────────────────────────────
+     Provides: current weather + hourly precipitation probability (24h)
+               + daily 7-day summary with precipitation, wind gusts
+  ─────────────────────────────────────────────────────────────────────────── */
+  rainWeatherUrl:
+    'https://api.open-meteo.com/v1/forecast' +
+    '?latitude=16.44&longitude=102.82' +
+    '&current=temperature_2m,relative_humidity_2m,weathercode,' +
+    'windspeed_10m,windgusts_10m,precipitation' +
+    '&hourly=temperature_2m,precipitation_probability,precipitation,weathercode,windspeed_10m' +
+    '&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,' +
+    'precipitation_probability_max,windspeed_10m_max,windgusts_10m_max' +
+    '&timezone=Asia%2FBangkok' +
+    '&forecast_days=7' +
+    '&forecast_hours=24',
+
   /* ── 2. Open-Meteo Air Quality ──────────────────────────────────────────
      Provides: pm2_5, us_aqi (current)
   ─────────────────────────────────────────────────────────────────────────── */

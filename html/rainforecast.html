@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="พยากรณ์อากาศขอนแก่น เรียลไทม์ — อุณหภูมิ โอกาสฝน ลม พายุ 7 วัน" />
+  <title>พยากรณ์อากาศสด ขอนแก่น — Heat Safe Khon Kaen</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/rainweather.css" />
+  <link rel="stylesheet" href="../css/rainforecast.css" />
+</head>
+<body data-theme="rain">
+
+  <a class="skip-link" href="#rf-main">ข้ามไปยังเนื้อหา</a>
+
+  <!-- =====================================================================
+       STICKY HEADER
+  ====================================================================== -->
+  <header id="site-header" role="banner">
+    <div class="header-inner container">
+
+      <a href="index.html" class="site-logo" aria-label="Heat Safe Khon Kaen — กลับหน้าแรก">
+        <span class="logo-heat">Heat Safe</span>
+        <span class="logo-city">Khon Kaen</span>
+      </a>
+
+      <nav id="main-nav" aria-label="เมนูหลัก">
+        <ul class="nav-links" role="list">
+          <li><a href="index.html"  class="nav-link">หน้าแรก</a></li>
+          <li><a href="heat.html"   class="nav-link">&#x2600;&#xFE0F; ความร้อน</a></li>
+          <li><a href="dust.html"   class="nav-link">&#x1F32B;&#xFE0F; ฝุ่น PM2.5</a></li>
+          <li><a href="rain.html"   class="nav-link active">&#x1F327;&#xFE0F; ฝน/พายุ</a></li>
+          <li><a href="flood.html"  class="nav-link">&#x1F30A; น้ำท่วม</a></li>
+        </ul>
+        <a href="rain.html" class="btn btn-outline btn-sm nav-cta">
+          &#x2190; ฝน/พายุ
+        </a>
+      </nav>
+
+      <button class="hamburger" id="hamburger"
+              aria-label="เปิด/ปิดเมนูนำทาง"
+              aria-expanded="false"
+              aria-controls="main-nav">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </button>
+
+    </div>
+  </header>
+
+
+  <!-- =====================================================================
+       MAIN CONTENT
+  ====================================================================== -->
+  <main id="rf-main" class="rf-page">
+    <div class="container">
+
+      <!-- Page header -->
+      <div class="rf-page-header">
+        <div class="rf-title-group">
+          <p class="section-label">&#x1F327;&#xFE0F; พยากรณ์อากาศสด</p>
+          <h1 class="rf-title">ขอนแก่น</h1>
+          <p class="rf-subtitle">อุณหภูมิ · ฝน · ลม · พายุ — อัปเดตอัตโนมัติจาก Open-Meteo</p>
+        </div>
+        <a href="rain.html" class="btn btn-outline btn-sm rf-back">&#x2190; กลับหน้าฝน/พายุ</a>
+      </div>
+
+      <!-- Status (removed after load) -->
+      <p id="rain-weather-status" class="rw-status" aria-live="polite">กำลังโหลดข้อมูล...</p>
+
+      <!-- Current conditions -->
+      <div class="rw-panel rf-reveal">
+        <p class="rw-panel-title">&#x1F321;&#xFE0F; สภาพอากาศปัจจุบัน</p>
+        <div id="rain-current" class="rwc-wrap"></div>
+      </div>
+
+      <!-- Hourly 12 h chart -->
+      <div class="rw-panel rf-reveal">
+        <p class="rw-panel-title">&#x1F4CA; โอกาสเกิดฝน 12 ชั่วโมงข้างหน้า</p>
+        <div id="rain-hourly" class="rh-wrap"></div>
+      </div>
+
+      <!-- 7-day forecast -->
+      <div class="rw-panel rf-reveal">
+        <p class="rw-panel-title">&#x1F4C5; พยากรณ์ 7 วัน</p>
+        <div id="rain-daily" class="rd-wrap"></div>
+      </div>
+
+      <p id="rain-source-label" class="rw-source">ข้อมูล: กำลังโหลด...</p>
+
+    </div>
+  </main>
+
+
+  <script src="../js/config.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/nav.js"></script>
+  <script src="../js/rainweather.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof initRainWeather === 'function') initRainWeather();
+    });
+  </script>
+</body>
+</html>
