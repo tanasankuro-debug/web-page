@@ -3,6 +3,21 @@
    Shared styles for hub page and all 4 topic pages.
    ========================================================================== */
 
+/* ── CARD ICONS (inline-SVG line-art, inherits color via currentColor) ══════ */
+.card-icon     { display: inline-flex; width: 48px; height: 48px; }
+.card-icon svg { width: 100%; height: 100%; }
+.card-icon--heat  { color: #ff7a45; }
+.card-icon--pm25  { color: #8b7cf6; }
+.card-icon--storm { color: #5aa9ff; }
+.card-icon--flood { color: #2dd4bf; }
+
+.nav-icon     { display: inline-flex; width: 18px; height: 18px; vertical-align: -4px; flex-shrink: 0; }
+.nav-icon svg { width: 100%; height: 100%; }
+.nav-icon--heat  { color: #ff7a45; }
+.nav-icon--pm25  { color: #8b7cf6; }
+.nav-icon--storm { color: #5aa9ff; }
+.nav-icon--flood { color: #2dd4bf; }
+
 /* ── HUB HAZARD CARDS ══════════════════════════════════════════════════════ */
 .hazard-grid {
   display: grid;
@@ -208,9 +223,312 @@
 .app-link-box-icon { font-size: 1.75rem; flex-shrink: 0; }
 .app-link-box p    { font-size: 0.9375rem; color: var(--text-sec); margin: 0; }
 
+/* ── FLOOD STATUS STRIP ═════════════════════════════════════════════════════ */
+.flood-status-strip {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+  padding: 0.625rem 0;
+}
+
+.flood-strip-inner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.875rem;
+}
+
+.flood-strip-icon { font-size: 1rem; flex-shrink: 0; }
+
+.flood-strip-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  white-space: nowrap;
+}
+
+.flood-strip-label {
+  font-size: 0.75rem;
+  color: var(--text-sec);
+}
+
+.flood-strip-val {
+  font-family: var(--font-cond);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: #22D3EE;
+  transition: color 0.3s ease;
+}
+
+.flood-strip-unit {
+  font-size: 0.6875rem;
+  color: var(--text-sec);
+}
+
+.flood-strip-sep {
+  color: var(--border);
+  font-weight: 300;
+  flex-shrink: 0;
+}
+
+.flood-strip-sep--hide { display: none; }
+
+.flood-strip-risk {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.15rem 0.6rem;
+  border-radius: 99px;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+  display: none;
+}
+
+.flood-strip-risk.visible { display: inline-block; }
+
+.flood-strip-link {
+  margin-left: auto;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #22D3EE;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+
+.flood-strip-link:hover { opacity: 0.75; }
+
+@media (max-width: 600px) {
+  .flood-strip-sep--hide,
+  .flood-strip-link { display: none; }
+  .flood-strip-sep  { display: none; }
+}
+
+/* ── FLOOD LIVE DATA ════════════════════════════════════════════════════════ */
+.flood-cards-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.flood-live-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-top: 3px solid #22D3EE;
+  border-radius: var(--radius-sm);
+  padding: 1.25rem 1rem;
+  text-align: center;
+}
+
+.flood-card-label {
+  font-size: 0.75rem;
+  color: var(--text-sec);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 0.75rem;
+}
+
+.flood-card-val {
+  font-family: var(--font-cond);
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1;
+  color: #22D3EE;
+}
+
+.flood-card-unit {
+  font-size: 0.875rem;
+  color: var(--text-sec);
+  margin-top: 0.2rem;
+}
+
+.flood-card-sub {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  min-height: 1.25em;
+}
+
+/* 7-day forecast bar chart */
+.flood-forecast-wrap {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem 1.25rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.flood-forecast-title {
+  font-size: 0.8125rem;
+  color: var(--text-sec);
+  margin: 0 0 1.25rem;
+}
+
+.flood-bars-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+  height: 96px;
+}
+
+.flood-bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
+  height: 100%;
+}
+
+.flood-bar-amt {
+  font-size: 0.625rem;
+  color: var(--text-sec);
+  line-height: 1;
+}
+
+.flood-bar {
+  width: 100%;
+  border-radius: 2px 2px 0 0;
+  min-height: 0;
+  transition: height 0.4s ease;
+}
+
+.flood-bar-day {
+  font-size: 0.6875rem;
+  color: var(--text-sec);
+  padding-top: 3px;
+  line-height: 1;
+}
+
+/* Windy rain map embed */
+.windy-embed-wrap {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.windy-embed-label {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  color: var(--text-sec);
+}
+
+.windy-embed-wrap iframe {
+  display: block;
+  width: 100%;
+  height: 420px;
+  border: none;
+}
+
+/* ── FLOOD LIVE PAGE (flood-live.html) ══════════════════════════════════════ */
+.flive-page-header {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  padding: 2rem 0 1.75rem;
+}
+
+.flive-page-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.flive-title {
+  font-family: var(--font-cond);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  line-height: 1;
+  color: #22D3EE;
+  margin: 0.25rem 0 0.5rem;
+}
+
+.flive-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-sec);
+  margin: 0;
+}
+
+.flive-back-btn { align-self: center; flex-shrink: 0; }
+
+/* 2-column grid */
+.flive-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 1.5rem;
+  align-items: start;
+  margin-top: 1.5rem;
+}
+
+.flive-left  { display: flex; flex-direction: column; gap: 1rem; }
+.flive-right { position: sticky; top: calc(var(--header-h, 64px) + 1rem); }
+
+/* Windy map taller on dedicated page */
+.flive-windy { margin-top: 0; }
+.flive-windy iframe { height: 520px; }
+
+/* Agency quick-links */
+.flive-agencies {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+}
+
+.flive-agencies-label {
+  font-size: 0.75rem;
+  color: var(--text-sec);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin: 0 0 0.75rem;
+}
+
+.flive-agency-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.flive-agency-btn {
+  display: block;
+  padding: 0.6rem 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.flive-agency-btn:hover {
+  border-color: #22D3EE;
+  color: #22D3EE;
+}
+
 /* ── RESPONSIVE ════════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
   .hazard-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 900px) {
+  .flive-grid  { grid-template-columns: 1fr; }
+  .flive-right { position: static; }
+}
+
+@media (max-width: 640px) {
+  .flood-cards-row         { grid-template-columns: 1fr; }
+  .windy-embed-wrap iframe { height: 280px; }
+  .flive-windy iframe      { height: 300px; }
+  .flive-page-title-row    { flex-direction: column; }
+  .flive-back-btn          { align-self: flex-start; }
 }
 
 @media (max-width: 480px) {
