@@ -800,19 +800,19 @@
               <line x1="0" y1="356" x2="820" y2="356" stroke="#334155" stroke-width="1"/>
 
               <!-- Trapped hot zone under dome -->
-              <path d="M 44,286 Q 410,76 776,286 L 776,356 L 44,356 Z" fill="url(#hd-hot)"/>
+              <path id="hdar-hotzone" d="M 44,286 Q 410,76 776,286 L 776,356 L 44,356 Z" fill="url(#hd-hot)"/>
 
               <!-- Dome arc: glow layer then sharp line -->
-              <path d="M 44,286 Q 410,76 776,286"
+              <path id="hdar-dome-glow" d="M 44,286 Q 410,76 776,286"
                     fill="none" stroke="#EF4444" stroke-width="12" stroke-opacity="0.18"
                     filter="url(#hd-glow-f)"/>
-              <path d="M 44,286 Q 410,76 776,286"
+              <path id="hdar-dome-line" d="M 44,286 Q 410,76 776,286"
                     fill="none" stroke="url(#hd-dome-ln)" stroke-width="3.5" stroke-linecap="round"/>
 
               <!-- Sun -->
-              <circle cx="716" cy="56" r="42" fill="url(#hd-sun-halo)"/>
-              <circle cx="716" cy="56" r="19" fill="#FACC15" opacity="0.9"/>
-              <g stroke="#FACC15" stroke-width="2.2" stroke-linecap="round" opacity="0.72">
+              <circle id="hdar-sun-halo" cx="716" cy="56" r="42" fill="url(#hd-sun-halo)"/>
+              <circle id="hdar-sun-core" cx="716" cy="56" r="19" fill="#FACC15" opacity="0.9"/>
+              <g id="hdar-sun-rays" stroke="#FACC15" stroke-width="2.2" stroke-linecap="round" opacity="0.72">
                 <line x1="716" y1="22" x2="716" y2="14"/>
                 <line x1="716" y1="90" x2="716" y2="98"/>
                 <line x1="682" y1="56" x2="674" y2="56"/>
@@ -843,12 +843,12 @@
               <rect x="688" y="342" width="26" height="14" rx="1" fill="#243347"/>
 
               <!-- High-pressure "H" symbol -->
-              <text x="410" y="44" text-anchor="middle" fill="#EF4444" font-size="30" font-weight="700" opacity="0.82" letter-spacing="2">H</text>
+              <text id="hdar-H" x="410" y="44" text-anchor="middle" fill="#EF4444" font-size="30" font-weight="700" opacity="0.82" letter-spacing="2">H</text>
               <text x="410" y="62" text-anchor="middle" fill="#EF4444" font-size="10.5" opacity="0.68">ความกดอากาศสูง</text>
 
               <!-- Downward pressure arrows -->
               <text x="410" y="108" text-anchor="middle" fill="#FB923C" font-size="11.5" opacity="0.85">ความกดอากาศสูงกดอากาศร้อนลงมา</text>
-              <g fill="none" stroke="#FB923C" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5">
+              <g id="hdar-arrows-down" fill="none" stroke="#FB923C" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5">
                 <line x1="410" y1="118" x2="410" y2="175"/>
                 <polyline points="397,162 410,177 423,162"/>
                 <line x1="245" y1="168" x2="245" y2="218" opacity="0.70"/>
@@ -858,12 +858,12 @@
               </g>
 
               <!-- Upward blocked arrows (trapped, can't escape) -->
-              <g fill="none" stroke="#22D3EE" stroke-linecap="round" stroke-linejoin="round"
+              <g id="hdar-blocked-l" fill="none" stroke="#22D3EE" stroke-linecap="round" stroke-linejoin="round"
                  stroke-width="2" stroke-dasharray="5,3" opacity="0.65">
                 <line x1="155" y1="300" x2="155" y2="254"/>
                 <polyline points="145,265 155,250 165,265"/>
               </g>
-              <g fill="none" stroke="#22D3EE" stroke-linecap="round" stroke-linejoin="round"
+              <g id="hdar-blocked-r" fill="none" stroke="#22D3EE" stroke-linecap="round" stroke-linejoin="round"
                  stroke-width="2" stroke-dasharray="5,3" opacity="0.65">
                 <line x1="655" y1="302" x2="655" y2="256"/>
                 <polyline points="645,267 655,252 665,267"/>
@@ -872,7 +872,17 @@
               <text x="100" y="286" text-anchor="middle" fill="#22D3EE" font-size="10" opacity="0.70">ระบายออกไม่ได้</text>
 
               <!-- Trapped-air label -->
-              <text x="410" y="238" text-anchor="middle" fill="#FACC15" font-size="14" font-weight="600" opacity="0.85">อากาศร้อนถูกกักไว้</text>
+              <text id="hdar-trapped" x="410" y="238" text-anchor="middle" fill="#FACC15" font-size="14" font-weight="600" opacity="0.85">อากาศร้อนถูกกักไว้</text>
+
+              <!-- Heat particles: rise from buildings, trapped beneath dome -->
+              <g aria-hidden="true">
+                <circle class="hdar-particle" cx="182"  cy="350" r="2.5" fill="#FB923C" opacity="0" style="--tx:-10px;--dur:5.2s;--delay:-0.0s"/>
+                <circle class="hdar-particle" cx="275"  cy="350" r="2.0" fill="#FACC15" opacity="0" style="--tx:9px; --dur:4.8s;--delay:-1.4s"/>
+                <circle class="hdar-particle" cx="375"  cy="350" r="3.0" fill="#EF4444" opacity="0" style="--tx:-14px;--dur:5.5s;--delay:-2.7s"/>
+                <circle class="hdar-particle" cx="455"  cy="350" r="2.0" fill="#FB923C" opacity="0" style="--tx:12px; --dur:4.6s;--delay:-0.9s"/>
+                <circle class="hdar-particle" cx="545"  cy="350" r="2.5" fill="#FACC15" opacity="0" style="--tx:-9px; --dur:5.1s;--delay:-2.0s"/>
+                <circle class="hdar-particle" cx="635"  cy="350" r="2.0" fill="#EF4444" opacity="0" style="--tx:11px; --dur:4.9s;--delay:-3.3s"/>
+              </g>
 
               <!-- Bottom title bar -->
               <rect x="0" y="392" width="820" height="28" fill="#0A0E18" opacity="0.85"/>
@@ -982,7 +992,7 @@
               <!-- Zone background tints -->
               <rect x="0"   y="0" width="195" height="420" fill="url(#uhi-rural-l)"/>
               <rect x="625" y="0" width="195" height="420" fill="url(#uhi-rural-r)"/>
-              <rect x="270" y="60" width="280" height="300" fill="url(#uhi-city-hot)"/>
+              <rect id="uhiar-city-hot" x="270" y="60" width="280" height="300" fill="url(#uhi-city-hot)"/>
 
               <!-- Ground -->
               <rect x="0" y="295" width="820" height="125" fill="url(#uhi-gnd)"/>
@@ -1025,7 +1035,7 @@
               <rect x="486" y="205" width="28" height="90"  rx="1" fill="#243347"/>
               <rect x="520" y="222" width="24" height="73"  rx="1" fill="#1E293B"/>
               <!-- Window glints -->
-              <g fill="#FACC15" opacity="0.20">
+              <g id="uhiar-windows" fill="#FACC15" opacity="0.20">
                 <rect x="335" y="216" width="4" height="3" rx="0.5"/>
                 <rect x="344" y="216" width="4" height="3" rx="0.5"/>
                 <rect x="335" y="224" width="4" height="3" rx="0.5"/>
@@ -1056,24 +1066,31 @@
               <rect x="713" y="289" width="6" height="8" fill="#064E3B" opacity="0.45"/>
 
               <!-- Temperature curve: glow then main -->
-              <path d="M 82,270 C 122,269 158,266 202,256 C 242,246 262,234 296,214
+              <path id="uhiar-curve-glow"
+                    d="M 82,270 C 122,269 158,266 202,256 C 242,246 262,234 296,214
                         C 334,192 360,150 410,120 C 460,150 486,192 524,214
                         C 558,234 578,246 618,256 C 662,266 698,269 738,270"
+                    pathLength="1"
                     fill="none" stroke="#EF4444" stroke-width="8" stroke-opacity="0.22"
                     stroke-linecap="round" filter="url(#uhi-glow-f)"/>
-              <path d="M 82,270 C 122,269 158,266 202,256 C 242,246 262,234 296,214
+              <path id="uhiar-curve-main"
+                    d="M 82,270 C 122,269 158,266 202,256 C 242,246 262,234 296,214
                         C 334,192 360,150 410,120 C 460,150 486,192 524,214
                         C 558,234 578,246 618,256 C 662,266 698,269 738,270"
+                    pathLength="1"
                     fill="none" stroke="url(#uhi-curve)" stroke-width="3" stroke-linecap="round"/>
 
-              <!-- Peak dot -->
-              <circle cx="410" cy="120" r="5.5" fill="#EF4444" stroke="#090D18" stroke-width="2"/>
+              <!-- Peak dot + sonar ring -->
+              <circle id="uhiar-peak-ring" cx="410" cy="120" r="5.5"
+                      fill="none" stroke="#EF4444" stroke-width="1.5" opacity="0"/>
+              <circle id="uhiar-peak" cx="410" cy="120" r="5.5" fill="#EF4444" stroke="#090D18" stroke-width="2"/>
 
               <!-- Callout: city hotter than rural -->
-              <line x1="410" y1="120" x2="466" y2="90" stroke="#EF4444" stroke-width="1" stroke-opacity="0.55"/>
-              <rect x="468" y="72" width="224" height="30" rx="6" fill="#1A2236" stroke="#EF4444" stroke-width="1" stroke-opacity="0.45"/>
-              <!-- TODO: verify number -->
-              <text x="580" y="92" text-anchor="middle" fill="#EF4444" font-size="12" font-weight="600">เมืองร้อนกว่าชนบท ~3–5°C</text>
+              <g id="uhiar-callout">
+                <line x1="410" y1="120" x2="466" y2="90" stroke="#EF4444" stroke-width="1" stroke-opacity="0.55"/>
+                <rect x="468" y="72" width="224" height="30" rx="6" fill="#1A2236" stroke="#EF4444" stroke-width="1" stroke-opacity="0.45"/>
+                <text x="580" y="92" text-anchor="middle" fill="#EF4444" font-size="12" font-weight="600">เมืองร้อนกว่าชนบท ~3–5°C</text>
+              </g>
 
               <!-- Zone dividers -->
               <g stroke="#334155" stroke-width="0.8" stroke-dasharray="3,4" opacity="0.7">
@@ -1089,6 +1106,26 @@
               <text x="410" y="318" text-anchor="middle" fill="#94A3B8" font-size="11" font-weight="600">ย่านการค้า / ใจกลางเมือง</text>
               <text x="572" y="320" text-anchor="middle" fill="#6B7280" font-size="10.5">ชานเมือง</text>
               <text x="714" y="320" text-anchor="middle" fill="#4B5563" font-size="10.5">ชนบท</text>
+
+              <!-- Heat shimmer: wavy lines rising above tallest buildings -->
+              <g aria-hidden="true">
+                <path class="uhiar-shimmer"
+                      d="M 374,186 Q 378,180 382,186 Q 386,192 390,186 Q 394,180 398,186"
+                      fill="none" stroke="rgba(251,146,60,0.45)" stroke-width="1.8" stroke-linecap="round"
+                      style="--dur:3.2s;--delay:0s"/>
+                <path class="uhiar-shimmer"
+                      d="M 413,172 Q 418,165 423,172 Q 428,179 433,172 Q 438,165 443,172"
+                      fill="none" stroke="rgba(239,68,68,0.45)" stroke-width="1.8" stroke-linecap="round"
+                      style="--dur:2.8s;--delay:-0.8s"/>
+                <path class="uhiar-shimmer"
+                      d="M 454,184 Q 459,177 464,184 Q 469,191 474,184 Q 479,177 484,184"
+                      fill="none" stroke="rgba(251,146,60,0.40)" stroke-width="1.8" stroke-linecap="round"
+                      style="--dur:3.6s;--delay:-1.5s"/>
+                <path class="uhiar-shimmer"
+                      d="M 333,202 Q 337,196 341,202 Q 345,208 349,202"
+                      fill="none" stroke="rgba(250,204,21,0.35)" stroke-width="1.5" stroke-linecap="round"
+                      style="--dur:3.0s;--delay:-0.4s"/>
+              </g>
 
               <!-- Bottom title bar -->
               <rect x="0" y="392" width="820" height="28" fill="#0A0E18" opacity="0.85"/>

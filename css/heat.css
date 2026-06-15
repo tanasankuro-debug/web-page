@@ -111,3 +111,215 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ARTICLE-SECTION SVG ANIMATIONS
+   ปรากฏการณ์ที่ 1 (Heat Dome, 820×420) + ปรากฏการณ์ที่ 2 (UHI, 820×420)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* ── ปรากฏการณ์ที่ 1 — HEAT DOME ARTICLE ─────────────────────────────── */
+
+  /* Sun halo pulse */
+  #hdar-sun-halo {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: hdar-halo 3s ease-in-out infinite;
+  }
+  @keyframes hdar-halo {
+    0%, 100% { transform: scale(1);    opacity: 1;    }
+    50%       { transform: scale(1.32); opacity: 0.55; }
+  }
+
+  /* Sun core pulse */
+  #hdar-sun-core {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: hdar-core 3s ease-in-out infinite;
+  }
+  @keyframes hdar-core {
+    0%, 100% { transform: scale(1);    }
+    50%       { transform: scale(1.12); }
+  }
+
+  /* Sun rays spin */
+  #hdar-sun-rays {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: hdar-spin 22s linear infinite;
+  }
+  @keyframes hdar-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Dome arc glow: breathe wider + brighter */
+  #hdar-dome-glow {
+    animation: hdar-dome-glow 3s ease-in-out infinite;
+  }
+  @keyframes hdar-dome-glow {
+    0%, 100% { stroke-opacity: 0.18; stroke-width: 12; }
+    50%       { stroke-opacity: 0.42; stroke-width: 20; }
+  }
+
+  /* Dome arc line: subtle opacity breath */
+  #hdar-dome-line {
+    animation: hdar-dome-line 3s ease-in-out infinite;
+  }
+  @keyframes hdar-dome-line {
+    0%, 100% { opacity: 0.85; }
+    50%       { opacity: 1;    }
+  }
+
+  /* Hot zone: fill breathe */
+  #hdar-hotzone {
+    animation: hdar-hotzone 3.5s ease-in-out infinite;
+  }
+  @keyframes hdar-hotzone {
+    0%, 100% { opacity: 1;    }
+    50%       { opacity: 0.50; }
+  }
+
+  /* H symbol: scale pulse */
+  #hdar-H {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: hdar-H-pulse 4.5s ease-in-out infinite;
+  }
+  @keyframes hdar-H-pulse {
+    0%, 100% { transform: scale(1);    opacity: 0.82; }
+    50%       { transform: scale(1.18); opacity: 1;    }
+  }
+
+  /* Downward pressure arrows: bob */
+  #hdar-arrows-down {
+    animation: hdar-bob 2s ease-in-out infinite;
+  }
+  @keyframes hdar-bob {
+    0%, 100% { transform: translateY(0);    opacity: 1;    }
+    50%       { transform: translateY(14px); opacity: 0.75; }
+  }
+
+  /* Blocked arrows (both): marching dashes — air struggling to escape */
+  #hdar-blocked-l,
+  #hdar-blocked-r {
+    animation: hdar-march 1.8s linear infinite;
+  }
+  #hdar-blocked-r { animation-delay: 0.35s; }
+  @keyframes hdar-march {
+    from { stroke-dashoffset: 16; }
+    to   { stroke-dashoffset:  0; }
+  }
+
+  /* Trapped air label: glow pulse */
+  #hdar-trapped {
+    animation: hdar-trapped 3.5s ease-in-out infinite;
+  }
+  @keyframes hdar-trapped {
+    0%, 100% { opacity: 0.85; }
+    50%       { opacity: 0.40; }
+  }
+
+  /* Heat particles: rise from buildings, dissipate near dome */
+  .hdar-particle {
+    animation: hdar-rise var(--dur, 5s) var(--delay, 0s) ease-in infinite;
+  }
+  @keyframes hdar-rise {
+    0%   { transform: translate(0, 0) scale(1);                              opacity: 0;    }
+    7%   {                                                                    opacity: 0.85; }
+    72%  { transform: translate(var(--tx, 0px), -190px) scale(0.55);         opacity: 0.28; }
+    88%  { transform: translate(var(--tx, 0px), -225px) scale(0.25);         opacity: 0;    }
+    100% { transform: translate(0, 0) scale(1);                              opacity: 0;    }
+  }
+
+  /* ── ปรากฏการณ์ที่ 2 — UHI ARTICLE ──────────────────────────────────── */
+
+  /* City hot zone: breathe */
+  #uhiar-city-hot {
+    animation: uhiar-city 5s ease-in-out infinite;
+  }
+  @keyframes uhiar-city {
+    0%, 100% { opacity: 1;    }
+    50%       { opacity: 0.28; }
+  }
+
+  /* Temperature curve glow: draw-in */
+  #uhiar-curve-glow {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: uhiar-draw 3.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
+  }
+
+  /* Temperature curve main: draw-in (slightly faster) */
+  #uhiar-curve-main {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: uhiar-draw 3.4s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
+  }
+  @keyframes uhiar-draw {
+    to { stroke-dashoffset: 0; }
+  }
+
+  /* Peak dot: pulse after curve finishes */
+  #uhiar-peak {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: uhiar-peak 1.9s ease-in-out 4.5s infinite;
+  }
+  @keyframes uhiar-peak {
+    0%, 100% { transform: scale(1);   }
+    50%       { transform: scale(2.1); opacity: 0.6; }
+  }
+
+  /* Peak ring: sonar expand + fade */
+  #uhiar-peak-ring {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: uhiar-ring 1.9s ease-out 4.5s infinite;
+  }
+  @keyframes uhiar-ring {
+    0%   { transform: scale(1);   opacity: 0.75; }
+    100% { transform: scale(4.8); opacity: 0;    }
+  }
+
+  /* Window glints: city-life flicker (staggered per child) */
+  @keyframes uhiar-flicker {
+    0%, 78%, 100% { opacity: 0.20; }
+    38%            { opacity: 0.80; }
+  }
+  #uhiar-windows rect:nth-child(1)  { animation: uhiar-flicker 3.1s 0.00s ease-in-out infinite; }
+  #uhiar-windows rect:nth-child(2)  { animation: uhiar-flicker 2.7s 0.50s ease-in-out infinite; }
+  #uhiar-windows rect:nth-child(3)  { animation: uhiar-flicker 3.5s 0.20s ease-in-out infinite; }
+  #uhiar-windows rect:nth-child(4)  { animation: uhiar-flicker 2.9s 0.80s ease-in-out infinite; }
+  #uhiar-windows rect:nth-child(5)  { animation: uhiar-flicker 3.3s 0.30s ease-in-out infinite; }
+  #uhiar-windows rect:nth-child(6)  { animation: uhiar-flicker 2.5s 1.10s ease-in-out infinite; }
+  #uhiar-windows rect:nth-child(7)  { animation: uhiar-flicker 3.7s 0.60s ease-in-out infinite; }
+  #uhiar-windows rect:nth-child(8)  { animation: uhiar-flicker 2.8s 0.90s ease-in-out infinite; }
+  #uhiar-windows rect:nth-child(9)  { animation: uhiar-flicker 3.2s 0.40s ease-in-out infinite; }
+  #uhiar-windows rect:nth-child(10) { animation: uhiar-flicker 2.6s 0.70s ease-in-out infinite; }
+  #uhiar-windows rect:nth-child(11) { animation: uhiar-flicker 3.8s 0.10s ease-in-out infinite; }
+  #uhiar-windows rect:nth-child(12) { animation: uhiar-flicker 2.4s 1.20s ease-in-out infinite; }
+  #uhiar-windows rect:nth-child(13) { animation: uhiar-flicker 3.4s 0.50s ease-in-out infinite; }
+  #uhiar-windows rect:nth-child(14) { animation: uhiar-flicker 2.9s 0.30s ease-in-out infinite; }
+
+  /* Callout: fade + slide in after curve draws */
+  #uhiar-callout {
+    opacity: 0;
+    animation: uhiar-callout 0.7s ease-out 4.4s forwards;
+  }
+  @keyframes uhiar-callout {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0);    }
+  }
+
+  /* Heat shimmer lines above buildings: rise + wave */
+  .uhiar-shimmer {
+    animation: uhiar-shimmer var(--dur, 3s) var(--delay, 0s) ease-in-out infinite;
+  }
+  @keyframes uhiar-shimmer {
+    0%, 100% { transform: translateY(0)     scaleX(1);    opacity: 0.38; }
+    25%       { transform: translateY(-6px)  scaleX(1.06); opacity: 0.60; }
+    50%       { transform: translateY(-12px) scaleX(0.94); opacity: 0.22; }
+    75%       { transform: translateY(-6px)  scaleX(1.03); opacity: 0.50; }
+  }
+}

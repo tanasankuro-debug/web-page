@@ -277,52 +277,9 @@
   flex-shrink: 0;
 }
 
-/* ── AQI Pin Marker (HTML marker on map) ─────────────────────────────────── */
-.aqi-pin {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--pin-c, #94a3b8);
-  border: 3px solid #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.32), 0 0 0 1px rgba(0,0,0,0.12);
-  cursor: pointer;
-  user-select: none;
-  transition: transform 0.15s, box-shadow 0.15s;
-  line-height: 1;
-  text-align: center;
-  /* keep text legible over any color */
-  color: #fff;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.35);
-}
-
-.aqi-pin:hover,
-.aqi-pin:focus-visible {
-  transform: scale(1.12);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.38), 0 0 0 1px rgba(0,0,0,0.14);
-  outline: none;
-}
-
-.aqi-pin strong {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1;
-}
-
-.aqi-pin small {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 0.52rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  line-height: 1;
-  opacity: 0.92;
-  margin-top: 0.1rem;
-}
+/* ── AQI Pin Marker — now SVG gauge rendered in JS (makeGaugePinSVG) ──────── */
+/* Hover scale is applied inline via JS to the inner div to avoid MapLibre   */
+/* transform conflicts (outer container receives translate() from MapLibre).  */
 
 /* popup area label */
 .aqi-popup-area {

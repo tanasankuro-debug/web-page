@@ -173,26 +173,104 @@ function renderCards(stations) {
   }).join('');
 }
 
+/* ── Gauge SVG helpers ────────────────────────────────────────────────────── */
+function _gaugeArc(aqiVal, R, CX, CY, strokeW) {
+  const aqi      = aqiVal != null ? Math.min(+aqiVal, 300) : 0;
+  const pct      = aqi / 300;
+  const sweepDeg = 270 * pct;
+  const startDeg = 135;
+  const toRad    = d => d * Math.PI / 180;
+  const sx = (CX + R * Math.cos(toRad(startDeg))).toFixed(1);
+  const sy = (CY + R * Math.sin(toRad(startDeg))).toFixed(1);
+  const tx = (CX + R * Math.cos(toRad(startDeg + 270))).toFixed(1);
+  const ty = (CY + R * Math.sin(toRad(startDeg + 270))).toFixed(1);
+  const ex = (CX + R * Math.cos(toRad(startDeg + sweepDeg))).toFixed(1);
+  const ey = (CY + R * Math.sin(toRad(startDeg + sweepDeg))).toFixed(1);
+  const la = sweepDeg > 180 ? 1 : 0;
+  return { sx, sy, tx, ty, ex, ey, la, sweepDeg, strokeW };
+}
+
+/* Gauge SVG for the heading icon (viewBox 0 0 40 40, shown at 52×52) */
+function makeHeadingGaugeSVG(aqiVal, color) {
+  const { sx, sy, tx, ty, ex, ey, la, sweepDeg } = _gaugeArc(aqiVal, 15, 20, 20, 4);
+  const num = aqiVal != null ? Math.round(+aqiVal) : '–';
+  const active = sweepDeg > 0.5
+    ? `<path d="M${sx} ${sy} A15 15 0 ${la} 1 ${ex} ${ey}"
+               stroke="${color}" stroke-width="4" fill="none" stroke-linecap="round"/>`
+    : '';
+  return `<svg viewBox="0 0 40 40" width="52" height="52" xmlns="http://www.w3.org/2000/svg">
+    <path d="M${sx} ${sy} A15 15 0 1 1 ${tx} ${ty}"
+          stroke="rgba(255,255,255,0.1)" stroke-width="4" fill="none" stroke-linecap="round"/>
+    ${active}
+    <text x="20" y="18" text-anchor="middle" dominant-baseline="middle"
+          fill="${color}" font-family="'Barlow Condensed',sans-serif"
+          font-size="12" font-weight="800">${num}</text>
+    <text x="20" y="27" text-anchor="middle" dominant-baseline="middle"
+          fill="rgba(255,255,255,0.38)" font-family="sans-serif" font-size="6.5">AQI</text>
+  </svg>`;
+}
+
+/* Update the sidebar heading icon + level tag */
+function updateAQIGauge(aqiVal, color) {
+  const icon = document.getElementById('aqi-gauge-icon');
+  if (icon) icon.innerHTML = makeHeadingGaugeSVG(aqiVal, color);
+  const tag = document.getElementById('aqi-level-tag');
+  if (tag) {
+    tag.textContent = `${aqiLabel(aqiVal)}  —  AQI ${Math.round(+aqiVal)}`;
+    tag.style.color = color;
+  }
+}
+
+/* Gauge SVG for map pins (viewBox 0 0 48 48, shown at 60×60) */
+function makeGaugePinSVG(aqiVal, color) {
+  const { sx, sy, tx, ty, ex, ey, la, sweepDeg } = _gaugeArc(aqiVal, 19, 24, 24, 5.5);
+  const num = aqiVal != null ? Math.round(+aqiVal) : '–';
+  const active = sweepDeg > 0.5
+    ? `<path d="M${sx} ${sy} A19 19 0 ${la} 1 ${ex} ${ey}"
+               stroke="${color}" stroke-width="5.5" fill="none" stroke-linecap="round"/>`
+    : '';
+  return `<svg viewBox="0 0 48 48" width="60" height="60" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="24" cy="24" r="13.5" fill="rgba(10,15,25,0.88)"/>
+    <path d="M${sx} ${sy} A19 19 0 1 1 ${tx} ${ty}"
+          stroke="rgba(255,255,255,0.1)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+    ${active}
+    <text x="24" y="22" text-anchor="middle" dominant-baseline="middle"
+          fill="${color}" font-family="'Barlow Condensed',sans-serif"
+          font-size="15" font-weight="800">${num}</text>
+    <text x="24" y="32" text-anchor="middle" dominant-baseline="middle"
+          fill="rgba(255,255,255,0.42)" font-family="sans-serif" font-size="7">AQI</text>
+  </svg>`;
+}
+
 /* ── HTML Markers ─────────────────────────────────────────────────────────── */
 function addMarkers(map, stations) {
   stations.filter(s => s.lat && s.lng).forEach(s => {
-    const aqi   = s.aqi  != null ? s.aqi  : '-';
     const color = aqiColor(s.aqi);
+    const label = s.aqi != null ? `${s.name}: AQI ${s.aqi}` : `${s.name}: ไม่มีข้อมูล`;
 
-    /* Pin element */
+    /* Outer container — MapLibre writes transform here, never touch it */
     const el = document.createElement('div');
-    el.className = 'aqi-pin';
-    el.style.setProperty('--pin-c', color);
+    el.style.cssText = 'width:60px;height:60px;cursor:pointer;';
     el.setAttribute('role', 'button');
-    el.setAttribute('aria-label', `${s.name}: AQI ${aqi}`);
-    el.innerHTML = `<strong>${aqi}</strong><small>AQI</small>`;
+    el.setAttribute('aria-label', label);
+
+    /* Inner gauge SVG — safe for hover scale */
+    const inner = document.createElement('div');
+    inner.style.cssText =
+      'transition:transform .15s,filter .15s;' +
+      'filter:drop-shadow(0 3px 8px rgba(0,0,0,.5));';
+    inner.innerHTML = makeGaugePinSVG(s.aqi, color);
+    el.appendChild(inner);
+
+    el.addEventListener('mouseenter', () => { inner.style.transform = 'scale(1.1)'; });
+    el.addEventListener('mouseleave', () => { inner.style.transform = ''; });
 
     /* Popup */
     const popup = new maplibregl.Popup({
       closeButton: true,
       maxWidth: '280px',
       className: 'aqi-mgl-popup',
-      offset: 24
+      offset: 28
     }).setHTML(buildPopupHTML(s));
 
     new maplibregl.Marker({ element: el, anchor: 'center' })
@@ -298,6 +376,13 @@ window.initAQIMap = function () {
 
     const src = document.getElementById('aqi-source-label');
     if (src) src.textContent = 'ข้อมูล: ' + result.source;
+
+    /* Update sidebar heading gauge with average AQI across all stations */
+    const validAQIs = result.stations.filter(s => s.aqi != null).map(s => +s.aqi);
+    if (validAQIs.length) {
+      const avg = validAQIs.reduce((a, b) => a + b, 0) / validAQIs.length;
+      updateAQIGauge(avg, aqiColor(avg));
+    }
 
     renderCards(result.stations);
     addMarkers(map, result.stations);
