@@ -102,6 +102,16 @@ window.HSKK_CONFIG = {
       attribution: 'Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics &amp; GIS User Community'
     },
 
+    /* 7b ── Esri Reference overlay: province/district boundaries + place names */
+    esriReference: {
+      label: 'เส้นเขตแดน + ชื่อสถานที่',
+      sourceType: 'raster',
+      tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}'],
+      tileSize: 256,
+      maxzoom: 19,
+      attribution: 'Labels © Esri'
+    },
+
     /* 8 ── Esri World Shaded Relief (3D-look terrain) */
     esriRelief: {
       label: 'ภูมิประเทศ (Esri)',

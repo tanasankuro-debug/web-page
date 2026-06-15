@@ -58,6 +58,23 @@ function initSatelliteMap() {
     });
   });
 
+  /* Reference overlay: boundaries + place names — shown on top of satellite only */
+  if (layers.esriReference) {
+    sources['esriReference'] = {
+      type: 'raster',
+      tiles: layers.esriReference.tiles,
+      tileSize: layers.esriReference.tileSize || 256,
+      maxzoom:  layers.esriReference.maxzoom  || 19,
+      attribution: layers.esriReference.attribution || ''
+    };
+    mapLayers.push({
+      id: 'esriReference',
+      type: 'raster',
+      source: 'esriReference',
+      layout: { visibility: 'visible' }
+    });
+  }
+
   if (layers.awsTerrain) {
     sources['aws-terrain'] = {
       type:     'raster-dem',
@@ -106,6 +123,11 @@ function initSatelliteMap() {
           map.setLayoutProperty(id, 'visibility', id === target ? 'visible' : 'none');
         }
       });
+
+      /* Show reference overlay only when satellite is active */
+      if (map.getLayer('esriReference')) {
+        map.setLayoutProperty('esriReference', 'visibility', target === 'esriSatellite' ? 'visible' : 'none');
+      }
 
       layerBtns.forEach(b => {
         b.classList.toggle('active', b === btn);
