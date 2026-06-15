@@ -7,6 +7,25 @@
 body.map-page {
   overflow: hidden;
   height: 100dvh;
+  background: transparent; /* let fixed video show through at z-index:-1 */
+}
+
+/* ── FULL-SCREEN BACKGROUND VIDEO ───────────────────────────────────────── */
+.map-bg-video {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  z-index: -1;
+  opacity: 0.45;
+  filter: blur(2px) saturate(1.3) brightness(0.65);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-bg-video { display: none; }
 }
 
 .map-main {
@@ -16,25 +35,133 @@ body.map-page {
   overflow: hidden;
 }
 
+/* ── SIDEBAR RT-ICONS ───────────────────────────────────────────────────── */
+.rt-icon { display: inline-flex; width: 24px; height: 24px; vertical-align: middle; flex-shrink: 0; }
+.rt-icon svg { width: 100%; height: 100%; }
+.rt-icon--loc       { color: #2dd4bf; }
+.rt-icon--temp      { color: #ff6b6b; }
+.rt-icon--feelslike { color: #f59e0b; }
+.rt-icon--humidity  { color: #3b82f6; }
+.rt-icon--wind      { color: #22d3ee; }
+.rt-icon--uv        { color: #eab308; }
+.rt-icon--pm25      { color: #22c55e; }
+.rt-icon--satellite,
+.rt-icon--terrain,
+.rt-icon--roadmap   { color: currentColor; }
+
 /* ── SIDEBAR ─────────────────────────────────────────────────────────────── */
 .map-sidebar {
   width: 320px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  background: var(--bg-card);
+  overflow: hidden;
   border-right: 1px solid var(--border);
-  scrollbar-width: thin;
-  scrollbar-color: var(--border-hover) transparent;
 }
 
+/* ── SIDEBAR PANEL — opaque so map/video never bleeds through text ────────── */
 .map-sidebar-inner {
   padding: 1rem 1.125rem;
   display: flex;
   flex-direction: column;
   gap: 1.125rem;
   flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+  background: rgba(13, 17, 28, 0.92);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+/* ── METRIC CARDS — lighter surface so numbers/labels pop ────────────────── */
+.map-sidebar .live-card {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.10) !important;
+}
+
+/* Primary values — near-white */
+.map-sidebar .live-card-val {
+  color: #f5f7fa !important;
+}
+
+/* Card labels: "อุณหภูมิ", "ความชื้น", etc. */
+.map-sidebar .live-card-label {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+
+/* Card sub-text: "ความชื้นสัมพัทธ์", "ความเร็วลม", etc. */
+.map-sidebar .live-card-sub {
+  color: rgba(255, 255, 255, 0.65) !important;
+}
+
+/* ── HEADINGS & SECTION LABELS ───────────────────────────────────────────── */
+.map-sidebar .sidebar-heading {
+  color: #f5f7fa;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* "ข้อมูลสด" / "ชั้นแผนที่" section titles */
+.map-sidebar .sidebar-section-label {
+  color: rgba(255, 255, 255, 0.72);
+  border-bottom-color: rgba(255, 255, 255, 0.10);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* ── SPARKLINE ───────────────────────────────────────────────────────────── */
+.map-sidebar .sparkline-section {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.map-sidebar .sparkline-title {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.map-sidebar .sparkline-x-labels span {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ── TIMESTAMP + FOOTNOTES ───────────────────────────────────────────────── */
+.map-sidebar .sidebar-live-meta {
+  color: rgba(255, 255, 255, 0.60);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.map-sidebar .sidebar-live-meta a { color: var(--cool); }
+
+/* ── MAP-LAYER BUTTONS ───────────────────────────────────────────────────── */
+/* inactive */
+.map-sidebar .layer-btn-group .layer-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  transition: background var(--dur), border-color var(--dur), color var(--dur);
+}
+
+/* hover */
+.map-sidebar .layer-btn-group .layer-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+
+/* active (Esri ดาวเทียม orange) */
+.map-sidebar .layer-btn-group .layer-btn.active {
+  background: rgba(251, 146, 60, 0.22);
+  border-color: rgba(251, 146, 60, 0.50);
+  color: #FB923C;
+  text-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-sidebar { background: var(--bg-card); }
+  .map-sidebar-inner { background: var(--bg-card); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .map-sidebar .live-card { background: var(--bg-card) !important; border-color: var(--border) !important; }
 }
 
 .sidebar-heading {
@@ -67,8 +194,8 @@ body.map-page {
 }
 
 .map-sidebar .live-card-icon {
-  width: 1.375rem;
-  height: 1.375rem;
+  width: 1.5rem;
+  height: 1.5rem;
   margin-bottom: 0.375rem;
 }
 
