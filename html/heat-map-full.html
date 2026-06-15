@@ -18,146 +18,150 @@
   <link href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css" rel="stylesheet" />
 
   <style>
+    /* ── Sidebar width override ──────────────────────────────────── */
+    #hmf-sidebar { width: 360px; }
+    @media (max-width: 860px) { #hmf-sidebar { width: 320px; } }
+
     /* ── Time selector ───────────────────────────────────────────── */
     .hmf-time-group {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
+      gap: 7px;
       margin-top: 6px;
     }
     .hmf-time-btn {
       background: rgba(255,255,255,.06);
       border: 1px solid rgba(255,255,255,.12);
-      border-radius: 8px;
-      color: rgba(255,255,255,.65);
+      border-radius: 9px;
+      color: rgba(255,255,255,.7);
       cursor: pointer;
       font-family: var(--font-display);
-      font-size: 11px;
-      font-weight: 600;
+      font-size: 13px;
+      font-weight: 700;
       line-height: 1.35;
-      padding: 7px 4px;
+      padding: 10px 4px;
       text-align: center;
       transition: background var(--dur), border-color var(--dur), color var(--dur);
     }
     .hmf-time-btn span {
       display: block;
-      font-size: 9px;
+      font-size: 11px;
       font-weight: 400;
-      opacity: .7;
-      margin-top: 2px;
+      opacity: .75;
+      margin-top: 3px;
     }
     .hmf-time-btn:hover {
       background: rgba(255,255,255,.12);
       color: #fff;
     }
     .hmf-time-btn.active {
-      background: rgba(239,68,68,.22);
-      border-color: rgba(239,68,68,.55);
+      background: rgba(239,68,68,.25);
+      border-color: rgba(239,68,68,.6);
       color: #fca5a5;
     }
 
     /* ── Sidebar detail panel ────────────────────────────────────── */
     .hmf-point-name {
-      font-size: 11px;
-      color: rgba(255,255,255,.5);
-      margin-bottom: 3px;
+      font-size: 13px;
+      color: rgba(255,255,255,.6);
+      margin-bottom: 4px;
     }
     .hmf-temp-row {
       display: flex;
       align-items: baseline;
-      gap: 8px;
-      margin-bottom: 8px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     .hmf-temp-big {
       font-family: var(--font-display);
-      font-size: 34px;
+      font-size: 44px;
       font-weight: 800;
       line-height: 1;
     }
     .hmf-temp-badge {
-      font-size: 11px;
-      font-weight: 600;
+      font-size: 14px;
+      font-weight: 700;
       color: #fff;
-      padding: 2px 8px;
+      padding: 3px 11px;
       border-radius: 99px;
       flex-shrink: 0;
     }
     .hmf-hi-card {
       border: 1px solid;
-      border-radius: 8px;
-      padding: 8px 10px;
-      margin-bottom: 8px;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
     }
     .hmf-hi-label {
-      font-size: 9px;
-      color: rgba(255,255,255,.45);
-      margin-bottom: 3px;
+      font-size: 11px;
+      color: rgba(255,255,255,.5);
+      margin-bottom: 5px;
       letter-spacing: .04em;
       text-transform: uppercase;
     }
     .hmf-hi-row {
       display: flex;
       align-items: baseline;
-      gap: 8px;
+      gap: 10px;
     }
     .hmf-hi-val {
       font-family: var(--font-display);
-      font-size: 22px;
+      font-size: 30px;
       font-weight: 700;
       line-height: 1;
     }
     .hmf-hi-risk {
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 15px;
+      font-weight: 700;
     }
     .hmf-stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      margin-bottom: 8px;
+      gap: 8px;
+      margin-bottom: 10px;
     }
     .hmf-stat {
-      background: rgba(255,255,255,.05);
-      border-radius: 6px;
-      padding: 7px 9px;
+      background: rgba(255,255,255,.06);
+      border-radius: 8px;
+      padding: 10px 12px;
     }
     .hmf-stat-label {
-      font-size: 9px;
-      color: rgba(255,255,255,.4);
-      margin-bottom: 3px;
+      font-size: 11px;
+      color: rgba(255,255,255,.5);
+      margin-bottom: 4px;
       text-transform: uppercase;
       letter-spacing: .04em;
     }
     .hmf-stat-val {
       font-family: var(--font-display);
-      font-size: 17px;
+      font-size: 22px;
       font-weight: 700;
       color: #f5f5f4;
       line-height: 1;
     }
     .hmf-chart-box {
       background: rgba(255,255,255,.03);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 8px;
-      padding: 10px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 10px;
+      padding: 12px;
     }
     .hmf-chart-title {
-      font-size: 10px;
-      font-weight: 600;
-      color: rgba(255,255,255,.5);
-      margin-bottom: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(255,255,255,.6);
+      margin-bottom: 8px;
       text-transform: uppercase;
       letter-spacing: .05em;
     }
     .hmf-hottest-badge {
       margin-top: 12px;
-      padding: 8px 10px;
+      padding: 10px 12px;
       background: rgba(239,68,68,.1);
-      border: 1px solid rgba(239,68,68,.2);
+      border: 1px solid rgba(239,68,68,.25);
       border-radius: 8px;
       color: #fca5a5;
-      font-size: 11px;
-      line-height: 1.5;
+      font-size: 13px;
+      line-height: 1.55;
     }
 
     /* ── Map legend ──────────────────────────────────────────────── */
@@ -166,16 +170,16 @@
       bottom: 2.5rem;
       left: .75rem;
       z-index: 10;
-      background: rgba(11,15,26,.85);
+      background: rgba(11,15,26,.88);
       backdrop-filter: blur(6px);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 8px;
-      padding: 8px 10px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 9px;
+      padding: 10px 13px;
       font-family: sans-serif;
-      font-size: 11px;
+      font-size: 13px;
       color: #e5e7eb;
       pointer-events: none;
-      min-width: 130px;
+      min-width: 155px;
     }
 
     /* ── Mobile toggle ───────────────────────────────────────────── */

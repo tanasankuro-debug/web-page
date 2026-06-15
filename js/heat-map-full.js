@@ -267,10 +267,10 @@ function injectLegend() {
   const el = document.createElement('div');
   el.id = 'hmf-legend';
   el.innerHTML =
-    '<div style="font-weight:700;margin-bottom:5px;color:#fff;font-size:12px;">อุณหภูมิ (°C)</div>' +
+    '<div style="font-weight:700;margin-bottom:7px;color:#fff;font-size:14px;">อุณหภูมิ (°C)</div>' +
     steps.map(([d,l,c]) =>
-      `<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;">` +
-      `<span style="width:12px;height:12px;border-radius:50%;background:${c};flex-shrink:0"></span>` +
+      `<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">` +
+      `<span style="width:14px;height:14px;border-radius:50%;background:${c};flex-shrink:0"></span>` +
       `<span>${d} ${l}</span></div>`
     ).join('');
   wrap.appendChild(el);
@@ -357,14 +357,14 @@ function initHeatMapFull() {
       const el  = document.createElement('div');
       el.className = 'hmf-bubble';
       el.style.cssText =
-        `background:${col};border:2.5px solid rgba(255,255,255,.85);border-radius:50%;` +
-        `width:52px;height:52px;display:flex;flex-direction:column;` +
+        `background:${col};border:3px solid rgba(255,255,255,.9);border-radius:50%;` +
+        `width:68px;height:68px;display:flex;flex-direction:column;` +
         `align-items:center;justify-content:center;cursor:pointer;` +
-        `box-shadow:0 3px 10px rgba(0,0,0,.5);transition:transform .15s,box-shadow .15s;` +
-        `font-weight:700;color:#fff;line-height:1.1;font-family:sans-serif;font-size:14px;`;
+        `box-shadow:0 4px 14px rgba(0,0,0,.6);transition:transform .15s,box-shadow .15s;` +
+        `font-weight:800;color:#fff;line-height:1.15;font-family:sans-serif;font-size:18px;`;
       el.innerHTML =
         `<span>${Math.round(d.temp)}°</span>` +
-        `<span style="font-size:9px;opacity:.85">${pd.name.length>5?pd.name.slice(0,5)+'…':pd.name}</span>`;
+        `<span style="font-size:11px;font-weight:600;opacity:.9">${pd.name.length>5?pd.name.slice(0,5)+'…':pd.name}</span>`;
 
       el.addEventListener('mouseenter', () => {
         el.style.transform = 'scale(1.14)';
