@@ -65,8 +65,7 @@
     <section id="hero" class="hero" aria-label="PM2.5 / Air — ฝุ่นละอองในอากาศ">
 
       <div class="hero-bg" aria-hidden="true">
-        <video class="hero-img" autoplay loop muted playsinline
-               poster="../assets/khonkaen-poster.jpg">
+        <video class="hero-img" autoplay loop muted playsinline>
           <source src="../assets/khonkean.mp4" type="video/mp4" />
         </video>
         <div class="hero-overlay" aria-hidden="true"></div>
@@ -204,7 +203,31 @@
           </ul>
 
           <aside class="callout callout-hot reveal" aria-label="ดูแผนที่ AQI สด">
-            <div class="callout-icon" aria-hidden="true">&#x1F5FA;&#xFE0F;</div>
+            <div class="callout-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none"
+                   width="38" height="38" style="display:block;">
+                <!-- pulse rings — AQI monitoring radius -->
+                <circle cx="20" cy="17" r="15.5" stroke="#EF4444" stroke-width="0.9"
+                        stroke-dasharray="3 2.5" opacity="0.18" fill="none"/>
+                <circle cx="20" cy="17" r="10.5" stroke="#FB923C" stroke-width="1"
+                        opacity="0.28" fill="rgba(251,146,60,0.05)"/>
+                <!-- map-pin body -->
+                <path d="M20 5C14.201 5 9.5 9.701 9.5 15.5
+                         c0 8.1 10.5 20.5 10.5 20.5
+                         S30.5 23.6 30.5 15.5
+                         C30.5 9.701 25.799 5 20 5Z"
+                      fill="rgba(239,68,68,0.16)" stroke="#EF4444"
+                      stroke-width="1.75" stroke-linejoin="round"/>
+                <!-- pin center — AQI dot -->
+                <circle cx="20" cy="15" r="5" fill="#EF4444"/>
+                <!-- inner highlight -->
+                <circle cx="20" cy="15" r="2.2" fill="rgba(255,255,255,0.55)"/>
+                <!-- PM2.5 particle dots floating bottom-right -->
+                <circle cx="32" cy="32" r="1.4" fill="#FB923C" opacity="0.55"/>
+                <circle cx="28" cy="35" r="1"   fill="#FB923C" opacity="0.35"/>
+                <circle cx="35" cy="28" r="0.9" fill="#F97316" opacity="0.3"/>
+              </svg>
+            </div>
             <div class="callout-body">
               <strong>แผนที่ AQI ขอนแก่น — เรียลไทม์</strong>
               <p>ดูตำแหน่งสถานีตรวจวัดคุณภาพอากาศของกรมควบคุมมลพิษในขอนแก่น

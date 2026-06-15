@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="สำรวจข้อมูลสภาพแวดล้อม ณ จุดใดก็ได้บนแผนที่ขอนแก่น — อุณหภูมิ ฝุ่น PM2.5 ฝน ความชื้น UV" />
+  <title>สำรวจสภาพแวดล้อม — Heat Safe Khon Kaen</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Project CSS -->
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/themes.css" />
+  <link rel="stylesheet" href="../css/map-explore.css" />
+
+  <!-- MapLibre -->
+  <link href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css" rel="stylesheet" />
+</head>
+<body data-theme="heat" class="page-explorer">
+
+  <a class="skip-link" href="#main-content">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <!-- =====================================================================
+       SITE HEADER (identical nav as other pages)
+  ====================================================================== -->
+  <header id="site-header" role="banner">
+    <div class="header-inner container">
+
+      <a href="index.html" class="site-logo" aria-label="Heat Safe Khon Kaen — กลับหน้าแรก">
+        <span class="logo-heat">Heat Safe</span>
+        <span class="logo-city">Khon Kaen</span>
+      </a>
+
+      <nav id="main-nav" aria-label="เมนูหลัก">
+        <ul class="nav-links" role="list">
+          <li><a href="index.html" class="nav-link">หน้าแรก</a></li>
+          <li>
+            <a href="heat.html" class="nav-link">
+              <span class="nav-icon nav-icon--heat">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none"
+                     stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="24" cy="17" r="7"/>
+                  <path d="M24 7V4M24 27V30M37 17H34M11 17H14M31 10L33 8M17 10L15 8M31 24L33 26M17 24L15 26"/>
+                  <path d="M8 37c3-4 5-4 8 0s5 4 8 0 5-4 8 0 5 4 8 0"/>
+                  <path d="M8 44c3-4 5-4 8 0s5 4 8 0 5-4 8 0 5 4 8 0"/>
+                </svg>
+              </span>
+              ความร้อน
+            </a>
+          </li>
+          <li>
+            <a href="dust.html" class="nav-link">
+              <span class="nav-icon nav-icon--pm25">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none"
+                     stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 20h18a5.5 5.5 0 1 0-5-7.5"/>
+                  <path d="M5 29h24a6 6 0 0 0 0-12h-2"/>
+                  <path d="M5 37h20"/><path d="M5 44h13"/>
+                  <circle cx="35" cy="37" r="2" fill="currentColor" stroke="none"/>
+                  <circle cx="30" cy="44" r="2" fill="currentColor" stroke="none"/>
+                  <circle cx="42" cy="43" r="2" fill="currentColor" stroke="none"/>
+                  <circle cx="43" cy="33" r="2" fill="currentColor" stroke="none"/>
+                </svg>
+              </span>
+              ฝุ่น PM2.5
+            </a>
+          </li>
+          <li>
+            <a href="rain.html" class="nav-link">
+              <span class="nav-icon nav-icon--storm">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none"
+                     stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M13 31A13 13 0 1 1 31 18.5h3a8 8 0 0 1 5 14"/>
+                  <path d="M11 39l-2 7"/><path d="M22 38l-2 8"/>
+                  <path d="M38 27l-5 8h6l-5 8"/>
+                </svg>
+              </span>
+              ฝน/พายุ
+            </a>
+          </li>
+          <li>
+            <a href="flood.html" class="nav-link">
+              <span class="nav-icon nav-icon--flood">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none"
+                     stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M8 24l16-12 16 12"/><path d="M14 23v9"/><path d="M34 23v9"/>
+                  <path d="M20 32h8"/>
+                  <path d="M5 35c3-4 5.5-4 8 0s5 4 8 0 5.5-4 8 0 5 4 8 0"/>
+                  <path d="M5 43c3-4 5.5-4 8 0s5 4 8 0 5.5-4 8 0 5 4 8 0"/>
+                </svg>
+              </span>
+              น้ำท่วม
+            </a>
+          </li>
+        </ul>
+        <a href="map-explore.html" class="btn btn-primary btn-sm nav-cta active"
+           aria-label="สำรวจแผนที่สภาพแวดล้อม" aria-current="page">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               width="14" height="14" aria-hidden="true" style="margin-right:5px;vertical-align:-0.1em">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          สำรวจแผนที่
+        </a>
+      </nav>
+
+      <button class="hamburger" id="hamburger"
+              aria-label="เปิด/ปิดเมนูนำทาง"
+              aria-expanded="false"
+              aria-controls="main-nav">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- =====================================================================
+       MAIN — full-screen map explorer
+  ====================================================================== -->
+  <main id="main-content">
+    <div id="explorer-main" role="application" aria-label="แผนที่สำรวจสภาพแวดล้อม">
+
+      <!-- ── Map + controls ──────────────────────────────────────── -->
+      <div id="map-wrap">
+        <div id="map" role="img" aria-label="แผนที่ขอนแก่น กดจุดใดเพื่อดูข้อมูล"></div>
+
+        <!-- Layer toggle -->
+        <div id="layer-toggle" role="group" aria-label="เลือกประเภทแผนที่">
+          <button class="layer-btn active" data-layer="osm"       aria-pressed="true">แผนที่ถนน</button>
+          <button class="layer-btn"        data-layer="satellite"  aria-pressed="false">ดาวเทียม</button>
+        </div>
+
+        <!-- Click hint -->
+        <div id="click-hint" role="status" aria-live="polite">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 9l-2 9 4-4 4 4-2-9"/>
+            <path d="M12 3v2M5.6 5.6l1.4 1.4M3 12H5M5.6 18.4l1.4-1.4M12 19v2M18.4 18.4l-1.4-1.4M21 12h-2M18.4 5.6l-1.4 1.4"/>
+          </svg>
+          แตะจุดใดก็ได้บนแผนที่เพื่อดูข้อมูลสภาพแวดล้อม
+        </div>
+      </div>
+
+      <!-- ── Info panel ──────────────────────────────────────────── -->
+      <aside id="info-panel"
+             aria-label="ข้อมูลสภาพแวดล้อม ณ จุดที่เลือก"
+             aria-live="polite">
+        <!-- Content injected by map-explore.js -->
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- MapLibre GL JS -->
+  <script src="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.js"></script>
+
+  <!-- Project scripts -->
+  <script src="../js/utils.js"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/nav.js"></script>
+  <script src="../js/map-explore.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      initStickyHeader();
+      initHamburger();
+    });
+  </script>
+
+</body>
+</html>

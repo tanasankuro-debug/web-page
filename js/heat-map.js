@@ -116,7 +116,7 @@ function injectLegend(container) {
   div.id = 'heat-temp-legend';
   div.style.cssText =
     `position:absolute;bottom:2.5rem;left:.75rem;z-index:10;` +
-    `background:rgba(11,15,26,.82);backdrop-filter:blur(6px);` +
+    `background:rgba(11,15,26,.82);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);` +
     `border:1px solid rgba(255,255,255,.12);border-radius:8px;` +
     `padding:8px 10px;font-family:sans-serif;font-size:11px;color:#e5e7eb;` +
     `pointer-events:none;min-width:130px;`;

@@ -1,0 +1,450 @@
+/* ==========================================================================
+   Map Explorer — map-explore.css
+   Layout: all key elements use position:fixed/absolute with explicit inset
+   so there is no percentage-height chain that can collapse to 0.
+   ========================================================================== */
+
+/* ── Full-screen shell ──────────────────────────────────────────────────── */
+.page-explorer #main-content {
+  position: fixed;
+  top: var(--header-h, 68px);
+  left: 0; right: 0; bottom: 0;
+  overflow: hidden;
+  padding: 0;
+  margin:  0;
+}
+
+/* Explorer root just fills main-content */
+#explorer-main {
+  position: absolute;
+  inset: 0;
+}
+
+/* Map fills entire explorer area */
+#map-wrap {
+  position: absolute;
+  inset: 0;
+}
+
+#map {
+  width:  100%;
+  height: 100%;
+  background: #090D18;
+}
+
+/* ── Layer toggle ───────────────────────────────────────────────────────── */
+#layer-toggle {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 10;
+  display: flex;
+  gap: 3px;
+  background: rgba(9, 13, 24, 0.90);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  padding: 4px;
+}
+
+.layer-btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: #64748B;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Noto Sans Thai', sans-serif;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.layer-btn.active {
+  background: rgba(251,146,60,0.16);
+  color: #FB923C;
+}
+
+.layer-btn:hover:not(.active) {
+  background: rgba(255,255,255,0.06);
+  color: #CBD5E1;
+}
+
+/* ── Click hint pill ────────────────────────────────────────────────────── */
+#click-hint {
+  position: absolute;
+  bottom: 52px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(9, 13, 24, 0.90);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 999px;
+  padding: 10px 20px;
+  color: #94A3B8;
+  font-size: 0.80rem;
+  font-family: 'Noto Sans Thai', sans-serif;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  white-space: nowrap;
+}
+
+#click-hint.hidden { opacity: 0; }
+
+/* ── Info Panel — fixed, slides in from the right over the map ──────────── */
+#info-panel {
+  position: fixed;
+  top: var(--header-h, 68px);
+  right: 0;
+  bottom: 0;
+  width: 330px;
+  z-index: 200;
+  background: #0B1120;
+  border-left: 1px solid #1A2236;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: translateX(100%);
+  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#info-panel.open {
+  transform: translateX(0);
+}
+
+/* ── Panel drag handle (mobile only) ────────────────────────────────────── */
+#panel-drag-handle {
+  width: 38px; height: 4px;
+  background: #1E293B;
+  border-radius: 2px;
+  margin: 10px auto 0;
+  flex-shrink: 0;
+  display: none;
+}
+
+/* ── Panel scroll area ───────────────────────────────────────────────────── */
+#panel-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #1E293B transparent;
+}
+
+#panel-scroll::-webkit-scrollbar       { width: 4px; }
+#panel-scroll::-webkit-scrollbar-track { background: transparent; }
+#panel-scroll::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 2px; }
+
+/* ── Panel header / location ─────────────────────────────────────────────── */
+#panel-topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid #1A2236;
+  background: #0B1120;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+#panel-close {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #1A2236;
+  border-radius: 7px;
+  background: #111827;
+  color: #64748B;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+#panel-close:hover {
+  background: #1E293B;
+  color: #F1F5F9;
+}
+
+#loc-body        { flex: 1; min-width: 0; padding-right: 10px; }
+
+#loc-pin-icon {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 5px;
+  color: #EF4444;
+}
+
+#loc-main {
+  font-size: 1.20rem;
+  font-weight: 700;
+  color: #F1F5F9;
+  line-height: 1.25;
+  font-family: 'Noto Sans Thai', sans-serif;
+  word-break: break-word;
+}
+
+#loc-sub {
+  font-size: 0.76rem;
+  color: #64748B;
+  margin-top: 3px;
+  line-height: 1.55;
+  font-family: 'Noto Sans Thai', sans-serif;
+}
+
+#loc-province {
+  font-size: 0.70rem;
+  color: #334155;
+  margin-top: 1px;
+  font-family: 'Noto Sans Thai', sans-serif;
+}
+
+#loc-coords {
+  font-size: 0.62rem;
+  color: #1E293B;
+  margin-top: 5px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+/* ── Panel section ───────────────────────────────────────────────────────── */
+.p-section {
+  padding: 14px 16px;
+  border-bottom: 1px solid #1A2236;
+}
+
+.p-section-lbl {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #334155;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  margin-bottom: 10px;
+}
+
+/* ── Weather status row ─────────────────────────────────────────────────── */
+#wx-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 11px;
+}
+
+#wx-emoji { font-size: 1.55rem; line-height: 1; }
+
+#wx-label {
+  font-size: 0.84rem;
+  color: #CBD5E1;
+  font-family: 'Noto Sans Thai', sans-serif;
+}
+
+/* ── Data grid 2-col ─────────────────────────────────────────────────────── */
+.data-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.data-card {
+  background: #111827;
+  border: 1px solid #1A2236;
+  border-radius: 9px;
+  padding: 9px 11px 8px;
+}
+
+.data-card.wide { grid-column: span 2; }
+
+.dc-label {
+  font-size: 0.62rem;
+  color: #475569;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 3px;
+}
+
+.dc-value {
+  font-size: 1.26rem;
+  font-weight: 700;
+  color: #F1F5F9;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+.dc-unit {
+  font-size: 0.68rem;
+  font-weight: 400;
+  color: #475569;
+  margin-left: 1px;
+}
+
+.dc-sub {
+  font-size: 0.67rem;
+  color: #64748B;
+  margin-top: 2px;
+  line-height: 1.4;
+  font-family: 'Noto Sans Thai', sans-serif;
+}
+
+/* ── AQI card ────────────────────────────────────────────────────────────── */
+.aqi-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+
+.aqi-pm-val {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #F1F5F9;
+  font-variant-numeric: tabular-nums;
+}
+
+.aqi-pm-unit { font-size: 0.65rem; color: #475569; margin-left: 2px; }
+
+.aqi-bar-track {
+  height: 5px;
+  border-radius: 3px;
+  background: #1A2236;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.aqi-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+.aqi-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.aqi-chip {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-family: 'Noto Sans Thai', sans-serif;
+}
+
+.aqi-aqi-val { font-size: 0.65rem; color: #334155; }
+
+/* ── Panel footer ────────────────────────────────────────────────────────── */
+#panel-footer {
+  padding: 9px 16px;
+  font-size: 0.60rem;
+  color: #1E293B;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border-top: 1px solid #1A2236;
+  flex-shrink: 0;
+}
+
+/* ── Loading ─────────────────────────────────────────────────────────────── */
+#panel-loading {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  color: #334155;
+  font-family: 'Noto Sans Thai', sans-serif;
+  font-size: 0.82rem;
+}
+
+.spinner {
+  width: 26px;
+  height: 26px;
+  border: 2.5px solid #1A2236;
+  border-top-color: #FB923C;
+  border-radius: 50%;
+  animation: explore-spin 0.75s linear infinite;
+}
+
+@keyframes explore-spin { to { transform: rotate(360deg); } }
+
+/* ── Click marker ────────────────────────────────────────────────────────── */
+.explore-marker        { width: 28px; height: 28px; position: relative; }
+
+.explore-marker-inner  {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px; height: 10px;
+}
+
+.explore-dot {
+  position: absolute;
+  inset: 0;
+  background: #EF4444;
+  border: 2px solid #090D18;
+  border-radius: 50%;
+}
+
+.explore-ring {
+  position: absolute;
+  inset: -7px;
+  border: 1.5px solid #EF4444;
+  border-radius: 50%;
+  animation: explore-ping 2s ease-out infinite;
+}
+
+.explore-ring:nth-child(2) { animation-delay: 0.7s; }
+
+@keyframes explore-ping {
+  0%   { transform: scale(1);   opacity: 0.75; }
+  100% { transform: scale(2.8); opacity: 0;    }
+}
+
+/* ── MapLibre overrides ──────────────────────────────────────────────────── */
+.maplibregl-ctrl-bottom-right { bottom: 28px; }
+
+.maplibregl-ctrl-attrib {
+  background: rgba(9,13,24,0.75) !important;
+  color: #334155 !important;
+  font-size: 0.58rem !important;
+}
+
+.maplibregl-ctrl-attrib a { color: #475569 !important; }
+
+/* ── Mobile: bottom sheet ─────────────────────────────────────────────────── */
+@media (max-width: 700px) {
+  #panel-drag-handle { display: block; }
+
+  #click-hint { bottom: 24px; font-size: 0.75rem; }
+
+  #info-panel {
+    width: 100%;
+    max-height: 62vh;
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-left: none;
+    border-top: 1px solid #1A2236;
+    border-radius: 16px 16px 0 0;
+    transform: translateY(100%);
+    transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  #info-panel.open { transform: translateY(0); }
+}
