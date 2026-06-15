@@ -144,20 +144,14 @@
                 </a>
               </li>
               <li>
-                <a href="#satellite-map" class="toc-link" data-target="satellite-map">
-                  <span class="toc-num">07</span>
-                  ภาพดาวเทียมและอุณหภูมิพื้นผิว
-                </a>
-              </li>
-              <li>
                 <a href="#impacts" class="toc-link" data-target="impacts">
-                  <span class="toc-num">08</span>
+                  <span class="toc-num">07</span>
                   ผลกระทบ
                 </a>
               </li>
               <li>
                 <a href="#solutions" class="toc-link" data-target="solutions">
-                  <span class="toc-num">09</span>
+                  <span class="toc-num">08</span>
                   เราทำอะไรได้ — แนวทางรับมือ
                 </a>
               </li>
@@ -765,7 +759,7 @@
                Free/public-domain sources: NASA Earth Observatory, NOAA climate.gov,
                Wikimedia Commons (CC), Unsplash/Pexels.
                Keep the <figcaption>. Add attribution in the caption if the license requires it. -->
-          <figure class="article-figure reveal">
+          <figure class="article-figure reveal" data-anim="hd">
             <svg viewBox="0 0 820 420" width="100%" height="auto"
                  role="img"
                  aria-label="แผนภาพโดมความร้อน แสดงระบบความกดอากาศสูงกักอากาศร้อนไว้เหนือพื้นดินเหมือนฝาครอบยักษ์"
@@ -874,14 +868,16 @@
               <!-- Trapped-air label -->
               <text id="hdar-trapped" x="410" y="238" text-anchor="middle" fill="#FACC15" font-size="14" font-weight="600" opacity="0.85">อากาศร้อนถูกกักไว้</text>
 
-              <!-- Heat particles: rise from buildings, trapped beneath dome -->
+              <!-- Heat particles: rise from buildings, fade before reaching dome -->
               <g aria-hidden="true">
-                <circle class="hdar-particle" cx="182"  cy="350" r="2.5" fill="#FB923C" opacity="0" style="--tx:-10px;--dur:5.2s;--delay:-0.0s"/>
-                <circle class="hdar-particle" cx="275"  cy="350" r="2.0" fill="#FACC15" opacity="0" style="--tx:9px; --dur:4.8s;--delay:-1.4s"/>
-                <circle class="hdar-particle" cx="375"  cy="350" r="3.0" fill="#EF4444" opacity="0" style="--tx:-14px;--dur:5.5s;--delay:-2.7s"/>
-                <circle class="hdar-particle" cx="455"  cy="350" r="2.0" fill="#FB923C" opacity="0" style="--tx:12px; --dur:4.6s;--delay:-0.9s"/>
-                <circle class="hdar-particle" cx="545"  cy="350" r="2.5" fill="#FACC15" opacity="0" style="--tx:-9px; --dur:5.1s;--delay:-2.0s"/>
-                <circle class="hdar-particle" cx="635"  cy="350" r="2.0" fill="#EF4444" opacity="0" style="--tx:11px; --dur:4.9s;--delay:-3.3s"/>
+                <circle class="hdar-particle" cx="182"  cy="350" r="2.5" fill="#FB923C" opacity="0" style="--tx:-10px;--dur:7.2s;--delay:-0.0s"/>
+                <circle class="hdar-particle" cx="275"  cy="350" r="2.0" fill="#FACC15" opacity="0" style="--tx:9px;  --dur:6.5s;--delay:-2.1s"/>
+                <circle class="hdar-particle" cx="320"  cy="350" r="1.8" fill="#FB923C" opacity="0" style="--tx:-8px; --dur:7.4s;--delay:-6.8s"/>
+                <circle class="hdar-particle" cx="375"  cy="350" r="3.0" fill="#EF4444" opacity="0" style="--tx:-14px;--dur:8.1s;--delay:-4.0s"/>
+                <circle class="hdar-particle" cx="455"  cy="350" r="2.0" fill="#FB923C" opacity="0" style="--tx:12px; --dur:7.0s;--delay:-1.3s"/>
+                <circle class="hdar-particle" cx="500"  cy="350" r="1.8" fill="#FACC15" opacity="0" style="--tx:10px; --dur:6.9s;--delay:-3.7s"/>
+                <circle class="hdar-particle" cx="545"  cy="350" r="2.5" fill="#FACC15" opacity="0" style="--tx:-9px; --dur:6.8s;--delay:-3.2s"/>
+                <circle class="hdar-particle" cx="635"  cy="350" r="2.0" fill="#EF4444" opacity="0" style="--tx:11px; --dur:7.6s;--delay:-5.5s"/>
               </g>
 
               <!-- Bottom title bar -->
@@ -954,7 +950,7 @@
                Free/public-domain sources: NASA Earth Observatory, US EPA (UHI temperature profile),
                Wikimedia Commons (CC), Unsplash/Pexels.
                Keep the <figcaption>. Add attribution in the caption if the license requires it. -->
-          <figure class="article-figure reveal">
+          <figure class="article-figure reveal" data-anim="uhi">
             <svg viewBox="0 0 820 420" width="100%" height="auto"
                  role="img"
                  aria-label="แผนภาพเกาะความร้อนเมือง แสดงกราฟอุณหภูมิที่พุ่งสูงขึ้นเหนือย่านใจกลางเมือง เทียบกับพื้นที่ชนบทรอบข้าง"
@@ -1080,9 +1076,11 @@
                     pathLength="1"
                     fill="none" stroke="url(#uhi-curve)" stroke-width="3" stroke-linecap="round"/>
 
-              <!-- Peak dot + sonar ring -->
-              <circle id="uhiar-peak-ring" cx="410" cy="120" r="5.5"
+              <!-- Peak dot + two sonar rings -->
+              <circle id="uhiar-peak-ring"  cx="410" cy="120" r="5.5"
                       fill="none" stroke="#EF4444" stroke-width="1.5" opacity="0"/>
+              <circle id="uhiar-peak-ring2" cx="410" cy="120" r="5.5"
+                      fill="none" stroke="#EF4444" stroke-width="1"   opacity="0"/>
               <circle id="uhiar-peak" cx="410" cy="120" r="5.5" fill="#EF4444" stroke="#090D18" stroke-width="2"/>
 
               <!-- Callout: city hotter than rural -->
@@ -1342,55 +1340,7 @@
     </section>
 
 
-    <!-- ─── SATELLITE MAP ──────────────────────────────────────────────────
-         MapLibre GL JS map · sources defined in config.js
-         initSatelliteMap() in script.js renders the map and wires buttons.
-    ─────────────────────────────────────────────────────────────────────────── -->
-    <section id="satellite-map" class="section article-section" aria-labelledby="satmap-heading">
-      <div class="container">
-
-        <p class="section-label reveal">ดาวเทียม &amp; ข้อมูลพื้นผิว</p>
-        <h2 id="satmap-heading" class="section-heading reveal">
-          ภาพดาวเทียมและ<br />อุณหภูมิพื้นผิว
-        </h2>
-        <p class="section-intro reveal">
-          สำรวจภาพถ่ายดาวเทียมหลายแหล่งและข้อมูล Land Surface Temperature (LST)
-          ที่ใช้ในงานวิจัยเกาะความร้อนเมือง — เปลี่ยนชั้นได้ด้วยปุ่มด้านล่าง
-        </p>
-
-        <!-- Layer switcher buttons -->
-        <div class="layer-switcher reveal" role="group" aria-label="เลือกชั้นแผนที่">
-          <button class="layer-btn active" data-map-layer="esriSatellite"
-                  aria-pressed="true">Esri ดาวเทียม</button>
-          <button class="layer-btn" data-map-layer="esriRelief"
-                  aria-pressed="false">ภูมิประเทศ</button>
-          <button class="layer-btn" data-map-layer="osm"
-                  aria-pressed="false">แผนที่ถนน</button>
-        </div>
-
-        <!-- MapLibre container -->
-        <div class="map-wrap reveal">
-          <div id="satellite-map-el"
-               class="map-el"
-               role="application"
-               aria-label="แผนที่ดาวเทียมขอนแก่น — ใช้แป้นพิมพ์เพื่อนำทาง"></div>
-          <div class="map-overlay-label" id="map-layer-label" aria-live="polite">
-            Sentinel-2 2024
-          </div>
-        </div>
-
-        <p class="map-note reveal">
-          <strong>Sentinel-2 2024/2016:</strong> ภาพ cloud-free จาก ESA Copernicus ผ่าน EOxCloudless
-          · <strong>MODIS LST:</strong> อุณหภูมิพื้นผิวรายเดือนจาก NASA GIBS (เดือนล่าสุด)
-          · <strong>NASA สี:</strong> True Color จาก MODIS Terra
-          · <strong>TMD พยากรณ์:</strong> ชั้นพยากรณ์จากกรมอุตุนิยมวิทยา
-        </p>
-
-      </div>
-    </section>
-
-
-    <!-- ─── 8. IMPACTS ───────────────────────────────────────────────────── -->
+    <!-- ─── 7. IMPACTS ───────────────────────────────────────────────────── -->
     <section id="impacts" class="section article-section" aria-labelledby="impacts-heading">
       <div class="container">
 
@@ -1705,5 +1655,30 @@
   <script src="../js/live.js"></script>
   <script src="../js/heat-map.js"></script>
   <script src="../js/main.js"></script>
+  <script>
+    /* Article SVG animation trigger — fires each diagram's choreography once on scroll */
+    (function () {
+      'use strict';
+      var figs = document.querySelectorAll('figure[data-anim]');
+      if (!figs.length) return;
+
+      /* Fallback: no IO support → start all animations immediately */
+      if (!window.IntersectionObserver) {
+        figs.forEach(function (f) { f.classList.add(f.dataset.anim + '-go'); });
+        return;
+      }
+
+      var io = new IntersectionObserver(function (entries, obs) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.classList.add(e.target.dataset.anim + '-go');
+            obs.unobserve(e.target);   /* play once only */
+          }
+        });
+      }, { threshold: 0.22 });
+
+      figs.forEach(function (f) { io.observe(f); });
+    }());
+  </script>
 </body>
 </html>
