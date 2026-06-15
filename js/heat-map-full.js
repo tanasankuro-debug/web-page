@@ -5,16 +5,36 @@
    ========================================================================== */
 'use strict';
 
-/* ── Sampling points across Khon Kaen province ──────────────────────────── */
+/* ── Sampling points — all 26 districts of Khon Kaen province ───────────── */
+/* Coordinates sourced from OpenStreetMap Nominatim (admin boundary centroids  */
+/* + district office locations) — verified June 2025.                          */
 const HMF_POINTS = [
-  { id: 'mueang',   name: 'เมืองขอนแก่น', lat: 16.4322, lng: 102.8236 },
-  { id: 'nampong',  name: 'น้ำพอง',        lat: 16.7786, lng: 102.8125 },
-  { id: 'ubolrat',  name: 'อุบลรัตน์',    lat: 16.7500, lng: 102.8667 },
-  { id: 'chumpae',  name: 'ชุมแพ',         lat: 16.5370, lng: 102.0987 },
-  { id: 'phon',     name: 'พล',            lat: 15.8062, lng: 102.9255 },
-  { id: 'banphai',  name: 'บ้านไผ่',       lat: 15.9742, lng: 102.7372 },
-  { id: 'nongruea', name: 'หนองเรือ',      lat: 16.7833, lng: 102.5500 },
-  { id: 'mancha',   name: 'มัญจาคีรี',    lat: 16.0833, lng: 102.5333 },
+  { id: 'mueang',      name: 'เมืองขอนแก่น', lat: 16.4304, lng: 102.8356 },
+  { id: 'banfang',     name: 'บ้านฝาง',       lat: 16.4533, lng: 102.6384 },
+  { id: 'phrayuen',    name: 'พระยืน',         lat: 16.3100, lng: 102.6789 },
+  { id: 'nongruea',    name: 'หนองเรือ',       lat: 16.4909, lng: 102.4288 },
+  { id: 'chumpae',     name: 'ชุมแพ',          lat: 16.6578, lng: 102.0165 },
+  { id: 'sichomphu',   name: 'สีชมพู',         lat: 16.7578, lng: 102.1261 },
+  { id: 'nampong',     name: 'น้ำพอง',         lat: 16.7019, lng: 102.8564 },
+  { id: 'ubolrat',     name: 'อุบลรัตน์',     lat: 16.7954, lng: 102.6741 },
+  { id: 'kranuan',     name: 'กระนวน',         lat: 16.7674, lng: 103.0826 },
+  { id: 'banphai',     name: 'บ้านไผ่',        lat: 16.0598, lng: 102.7310 },
+  { id: 'puainoi',     name: 'เปือยน้อย',      lat: 15.8929, lng: 102.8519 },
+  { id: 'phon',        name: 'พล',             lat: 15.8196, lng: 102.6044 },
+  { id: 'waengyai',    name: 'แวงใหญ่',        lat: 15.9597, lng: 102.5478 },
+  { id: 'waengnoi',    name: 'แวงน้อย',        lat: 15.7979, lng: 102.4171 },
+  { id: 'nongsongkhong', name: 'หนองสองห้อง', lat: 15.7687, lng: 102.7790 },
+  { id: 'phuwiang',    name: 'ภูเวียง',        lat: 16.6726, lng: 102.4668 },
+  { id: 'mancha',      name: 'มัญจาคีรี',     lat: 16.1295, lng: 102.5385 },
+  { id: 'chonbot',     name: 'ชนบท',           lat: 16.0267, lng: 102.5368 },
+  { id: 'khaosuan',    name: 'เขาสวนกวาง',    lat: 16.9369, lng: 102.7795 },
+  { id: 'phuphaman',   name: 'ภูผาม่าน',       lat: 16.7315, lng: 101.8637 },
+  { id: 'samsung',     name: 'ซำสูง',          lat: 16.5556, lng: 103.0502 },
+  { id: 'khokpho',     name: 'โคกโพธิ์ไชย',   lat: 16.0694, lng: 102.3881 },
+  { id: 'nongna',      name: 'หนองนาคำ',       lat: 16.8142, lng: 102.3216 },
+  { id: 'banhaet',     name: 'บ้านแฮด',        lat: 16.2174, lng: 102.7585 },
+  { id: 'nonsila',     name: 'โนนศิลา',        lat: 15.9785, lng: 102.6777 },
+  { id: 'wiangkao',    name: 'เวียงเก่า',      lat: 16.7216, lng: 102.2907 },
 ];
 
 /* ── Time slots ──────────────────────────────────────────────────────────── */
