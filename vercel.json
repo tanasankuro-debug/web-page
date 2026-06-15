@@ -1,0 +1,13 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/html/index.html" },
+    { "source": "/map", "destination": "/html/map.html" },
+    { "source": "/heat", "destination": "/html/heat.html" },
+    { "source": "/flood", "destination": "/html/flood.html" },
+    { "source": "/flood-live", "destination": "/html/flood-live.html" },
+    { "source": "/rain", "destination": "/html/rain.html" },
+    { "source": "/rainforecast", "destination": "/html/rainforecast.html" },
+    { "source": "/dust", "destination": "/html/dust.html" },
+    { "source": "/aqimap", "destination": "/html/aqimap.html" }
+  ]
+}
