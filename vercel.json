@@ -17,6 +17,8 @@
     { "source": "/dust", "destination": "/html/dust.html" },
     { "source": "/dust.html", "destination": "/html/dust.html" },
     { "source": "/aqimap", "destination": "/html/aqimap.html" },
-    { "source": "/aqimap.html", "destination": "/html/aqimap.html" }
+    { "source": "/aqimap.html", "destination": "/html/aqimap.html" },
+    { "source": "/heat-map-full", "destination": "/html/heat-map-full.html" },
+    { "source": "/heat-map-full.html", "destination": "/html/heat-map-full.html" }
   ]
 }
