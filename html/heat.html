@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="../css/map.css" />
   <link rel="stylesheet" href="../css/themes.css" />
   <link rel="stylesheet" href="../css/topics.css" />
+  <link rel="stylesheet" href="../css/heat.css" />
 
   <!-- MapLibre GL JS — satellite map section -->
   <link href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css" rel="stylesheet" />
@@ -443,19 +444,19 @@
                 <line x1="0" y1="286" x2="600" y2="286" stroke="#334155" stroke-width="1"/>
 
                 <!-- Hot zone fill -->
-                <path d="M 34,232 Q 300,62 566,232 L 566,286 L 34,286 Z" fill="url(#phd-hot)"/>
+                <path id="phd-hot-zone" d="M 34,232 Q 300,62 566,232 L 566,286 L 34,286 Z" fill="url(#phd-hot)"/>
 
                 <!-- Dome arc -->
-                <path d="M 34,232 Q 300,62 566,232"
+                <path id="phd-dome-glow" d="M 34,232 Q 300,62 566,232"
                       fill="none" stroke="#EF4444" stroke-width="9" stroke-opacity="0.18"
                       filter="url(#phd-glow)"/>
-                <path d="M 34,232 Q 300,62 566,232"
+                <path id="phd-dome-arc" d="M 34,232 Q 300,62 566,232"
                       fill="none" stroke="url(#phd-dome)" stroke-width="3" stroke-linecap="round"/>
 
                 <!-- Sun -->
-                <circle cx="524" cy="50" r="34" fill="url(#phd-sun)"/>
+                <circle id="phd-sun-halo" cx="524" cy="50" r="34" fill="url(#phd-sun)"/>
                 <circle cx="524" cy="50" r="15" fill="#FACC15" opacity="0.9"/>
-                <g stroke="#FACC15" stroke-width="2" stroke-linecap="round" opacity="0.70">
+                <g id="phd-sun-rays" stroke="#FACC15" stroke-width="2" stroke-linecap="round" opacity="0.70">
                   <line x1="524" y1="22" x2="524" y2="15"/>
                   <line x1="524" y1="78" x2="524" y2="85"/>
                   <line x1="496" y1="50" x2="489" y2="50"/>
@@ -487,7 +488,7 @@
                 <text x="300" y="54" text-anchor="middle" fill="#EF4444" font-size="9.5" opacity="0.68">ความกดอากาศสูง</text>
 
                 <!-- Down arrows -->
-                <g fill="none" stroke="#FB923C" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2">
+                <g id="phd-arrows" fill="none" stroke="#FB923C" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2">
                   <line x1="300" y1="100" x2="300" y2="148"/>
                   <polyline points="290,136 300,150 310,136"/>
                   <line x1="175" y1="142" x2="175" y2="183" opacity="0.65"/>
@@ -569,7 +570,7 @@
                 <!-- Zone tints -->
                 <rect x="0"   y="0" width="145" height="340" fill="url(#puhi-rl)"/>
                 <rect x="455" y="0" width="145" height="340" fill="url(#puhi-rr)"/>
-                <rect x="196" y="50" width="208" height="250" fill="url(#puhi-ch)"/>
+                <rect id="puhi-city-glow" x="196" y="50" width="208" height="250" fill="url(#puhi-ch)"/>
 
                 <!-- Ground -->
                 <rect x="0" y="238" width="600" height="102" fill="url(#puhi-gnd)"/>
@@ -633,20 +634,24 @@
                 <rect    x="517"  y="234" width="6"  height="6"  fill="#065F46" opacity="0.45"/>
 
                 <!-- Temp curve glow -->
-                <path d="M 60,218 C 90,217 115,214 148,206 C 178,198 192,188 214,174 C 242,156 268,118 300,96 C 332,118 358,156 386,174 C 408,188 422,198 452,206 C 485,214 510,217 540,218"
+                <path id="puhi-curve-glow"
+                      d="M 60,218 C 90,217 115,214 148,206 C 178,198 192,188 214,174 C 242,156 268,118 300,96 C 332,118 358,156 386,174 C 408,188 422,198 452,206 C 485,214 510,217 540,218"
                       fill="none" stroke="#EF4444" stroke-width="7" stroke-opacity="0.22"
-                      stroke-linecap="round" filter="url(#puhi-glow)"/>
+                      stroke-linecap="round" filter="url(#puhi-glow)" pathLength="1"/>
                 <!-- Temp curve main -->
-                <path d="M 60,218 C 90,217 115,214 148,206 C 178,198 192,188 214,174 C 242,156 268,118 300,96 C 332,118 358,156 386,174 C 408,188 422,198 452,206 C 485,214 510,217 540,218"
-                      fill="none" stroke="url(#puhi-curve)" stroke-width="2.8" stroke-linecap="round"/>
+                <path id="puhi-curve-main"
+                      d="M 60,218 C 90,217 115,214 148,206 C 178,198 192,188 214,174 C 242,156 268,118 300,96 C 332,118 358,156 386,174 C 408,188 422,198 452,206 C 485,214 510,217 540,218"
+                      fill="none" stroke="url(#puhi-curve)" stroke-width="2.8" stroke-linecap="round" pathLength="1"/>
 
                 <!-- Peak dot -->
-                <circle cx="300" cy="96" r="4.5" fill="#EF4444" stroke="#090D18" stroke-width="1.8"/>
+                <circle id="puhi-peak-dot" cx="300" cy="96" r="4.5" fill="#EF4444" stroke="#090D18" stroke-width="1.8"/>
 
                 <!-- Callout -->
-                <line x1="300" y1="96" x2="344" y2="72" stroke="#EF4444" stroke-width="1" stroke-opacity="0.55"/>
-                <rect x="346" y="56" width="188" height="26" rx="5" fill="#1A2236" stroke="#EF4444" stroke-width="1" stroke-opacity="0.45"/>
-                <text x="440" y="73" text-anchor="middle" fill="#EF4444" font-size="10.5" font-weight="600">เมืองร้อนกว่าชนบท ~3–5°C</text>
+                <g id="puhi-callout">
+                  <line x1="300" y1="96" x2="344" y2="72" stroke="#EF4444" stroke-width="1" stroke-opacity="0.55"/>
+                  <rect x="346" y="56" width="188" height="26" rx="5" fill="#1A2236" stroke="#EF4444" stroke-width="1" stroke-opacity="0.45"/>
+                  <text x="440" y="73" text-anchor="middle" fill="#EF4444" font-size="10.5" font-weight="600">เมืองร้อนกว่าชนบท ~3–5°C</text>
+                </g>
 
                 <!-- Zone dividers -->
                 <g stroke="#334155" stroke-width="0.7" stroke-dasharray="3,3" opacity="0.65">
