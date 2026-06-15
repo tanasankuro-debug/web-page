@@ -235,12 +235,12 @@ function renderDefault() {
 /* ── Update all bubble colours for the active hour ──────────────────────── */
 function refreshBubbles() {
   const hour = activeHour();
-  hmfMarkers.forEach(({ pd, el }) => {
+  hmfMarkers.forEach(({ pd, bubble }) => {
     const d = dataAtHour(pd, hour) ?? { temp: pd.current?.temperature_2m };
     if (d?.temp === null) return;
     const col = tempColor(d.temp);
-    el.style.background = col;
-    el.children[0].textContent = `${Math.round(d.temp)}°`;
+    bubble.style.background = col;
+    bubble.children[0].textContent = `${Math.round(d.temp)}°`;
   });
 }
 
@@ -354,40 +354,49 @@ function initHeatMapFull() {
       if (!d || d.temp === null) return;
 
       const col = tempColor(d.temp);
-      const el  = document.createElement('div');
+
+      /* el = transparent container that MapLibre applies its position transform to.
+         Never apply transform here — it would overwrite MapLibre's translate and
+         cause the marker to jump to the upper-left corner of the canvas. */
+      const el = document.createElement('div');
       el.className = 'hmf-bubble';
-      el.style.cssText =
+      el.style.cssText = `width:68px;height:68px;cursor:pointer;`;
+
+      /* bubble = inner visual circle. Scale animations go here instead. */
+      const bubble = document.createElement('div');
+      bubble.style.cssText =
         `background:${col};border:3px solid rgba(255,255,255,.9);border-radius:50%;` +
-        `width:68px;height:68px;display:flex;flex-direction:column;` +
-        `align-items:center;justify-content:center;cursor:pointer;` +
+        `width:100%;height:100%;display:flex;flex-direction:column;` +
+        `align-items:center;justify-content:center;` +
         `box-shadow:0 4px 14px rgba(0,0,0,.6);transition:transform .15s,box-shadow .15s;` +
         `font-weight:800;color:#fff;line-height:1.15;font-family:sans-serif;font-size:18px;`;
-      el.innerHTML =
+      bubble.innerHTML =
         `<span>${Math.round(d.temp)}°</span>` +
         `<span style="font-size:11px;font-weight:600;opacity:.9">${pd.name.length>5?pd.name.slice(0,5)+'…':pd.name}</span>`;
+      el.appendChild(bubble);
 
       el.addEventListener('mouseenter', () => {
-        el.style.transform = 'scale(1.14)';
-        el.style.boxShadow = '0 6px 18px rgba(0,0,0,.65)';
+        bubble.style.transform = 'scale(1.12)';
+        bubble.style.boxShadow = '0 6px 18px rgba(0,0,0,.65)';
       });
       el.addEventListener('mouseleave', () => {
         if (hmfSelectedId !== pd.id) {
-          el.style.transform = '';
-          el.style.boxShadow = '';
+          bubble.style.transform = '';
+          bubble.style.boxShadow = '';
         }
       });
-      el.addEventListener('click', () => {
-        /* deselect previous */
+      el.addEventListener('click', e => {
+        e.stopPropagation();
         hmfMarkers.forEach(m => {
           if (m.pd.id !== pd.id) {
-            m.el.style.transform = '';
-            m.el.style.boxShadow = '';
-            m.el.style.border = '2.5px solid rgba(255,255,255,.85)';
+            m.bubble.style.transform = '';
+            m.bubble.style.boxShadow = '';
+            m.bubble.style.border = '3px solid rgba(255,255,255,.9)';
           }
         });
         hmfSelectedId = pd.id;
-        el.style.transform = 'scale(1.14)';
-        el.style.border = '3px solid #fff';
+        bubble.style.transform = 'scale(1.12)';
+        bubble.style.border = '3.5px solid #fff';
         updateSidebar();
       });
 
@@ -395,7 +404,7 @@ function initHeatMapFull() {
         .setLngLat([pd.lng, pd.lat])
         .addTo(hmfMap);
 
-      hmfMarkers.push({ pd, el });
+      hmfMarkers.push({ pd, el, bubble });
     });
 
     updateSidebar();
