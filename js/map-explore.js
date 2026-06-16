@@ -180,8 +180,10 @@ function initMap() {
   map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right');
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
   map.addControl(new maplibregl.GeolocateControl({
-    positionOptions: { enableHighAccuracy: true },
-    fitBoundsOptions: { maxZoom: 14 }
+    positionOptions:  { enableHighAccuracy: true },
+    fitBoundsOptions: { maxZoom: 14 },
+    trackUserLocation: false,
+    showAccuracyCircle: true
   }), 'bottom-right');
 
   map.on('click', onMapClick);

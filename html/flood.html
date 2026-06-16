@@ -239,7 +239,21 @@
           </div>
 
           <div class="app-link-box reveal">
-            <div class="app-link-box-icon" aria-hidden="true">&#x1F5FA;&#xFE0F;</div>
+            <div class="app-link-box-icon" aria-hidden="true">
+              <!-- map pin + water ripple rings — real-time flood area map -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 38" fill="none" width="38" height="38" style="display:block">
+                <!-- ripple rings emanating from pin base -->
+                <circle cx="19" cy="21" r="15.5" stroke="#3B82F6" stroke-width="0.9" opacity="0.14" fill="rgba(59,130,246,0.04)"/>
+                <circle cx="19" cy="21" r="10.5" stroke="#3B82F6" stroke-width="1"   opacity="0.26" fill="rgba(59,130,246,0.05)"/>
+                <circle cx="19" cy="21" r="5.5"  stroke="#3B82F6" stroke-width="1.1" opacity="0.48" fill="rgba(59,130,246,0.07)"/>
+                <!-- map pin body -->
+                <path d="M19 4C13.477 4 9 8.477 9 14c0 7.5 10 20 10 20s10-12.5 10-20c0-5.523-4.477-10-10-10z"
+                      fill="rgba(59,130,246,0.15)" stroke="#3B82F6" stroke-width="1.8" stroke-linejoin="round"/>
+                <!-- pin center -->
+                <circle cx="19" cy="14" r="4" fill="#3B82F6"/>
+                <circle cx="19" cy="14" r="1.8" fill="white" opacity="0.6"/>
+              </svg>
+            </div>
             <div>
               <p>ตรวจสอบแผนที่พื้นที่เสี่ยงน้ำท่วมและระดับน้ำแบบเรียลไทม์ผ่านแอปแผนที่ขอนแก่น</p>
               <a href="map.html" class="btn btn-primary btn-sm" style="margin-top:0.5rem;">เปิดแผนที่เรียลไทม์ &#x2192;</a>
@@ -247,7 +261,29 @@
           </div>
 
           <aside class="callout callout-hot reveal" aria-label="ข้อมูลน้ำเขื่อนอุบลรัตน์">
-            <div class="callout-icon" aria-hidden="true">&#x1F6A8;</div>
+            <div class="callout-icon" aria-hidden="true">
+              <!-- dam wall + rising water + alert indicator -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 38" fill="none" width="38" height="38" style="display:block">
+                <!-- dam wall (trapezoid) -->
+                <path d="M7 33L10 8H28L31 33Z" stroke="#EF4444" stroke-width="1.6" stroke-linejoin="round" fill="rgba(239,68,68,0.1)"/>
+                <!-- dam structural lines -->
+                <line x1="9"  y1="15" x2="29" y2="15" stroke="#EF4444" stroke-width="0.9" opacity="0.3"/>
+                <line x1="8"  y1="23" x2="30" y2="23" stroke="#EF4444" stroke-width="0.9" opacity="0.3"/>
+                <!-- rising water on upstream side (left of dam) -->
+                <path d="M3 16L10 16L10 8L3 8Z" fill="rgba(59,130,246,0.22)" stroke="none"/>
+                <!-- water surface wave -->
+                <path d="M3 16 C4.5 14.8 6 16.8 7.5 15.8 C8.5 15.2 9.2 15.4 10 15"
+                      stroke="#3B82F6" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.8"/>
+                <!-- second water wave lower -->
+                <path d="M3 19 C4.8 17.8 6.5 19.8 8 18.8 C8.8 18.3 9.5 18.5 10 18.2"
+                      stroke="#3B82F6" stroke-width="1.1" stroke-linecap="round" fill="none" opacity="0.55"/>
+                <!-- alert circle (top right) -->
+                <circle cx="29" cy="7" r="6" fill="rgba(239,68,68,0.14)" stroke="#EF4444" stroke-width="1.4"/>
+                <!-- exclamation mark -->
+                <line x1="29" y1="4.5" x2="29" y2="7.8" stroke="#EF4444" stroke-width="1.8" stroke-linecap="round"/>
+                <circle cx="29" cy="9.5" r="0.95" fill="#EF4444"/>
+              </svg>
+            </div>
             <div class="callout-body">
               <strong>ติดตามระดับน้ำเขื่อนอุบลรัตน์</strong>
               <p>
@@ -334,12 +370,37 @@
 
           <div class="solutions-col reveal">
             <div class="solutions-col-header">
-              <span class="sol-col-icon" aria-hidden="true">&#x1F3DB;&#xFE0F;</span>
+              <span class="sol-col-icon" aria-hidden="true">
+                <!-- government/city hall building -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" fill="none" width="26" height="26" style="display:block">
+                  <rect x="2" y="13" width="22" height="11" rx="0.5" stroke="#8B5CF6" stroke-width="1.4" fill="rgba(139,92,246,0.1)"/>
+                  <line x1="7"  y1="13" x2="7"  y2="9.5" stroke="#8B5CF6" stroke-width="1.2" opacity="0.5"/>
+                  <line x1="13" y1="13" x2="13" y2="9.5" stroke="#8B5CF6" stroke-width="1.2" opacity="0.5"/>
+                  <line x1="19" y1="13" x2="19" y2="9.5" stroke="#8B5CF6" stroke-width="1.2" opacity="0.5"/>
+                  <line x1="4"  y1="9.5" x2="22" y2="9.5" stroke="#8B5CF6" stroke-width="1.3"/>
+                  <path d="M3 9.5L13 3L23 9.5" stroke="#8B5CF6" stroke-width="1.4" stroke-linejoin="round"/>
+                  <path d="M2 24h22" stroke="#8B5CF6" stroke-width="1.2" stroke-linecap="round" opacity="0.35"/>
+                </svg>
+              </span>
               <h3>เมือง / นโยบาย</h3>
             </div>
             <ul class="solutions-list">
               <li>
-                <span class="sol-icon" aria-hidden="true">&#x1F30F;</span>
+                <span class="sol-icon" aria-hidden="true">
+                  <!-- cattail reeds + water waves — wetland restoration -->
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" fill="none" width="22" height="22" style="display:block">
+                    <line x1="5.5" y1="13" x2="5.5" y2="6"  stroke="#059669" stroke-width="1.3" stroke-linecap="round"/>
+                    <ellipse cx="5.5" cy="4.5" rx="1.3" ry="2.5" fill="#059669" opacity="0.85"/>
+                    <line x1="10"  y1="13" x2="10"  y2="5"  stroke="#059669" stroke-width="1.3" stroke-linecap="round"/>
+                    <ellipse cx="10"  cy="3.5" rx="1.3" ry="2.5" fill="#059669" opacity="0.9"/>
+                    <line x1="14.5" y1="13" x2="14.5" y2="7"  stroke="#059669" stroke-width="1.2" stroke-linecap="round"/>
+                    <ellipse cx="14.5" cy="5.5" rx="1.2" ry="2.2" fill="#059669" opacity="0.72"/>
+                    <path d="M2 14C3.5 12.8 5 15 6.5 13.8C8 12.5 9.5 15 11 13.8C12.5 12.5 14 15 15.5 13.8C17 12.5 18.5 14 20 14"
+                          stroke="#0D9488" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+                    <path d="M3 17.5C4.5 16.3 6 18.5 7.5 17.3C9 16 10.5 18.5 12 17.3C13.5 16 15 18.5 16.5 17.3C18 16 19 17 20 17"
+                          stroke="#0D9488" stroke-width="1.1" stroke-linecap="round" fill="none" opacity="0.5"/>
+                  </svg>
+                </span>
                 <div>
                   <strong>ฟื้นฟูพื้นที่รับน้ำและพื้นที่ชุ่มน้ำ</strong>
                   <p>หยุดการถมบึงและทุ่งนาที่เป็น "ฟองน้ำธรรมชาติ"
@@ -347,7 +408,18 @@
                 </div>
               </li>
               <li>
-                <span class="sol-icon" aria-hidden="true">&#x1F6B0;</span>
+                <span class="sol-icon" aria-hidden="true">
+                  <!-- pipe + water flow arrow — drainage infrastructure -->
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" fill="none" width="22" height="22" style="display:block">
+                    <path d="M8 7V5.5C8 4.7 9.3 4 11 4C12.7 4 14 4.7 14 5.5V7" stroke="#64748B" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+                    <rect x="3" y="7" width="16" height="6" rx="3" stroke="#64748B" stroke-width="1.4" fill="rgba(100,116,139,0.1)"/>
+                    <rect x="4.5" y="8.5" width="13" height="3" rx="1.5" stroke="#64748B" stroke-width="0.9" fill="none" opacity="0.3"/>
+                    <path d="M6 10H14" stroke="#3B82F6" stroke-width="1.3" stroke-linecap="round" opacity="0.75"/>
+                    <path d="M12 8L14.5 10L12 12" stroke="#3B82F6" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.75"/>
+                    <line x1="11" y1="13" x2="11" y2="16" stroke="#3B82F6" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/>
+                    <path d="M9 16L11 18.5L13 16" stroke="#3B82F6" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.6"/>
+                  </svg>
+                </span>
                 <div>
                   <strong>พัฒนาโครงสร้างพื้นฐานระบายน้ำ</strong>
                   <p>ขุดลอกลำน้ำ ขยายท่อระบายน้ำ สร้างแก้มลิง
@@ -355,7 +427,22 @@
                 </div>
               </li>
               <li>
-                <span class="sol-icon" aria-hidden="true">&#x1F4CB;</span>
+                <span class="sol-icon" aria-hidden="true">
+                  <!-- city blueprint grid + flood zone + barrier wall — urban flood planning -->
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" fill="none" width="22" height="22" style="display:block">
+                    <rect x="2" y="3" width="18" height="16" rx="1.5" stroke="#D97706" stroke-width="1.3" fill="rgba(217,119,6,0.07)"/>
+                    <line x1="8"  y1="3"  x2="8"  y2="19" stroke="#D97706" stroke-width="0.85" opacity="0.28"/>
+                    <line x1="14" y1="3"  x2="14" y2="19" stroke="#D97706" stroke-width="0.85" opacity="0.28"/>
+                    <line x1="2"  y1="9"  x2="20" y2="9"  stroke="#D97706" stroke-width="0.85" opacity="0.28"/>
+                    <line x1="2"  y1="14" x2="20" y2="14" stroke="#D97706" stroke-width="0.85" opacity="0.28"/>
+                    <path d="M2 14H8V19H2Z" fill="rgba(59,130,246,0.15)" stroke="none"/>
+                    <path d="M3 16.5C4 15.5 5 17.5 6 16.5C7 15.5 7.5 16.5 7.5 16.5" stroke="#3B82F6" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.7"/>
+                    <line x1="8" y1="14" x2="8" y2="19" stroke="#D97706" stroke-width="2.2" stroke-linecap="round" opacity="0.85"/>
+                    <rect x="9.5" y="10" width="3.5" height="3.5" rx="0.5" fill="#D97706" opacity="0.35"/>
+                    <rect x="15"  y="10" width="3.5" height="3.5" rx="0.5" fill="#D97706" opacity="0.28"/>
+                    <rect x="9.5" y="5"  width="3.5" height="3.5" rx="0.5" fill="#D97706" opacity="0.28"/>
+                  </svg>
+                </span>
                 <div>
                   <strong>วางผังเมืองที่ป้องกันน้ำท่วม</strong>
                   <p>กำหนดโซนห้ามก่อสร้างในพื้นที่เสี่ยงน้ำท่วม
@@ -363,7 +450,20 @@
                 </div>
               </li>
               <li>
-                <span class="sol-icon" aria-hidden="true">&#x1F4F1;</span>
+                <span class="sol-icon" aria-hidden="true">
+                  <!-- alert bell + water level rising — early flood warning system -->
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" fill="none" width="22" height="22" style="display:block">
+                    <path d="M11 3C11 3 7 5.2 7 10.5V14.5H15V10.5C15 5.2 11 3 11 3Z"
+                          stroke="#DC2626" stroke-width="1.3" stroke-linejoin="round" fill="rgba(220,38,38,0.1)"/>
+                    <line x1="11" y1="2" x2="11" y2="3.5" stroke="#DC2626" stroke-width="1.3" stroke-linecap="round" opacity="0.7"/>
+                    <line x1="7" y1="14.5" x2="15" y2="14.5" stroke="#DC2626" stroke-width="1.3" stroke-linecap="round"/>
+                    <path d="M9.5 15.5C9.5 16.3 10.2 17 11 17C11.8 17 12.5 16.3 12.5 15.5" stroke="#DC2626" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+                    <path d="M4 10.5A7.2 7.2 0 0 0 4 14"  stroke="#DC2626" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.55"/>
+                    <path d="M18 10.5A7.2 7.2 0 0 1 18 14" stroke="#DC2626" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.55"/>
+                    <path d="M2 19C3.3 17.8 4.7 20 6 18.8C7.3 17.5 8.7 20 10 18.8C11.3 17.5 12.7 20 14 18.8C15.3 17.5 16.7 20 18 19C18.5 18.7 19 18.5 20 19"
+                          stroke="#3B82F6" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.65"/>
+                  </svg>
+                </span>
                 <div>
                   <strong>ระบบเตือนภัยน้ำท่วมล่วงหน้า</strong>
                   <p>ติดตั้งเซ็นเซอร์วัดระดับน้ำในจุดเสี่ยง
@@ -375,12 +475,28 @@
 
           <div class="solutions-col reveal">
             <div class="solutions-col-header">
-              <span class="sol-col-icon" aria-hidden="true">&#x1F464;</span>
+              <span class="sol-col-icon" aria-hidden="true">
+                <!-- person/individual silhouette -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26" fill="none" width="26" height="26" style="display:block">
+                  <circle cx="13" cy="9" r="5" stroke="#8B5CF6" stroke-width="1.4" fill="rgba(139,92,246,0.1)"/>
+                  <path d="M4 24c0-4.97 4.03-9 9-9s9 4.03 9 9" stroke="#8B5CF6" stroke-width="1.4" stroke-linecap="round"/>
+                </svg>
+              </span>
               <h3>ระดับบุคคล</h3>
             </div>
             <ul class="solutions-list">
               <li>
-                <span class="sol-icon" aria-hidden="true">&#x1F3E0;</span>
+                <span class="sol-icon" aria-hidden="true">
+                  <!-- house + flood water line + checkmark badge — home risk assessment -->
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" fill="none" width="22" height="22" style="display:block">
+                    <path d="M2 11L11 3L20 11" stroke="#2563EB" stroke-width="1.4" stroke-linejoin="round"/>
+                    <path d="M4 11V20H18V11" stroke="#2563EB" stroke-width="1.4" stroke-linejoin="round" fill="rgba(37,99,235,0.08)"/>
+                    <rect x="9" y="14" width="4" height="6" rx="0.5" stroke="#2563EB" stroke-width="1.1" fill="none" opacity="0.5"/>
+                    <line x1="4" y1="17.5" x2="18" y2="17.5" stroke="#3B82F6" stroke-width="1" stroke-linecap="round" stroke-dasharray="2.5 1.5" opacity="0.55"/>
+                    <circle cx="17" cy="17.5" r="3.5" fill="#2563EB"/>
+                    <path d="M15 17.5L16.5 19L19.5 16" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
                 <div>
                   <strong>ประเมินความเสี่ยงของบ้าน</strong>
                   <p>ตรวจสอบว่าบ้านอยู่ในพื้นที่เสี่ยงน้ำท่วมหรือไม่
@@ -431,7 +547,26 @@
 
           <article class="agency-card reveal">
             <div class="agency-header">
-              <div class="agency-icon" aria-hidden="true">&#x1F691;</div>
+              <div class="agency-icon" aria-hidden="true">
+                <!-- evacuating figure + flood waves + alert — disaster prevention & relief (DDPM) -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 38" fill="none" width="38" height="38" style="display:block">
+                  <!-- person running/evacuating -->
+                  <circle cx="12" cy="8" r="3" stroke="#EA580C" stroke-width="1.5" fill="rgba(234,88,12,0.15)"/>
+                  <path d="M12 11L10 17L13 19" stroke="#EA580C" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12 11L14 17L17 15" stroke="#EA580C" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10 17L8 21" stroke="#EA580C" stroke-width="1.3" stroke-linecap="round"/>
+                  <path d="M13 19L15 23" stroke="#EA580C" stroke-width="1.3" stroke-linecap="round"/>
+                  <!-- alert bell (top right) -->
+                  <circle cx="30" cy="8" r="5.5" fill="rgba(234,88,12,0.12)" stroke="#EA580C" stroke-width="1.4"/>
+                  <path d="M30 5.5V8.5" stroke="#EA580C" stroke-width="1.8" stroke-linecap="round"/>
+                  <circle cx="30" cy="10" r="1" fill="#EA580C"/>
+                  <!-- flood waves rising -->
+                  <path d="M2 27C5 25.5 8 28 11 26.5C14 25 17 28 20 26.5C23 25 26 28 29 26.5C32 25 35 27 36 27"
+                        stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                  <path d="M2 31.5C5 30 8 32.5 11 31C14 29.5 17 32.5 20 31C23 29.5 26 32.5 29 31C32 29.5 35 31.5 36 31.5"
+                        stroke="#3B82F6" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.55"/>
+                </svg>
+              </div>
               <div class="agency-name">
                 <h3>กรมป้องกันและบรรเทาสาธารณภัย</h3>
                 <p class="agency-abbr">ปภ. / DDPM</p>
@@ -444,7 +579,30 @@
 
           <article class="agency-card reveal">
             <div class="agency-header">
-              <div class="agency-icon" aria-hidden="true">&#x1F4A7;</div>
+              <div class="agency-icon" aria-hidden="true">
+                <!-- dam wall + reservoir + sluice gate + water level marks — Royal Irrigation Dept (RID) -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 38" fill="none" width="38" height="38" style="display:block">
+                  <!-- dam wall (trapezoid) -->
+                  <path d="M10 35L13 8H25L28 35Z" stroke="#2563EB" stroke-width="1.5" stroke-linejoin="round" fill="rgba(37,99,235,0.1)"/>
+                  <!-- dam structural lines -->
+                  <line x1="11.5" y1="16" x2="26.5" y2="16" stroke="#2563EB" stroke-width="1"   opacity="0.3"/>
+                  <line x1="11"   y1="24" x2="27"   y2="24" stroke="#2563EB" stroke-width="1"   opacity="0.3"/>
+                  <!-- reservoir water (upstream left) -->
+                  <path d="M3 13H13L13 8H3Z" fill="rgba(59,130,246,0.2)" stroke="none"/>
+                  <!-- reservoir surface waves -->
+                  <path d="M3.5 11C5 10 6.5 12 8 11C9 10.5 10.5 11 11.5 10.5" stroke="#3B82F6" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.8"/>
+                  <!-- sluice gate (center dam) -->
+                  <rect x="16" y="22" width="6" height="7" rx="1" stroke="#2563EB" stroke-width="1.3" fill="rgba(37,99,235,0.12)"/>
+                  <!-- water outflow from gate -->
+                  <line x1="19" y1="29" x2="19" y2="33" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round" opacity="0.65"/>
+                  <path d="M16 33C17.2 32 18.2 33.5 19 33C19.8 32.5 20.8 33.5 22 33" stroke="#3B82F6" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.55"/>
+                  <!-- level gauge marks (right side) -->
+                  <line x1="28" y1="10" x2="31" y2="10" stroke="#2563EB" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+                  <line x1="28" y1="16" x2="31" y2="16" stroke="#2563EB" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+                  <line x1="28" y1="22" x2="31" y2="22" stroke="#2563EB" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+                  <line x1="28" y1="28" x2="31" y2="28" stroke="#2563EB" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+                </svg>
+              </div>
               <div class="agency-name">
                 <h3>กรมชลประทาน</h3>
                 <p class="agency-abbr">RID — Royal Irrigation Department</p>
@@ -457,7 +615,27 @@
 
           <article class="agency-card reveal">
             <div class="agency-header">
-              <div class="agency-icon" aria-hidden="true">&#x1F30A;</div>
+              <div class="agency-icon" aria-hidden="true">
+                <!-- river network / watershed diagram — National Water Resources Office (ONWR) -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 38" fill="none" width="38" height="38" style="display:block">
+                  <!-- outer boundary circle -->
+                  <circle cx="19" cy="19" r="16" stroke="#0891B2" stroke-width="1.2" fill="rgba(8,145,178,0.05)" opacity="0.45"/>
+                  <!-- main river (central trunk flowing down) -->
+                  <path d="M19 3C18 7 20.5 10.5 19 14C17.5 17.5 19.5 21.5 18.5 25C17.5 28.5 19 33 19 35"
+                        stroke="#0891B2" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+                  <!-- left tributary upper -->
+                  <path d="M5 11C8 12 11 13 14 14" stroke="#0891B2" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.75"/>
+                  <!-- right tributary upper -->
+                  <path d="M33 9C30 11 27 12 24 14" stroke="#0891B2" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.75"/>
+                  <!-- left tributary lower -->
+                  <path d="M5 26C8 25 11 24 14.5 23.5C16 23.2 17.5 23 18.5 23" stroke="#0891B2" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.6"/>
+                  <!-- right tributary lower -->
+                  <path d="M33 28C30 27 27 26 23.5 24.5C22 24 20.5 23.5 19 23.5" stroke="#0891B2" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.6"/>
+                  <!-- delta branches at bottom -->
+                  <path d="M19 31C17 32.5 14.5 33.5 12 35" stroke="#0891B2" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.5"/>
+                  <path d="M19 31C21 32.5 23.5 33.5 26 35" stroke="#0891B2" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.5"/>
+                </svg>
+              </div>
               <div class="agency-name">
                 <h3>สำนักงานทรัพยากรน้ำแห่งชาติ</h3>
                 <p class="agency-abbr">สทนช. / ONWR</p>
@@ -470,7 +648,32 @@
 
           <article class="agency-card reveal">
             <div class="agency-header">
-              <div class="agency-icon" aria-hidden="true">&#x1F3D9;&#xFE0F;</div>
+              <div class="agency-icon" aria-hidden="true">
+                <!-- city skyline + underground drainage pipe — Khon Kaen City Municipality (KKC) -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 38" fill="none" width="38" height="38" style="display:block">
+                  <!-- buildings (city skyline) -->
+                  <rect x="2"  y="20" width="7"  height="14" rx="0.5" stroke="#0D9488" stroke-width="1.4" fill="rgba(13,148,136,0.1)"/>
+                  <rect x="11" y="13" width="9"  height="21" rx="0.5" stroke="#0D9488" stroke-width="1.4" fill="rgba(13,148,136,0.1)"/>
+                  <rect x="22" y="17" width="8"  height="17" rx="0.5" stroke="#0D9488" stroke-width="1.4" fill="rgba(13,148,136,0.1)"/>
+                  <rect x="32" y="23" width="5"  height="11" rx="0.5" stroke="#0D9488" stroke-width="1.3" fill="rgba(13,148,136,0.08)"/>
+                  <!-- windows -->
+                  <rect x="4"   y="23" width="2.5" height="2"   rx="0.3" fill="#0D9488" opacity="0.4"/>
+                  <rect x="4"   y="28" width="2.5" height="2"   rx="0.3" fill="#0D9488" opacity="0.3"/>
+                  <rect x="13"  y="16" width="2.5" height="2.5" rx="0.3" fill="#0D9488" opacity="0.4"/>
+                  <rect x="17"  y="16" width="2.5" height="2.5" rx="0.3" fill="#0D9488" opacity="0.3"/>
+                  <rect x="13"  y="21" width="2.5" height="2.5" rx="0.3" fill="#0D9488" opacity="0.3"/>
+                  <rect x="24"  y="21" width="2.5" height="2"   rx="0.3" fill="#0D9488" opacity="0.4"/>
+                  <!-- underground drainage main pipe -->
+                  <rect x="1" y="33" width="36" height="4" rx="2" stroke="#0D9488" stroke-width="1.3" fill="rgba(13,148,136,0.07)" opacity="0.7"/>
+                  <!-- drain drops from buildings -->
+                  <line x1="5.5"  y1="34" x2="5.5"  y2="33" stroke="#3B82F6" stroke-width="1.2" opacity="0.6"/>
+                  <line x1="15.5" y1="34" x2="15.5" y2="33" stroke="#3B82F6" stroke-width="1.2" opacity="0.6"/>
+                  <line x1="26"   y1="34" x2="26"   y2="33" stroke="#3B82F6" stroke-width="1.2" opacity="0.6"/>
+                  <!-- water flow direction arrow in pipe -->
+                  <path d="M7 35H15M20 35H30" stroke="#3B82F6" stroke-width="1.1" stroke-linecap="round" opacity="0.55"/>
+                  <path d="M28 33.5L30 35L28 36.5" stroke="#3B82F6" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.55"/>
+                </svg>
+              </div>
               <div class="agency-name">
                 <h3>เทศบาลนครขอนแก่น</h3>
                 <p class="agency-abbr">KKC — Khon Kaen City Municipality</p>
@@ -483,7 +686,21 @@
 
           <article class="agency-card reveal">
             <div class="agency-header">
-              <div class="agency-icon" aria-hidden="true">&#x1F321;&#xFE0F;</div>
+              <div class="agency-icon" aria-hidden="true">
+                <!-- storm cloud + heavy rain + lightning — Thai Meteorological Dept (TMD) -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 38" fill="none" width="38" height="38" style="display:block">
+                  <!-- storm cloud body -->
+                  <path d="M9.5 23C6 23 4 20.5 4 18C4 15 6.5 13 9 13C9.5 9.5 12.5 7 16 7C19.5 7 22 9 22.5 12C23.5 11.5 25 11.5 26.5 12.5C28 13.5 29 15 29 17C29 20.5 26.5 23 23.5 23Z"
+                        stroke="#0284C7" stroke-width="1.5" stroke-linejoin="round" fill="rgba(2,132,199,0.1)"/>
+                  <!-- rain streaks (heavy rain) -->
+                  <line x1="10" y1="27" x2="7.5"  y2="34" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="15" y1="26" x2="12.5" y2="34" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="20" y1="26" x2="17.5" y2="34" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="25" y1="27" x2="22.5" y2="34" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round"/>
+                  <!-- lightning bolt -->
+                  <path d="M27 22L22 29H26L21 37" stroke="#FCD34D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>
+              </div>
               <div class="agency-name">
                 <h3>กรมอุตุนิยมวิทยา</h3>
                 <p class="agency-abbr">TMD — Thai Meteorological Department</p>

@@ -65,20 +65,35 @@
 }
 
 .hazard-link {
-  font-size: 0.875rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  margin-top: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  margin-top: 0.5rem;
   align-self: flex-start;
-  transition: opacity var(--dur);
+  padding: 0.48rem 1.1rem 0.48rem 0.85rem;
+  border-radius: 999px;
+  border: 1.5px solid currentColor;
+  transition: background var(--dur) var(--ease),
+              color     var(--dur) var(--ease),
+              box-shadow var(--dur) var(--ease);
 }
-
-.hazard-card:hover .hazard-link { opacity: 0.75; }
 
 .hazard-heat  .hazard-link { color: #FB923C; }
 .hazard-dust  .hazard-link { color: #A78BFA; }
 .hazard-rain  .hazard-link { color: #38BDF8; }
 .hazard-flood .hazard-link { color: #22D3EE; }
+
+.hazard-heat:hover  .hazard-link,
+.hazard-heat:focus-visible  .hazard-link { background: #FB923C; color: #1a0600; box-shadow: 0 0 20px rgba(251,146,60,.45); }
+.hazard-dust:hover  .hazard-link,
+.hazard-dust:focus-visible  .hazard-link { background: #A78BFA; color: #0e0520; box-shadow: 0 0 20px rgba(167,139,250,.45); }
+.hazard-rain:hover  .hazard-link,
+.hazard-rain:focus-visible  .hazard-link { background: #38BDF8; color: #001726; box-shadow: 0 0 20px rgba(56,189,248,.45); }
+.hazard-flood:hover .hazard-link,
+.hazard-flood:focus-visible .hazard-link { background: #22D3EE; color: #00181e; box-shadow: 0 0 20px rgba(34,211,238,.45); }
 
 /* ── AGENCY CARDS (all topic pages) ════════════════════════════════════════ */
 .agency-grid {

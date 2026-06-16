@@ -329,6 +329,12 @@ function initHeatMapFull() {
     maxZoom:18, minZoom:5, attributionControl:{ compact:true },
   });
   hmfMap.addControl(new maplibregl.NavigationControl({ visualizePitch:false }), 'top-right');
+  hmfMap.addControl(new maplibregl.GeolocateControl({
+    positionOptions:  { enableHighAccuracy: true },
+    fitBoundsOptions: { maxZoom: 14 },
+    trackUserLocation: false,
+    showAccuracyCircle: true
+  }), 'bottom-right');
 
   /* Layer switcher */
   $$('[data-heat-layer]').forEach(btn => {

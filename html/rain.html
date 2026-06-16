@@ -506,7 +506,21 @@
 
           <article class="agency-card reveal">
             <div class="agency-header">
-              <div class="agency-icon" aria-hidden="true">&#x1F321;&#xFE0F;</div>
+              <div class="agency-icon" aria-hidden="true">
+                <!-- storm cloud + rain + lightning — TMD forecasts storms -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" width="34" height="34" style="display:block">
+                  <!-- cloud body -->
+                  <path d="M4 19C1.5 19 1.5 15 4.5 14C4.5 10.5 7.5 8 12 8C14 5.5 18.5 5 21.5 7C24 8 25.5 11 24.5 14C27.5 14.5 28.5 18 26.5 20C25.5 21.5 23 21 21 21L5 19Z"
+                        stroke="#38BDF8" stroke-width="1.5" fill="rgba(56,189,248,0.1)"/>
+                  <!-- lightning bolt inside cloud (storm) -->
+                  <path d="M16 10l-3.5 5.5h4L13 24" stroke="#FCD34D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <!-- rain streaks below cloud -->
+                  <line x1="7"  y1="23" x2="5"  y2="28" stroke="#38BDF8" stroke-width="1.4" stroke-linecap="round"/>
+                  <line x1="12" y1="23" x2="10" y2="28" stroke="#38BDF8" stroke-width="1.4" stroke-linecap="round"/>
+                  <line x1="21" y1="23" x2="19" y2="28" stroke="#38BDF8" stroke-width="1.4" stroke-linecap="round"/>
+                  <line x1="26" y1="23" x2="24" y2="28" stroke="#38BDF8" stroke-width="1.4" stroke-linecap="round"/>
+                </svg>
+              </div>
               <div class="agency-name">
                 <h3>กรมอุตุนิยมวิทยา</h3>
                 <p class="agency-abbr">TMD — Thai Meteorological Department</p>
@@ -519,7 +533,25 @@
 
           <article class="agency-card reveal">
             <div class="agency-header">
-              <div class="agency-icon" aria-hidden="true">&#x1F691;</div>
+              <div class="agency-icon" aria-hidden="true">
+                <!-- person evacuating + flood wave + escape arrow — DDPM disaster response -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" width="34" height="34" style="display:block">
+                  <!-- stick figure person -->
+                  <circle cx="10" cy="9" r="2.8" stroke="#EF4444" stroke-width="1.4" fill="rgba(239,68,68,0.1)"/>
+                  <path d="M10 12V18.5"       stroke="#EF4444" stroke-width="1.5" stroke-linecap="round"/>
+                  <path d="M7 15l3-1.5 3 1.5" stroke="#EF4444" stroke-width="1.4" stroke-linecap="round"/>
+                  <path d="M8 22l2-3.5 2 3.5" stroke="#EF4444" stroke-width="1.4" stroke-linecap="round"/>
+                  <!-- large evacuation arrow pointing up-right -->
+                  <path d="M18 18L27 9" stroke="#EF4444" stroke-width="2.2" stroke-linecap="round"/>
+                  <path d="M27 9H20.5" stroke="#EF4444" stroke-width="2.2" stroke-linecap="round"/>
+                  <path d="M27 9V15.5" stroke="#EF4444" stroke-width="2.2" stroke-linecap="round"/>
+                  <!-- flood wave at bottom -->
+                  <path d="M2 25C5 23.5 8 26.5 11 25C14 23.5 17 26.5 20 25C23 23.5 26 26.5 29 25"
+                        stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                  <path d="M2 29C5 27.5 8 30.5 11 29C14 27.5 17 30.5 20 29C23 27.5 26 30.5 29 29"
+                        stroke="#3B82F6" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.5"/>
+                </svg>
+              </div>
               <div class="agency-name">
                 <h3>กรมป้องกันและบรรเทาสาธารณภัย</h3>
                 <p class="agency-abbr">ปภ. / DDPM</p>
@@ -532,7 +564,26 @@
 
           <article class="agency-card reveal">
             <div class="agency-header">
-              <div class="agency-icon" aria-hidden="true">&#x1F3D9;&#xFE0F;</div>
+              <div class="agency-icon" aria-hidden="true">
+                <!-- city skyline + rain + drainage — KKC manages urban flooding -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" width="34" height="34" style="display:block">
+                  <!-- rain drops -->
+                  <path d="M6 3v2.5M13 2v2.5M21 3v2.5M28 2v2.5" stroke="#06B6D4" stroke-width="1.3" stroke-linecap="round" opacity="0.55"/>
+                  <!-- buildings -->
+                  <rect x="1"  y="16" width="9"  height="13" rx="1" stroke="#06B6D4" stroke-width="1.4" fill="rgba(6,182,212,0.08)"/>
+                  <rect x="12" y="9"  width="8"  height="20" rx="1" stroke="#06B6D4" stroke-width="1.4" fill="rgba(6,182,212,0.08)"/>
+                  <rect x="22" y="18" width="9"  height="11" rx="1" stroke="#06B6D4" stroke-width="1.4" fill="rgba(6,182,212,0.08)"/>
+                  <!-- windows -->
+                  <rect x="3"  y="19" width="2.5" height="2" rx="0.5" fill="#06B6D4" opacity="0.5"/>
+                  <rect x="14" y="12" width="2.5" height="2" rx="0.5" fill="#06B6D4" opacity="0.5"/>
+                  <rect x="18" y="12" width="2.5" height="2" rx="0.5" fill="#06B6D4" opacity="0.4"/>
+                  <rect x="24" y="21" width="2.5" height="2" rx="0.5" fill="#06B6D4" opacity="0.45"/>
+                  <!-- drainage pipe at ground level -->
+                  <rect x="1" y="29" width="30" height="3" rx="1.5" fill="rgba(6,182,212,0.12)" stroke="#06B6D4" stroke-width="1" opacity="0.7"/>
+                  <!-- drain outlet arrows -->
+                  <path d="M8 30.5H4M24 30.5H28" stroke="#06B6D4" stroke-width="1.3" stroke-linecap="round" opacity="0.6"/>
+                </svg>
+              </div>
               <div class="agency-name">
                 <h3>เทศบาลนครขอนแก่น</h3>
                 <p class="agency-abbr">KKC — Khon Kaen City Municipality</p>
@@ -545,7 +596,30 @@
 
           <article class="agency-card reveal">
             <div class="agency-header">
-              <div class="agency-icon" aria-hidden="true">&#x26A1;&#xFE0F;</div>
+              <div class="agency-icon" aria-hidden="true">
+                <!-- power towers + sagging lines + storm lightning bolt — PEA repairs storm damage -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" width="34" height="34" style="display:block">
+                  <!-- left tower mast -->
+                  <line x1="7"  y1="28" x2="7"  y2="14" stroke="#FBBF24" stroke-width="1.6" stroke-linecap="round"/>
+                  <!-- left tower crossarms -->
+                  <line x1="3.5" y1="17" x2="10.5" y2="17" stroke="#FBBF24" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="4.5" y1="21" x2="9.5"  y2="21" stroke="#FBBF24" stroke-width="1.4" stroke-linecap="round"/>
+                  <!-- left tower cap -->
+                  <path d="M5 14L7 10L9 14" stroke="#FBBF24" stroke-width="1.4" stroke-linejoin="round" fill="rgba(251,191,36,0.12)"/>
+                  <!-- right tower mast -->
+                  <line x1="25" y1="28" x2="25" y2="14" stroke="#FBBF24" stroke-width="1.6" stroke-linecap="round"/>
+                  <!-- right tower crossarms -->
+                  <line x1="21.5" y1="17" x2="28.5" y2="17" stroke="#FBBF24" stroke-width="1.5" stroke-linecap="round"/>
+                  <line x1="22.5" y1="21" x2="27.5" y2="21" stroke="#FBBF24" stroke-width="1.4" stroke-linecap="round"/>
+                  <!-- right tower cap -->
+                  <path d="M23 14L25 10L27 14" stroke="#FBBF24" stroke-width="1.4" stroke-linejoin="round" fill="rgba(251,191,36,0.12)"/>
+                  <!-- sagging power lines (catenary curves) -->
+                  <path d="M3.5 17 Q16 22 28.5 17" stroke="#FBBF24" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.65"/>
+                  <path d="M4.5 21 Q16 26 27.5 21" stroke="#FBBF24" stroke-width="1.1" stroke-linecap="round" fill="none" opacity="0.45"/>
+                  <!-- storm lightning bolt (damage) -->
+                  <path d="M17 3l-3 6h4.5l-3.5 7" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
               <div class="agency-name">
                 <h3>การไฟฟ้าส่วนภูมิภาค</h3>
                 <p class="agency-abbr">PEA — Provincial Electricity Authority</p>

@@ -213,6 +213,12 @@ function initSatelliteMap() {
   });
 
   map.addControl(new maplibregl.NavigationControl({ visualizePitch: false }), 'top-right');
+  map.addControl(new maplibregl.GeolocateControl({
+    positionOptions:  { enableHighAccuracy: true },
+    fitBoundsOptions: { maxZoom: 14 },
+    trackUserLocation: false,
+    showAccuracyCircle: true
+  }), 'bottom-right');
 
   /* Layer switcher */
   const layerBtns = $$('[data-map-layer]');

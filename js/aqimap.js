@@ -333,6 +333,12 @@ window.initAQIMap = function () {
 
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
   map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right');
+  map.addControl(new maplibregl.GeolocateControl({
+    positionOptions:  { enableHighAccuracy: true },
+    fitBoundsOptions: { maxZoom: 14 },
+    trackUserLocation: false,
+    showAccuracyCircle: true
+  }), 'bottom-right');
 
   /* Layer switcher */
   document.querySelectorAll('[data-aqi-layer]').forEach(btn => {
