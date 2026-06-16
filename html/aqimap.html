@@ -116,10 +116,47 @@
           <p class="sidebar-section-label">ชั้นแผนที่</p>
           <div class="layer-btn-group" role="group" aria-label="เลือกชั้นแผนที่" style="margin-top:0.5rem;">
             <button class="layer-btn active" data-aqi-layer="osm" aria-pressed="true">
-              &#x1F5FA;&#xFE0F; แผนที่ถนน
+              <!-- folded road map icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none"
+                   width="16" height="16" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0" aria-hidden="true">
+                <path d="M1 3.5l4-1.5 6 1.5 4-1.5v9l-4 1.5-6-1.5-4 1.5v-9z"
+                      stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"
+                      fill="currentColor" fill-opacity="0.1"/>
+                <line x1="5"  y1="2"    x2="5"  y2="11"   stroke="currentColor" stroke-width="0.85" opacity="0.35"/>
+                <line x1="11" y1="3.5"  x2="11" y2="12.5" stroke="currentColor" stroke-width="0.85" opacity="0.35"/>
+                <path d="M2 7.5h3M8 7.5h5" stroke="currentColor" stroke-width="1.2"
+                      stroke-linecap="round" opacity="0.75"/>
+                <path d="M7 5v4.5" stroke="currentColor" stroke-width="1.1"
+                      stroke-linecap="round" opacity="0.55"/>
+              </svg>
+              แผนที่ถนน
             </button>
             <button class="layer-btn" data-aqi-layer="esriSatellite" aria-pressed="false">
-              &#x1F30D; ดาวเทียม Esri
+              <!-- satellite with solar panels + signal beam to earth arc -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none"
+                   width="16" height="16" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0" aria-hidden="true">
+                <!-- body -->
+                <rect x="5.5" y="4.5" width="5" height="4.5" rx="1"
+                      stroke="currentColor" stroke-width="1.2" fill="currentColor" fill-opacity="0.12"/>
+                <!-- left solar panel -->
+                <rect x="1.5" y="5.5" width="3.5" height="2.5" rx="0.5"
+                      stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.08"/>
+                <line x1="3.2" y1="5.5" x2="3.2" y2="8" stroke="currentColor" stroke-width="0.7" opacity="0.4"/>
+                <!-- right solar panel -->
+                <rect x="11" y="5.5" width="3.5" height="2.5" rx="0.5"
+                      stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.08"/>
+                <line x1="12.8" y1="5.5" x2="12.8" y2="8" stroke="currentColor" stroke-width="0.7" opacity="0.4"/>
+                <!-- center sensor dot -->
+                <circle cx="8" cy="6.75" r="1" fill="currentColor" opacity="0.8"/>
+                <!-- signal beam down -->
+                <line x1="8" y1="9" x2="8" y2="11.5" stroke="currentColor" stroke-width="1"
+                      stroke-linecap="round" stroke-dasharray="1.2 0.8" opacity="0.55"/>
+                <!-- earth arc below -->
+                <path d="M3.5 14.5 A6 6 0 0 1 12.5 14.5"
+                      stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.6"/>
+                <circle cx="8" cy="12" r="1" fill="currentColor" opacity="0.75"/>
+              </svg>
+              ดาวเทียม Esri
             </button>
           </div>
         </div>
