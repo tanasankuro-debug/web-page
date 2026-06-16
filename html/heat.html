@@ -1341,6 +1341,107 @@
           </div>
         </div>
 
+        <!-- ─── Temperature Trend 30 Years ──────────────────────────────── -->
+        <div class="temp-trend-block reveal">
+          <h3>แนวโน้มอุณหภูมิขอนแก่น 30 ปี (พ.ศ. 2539–2568)</h3>
+          <p class="temp-trend-sub">จุดอ้างอิง: สถานีตรวจอากาศขอนแก่น (WMO 48381) &middot; 16.44°N, 102.84°E</p>
+
+          <!-- Key stats -->
+          <div class="temp-stats-grid">
+            <div class="temp-stat-box">
+              <div class="temp-stat-label">เดือนร้อนสุดของปี</div>
+              <div class="temp-stat-big">เม.ย.</div>
+              <div class="temp-stat-sub">จุดสูงสุดอยู่ที่ มี.ค.–พ.ค. ทุกปี</div>
+            </div>
+            <div class="temp-stat-box">
+              <div class="temp-stat-label">อุณหภูมิสูงสุดเฉลี่ย (เม.ย.)</div>
+              <div class="temp-stat-big">36.2°C</div>
+              <div class="temp-stat-sub">ค่าเฉลี่ยสูงสุดรายวัน 1991–2020</div>
+            </div>
+            <div class="temp-stat-box">
+              <div class="temp-stat-label">สถิติสูงสุดที่เคยวัดได้</div>
+              <div class="temp-stat-big">43.1°C</div>
+              <div class="temp-stat-sub">เดือน เม.ย. (สถิติ 1951–ปัจจุบัน)</div>
+            </div>
+          </div>
+
+          <!-- Monthly table (WMO 1991–2020 real data) -->
+          <div class="temp-monthly-wrap">
+            <h4>รูปแบบรายเดือน — อุณหภูมิสูงสุดเฉลี่ยรายวัน (°C) · WMO 1991–2020</h4>
+            <div class="monthly-scroll">
+              <table class="temp-monthly-table" aria-label="ตารางอุณหภูมิรายเดือนขอนแก่น">
+                <thead>
+                  <tr>
+                    <th class="row-label">&nbsp;</th>
+                    <th>ม.ค.</th><th>ก.พ.</th><th>มี.ค.</th>
+                    <th class="col-peak">เม.ย.</th>
+                    <th>พ.ค.</th><th>มิ.ย.</th><th>ก.ค.</th>
+                    <th>ส.ค.</th><th>ก.ย.</th><th>ต.ค.</th>
+                    <th>พ.ย.</th><th>ธ.ค.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th class="row-label">สูงสุดเฉลี่ย</th>
+                    <td>30.8</td><td>32.8</td><td>35.2</td>
+                    <td class="col-peak"><b>36.2</b></td>
+                    <td>34.9</td><td>34.0</td><td>33.0</td>
+                    <td>32.4</td><td>32.0</td><td>31.8</td>
+                    <td>31.6</td><td>30.3</td>
+                  </tr>
+                  <tr>
+                    <th class="row-label">ค่าเฉลี่ย</th>
+                    <td>23.8</td><td>25.9</td><td>28.6</td>
+                    <td class="col-peak"><b>29.9</b></td>
+                    <td>29.1</td><td>28.8</td><td>28.2</td>
+                    <td>27.6</td><td>27.3</td><td>26.8</td>
+                    <td>25.5</td><td>23.7</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="temp-monthly-source">ที่มา: WMO Climate Normals 1991–2020 (สถานี 48381) / กรมอุตุนิยมวิทยา</p>
+          </div>
+
+          <!-- Interactive heatmap 30yr x 12mo -->
+          <div class="heatmap-section">
+            <h4>Heatmap รายปี &times; เดือน · อุณหภูมิสูงสุดเฉลี่ยรายวัน (°C)</h4>
+            <p class="heatmap-hint">เลื่อนเมาส์เหนือช่องเพื่อดูค่า &middot; กรอบสีฟ้า = เดือนร้อนสุดของปีนั้น</p>
+            <div class="hm-scroll">
+              <div id="heat-trend-hm"></div>
+            </div>
+            <div class="hm-legend" aria-hidden="true">
+              <span>เย็น</span>
+              <span class="hm-swatch"></span>
+              <span>ร้อน</span>
+              <span style="margin-left:6px">ช่วง 30–39 °C</span>
+            </div>
+          </div>
+
+          <!-- Data transparency note -->
+          <div class="data-note">
+            <b>ความโปร่งใสของข้อมูล:</b> ค่าสถิติหลักและตารางรายเดือน (WMO 1991–2020) เป็น<b>ค่าจริง</b>จากกรมอุตุนิยมวิทยา
+            ค่า Heatmap รายปีสร้างจากค่าปกติ + แนวโน้มงานวิจัย (illustrative) ยังไม่ใช่ค่าตรวจวัดรายปีจริงทุกช่อง
+          </div>
+
+          <!-- Warming trend (from real research) -->
+          <p class="trend-heading">แนวโน้มอุ่นขึ้น — จากงานวิจัยจริง</p>
+          <ul class="temp-trend-list">
+            <li><b>ทั้งประเทศไทย:</b> อุณหภูมิเฉลี่ยรายปีเพิ่มขึ้น <strong>+0.95°C</strong> ระหว่างปี 1955–2009 สูงกว่าค่าเฉลี่ยโลก (+0.69°C); อุณหภูมิสูงสุดรายปีเพิ่มขึ้น <strong>+0.86°C</strong> ในรอบ 55 ปี <em>(Marks, 2011)</em></li>
+            <li><b>กรมอุตุนิยมวิทยา:</b> อุณหภูมิเฉลี่ยรายปีของไทยเพิ่มขึ้น ~<strong>1°C</strong> ระหว่างปี 1981–2007</li>
+            <li><b>พ.ศ. 2559 (2016)</b> เป็นปีที่ร้อนที่สุดในประวัติศาสตร์ไทย คลื่นความร้อนยาวนานที่สุดในรอบ ≥65 ปี ยืนยันโดย WMO</li>
+            <li><b>เม.ย. พ.ศ. 2566 (2023)</b> ไทยทำสถิติอุณหภูมิสูงสุดของประเทศใหม่ที่ <strong>45.5°C</strong> (จ.ตาก)</li>
+            <li><b>พ.ศ. 2567 (2024)</b> คลื่นความร้อนเอเชียตะวันออกเฉียงใต้ บางจุดในอีสานสูงเกิน 44°C; ความต้องการไฟฟ้าทำสถิติสูงสุด</li>
+          </ul>
+
+          <p class="temp-refs">
+            แหล่งอ้างอิง: WMO Climate Normals 1991–2020 (สถานีขอนแก่น 48381) &middot;
+            Marks, D. (2011) "Climate Change and Thailand: Impact and Response",
+            <em>Contemporary Southeast Asia</em> 33(2) &middot;
+            WMO Statement on the State of the Global Climate in 2016 (WMO-No.1189)
+          </p>
+        </div>
+
       </div>
     </section>
 
@@ -1884,6 +1985,14 @@
             Washington, D.C.: The World Bank.
           </li>
           <li>
+            Marks, D. (2011). "Climate Change and Thailand: Impact and Response."
+            <em>Contemporary Southeast Asia</em>, 33(2), 229–258.
+          </li>
+          <li>
+            WMO Climate Normals 1991–2020. สถานีขอนแก่น (WMO 48381) · 16.44°N, 102.84°E.
+            <a href="https://www.tmd.go.th" target="_blank" rel="noopener noreferrer">กรมอุตุนิยมวิทยา</a>
+          </li>
+          <li>
             กรมอุตุนิยมวิทยา (TMD). ระบบพยากรณ์และเฝ้าระวังสภาพอากาศ.
             <a href="https://www.tmd.go.th" target="_blank" rel="noopener noreferrer">www.tmd.go.th</a>
           </li>
@@ -1938,6 +2047,84 @@
   <script src="../js/heat-map.js"></script>
   <script src="../js/main.js"></script>
   <script>
+    /* ── Temperature Heatmap (30-year × 12-month grid) ─────────────────────── */
+    (function () {
+      'use strict';
+      var hmEl = document.getElementById('heat-trend-hm');
+      if (!hmEl) return;
+
+      var months = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+      var data = [
+        {be:2539,v:[30.8,32.0,35.7,37.0,33.0,33.1,32.9,32.1,31.8,31.2,31.9,30.5]},
+        {be:2540,v:[30.7,33.3,35.5,35.2,35.1,33.3,33.3,32.2,31.8,31.3,32.1,30.1]},
+        {be:2541,v:[30.5,32.5,35.6,36.4,35.1,34.1,33.9,32.1,31.6,31.3,31.8,30.7]},
+        {be:2542,v:[30.6,32.2,34.3,36.7,35.5,34.2,32.6,32.4,32.0,31.8,31.9,30.3]},
+        {be:2543,v:[31.0,32.8,35.4,36.7,33.5,33.7,32.7,32.0,31.8,32.5,31.1,30.7]},
+        {be:2544,v:[29.9,32.5,35.3,36.7,35.5,34.4,32.8,32.1,32.4,31.6,30.9,29.7]},
+        {be:2545,v:[30.3,33.0,35.3,36.8,34.5,34.0,33.3,32.2,32.2,31.4,31.4,30.1]},
+        {be:2546,v:[30.2,33.1,34.7,36.2,35.3,34.2,33.3,32.3,31.8,31.7,30.7,29.5]},
+        {be:2547,v:[30.1,32.2,35.5,35.3,34.5,34.8,32.8,32.8,31.5,31.7,31.1,30.1]},
+        {be:2548,v:[31.2,31.8,35.6,36.4,34.4,33.1,33.0,32.1,32.1,31.8,32.4,30.2]},
+        {be:2549,v:[30.3,32.9,35.4,37.6,35.7,34.2,33.7,31.8,31.7,31.4,31.4,29.6]},
+        {be:2550,v:[31.2,32.7,33.9,35.2,35.2,34.5,34.0,33.9,32.2,31.3,30.6,30.5]},
+        {be:2551,v:[30.4,32.6,34.7,36.1,35.9,34.1,33.0,31.9,31.2,31.6,31.6,31.2]},
+        {be:2552,v:[30.9,33.5,34.8,35.1,34.1,33.6,34.1,32.1,32.5,31.4,32.1,30.6]},
+        {be:2553,v:[30.8,32.9,35.9,37.9,35.8,33.4,32.5,32.6,32.9,32.0,31.6,30.5]},
+        {be:2554,v:[31.6,33.0,34.9,37.4,35.4,35.0,33.2,31.9,31.4,32.7,32.6,30.3]},
+        {be:2555,v:[30.7,33.8,34.3,35.4,35.6,33.9,33.1,32.4,32.3,32.6,31.8,30.7]},
+        {be:2556,v:[29.9,32.9,34.6,35.1,34.3,33.9,33.6,31.9,32.2,31.7,31.6,30.9]},
+        {be:2557,v:[31.2,33.8,35.2,35.7,34.9,34.3,33.3,32.0,32.2,32.1,33.0,31.4]},
+        {be:2558,v:[30.6,32.8,34.1,35.8,35.4,34.9,32.8,32.3,31.1,31.9,31.2,30.2]},
+        {be:2559,v:[30.6,32.9,35.4,36.5,38.6,33.4,32.6,33.5,33.7,31.4,31.6,30.7]},
+        {be:2560,v:[31.9,32.4,35.2,37.2,35.5,34.0,33.1,31.9,32.1,31.9,31.9,30.2]},
+        {be:2561,v:[31.3,33.6,35.6,36.8,35.2,34.2,32.9,32.8,32.2,33.1,32.6,30.7]},
+        {be:2562,v:[30.7,32.4,37.8,38.0,36.9,33.2,33.7,32.9,31.7,31.8,32.0,30.6]},
+        {be:2563,v:[30.9,33.0,35.2,36.6,36.5,32.7,33.2,32.8,32.4,31.9,31.0,30.7]},
+        {be:2564,v:[32.0,32.2,36.3,36.2,35.1,33.7,33.1,33.3,32.6,33.0,32.5,30.8]},
+        {be:2565,v:[32.0,33.4,36.3,36.2,35.3,33.9,33.8,32.1,32.7,32.0,32.5,31.0]},
+        {be:2566,v:[32.0,33.6,35.8,38.2,35.9,34.0,34.1,33.0,32.0,31.6,31.9,30.0]},
+        {be:2567,v:[30.8,33.3,38.6,39.2,35.2,34.5,33.4,32.9,33.2,31.1,31.6,30.9]},
+        {be:2568,v:[30.4,34.0,35.9,37.4,34.7,34.8,33.9,32.9,32.5,32.3,31.5,30.6]}
+      ];
+
+      function hmColor(v) {
+        var t = Math.max(0, Math.min(1, (v - 30) / 9));
+        var s = [[255,251,204],[253,174,97],[179,0,0]];
+        var c, u;
+        if (t < 0.5) { u = t / 0.5; c = s[0].map(function(a,i){ return Math.round(a+(s[1][i]-a)*u); }); }
+        else          { u = (t-0.5)/0.5; c = s[1].map(function(a,i){ return Math.round(a+(s[2][i]-a)*u); }); }
+        return 'rgb('+c[0]+','+c[1]+','+c[2]+')';
+      }
+
+      var html = '<table class="hm-grid"><thead><tr><th>พ.ศ.</th>' +
+        months.map(function(m){ return '<th>'+m+'</th>'; }).join('') + '</tr></thead><tbody>';
+      data.forEach(function(row){
+        var peak = row.v.indexOf(Math.max.apply(null, row.v));
+        html += '<tr><th>'+row.be+'</th>';
+        row.v.forEach(function(v,i){
+          html += '<td class="'+(i===peak?'hm-peak ':'')+(v>36?'hm-dark':'hm-light')+
+            '" style="background:'+hmColor(v)+'" data-y="'+row.be+'" data-m="'+i+'" data-v="'+v+'">'+(v).toFixed(0)+'</td>';
+        });
+        html += '</tr>';
+      });
+      html += '</tbody></table>';
+      hmEl.innerHTML = html;
+
+      var tip = document.createElement('div');
+      tip.className = 'hm-tooltip';
+      document.body.appendChild(tip);
+
+      hmEl.querySelectorAll('.hm-grid td').forEach(function(td){
+        td.addEventListener('mousemove', function(e){
+          tip.style.opacity = 1;
+          tip.style.left = (e.clientX+14)+'px';
+          tip.style.top  = (e.clientY+14)+'px';
+          tip.innerHTML  = 'พ.ศ.'+td.dataset.y+' · '+months[td.dataset.m]+'<br><b>'+(+td.dataset.v).toFixed(1)+' °C</b>';
+        });
+        td.addEventListener('mouseleave', function(){ tip.style.opacity = 0; });
+      });
+    }());
+
     /* Article SVG animation trigger — fires each diagram's choreography once on scroll */
     (function () {
       'use strict';
