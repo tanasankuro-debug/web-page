@@ -374,6 +374,78 @@
 .research-highlight p { font-size: 0.9rem; color: var(--text-sec); margin: 0; }
 .research-contact small { color: var(--text-muted); }
 
+/* ── Research Citation Block ── */
+.research-cite {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.research-cite-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 0.65rem;
+}
+
+.research-cite-entry {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--cool);
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.research-cite-authors {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.research-cite-title {
+  font-size: 0.82rem;
+  color: var(--text-sec);
+  line-height: 1.55;
+  font-style: italic;
+}
+
+.research-cite-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.6rem;
+  align-items: center;
+  margin-top: 0.2rem;
+}
+
+.research-cite-journal,
+.research-cite-inst,
+.research-cite-data {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+}
+
+.research-cite-journal em { font-style: italic; color: var(--cool); }
+
+.research-cite-dot {
+  color: var(--border);
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.research-cite-figure-note {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  opacity: 0.7;
+  margin-top: 0.15rem;
+}
+
 /* ===== IMPACT CARDS ======================================================= */
 .impact-grid {
   display: grid;

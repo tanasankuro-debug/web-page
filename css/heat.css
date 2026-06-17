@@ -234,6 +234,65 @@
   .temp-stats-grid { grid-template-columns: 1fr; }
 }
 
+/* ── Heatmap: large-screen layout ──────────────────────────────────────── */
+@media (min-width: 769px) {
+  .hm-scroll {
+    overflow-x: visible;   /* no horizontal scroll on desktop */
+    padding-bottom: 0;
+  }
+
+  .hm-grid {
+    font-size: 12.5px;
+    width: 100%;           /* fill the container */
+    table-layout: fixed;
+  }
+
+  .hm-grid th {
+    font-size: 0.78rem;
+    padding: 5px 0;
+    text-align: center;
+    min-width: 38px;
+  }
+
+  /* year column — sticky left, wider */
+  .hm-grid tbody th {
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    min-width: 56px;
+    width: 56px;
+    text-align: right;
+  }
+
+  .hm-grid thead th:first-child {
+    min-width: 56px;
+    width: 56px;
+  }
+
+  .hm-grid td {
+    width: auto;           /* flex to fill table-layout: fixed */
+    height: 30px;
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+
+  .hm-grid td.hm-peak {
+    outline: 2.5px solid #60A5FA;
+    outline-offset: -2px;
+    font-weight: 800;
+  }
+
+  .hm-legend {
+    font-size: 0.78rem;
+    gap: 10px;
+    margin-top: 0.75rem;
+  }
+
+  .hm-swatch {
+    width: 130px;
+    height: 11px;
+  }
+}
+
 /* ── SVG Diagram Animations ─────────────────────────────────────────────── */
 @media (prefers-reduced-motion: no-preference) {
 
