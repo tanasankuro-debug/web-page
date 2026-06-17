@@ -23,9 +23,17 @@
        SPLASH SCREEN — แสดงทุกครั้งที่เข้าหน้าแรก
   ====================================================================== -->
   <div id="splash" role="dialog" aria-label="หน้าต้อนรับ" aria-modal="true">
-    <video class="splash-video" autoplay muted loop playsinline>
+
+    <!-- PC / Laptop (≥769px) -->
+    <video class="splash-video splash-desktop" autoplay muted loop playsinline aria-hidden="true">
       <source src="../assets/splash-video.mp4" type="video/mp4" />
     </video>
+
+    <!-- มือถือ / Tablet (<769px) -->
+    <video class="splash-video splash-mobile" autoplay muted loop playsinline aria-hidden="true">
+      <source src="../assets/splash-mobile.mp4" type="video/mp4" />
+    </video>
+
     <div class="splash-overlay" aria-hidden="true"></div>
     <button id="splash-enter" class="splash-btn" type="button">
       <svg viewBox="0 0 20 20" fill="none" width="18" height="18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -697,9 +705,14 @@
 
   <script>
     (function () {
-      var splash = document.getElementById('splash');
-      var btn    = document.getElementById('splash-enter');
+      var splash   = document.getElementById('splash');
+      var btn      = document.getElementById('splash-enter');
       if (!splash || !btn) return;
+
+      /* หยุดวิดีโอที่ซ่อนอยู่ (ประหยัด bandwidth) */
+      var isMobile = window.matchMedia('(max-width: 768px)').matches;
+      var hide = splash.querySelector(isMobile ? '.splash-desktop' : '.splash-mobile');
+      if (hide) { hide.pause(); hide.src = ''; }
 
       /* lock body scroll while splash is showing */
       document.body.style.overflow = 'hidden';
@@ -707,14 +720,14 @@
       function dismiss() {
         splash.classList.add('splash--out');
         splash.addEventListener('animationend', function () {
+          /* หยุดวิดีโอทั้งหมดก่อนลบ */
+          splash.querySelectorAll('video').forEach(function(v){ v.pause(); });
           splash.style.display = 'none';
           document.body.style.overflow = '';
         }, { once: true });
       }
 
       btn.addEventListener('click', dismiss);
-
-      /* also dismiss if user presses Enter or Space on the button */
       btn.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') dismiss();
       });

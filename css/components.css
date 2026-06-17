@@ -31,6 +31,16 @@
   object-position: center;
 }
 
+/* PC: show desktop, hide mobile */
+.splash-desktop { display: block; }
+.splash-mobile  { display: none;  }
+
+/* มือถือ: show mobile, hide desktop */
+@media (max-width: 768px) {
+  .splash-desktop { display: none;  }
+  .splash-mobile  { display: block; }
+}
+
 /* very subtle dark gradient at bottom so button is always readable */
 .splash-overlay {
   position: absolute;
