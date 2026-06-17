@@ -4,6 +4,115 @@
    impact cards, solutions grid, temperature widget, CTA section
    ========================================================================== */
 
+/* ===== SPLASH SCREEN ======================================================= */
+#splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: #010C1A;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 3.5rem;
+  overflow: hidden;
+
+  animation: splashFadeIn 0.6s ease both;
+}
+
+/* video fills full screen */
+.splash-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* very subtle dark gradient at bottom so button is always readable */
+.splash-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 55%,
+    rgba(1, 8, 20, 0.65) 100%
+  );
+  pointer-events: none;
+}
+
+/* ── Button: rectangle, heat theme ── */
+.splash-btn {
+  position: relative;
+  z-index: 2;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+
+  /* dark navy background + vivid orange border (heat palette) */
+  background: rgba(1, 12, 26, 0.82);
+  color: #FB923C;
+  border: 2px solid #FB923C;
+  border-radius: 8px;                    /* สี่เหลี่ยมมุมเล็กน้อย */
+
+  font-family: inherit;
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+
+  padding: 0.9rem 2.8rem;
+
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  /* warm glow */
+  box-shadow:
+    0 0 0 1px rgba(251,146,60,0.25),
+    0 4px 32px rgba(251,146,60,0.35),
+    inset 0 0 24px rgba(251,146,60,0.06);
+
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+
+.splash-btn svg {
+  flex-shrink: 0;
+  color: #FB923C;
+  transition: transform 0.2s;
+}
+
+.splash-btn:hover,
+.splash-btn:focus-visible {
+  background: #FB923C;
+  color: #001118;
+  outline: none;
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 1px #FB923C,
+    0 6px 40px rgba(251,146,60,0.55);
+}
+
+.splash-btn:hover svg,
+.splash-btn:focus-visible svg { color: #001118; transform: translateX(3px); }
+
+.splash-btn:active { transform: translateY(0); }
+
+/* fade-out when JS adds this class */
+#splash.splash--out {
+  animation: splashFadeOut 0.45s ease forwards;
+}
+
+@keyframes splashFadeIn  { from { opacity: 0; } to   { opacity: 1; } }
+@keyframes splashFadeOut { from { opacity: 1; } to   { opacity: 0; } }
+
+@media (max-width: 480px) {
+  #splash      { padding-bottom: 2.5rem; }
+  .splash-btn  { font-size: 0.95rem; padding: 0.8rem 2rem; }
+}
+
 /* ===== BUTTONS ============================================================ */
 .btn {
   display: inline-flex;

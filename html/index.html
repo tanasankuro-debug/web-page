@@ -19,6 +19,23 @@
 </head>
 <body>
 
+  <!-- =====================================================================
+       SPLASH SCREEN — แสดงทุกครั้งที่เข้าหน้าแรก
+  ====================================================================== -->
+  <div id="splash" role="dialog" aria-label="หน้าต้อนรับ" aria-modal="true">
+    <video class="splash-video" autoplay muted loop playsinline>
+      <source src="../assets/splash-video.mp4" type="video/mp4" />
+    </video>
+    <div class="splash-overlay" aria-hidden="true"></div>
+    <button id="splash-enter" class="splash-btn" type="button">
+      <svg viewBox="0 0 20 20" fill="none" width="18" height="18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="10" cy="10" r="8"/>
+        <path d="M7 10h6M11 7l3 3-3 3"/>
+      </svg>
+      เข้าสู่เว็บไซต์
+    </button>
+  </div>
+
   <a class="skip-link" href="#main-content">ข้ามไปยังเนื้อหาหลัก</a>
 
   <!-- =====================================================================
@@ -677,5 +694,31 @@
   <script src="../js/live.js"></script>
   <script src="../js/map.js"></script>
   <script src="../js/main.js"></script>
+
+  <script>
+    (function () {
+      var splash = document.getElementById('splash');
+      var btn    = document.getElementById('splash-enter');
+      if (!splash || !btn) return;
+
+      /* lock body scroll while splash is showing */
+      document.body.style.overflow = 'hidden';
+
+      function dismiss() {
+        splash.classList.add('splash--out');
+        splash.addEventListener('animationend', function () {
+          splash.style.display = 'none';
+          document.body.style.overflow = '';
+        }, { once: true });
+      }
+
+      btn.addEventListener('click', dismiss);
+
+      /* also dismiss if user presses Enter or Space on the button */
+      btn.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') dismiss();
+      });
+    }());
+  </script>
 </body>
 </html>
