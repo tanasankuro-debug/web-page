@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Map Box — Heat Safe Khon Kaen</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100dvh;
+      background: #010C1A;
+      font-family: 'Noto Sans Thai', 'Barlow Condensed', sans-serif;
+      overflow: hidden;
+    }
+
+    /* ── Top bar ── */
+    .mb-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0 1rem;
+      height: 52px;
+      background: #0B1829;
+      border-bottom: 1px solid #1E3050;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .mb-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #FB923C;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 0.4rem 0.8rem;
+      border: 1.5px solid rgba(251,146,60,0.35);
+      border-radius: 8px;
+      transition: background 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .mb-back:hover {
+      background: rgba(251,146,60,0.12);
+      border-color: rgba(251,146,60,0.65);
+    }
+
+    .mb-title {
+      flex: 1;
+      color: #F1F5F9;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .mb-close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      color: #64748B;
+      font-size: 1.1rem;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background 0.15s, color 0.15s;
+      line-height: 1;
+    }
+    .mb-close:hover {
+      background: rgba(255,255,255,0.08);
+      color: #F1F5F9;
+    }
+
+    /* ── iframe ── */
+    .mb-frame {
+      flex: 1;
+      width: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* ── Fallback message (hidden by default) ── */
+    .mb-fallback {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      color: #64748B;
+      text-align: center;
+      padding: 2rem;
+    }
+    .mb-fallback svg { opacity: 0.4; }
+    .mb-fallback p { font-size: 0.9rem; line-height: 1.6; }
+    .mb-fallback a {
+      color: #FB923C;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1.5px solid #FB923C;
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <div class="mb-bar">
+    <a href="javascript:history.back()" class="mb-back" aria-label="กลับหน้าก่อนหน้า">
+      <svg viewBox="0 0 20 20" fill="none" width="15" height="15" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M13 10H7M10 13l-3-3 3-3"/>
+        <circle cx="10" cy="10" r="8"/>
+      </svg>
+      กลับ
+    </a>
+    <span class="mb-title">
+      <svg viewBox="0 0 16 16" fill="none" width="13" height="13" stroke="#FB923C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-2px;margin-right:5px"><path d="M10 2L6 3.5L2 2v10l4 1.5L10 12l4 1.5V3.5L10 2z"/><path d="M6 3.5v10M10 2v10"/></svg>
+      Map Box
+    </span>
+    <a href="index.html" class="mb-close" aria-label="ปิดและกลับหน้าแรก">✕</a>
+  </div>
+
+  <!-- LandCast iframe -->
+  <iframe
+    class="mb-frame"
+    src="https://landcast-kk.vercel.app/"
+    title="Map Box — LandCast"
+    allow="geolocation; fullscreen"
+    loading="lazy"
+    id="mb-iframe">
+  </iframe>
+
+</body>
+</html>

@@ -21,6 +21,8 @@
     { "source": "/heat-map-full", "destination": "/html/heat-map-full.html" },
     { "source": "/heat-map-full.html", "destination": "/html/heat-map-full.html" },
     { "source": "/team", "destination": "/html/team.html" },
-    { "source": "/team.html", "destination": "/html/team.html" }
+    { "source": "/team.html", "destination": "/html/team.html" },
+    { "source": "/landcast", "destination": "/html/landcast.html" },
+    { "source": "/landcast.html", "destination": "/html/landcast.html" }
   ]
 }

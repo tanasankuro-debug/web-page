@@ -147,7 +147,7 @@
         </p>
         <div class="hero-actions reveal">
           <a href="#topic-heat" class="btn btn-primary">ดูทั้ง 4 หัวข้อ</a>
-          <a href="https://landcast-kk.vercel.app/" class="btn btn-outline">
+          <a href="map.html" class="btn btn-outline">
             <svg viewBox="0 0 16 16" fill="none" width="14" height="14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-2px;margin-right:5px"><path d="M10 2L6 3.5L2 2v10l4 1.5L10 12l4 1.5V3.5L10 2z"/><path d="M6 3.5v10M10 2v10"/></svg>ดูแผนที่เรียลไทม์ &#x2192;
           </a>
         </div>
@@ -725,9 +725,9 @@
     </div>
   </footer>
 
-  <a href="https://landcast-kk.vercel.app/" id="map-fab" aria-label="เปิดแผนที่เรียลไทม์ LandCast">
+  <a href="landcast.html" id="map-fab" aria-label="เปิด Map Box">
     <svg viewBox="0 0 24 24" fill="none" width="22" height="22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3l-6 2.1L3 3v14l6 2.1L15 19l6-2.1V5L15 3z"/><path d="M9 5.1v14M15 3v14"/></svg>
-    <span>แผนที่เรียลไทม์</span>
+    <span>Map Box</span>
   </a>
 
   <button id="back-to-top" class="back-to-top" aria-label="กลับขึ้นด้านบนสุด" hidden>
@@ -746,9 +746,16 @@
 
   <script>
     (function () {
-      var splash   = document.getElementById('splash');
-      var btn      = document.getElementById('splash-enter');
+      var splash = document.getElementById('splash');
+      var btn    = document.getElementById('splash-enter');
       if (!splash || !btn) return;
+
+      /* ถ้าเคยเข้าแล้วใน session นี้ → ข้ามสแปลชทันที */
+      if (sessionStorage.getItem('splashSeen')) {
+        splash.querySelectorAll('video').forEach(function(v){ v.pause(); v.src = ''; });
+        splash.style.display = 'none';
+        return;
+      }
 
       /* หยุดวิดีโอที่ซ่อนอยู่ (ประหยัด bandwidth) */
       var isMobile = window.matchMedia('(max-width: 768px)').matches;
@@ -759,9 +766,9 @@
       document.body.style.overflow = 'hidden';
 
       function dismiss() {
+        sessionStorage.setItem('splashSeen', '1');
         splash.classList.add('splash--out');
         splash.addEventListener('animationend', function () {
-          /* หยุดวิดีโอทั้งหมดก่อนลบ */
           splash.querySelectorAll('video').forEach(function(v){ v.pause(); });
           splash.style.display = 'none';
           document.body.style.overflow = '';
