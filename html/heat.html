@@ -440,28 +440,11 @@
                     <feGaussianBlur stdDeviation="5" result="b"/>
                     <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
                   </filter>
-                  <filter id="phd-arc-glow" x="-5%" y="-40%" width="110%" height="180%">
+                  <filter id="phd-arc-glow-f" x="-5%" y="-40%" width="110%" height="180%">
                     <feGaussianBlur stdDeviation="7" result="b"/>
                     <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
                   </filter>
                 </defs>
-
-                <style>
-                  @keyframes phd-sun-spin   { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
-                  @keyframes phd-arc-pulse  { 0%,100%{stroke-opacity:.25} 50%{stroke-opacity:.60} }
-                  @keyframes phd-press-drop { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(10px)} }
-                  @keyframes phd-heat-rise  { 0%{transform:translateY(0px);opacity:.88} 65%{opacity:.45} 100%{transform:translateY(-20px);opacity:0} }
-                  @keyframes phd-particle   { 0%{transform:translateY(0px);opacity:.85} 100%{transform:translateY(-44px);opacity:0} }
-                  @keyframes phd-trap-pulse { 0%,100%{opacity:1} 50%{opacity:.50} }
-                  @keyframes phd-halo       { 0%,100%{opacity:.38} 50%{opacity:.70} }
-                  #phd-sun-rays { transform-origin:524px 48px; animation:phd-sun-spin 22s linear infinite }
-                  #phd-arc-glow { animation:phd-arc-pulse 3s ease-in-out infinite }
-                  #phd-sun-halo { animation:phd-halo 3s ease-in-out infinite }
-                  #phd-press    { animation:phd-press-drop 2s ease-in-out infinite }
-                  #phd-hr       { animation:phd-heat-rise 2.8s ease-in-out infinite }
-                  .phd-p        { animation:phd-particle 2s ease-out infinite }
-                  #phd-trap     { animation:phd-trap-pulse 2.6s ease-in-out infinite }
-                </style>
 
                 <!-- Sky -->
                 <rect width="600" height="340" fill="#050B16"/>
@@ -510,15 +493,20 @@
                 <path id="phd-arc-glow"
                       d="M 28,286 Q 300,48 572,286"
                       fill="none" stroke="#EF4444" stroke-width="16" stroke-opacity="0.25"
-                      filter="url(#phd-arc-glow)"/>
+                      filter="url(#phd-arc-glow-f)">
+                  <animate attributeName="stroke-opacity" values="0.22;0.60;0.22" dur="3s" repeatCount="indefinite"/>
+                </path>
                 <!-- Main arc line -->
                 <path d="M 28,286 Q 300,48 572,286"
                       fill="none" stroke="url(#phd-dome)" stroke-width="4" stroke-linecap="round"/>
 
                 <!-- === SUN (top right) === -->
-                <circle id="phd-sun-halo" cx="524" cy="46" r="38" fill="url(#phd-sun-rg)"/>
+                <circle id="phd-sun-halo" cx="524" cy="46" r="38" fill="url(#phd-sun-rg)">
+                  <animate attributeName="opacity" values="0.38;0.75;0.38" dur="3s" repeatCount="indefinite"/>
+                </circle>
                 <circle cx="524" cy="46" r="16" fill="#FACC15" opacity="0.94" filter="url(#phd-glow-f)"/>
                 <g id="phd-sun-rays" stroke="#FACC15" stroke-width="2.2" stroke-linecap="round" opacity="0.75">
+                  <animateTransform attributeName="transform" type="rotate" from="0 524 46" to="360 524 46" dur="20s" repeatCount="indefinite"/>
                   <line x1="524" y1="16" x2="524" y2="8"/>
                   <line x1="524" y1="76" x2="524" y2="84"/>
                   <line x1="494" y1="46" x2="486" y2="46"/>
@@ -538,6 +526,7 @@
 
                 <!-- === PRESSURE ARROWS (animated bounce down) === -->
                 <g id="phd-press">
+                  <animateTransform attributeName="transform" type="translate" values="0,0;0,10;0,0" dur="2s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0.05 0.55 0.95;0.45 0.05 0.55 0.95" keyTimes="0;0.5;1"/>
                   <rect x="186" y="72" width="228" height="22" rx="6" fill="#EF4444" fill-opacity="0.20"/>
                   <text x="300" y="87" text-anchor="middle" fill="#EF4444" font-size="10.5" font-weight="700">ความกดอากาศกดลงมา ↓</text>
                   <!-- Center (large) -->
@@ -553,6 +542,8 @@
 
                 <!-- === HEAT RISING ARROWS (animated float up) === -->
                 <g id="phd-hr">
+                  <animate attributeName="opacity" values="0.88;0.45;0;0;0.88" dur="2.8s" repeatCount="indefinite" keyTimes="0;0.5;0.7;0.71;1"/>
+                  <animateTransform attributeName="transform" type="translate" values="0,0;0,-10;0,-22;0,0;0,0" dur="2.8s" repeatCount="indefinite" keyTimes="0;0.5;0.7;0.71;1" additive="sum"/>
                   <line x1="112" y1="268" x2="112" y2="222" stroke="#FB923C" stroke-width="2.2" stroke-dasharray="5,3" stroke-linecap="round" opacity="0.78"/>
                   <polygon points="104,234 112,218 120,234" fill="#FB923C" opacity="0.78"/>
                   <line x1="232" y1="250" x2="232" y2="190" stroke="#FACC15" stroke-width="2.5" stroke-dasharray="5,3" stroke-linecap="round" opacity="0.92"/>
@@ -565,16 +556,35 @@
                 <text x="145" y="213" text-anchor="middle" fill="#FACC15" font-size="9.5" font-weight="600" opacity="0.88">ไอความร้อน ↑</text>
 
                 <!-- === HEAT PARTICLES === -->
-                <circle class="phd-p" cx="232" cy="248" r="2.5" fill="#FB923C" style="animation-delay:0s;animation-duration:1.9s"/>
-                <circle class="phd-p" cx="274" cy="238" r="2"   fill="#FACC15" style="animation-delay:0.5s;animation-duration:2.2s"/>
-                <circle class="phd-p" cx="306" cy="240" r="2.5" fill="#EF4444" style="animation-delay:1s;animation-duration:1.7s"/>
-                <circle class="phd-p" cx="338" cy="238" r="2"   fill="#FACC15" style="animation-delay:1.5s;animation-duration:2.1s"/>
-                <circle class="phd-p" cx="368" cy="248" r="2.5" fill="#FB923C" style="animation-delay:0.8s;animation-duration:2s"/>
-                <circle class="phd-p" cx="196" cy="254" r="2"   fill="#FACC15" style="animation-delay:1.3s;animation-duration:2.4s"/>
+                <circle cx="232" cy="248" r="2.5" fill="#FB923C">
+                  <animate attributeName="cy" from="248" to="204" dur="1.9s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.85" to="0" dur="1.9s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="274" cy="238" r="2" fill="#FACC15">
+                  <animate attributeName="cy" from="238" to="194" dur="2.2s" begin="0.5s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.85" to="0" dur="2.2s" begin="0.5s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="306" cy="240" r="2.5" fill="#EF4444">
+                  <animate attributeName="cy" from="240" to="196" dur="1.7s" begin="1s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.85" to="0" dur="1.7s" begin="1s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="338" cy="238" r="2" fill="#FACC15">
+                  <animate attributeName="cy" from="238" to="194" dur="2.1s" begin="1.5s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.85" to="0" dur="2.1s" begin="1.5s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="368" cy="248" r="2.5" fill="#FB923C">
+                  <animate attributeName="cy" from="248" to="204" dur="2s" begin="0.8s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.85" to="0" dur="2s" begin="0.8s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="196" cy="254" r="2" fill="#FACC15">
+                  <animate attributeName="cy" from="254" to="210" dur="2.4s" begin="1.3s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.85" to="0" dur="2.4s" begin="1.3s" repeatCount="indefinite"/>
+                </circle>
 
                 <!-- === TRAPPED LABEL (center glow box) === -->
                 <rect x="160" y="198" width="280" height="32" rx="8" fill="#EF4444" fill-opacity="0.14" stroke="#EF4444" stroke-width="1" stroke-opacity="0.35"/>
-                <text id="phd-trap" x="300" y="219" text-anchor="middle" fill="#FACC15" font-size="15" font-weight="800" letter-spacing="0.5">อากาศร้อนถูกกักไว้</text>
+                <text id="phd-trap" x="300" y="219" text-anchor="middle" fill="#FACC15" font-size="15" font-weight="800" letter-spacing="0.5">
+                  <animate attributeName="opacity" values="1;0.45;1" dur="2.6s" repeatCount="indefinite"/>อากาศร้อนถูกกักไว้</text>
 
                 <!-- === CANNOT ESCAPE LEFT === -->
                 <g fill="none" stroke="#22D3EE" stroke-linecap="round" stroke-width="2.2" stroke-dasharray="4,3" opacity="0.72">
@@ -655,22 +665,6 @@
                   </filter>
                 </defs>
 
-                <style>
-                  @keyframes uhi-draw      { from{stroke-dashoffset:1} to{stroke-dashoffset:0} }
-                  @keyframes uhi-city-pulse{ 0%,100%{opacity:.65} 50%{opacity:1} }
-                  @keyframes uhi-peak-beat { 0%,100%{transform:scale(1)} 50%{transform:scale(1.8)} }
-                  @keyframes uhi-heat-float{ 0%{transform:translateY(0px);opacity:.85} 65%{opacity:.40} 100%{transform:translateY(-20px);opacity:0} }
-                  @keyframes uhi-cool-blink{ 0%,100%{opacity:.55} 50%{opacity:.92} }
-                  @keyframes uhi-particle  { 0%{transform:translateY(0px);opacity:.85} 100%{transform:translateY(-30px);opacity:0} }
-                  #uhi-curve-glow { stroke-dasharray:1; stroke-dashoffset:1; animation:uhi-draw 2s ease-out .2s forwards }
-                  #uhi-curve-main { stroke-dasharray:1; stroke-dashoffset:1; animation:uhi-draw 2s ease-out .2s forwards }
-                  #uhi-city-rg    { animation:uhi-city-pulse 3s ease-in-out infinite }
-                  #uhi-peak-dot   { transform-origin:300px 92px; animation:uhi-peak-beat 2s ease-in-out infinite }
-                  #uhi-hr         { animation:uhi-heat-float 2.8s ease-in-out infinite }
-                  #uhi-cl         { animation:uhi-cool-blink 2.8s ease-in-out infinite }
-                  #uhi-cr         { animation:uhi-cool-blink 2.8s ease-in-out 1.4s infinite }
-                  .uhi-p          { animation:uhi-particle 2s ease-out infinite }
-                </style>
 
                 <!-- Sky -->
                 <rect width="600" height="340" fill="#050B16"/>
@@ -678,7 +672,9 @@
                 <rect x="0"   y="0" width="160" height="340" fill="url(#uhi-bg-l)"/>
                 <rect x="440" y="0" width="160" height="340" fill="url(#uhi-bg-r)"/>
                 <!-- City heat glow (center) -->
-                <rect id="uhi-city-rg" x="200" y="60" width="200" height="220" fill="url(#uhi-city-heat)"/>
+                <rect id="uhi-city-rg" x="200" y="60" width="200" height="220" fill="url(#uhi-city-heat)">
+                  <animate attributeName="opacity" values="0.65;1;0.65" dur="3s" repeatCount="indefinite"/>
+                </rect>
 
                 <!-- Ground -->
                 <rect x="0" y="240" width="600" height="100" fill="url(#uhi-gnd)"/>
@@ -746,14 +742,24 @@
                 <path id="uhi-curve-glow"
                       d="M 62,220 C 92,220 118,217 150,210 C 180,202 196,192 218,178 C 244,160 270,120 300,92 C 330,120 356,160 382,178 C 404,192 420,202 450,210 C 482,217 508,220 538,220"
                       fill="none" stroke="#EF4444" stroke-width="10" stroke-opacity="0.18"
-                      stroke-linecap="round" filter="url(#uhi-glow-f)" pathLength="1"/>
+                      stroke-linecap="round" filter="url(#uhi-glow-f)"
+                      pathLength="1" stroke-dasharray="1" stroke-dashoffset="1">
+                  <animate attributeName="stroke-dashoffset" from="1" to="0" dur="2s" begin="0.2s" fill="freeze"/>
+                  <animate attributeName="stroke-opacity" values="0.18;0.35;0.18" dur="3s" begin="2.5s" repeatCount="indefinite"/>
+                </path>
                 <path id="uhi-curve-main"
                       d="M 62,220 C 92,220 118,217 150,210 C 180,202 196,192 218,178 C 244,160 270,120 300,92 C 330,120 356,160 382,178 C 404,192 420,202 450,210 C 482,217 508,220 538,220"
-                      fill="none" stroke="url(#uhi-curve-grad)" stroke-width="3.5" stroke-linecap="round" pathLength="1"/>
+                      fill="none" stroke="url(#uhi-curve-grad)" stroke-width="3.5" stroke-linecap="round"
+                      pathLength="1" stroke-dasharray="1" stroke-dashoffset="1">
+                  <animate attributeName="stroke-dashoffset" from="1" to="0" dur="2s" begin="0.2s" fill="freeze"/>
+                </path>
 
                 <!-- Peak dot (pulsing) -->
                 <circle cx="300" cy="92" r="8" fill="#EF4444" fill-opacity="0.22" filter="url(#uhi-dot-f)"/>
-                <circle id="uhi-peak-dot" cx="300" cy="92" r="5.5" fill="#EF4444" stroke="#050B16" stroke-width="2"/>
+                <circle id="uhi-peak-dot" cx="300" cy="92" r="5.5" fill="#EF4444" stroke="#050B16" stroke-width="2">
+                  <animate attributeName="r" values="5.5;9.5;5.5" dur="2s" repeatCount="indefinite"/>
+                  <animate attributeName="fill-opacity" values="1;0.55;1" dur="2s" repeatCount="indefinite"/>
+                </circle>
 
                 <!-- BIG callout: +3-5°C (very prominent) -->
                 <line x1="300" y1="90" x2="340" y2="60" stroke="#EF4444" stroke-width="1.5" stroke-opacity="0.55"/>
@@ -763,6 +769,8 @@
 
                 <!-- Heat rising (city center, animated) -->
                 <g id="uhi-hr">
+                  <animate attributeName="opacity" values="0.88;0.45;0;0;0.88" dur="2.8s" repeatCount="indefinite" keyTimes="0;0.5;0.7;0.71;1"/>
+                  <animateTransform attributeName="transform" type="translate" values="0,0;0,-10;0,-22;0,0;0,0" dur="2.8s" repeatCount="indefinite" keyTimes="0;0.5;0.7;0.71;1" additive="sum"/>
                   <line x1="300" y1="142" x2="300" y2="68" stroke="#EF4444" stroke-width="2.5" stroke-dasharray="5,3" stroke-linecap="round" opacity="0.84"/>
                   <polygon points="292,80 300,64 308,80" fill="#EF4444" opacity="0.84"/>
                   <line x1="272" y1="154" x2="272" y2="88" stroke="#FB923C" stroke-width="2" stroke-dasharray="5,3" stroke-linecap="round" opacity="0.68"/>
@@ -771,19 +779,36 @@
                   <polygon points="337,100 344,85 351,100" fill="#FB923C" opacity="0.68"/>
                 </g>
                 <!-- Heat particles -->
-                <circle class="uhi-p" cx="300" cy="140" r="2.5" fill="#EF4444" style="animation-delay:0s;animation-duration:1.9s"/>
-                <circle class="uhi-p" cx="272" cy="152" r="2"   fill="#FB923C" style="animation-delay:0.6s;animation-duration:2.2s"/>
-                <circle class="uhi-p" cx="344" cy="152" r="2"   fill="#FB923C" style="animation-delay:1.2s;animation-duration:1.8s"/>
-                <circle class="uhi-p" cx="286" cy="156" r="1.8" fill="#FACC15" style="animation-delay:0.9s;animation-duration:2.1s"/>
-                <circle class="uhi-p" cx="318" cy="154" r="1.8" fill="#FACC15" style="animation-delay:1.6s;animation-duration:2.4s"/>
+                <circle cx="300" cy="140" r="2.5" fill="#EF4444">
+                  <animate attributeName="cy" from="140" to="108" dur="1.9s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.85" to="0" dur="1.9s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="272" cy="152" r="2" fill="#FB923C">
+                  <animate attributeName="cy" from="152" to="120" dur="2.2s" begin="0.6s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.85" to="0" dur="2.2s" begin="0.6s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="344" cy="152" r="2" fill="#FB923C">
+                  <animate attributeName="cy" from="152" to="120" dur="1.8s" begin="1.2s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.85" to="0" dur="1.8s" begin="1.2s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="286" cy="156" r="1.8" fill="#FACC15">
+                  <animate attributeName="cy" from="156" to="124" dur="2.1s" begin="0.9s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.85" to="0" dur="2.1s" begin="0.9s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="318" cy="154" r="1.8" fill="#FACC15">
+                  <animate attributeName="cy" from="154" to="122" dur="2.4s" begin="1.6s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.85" to="0" dur="2.4s" begin="1.6s" repeatCount="indefinite"/>
+                </circle>
 
                 <!-- Cool air (rural, animated) -->
                 <g id="uhi-cl">
+                  <animate attributeName="opacity" values="0.55;0.95;0.55" dur="2.8s" repeatCount="indefinite"/>
                   <line x1="92" y1="78" x2="92" y2="162" stroke="#22D3EE" stroke-width="2.2" stroke-dasharray="5,3" stroke-linecap="round" opacity="0.65"/>
                   <polygon points="83,150 92,166 101,150" fill="#22D3EE" opacity="0.65"/>
                 </g>
                 <text x="92" y="70" text-anchor="middle" fill="#22D3EE" font-size="9" font-weight="600" opacity="0.75">อากาศเย็น ↓</text>
                 <g id="uhi-cr">
+                  <animate attributeName="opacity" values="0.55;0.95;0.55" dur="2.8s" begin="1.4s" repeatCount="indefinite"/>
                   <line x1="508" y1="78" x2="508" y2="162" stroke="#22D3EE" stroke-width="2.2" stroke-dasharray="5,3" stroke-linecap="round" opacity="0.65"/>
                   <polygon points="499,150 508,166 517,150" fill="#22D3EE" opacity="0.65"/>
                 </g>
