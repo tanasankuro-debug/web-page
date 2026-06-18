@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="../css/themes.css" />
   <link rel="stylesheet" href="../css/topics.css" />
   <style>
+    /* ── FAB ──────────────────────────────────────────────── */
     #map-fab {
       position: fixed;
       bottom: 5.5rem;
@@ -46,6 +47,194 @@
     @media (max-width: 480px) {
       #map-fab span { display: none; }
       #map-fab { padding: 0.75rem; border-radius: 50%; }
+    }
+
+    /* ── STAT STRIP ────────────────────────────────────────── */
+    .stat-strip {
+      background: #050F1C;
+      border-top: 1px solid rgba(251,146,60,0.12);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 0;
+    }
+    .stat-strip-list {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .ss-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+      padding: 1.35rem 1rem;
+      text-align: center;
+      position: relative;
+      transition: background 0.2s;
+    }
+    .ss-item:hover { background: rgba(255,255,255,0.025); }
+    .ss-item + .ss-item::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 20%; height: 60%;
+      width: 1px;
+      background: rgba(255,255,255,0.07);
+    }
+    .ss-val {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .ss-lbl {
+      font-size: 0.72rem;
+      color: #7A91A8;
+      line-height: 1.4;
+      font-weight: 500;
+    }
+    .ss-heat  .ss-val { color: #C47848; }
+    .ss-dust  .ss-val { color: #8878C0; }
+    .ss-rain  .ss-val { color: #4A8AAC; }
+    .ss-flood .ss-val { color: #3898A8; }
+
+    /* ── SOFT COLOR PALETTE ─────────────────────────────────── */
+    /* Hazard card borders */
+    .hazard-heat  { border-top-color: #C47848; }
+    .hazard-dust  { border-top-color: #8878C0; }
+    .hazard-rain  { border-top-color: #4A8AAC; }
+    .hazard-flood { border-top-color: #3898A8; }
+
+    /* Hazard card link colors */
+    .hazard-heat  .hazard-link { color: #C47848; }
+    .hazard-dust  .hazard-link { color: #8878C0; }
+    .hazard-rain  .hazard-link { color: #4A8AAC; }
+    .hazard-flood .hazard-link { color: #3898A8; }
+
+    /* Hazard card hover link fill */
+    .hazard-heat:hover  .hazard-link,
+    .hazard-heat:focus-visible .hazard-link  { background: #C47848; color: #1a0800; box-shadow: none; }
+    .hazard-dust:hover  .hazard-link,
+    .hazard-dust:focus-visible .hazard-link  { background: #8878C0; color: #0e0520; box-shadow: none; }
+    .hazard-rain:hover  .hazard-link,
+    .hazard-rain:focus-visible .hazard-link  { background: #4A8AAC; color: #001726; box-shadow: none; }
+    .hazard-flood:hover .hazard-link,
+    .hazard-flood:focus-visible .hazard-link { background: #3898A8; color: #00181e; box-shadow: none; }
+
+    /* Card icon colors */
+    .card-icon--heat  { color: #C47848; }
+    .card-icon--pm25  { color: #8878C0; }
+    .card-icon--storm { color: #4A8AAC; }
+    .card-icon--flood { color: #3898A8; }
+
+    /* ── CARD STAT BADGE ───────────────────────────────────── */
+    .card-stat-badge {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.22rem 0.65rem;
+      border-radius: 999px;
+      align-self: flex-start;
+    }
+    .cs-heat  { background: rgba(196,120,72,0.12);  color: #C47848; border: 1px solid rgba(196,120,72,0.28); }
+    .cs-dust  { background: rgba(136,120,192,0.12); color: #8878C0; border: 1px solid rgba(136,120,192,0.28); }
+    .cs-rain  { background: rgba(74,138,172,0.12);  color: #4A8AAC; border: 1px solid rgba(74,138,172,0.28); }
+    .cs-flood { background: rgba(56,152,168,0.12);  color: #3898A8; border: 1px solid rgba(56,152,168,0.28); }
+
+    /* ── ENHANCED HAZARD CARDS ─────────────────────────────── */
+    .hazard-card { gap: 0.65rem; }
+    .hazard-card h2 { font-size: clamp(1.55rem, 3vw, 2rem); }
+    .hazard-heat:hover  { box-shadow: 0 8px 32px rgba(196,120,72,0.18), 0 2px 8px rgba(0,0,0,0.4); }
+    .hazard-dust:hover  { box-shadow: 0 8px 32px rgba(136,120,192,0.16), 0 2px 8px rgba(0,0,0,0.4); }
+    .hazard-rain:hover  { box-shadow: 0 8px 32px rgba(74,138,172,0.16), 0 2px 8px rgba(0,0,0,0.4); }
+    .hazard-flood:hover { box-shadow: 0 8px 32px rgba(56,152,168,0.16), 0 2px 8px rgba(0,0,0,0.4); }
+
+    /* ── HOOK QUESTION ──────────────────────────────────────── */
+    .info-hook { border-radius: 14px; }
+    .info-hook-q {
+      font-size: clamp(1.25rem, 2.8vw, 1.75rem) !important;
+      line-height: 1.45 !important;
+      letter-spacing: -0.01em;
+    }
+    .info-hook-answer {
+      background: rgba(255,255,255,0.025);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+    }
+    .info-hook-answer p {
+      font-size: 0.96rem;
+      line-height: 1.85;
+      color: #B8CAD8;
+    }
+    .info-hook-answer p strong { color: #E8EFF8; }
+
+    /* ── STEP CARDS ─────────────────────────────────────────── */
+    .info-step-card { border-radius: 14px; }
+    .info-step-num {
+      font-size: 3rem !important;
+      line-height: 0.85 !important;
+      opacity: 0.18 !important;
+    }
+    .info-step-title { font-size: 1.05rem !important; font-weight: 700 !important; }
+    .info-step-desc  { font-size: 0.88rem !important; line-height: 1.8 !important; }
+
+    /* ── ABOUT FACTS ────────────────────────────────────────── */
+    .about-facts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 2rem 0 1.5rem;
+    }
+    .about-fact {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 1.25rem 1.1rem;
+    }
+    .about-fact-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1;
+      color: #FB923C;
+      margin-bottom: 0.4rem;
+    }
+    .about-fact-lbl {
+      font-size: 0.82rem;
+      color: #7A91A8;
+      line-height: 1.5;
+    }
+
+    /* ── SECTION HEADING ─────────────────────────────────────── */
+    .section-heading {
+      letter-spacing: -0.02em;
+    }
+    .article-body p {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: #B8CAD8;
+    }
+    .article-body .lead {
+      font-size: 1.1rem !important;
+      color: #D4E0EC !important;
+      font-weight: 500;
+    }
+
+    @media (max-width: 640px) {
+      .stat-strip-list { flex-wrap: wrap; }
+      .ss-item { flex: 0 0 50%; min-width: 0; }
+      .ss-item:nth-child(2)::before { display: none; }
+      .ss-item:nth-child(3) { border-top: 1px solid rgba(255,255,255,0.06); }
+      .ss-item:nth-child(4) { border-top: 1px solid rgba(255,255,255,0.06); }
+      .about-facts { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 400px) {
+      .about-facts { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -157,6 +346,31 @@
     </section>
 
 
+    <!-- ─── STAT STRIP ──────────────────────────────────────────────────── -->
+    <div class="stat-strip" aria-label="ตัวเลขสำคัญ">
+      <div class="container" style="padding-left:0;padding-right:0;max-width:100%;">
+        <ul class="stat-strip-list" role="list">
+          <li class="ss-item ss-heat">
+            <span class="ss-val">42 °C</span>
+            <span class="ss-lbl">อุณหภูมิสูงสุด<br>ขอนแก่น 2567</span>
+          </li>
+          <li class="ss-item ss-dust">
+            <span class="ss-val">AQI 200+</span>
+            <span class="ss-lbl">ระดับอันตราย<br>จากฝุ่น PM2.5</span>
+          </li>
+          <li class="ss-item ss-rain">
+            <span class="ss-val">5–8 °C</span>
+            <span class="ss-lbl">ความต่างเมือง-ชนบท<br>จากเกาะความร้อน</span>
+          </li>
+          <li class="ss-item ss-flood">
+            <span class="ss-val">4 ภัย</span>
+            <span class="ss-lbl">พิบัติสิ่งแวดล้อมหลัก<br>ที่ส่งผลต่อขอนแก่น</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
     <!-- ─── 4 HAZARD CARDS ───────────────────────────────────────────────── -->
     <section id="hazards" class="section" aria-labelledby="hazards-heading">
       <div class="container">
@@ -174,6 +388,7 @@
           <a href="#topic-heat" class="hazard-card hazard-heat reveal">
             <span class="card-icon card-icon--heat"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="17" r="7"/><path d="M24 7V4M24 27V30M37 17H34M11 17H14M31 10L33 8M17 10L15 8M31 24L33 26M17 24L15 26"/><path d="M8 37c3-4 5-4 8 0s5 4 8 0 5-4 8 0 5 4 8 0"/><path d="M8 44c3-4 5-4 8 0s5 4 8 0 5-4 8 0 5 4 8 0"/></svg></span>
             <h2>ความร้อน</h2>
+            <span class="card-stat-badge cs-heat">Heat Index สูงถึง 42 °C</span>
             <p>
               โดมความร้อน (Heat Dome) และเกาะความร้อนเมือง (Urban Heat Island)
               ปรากฏการณ์ที่ส่งผลต่อสุขภาพและคุณภาพชีวิตในขอนแก่น
@@ -191,6 +406,7 @@
           <a href="#topic-dust" class="hazard-card hazard-dust reveal">
             <span class="card-icon card-icon--pm25"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20h18a5.5 5.5 0 1 0-5-7.5"/><path d="M5 29h24a6 6 0 0 0 0-12h-2"/><path d="M5 37h20"/><path d="M5 44h13"/><circle cx="35" cy="37" r="2" fill="currentColor" stroke="none"/><circle cx="30" cy="44" r="2" fill="currentColor" stroke="none"/><circle cx="42" cy="43" r="2" fill="currentColor" stroke="none"/><circle cx="43" cy="33" r="2" fill="currentColor" stroke="none"/></svg></span>
             <h2>ฝุ่น PM2.5</h2>
+            <span class="card-stat-badge cs-dust">AQI เกิน 200 · ระดับอันตราย</span>
             <p>
               มลภาวะอากาศจากการเผาในที่โล่ง ยานพาหนะ และหมอกควันข้ามพรมแดน
               มองไม่เห็นแต่ส่งผลต่อสุขภาพทางเดินหายใจอย่างรุนแรง
@@ -211,6 +427,7 @@
           <a href="#topic-rain" class="hazard-card hazard-rain reveal">
             <span class="card-icon card-icon--storm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 31A13 13 0 1 1 31 18.5h3a8 8 0 0 1 5 14"/><path d="M11 39l-2 7"/><path d="M22 38l-2 8"/><path d="M38 27l-5 8h6l-5 8"/></svg></span>
             <h2>ฝน/พายุ</h2>
+            <span class="card-stat-badge cs-rain">ฝนตกหนัก 300+ มม./วัน</span>
             <p>
               มรสุมและพายุหมุนเขตร้อนที่ส่งผลกระทบต่อภาคอีสาน
               ฝนตกหนักและลมกระโชกที่อาจเกิดขึ้นอย่างรวดเร็ว
@@ -228,6 +445,7 @@
           <a href="#topic-flood" class="hazard-card hazard-flood reveal">
             <span class="card-icon card-icon--flood"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 24l16-12 16 12"/><path d="M14 23v9"/><path d="M34 23v9"/><path d="M20 32h8"/><path d="M5 35c3-4 5.5-4 8 0s5 4 8 0 5.5-4 8 0 5 4 8 0"/><path d="M5 43c3-4 5.5-4 8 0s5 4 8 0 5.5-4 8 0 5 4 8 0"/></svg></span>
             <h2>น้ำท่วม</h2>
+            <span class="card-stat-badge cs-flood">น้ำล้นตลิ่ง 2+ เดือน/ปี</span>
             <p>
               น้ำท่วมเมืองและน้ำล้นตลิ่งจากฝนตกสะสมและการขยายตัวของเมือง
               รู้จักพื้นที่เสี่ยงและวางแผนรับมือก่อนที่น้ำจะมาถึง
@@ -250,7 +468,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════
          TOPIC 1 · ความร้อน
     ════════════════════════════════════════════════════════════════════ -->
-    <section id="topic-heat" class="section topic-section" style="--cool:#FB923C;--cool-dim:rgba(251,146,60,0.07);--cool-border:rgba(251,146,60,0.22);" aria-labelledby="th-heading">
+    <section id="topic-heat" class="section topic-section" style="--cool:#C47848;--cool-dim:rgba(196,120,72,0.07);--cool-border:rgba(196,120,72,0.2);" aria-labelledby="th-heading">
       <div class="container">
 
         <div class="tp-header reveal">
@@ -348,7 +566,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════
          TOPIC 2 · ฝุ่น PM2.5
     ════════════════════════════════════════════════════════════════════ -->
-    <section id="topic-dust" class="section section-alt topic-section" style="--cool:#A78BFA;--cool-dim:rgba(167,139,250,0.07);--cool-border:rgba(167,139,250,0.22);" aria-labelledby="td-heading">
+    <section id="topic-dust" class="section section-alt topic-section" style="--cool:#8878C0;--cool-dim:rgba(136,120,192,0.07);--cool-border:rgba(136,120,192,0.2);" aria-labelledby="td-heading">
       <div class="container">
 
         <div class="tp-header reveal">
@@ -450,7 +668,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════
          TOPIC 3 · ฝน/พายุ
     ════════════════════════════════════════════════════════════════════ -->
-    <section id="topic-rain" class="section topic-section" style="--cool:#38BDF8;--cool-dim:rgba(56,189,248,0.07);--cool-border:rgba(56,189,248,0.22);" aria-labelledby="tr-heading">
+    <section id="topic-rain" class="section topic-section" style="--cool:#4A8AAC;--cool-dim:rgba(74,138,172,0.07);--cool-border:rgba(74,138,172,0.2);" aria-labelledby="tr-heading">
       <div class="container">
 
         <div class="tp-header reveal">
@@ -551,7 +769,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════
          TOPIC 4 · น้ำท่วม
     ════════════════════════════════════════════════════════════════════ -->
-    <section id="topic-flood" class="section section-alt topic-section" style="--cool:#22D3EE;--cool-dim:rgba(34,211,238,0.07);--cool-border:rgba(34,211,238,0.22);" aria-labelledby="tf-heading">
+    <section id="topic-flood" class="section section-alt topic-section" style="--cool:#3898A8;--cool-dim:rgba(56,152,168,0.07);--cool-border:rgba(56,152,168,0.2);" aria-labelledby="tf-heading">
       <div class="container">
 
         <div class="tp-header reveal">
@@ -660,15 +878,26 @@
           <p class="lead reveal">
             ขอนแก่นคือศูนย์กลางภาคอีสาน เมืองที่กำลังเผชิญกับความท้าทายด้านสิ่งแวดล้อมหลายด้านพร้อมกัน
           </p>
+
+          <div class="about-facts reveal">
+            <div class="about-fact">
+              <div class="about-fact-num">2567</div>
+              <div class="about-fact-lbl">ปีที่ทำลายสถิติ<br>อุณหภูมิเฉลี่ยโลกสูงสุด<br>เป็นประวัติการณ์</div>
+            </div>
+            <div class="about-fact">
+              <div class="about-fact-num" style="color:#8878C0">4 ฤดู</div>
+              <div class="about-fact-lbl">ภาคอีสานเผชิญภัยพร้อมกัน<br>ในหนึ่งปี — ความร้อน ฝุ่น<br>น้ำท่วม และพายุ</div>
+            </div>
+            <div class="about-fact">
+              <div class="about-fact-num" style="color:#4A8AAC">KKU</div>
+              <div class="about-fact-lbl">ข้อมูลอ้างอิงจากงานวิจัย<br>มหาวิทยาลัยขอนแก่น<br>และหน่วยงานรัฐ</div>
+            </div>
+          </div>
+
           <p class="reveal">
-            ปี 2567 (2024) ทำลายสถิติอุณหภูมิเฉลี่ยโลกสูงสุดเป็นประวัติการณ์
-            ภาคอีสานรับมือกับทั้งคลื่นความร้อน ฝุ่น PM2.5 น้ำท่วม และพายุในฤดูกาลเดียวกัน
             การเข้าใจแต่ละภัยอย่างถูกต้องช่วยให้ตัดสินใจได้ดีขึ้น
             — ทั้งในฐานะประชาชนและผู้กำหนดนโยบาย
-          </p>
-          <p class="reveal">
-            ข้อมูลในเว็บไซต์นี้คัดจากงานวิจัยและแหล่งข้อมูลทางการ
-            รวมถึงงานวิจัยของมหาวิทยาลัยขอนแก่นและหน่วยงานรัฐที่เกี่ยวข้อง
+            ข้อมูลทุกส่วนคัดจากแหล่งข้อมูลทางการที่น่าเชื่อถือ
           </p>
         </div>
 
