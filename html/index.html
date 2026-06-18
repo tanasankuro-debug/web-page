@@ -19,6 +19,17 @@
   <link rel="stylesheet" href="../css/themes.css" />
 
   <style>
+    /* ── Reveal overrides for landing (longer, deeper slide) ── */
+    .landing .reveal {
+      transform: translateY(32px);
+      transition: opacity 0.65s cubic-bezier(.22,.68,0,1.2),
+                  transform 0.65s cubic-bezier(.22,.68,0,1.2);
+    }
+    .landing .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     /* ── Full-screen landing ───────────────────────────────── */
     html, body { height: 100%; overflow: hidden; }
 
@@ -297,16 +308,16 @@
 
     <!-- Title -->
     <div class="landing-text">
-      <span class="landing-badge">ข้อมูลสาธารณะ &middot; ขอนแก่น &middot; 2569</span>
-      <h1 class="landing-title">
+      <span class="landing-badge reveal">ข้อมูลสาธารณะ &middot; ขอนแก่น &middot; 2569</span>
+      <h1 class="landing-title reveal" style="transition-delay:.12s">
         HEAT SAFE<br>
         <span class="landing-title-accent">KHONKEAN</span>
       </h1>
-      <p class="landing-sub">เข้าใจภัยพิบัติสิ่งแวดล้อม 4 ประเภทที่ส่งผลต่อชีวิตคนขอนแก่น</p>
+      <p class="landing-sub reveal" style="transition-delay:.24s">เข้าใจภัยพิบัติสิ่งแวดล้อม 4 ประเภทที่ส่งผลต่อชีวิตคนขอนแก่น</p>
     </div>
 
     <!-- Navigation buttons -->
-    <nav class="landing-nav" aria-label="เลือกหัวข้อ">
+    <nav class="landing-nav reveal" style="transition-delay:.38s" aria-label="เลือกหัวข้อ">
 
       <!-- 4 topic cards -->
       <div class="landing-topics" role="list">
