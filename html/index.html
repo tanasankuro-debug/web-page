@@ -18,6 +18,36 @@
   <link rel="stylesheet" href="../css/components.css" />
   <link rel="stylesheet" href="../css/themes.css" />
   <link rel="stylesheet" href="../css/topics.css" />
+  <style>
+    #map-fab {
+      position: fixed;
+      bottom: 5.5rem;
+      right: 1.5rem;
+      z-index: 900;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.1rem 0.65rem 0.85rem;
+      background: #FB923C;
+      color: #001118;
+      border-radius: 999px;
+      font-family: 'Noto Sans Thai', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 4px 18px rgba(251,146,60,0.45);
+      transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+    }
+    #map-fab:hover {
+      background: #f97316;
+      box-shadow: 0 6px 24px rgba(251,146,60,0.65);
+      transform: translateY(-2px);
+    }
+    @media (max-width: 480px) {
+      #map-fab span { display: none; }
+      #map-fab { padding: 0.75rem; border-radius: 50%; }
+    }
+  </style>
 </head>
 <body>
 
@@ -28,12 +58,12 @@
 
     <!-- PC / Laptop (≥769px) -->
     <video class="splash-video splash-desktop" autoplay muted loop playsinline aria-hidden="true">
-      <source src="../assets/mobile2.mp4" type="video/mp4" />
+      <source src="../assets/pc3.mp4" type="video/mp4" />
     </video>
 
     <!-- มือถือ / Tablet (<769px) -->
     <video class="splash-video splash-mobile" autoplay muted loop playsinline aria-hidden="true">
-      <source src="../assets/PC2.mp4" type="video/mp4" />
+      <source src="../assets/mobile3.mp4" type="video/mp4" />
     </video>
 
     <div class="splash-overlay" aria-hidden="true"></div>
@@ -117,7 +147,9 @@
         </p>
         <div class="hero-actions reveal">
           <a href="#topic-heat" class="btn btn-primary">ดูทั้ง 4 หัวข้อ</a>
-          <a href="map.html" class="btn btn-outline">ดูแผนที่เรียลไทม์ &#x2192;</a>
+          <a href="https://landcast-kk.vercel.app/" class="btn btn-outline">
+            <svg viewBox="0 0 16 16" fill="none" width="14" height="14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-2px;margin-right:5px"><path d="M10 2L6 3.5L2 2v10l4 1.5L10 12l4 1.5V3.5L10 2z"/><path d="M6 3.5v10M10 2v10"/></svg>ดูแผนที่เรียลไทม์ &#x2192;
+          </a>
         </div>
       </div>
 
@@ -692,6 +724,11 @@
 
     </div>
   </footer>
+
+  <a href="https://landcast-kk.vercel.app/" id="map-fab" aria-label="เปิดแผนที่เรียลไทม์ LandCast">
+    <svg viewBox="0 0 24 24" fill="none" width="22" height="22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3l-6 2.1L3 3v14l6 2.1L15 19l6-2.1V5L15 3z"/><path d="M9 5.1v14M15 3v14"/></svg>
+    <span>แผนที่เรียลไทม์</span>
+  </a>
 
   <button id="back-to-top" class="back-to-top" aria-label="กลับขึ้นด้านบนสุด" hidden>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
