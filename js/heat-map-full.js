@@ -287,13 +287,29 @@ function injectLegend() {
   const el = document.createElement('div');
   el.id = 'hmf-legend';
   el.innerHTML =
-    '<div style="font-weight:700;margin-bottom:7px;color:#fff;font-size:14px;">อุณหภูมิ (°C)</div>' +
+    '<div id="hmf-legend-hd">' +
+      '<span>อุณหภูมิ (°C)</span>' +
+      '<button id="hmf-legend-btn" aria-label="ซ่อน/แสดง" aria-expanded="true">' +
+        '<svg viewBox="0 0 10 6" width="9" height="9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4"/></svg>' +
+      '</button>' +
+    '</div>' +
+    '<div id="hmf-legend-body">' +
     steps.map(([d,l,c]) =>
       `<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">` +
-      `<span style="width:14px;height:14px;border-radius:50%;background:${c};flex-shrink:0"></span>` +
+      `<span style="width:13px;height:13px;border-radius:50%;background:${c};flex-shrink:0"></span>` +
       `<span>${d} ${l}</span></div>`
-    ).join('');
+    ).join('') +
+    '</div>';
   wrap.appendChild(el);
+
+  const btn  = document.getElementById('hmf-legend-btn');
+  const body = document.getElementById('hmf-legend-body');
+  btn.addEventListener('click', function () {
+    const open = body.style.display !== 'none';
+    body.style.display = open ? 'none' : '';
+    btn.setAttribute('aria-expanded', String(!open));
+    btn.classList.toggle('hmf-legend-collapsed', open);
+  });
 }
 
 /* ── Main init ───────────────────────────────────────────────────────────── */
@@ -329,12 +345,64 @@ function initHeatMapFull() {
     maxZoom:18, minZoom:5, attributionControl:{ compact:true },
   });
   hmfMap.addControl(new maplibregl.NavigationControl({ visualizePitch:false }), 'top-right');
-  hmfMap.addControl(new maplibregl.GeolocateControl({
-    positionOptions:  { enableHighAccuracy: true },
-    fitBoundsOptions: { maxZoom: 14 },
-    trackUserLocation: false,
-    showAccuracyCircle: true
-  }), 'bottom-right');
+
+  /* ── Custom locate button ──────────────────────────────────────── */
+  (function addLocateBtn(map) {
+    const btn = document.createElement('button');
+    btn.id = 'hmf-locate-btn';
+    btn.title = 'ตำแหน่งของฉัน';
+    btn.setAttribute('aria-label', 'ซูมไปตำแหน่งปัจจุบัน');
+    btn.innerHTML =
+      '<svg viewBox="0 0 20 20" fill="none" width="18" height="18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+        '<circle cx="10" cy="10" r="3.5"/>' +
+        '<path d="M10 1.5V5M10 15V18.5M1.5 10H5M15 10H18.5"/>' +
+      '</svg>';
+
+    document.getElementById('hmf-map-el').appendChild(btn);
+
+    btn.addEventListener('click', function () {
+      if (!navigator.geolocation) {
+        alert('เบราว์เซอร์นี้ไม่รองรับ GPS');
+        return;
+      }
+      btn.dataset.state = 'loading';
+      navigator.geolocation.getCurrentPosition(
+        function (pos) {
+          const lng = pos.coords.longitude;
+          const lat = pos.coords.latitude;
+
+          /* ตรวจสอบว่าอยู่ในประเทศไทย (bounding box คร่าวๆ) */
+          const inThailand = lat >= 5.5 && lat <= 20.5 && lng >= 97.5 && lng <= 105.7;
+          if (!inThailand) {
+            delete btn.dataset.state;
+            btn.dataset.state = 'error';
+            setTimeout(function () { delete btn.dataset.state; }, 4000);
+            alert('ตำแหน่งที่ได้รับไม่อยู่ในประเทศไทย\n\nคอมพิวเตอร์ไม่มี GPS จึงเดาตำแหน่งจาก IP address ซึ่งอาจผิดพลาดได้\n\nแนะนำให้ใช้บนมือถือเพื่อความแม่นยำ');
+            return;
+          }
+
+          btn.dataset.state = 'found';
+          setTimeout(function () { delete btn.dataset.state; }, 2500);
+
+          if (window._hmfUserMarker) window._hmfUserMarker.remove();
+          window._hmfUserMarker = new maplibregl.Marker({ color: '#3B82F6', scale: 0.85 })
+            .setLngLat([lng, lat])
+            .setPopup(new maplibregl.Popup({ offset: 22, closeButton: false })
+              .setHTML('<div style="font-size:12px;color:#0B1829;font-weight:600;padding:2px 4px;">📍 ตำแหน่งของคุณ</div>'))
+            .addTo(map);
+
+          map.flyTo({ center: [lng, lat], zoom: 14, speed: 1.5, curve: 1.4 });
+        },
+        function (err) {
+          delete btn.dataset.state;
+          btn.dataset.state = 'error';
+          setTimeout(function () { delete btn.dataset.state; }, 3000);
+          if (err.code === 1) alert('กรุณาอนุญาตการเข้าถึงตำแหน่งในเบราว์เซอร์');
+        },
+        { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
+      );
+    });
+  })(hmfMap);
 
   /* Layer switcher */
   $$('[data-heat-layer]').forEach(btn => {

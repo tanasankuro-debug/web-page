@@ -181,8 +181,73 @@
       font-family: sans-serif;
       font-size: 13px;
       color: #e5e7eb;
-      pointer-events: none;
+      pointer-events: auto;
       min-width: 155px;
+    }
+    #hmf-legend-hd {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 7px;
+      font-weight: 700;
+      font-size: 14px;
+      color: #fff;
+    }
+    #hmf-legend-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 5px;
+      color: rgba(255,255,255,.75);
+      cursor: pointer;
+      transition: background .15s, transform .2s;
+    }
+    #hmf-legend-btn:hover { background: rgba(255,255,255,.16); }
+    #hmf-legend-btn.hmf-legend-collapsed { transform: rotate(-90deg); }
+    #hmf-legend-body { margin-top: 2px; }
+
+    /* ── Locate button ───────────────────────────────────────────── */
+    #hmf-locate-btn {
+      position: absolute;
+      bottom: 6.5rem;
+      right: .75rem;
+      z-index: 10;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(11,15,26,.9);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 8px;
+      color: #e5e7eb;
+      cursor: pointer;
+      transition: background .15s, color .15s, box-shadow .15s;
+    }
+    #hmf-locate-btn:hover { background: rgba(30,50,80,.95); color: #fff; }
+    #hmf-locate-btn[data-state="loading"] {
+      color: #60A5FA;
+      animation: hmf-spin 1s linear infinite;
+    }
+    #hmf-locate-btn[data-state="found"] {
+      color: #4ADE80;
+      box-shadow: 0 0 10px rgba(74,222,128,.4);
+    }
+    #hmf-locate-btn[data-state="error"] {
+      color: #F87171;
+      box-shadow: 0 0 10px rgba(248,113,113,.35);
+    }
+    @keyframes hmf-spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
     }
 
     /* ── Mobile toggle ───────────────────────────────────────────── */
