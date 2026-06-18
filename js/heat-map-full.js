@@ -463,7 +463,8 @@ function initHeatMapFull() {
         `width:100%;height:100%;display:flex;flex-direction:column;` +
         `align-items:center;justify-content:center;` +
         `box-shadow:0 4px 14px rgba(0,0,0,.6);transition:transform .15s,box-shadow .15s;` +
-        `font-weight:800;color:#fff;line-height:1.15;font-family:sans-serif;font-size:18px;`;
+        `font-weight:800;color:#fff;line-height:1.15;font-family:sans-serif;font-size:18px;` +
+        `cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;`;
       bubble.innerHTML =
         `<span>${Math.round(d.temp)}°</span>` +
         `<span style="font-size:11px;font-weight:600;opacity:.9">${pd.name.length>5?pd.name.slice(0,5)+'…':pd.name}</span>`;
@@ -492,6 +493,12 @@ function initHeatMapFull() {
         bubble.style.transform = 'scale(1.12)';
         bubble.style.border = '3.5px solid #fff';
         updateSidebar();
+
+        /* บน mobile — เปิด sidebar ให้อัตโนมัติเพื่อแสดงข้อมูล */
+        if (window.innerWidth <= 640) {
+          var sb = document.getElementById('hmf-sidebar');
+          if (sb) sb.classList.add('open');
+        }
       });
 
       new maplibregl.Marker({ element: el, anchor:'center' })

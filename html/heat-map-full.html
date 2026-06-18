@@ -24,6 +24,189 @@
     #hmf-sidebar { width: 360px; }
     @media (max-width: 860px) { #hmf-sidebar { width: 320px; } }
 
+    /* ── Bottom sheet handle ─────────────────────────────────────── */
+    #hmf-sheet-handle {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.1rem;
+      height: 58px;
+      flex-shrink: 0;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
+      border-radius: 16px 16px 0 0;
+      user-select: none;
+      background: rgba(255,255,255,.06);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    #hmf-sheet-handle:active { background: rgba(255,255,255,.1); }
+    .hmf-grip {
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 5px;
+      background: rgba(255,255,255,.38);
+      border-radius: 3px;
+    }
+    #hmf-sheet-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 10px;
+    }
+    #hmf-sheet-label::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #FB923C;
+      box-shadow: 0 0 6px rgba(251,146,60,.7);
+      flex-shrink: 0;
+    }
+    #hmf-sheet-chevron {
+      color: rgba(255,255,255,.65);
+      transition: transform .25s;
+      margin-top: 10px;
+      flex-shrink: 0;
+      background: rgba(255,255,255,.1);
+      border-radius: 50%;
+      padding: 4px;
+      width: 26px;
+      height: 26px;
+    }
+    #hmf-sidebar.open #hmf-sheet-chevron { transform: rotate(180deg); }
+
+    /* ── Legend in sidebar (mobile only) ────────────────────────── */
+    #hmf-sb-legend { display: none; }
+    .hmf-legend-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px 16px;
+      padding: 6px 0 2px;
+    }
+    .hlg-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: rgba(255,255,255,.75);
+    }
+    .hlg-item i {
+      display: inline-block;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      font-style: normal;
+    }
+
+    /* ── Attribution — left tab on mobile ───────────────────────── */
+    @media (max-width: 640px) {
+      /* ซ่อนข้อความ attribution แต่ยังอยู่ใน DOM */
+      .maplibregl-ctrl-attrib-inner { display: none !important; }
+
+      /* ย้าย attribution มาซ้าย */
+      .maplibregl-ctrl-bottom-right {
+        right: auto !important;
+        left: 0 !important;
+        bottom: 0 !important;
+      }
+      .maplibregl-ctrl-attrib {
+        background: rgba(11,15,26,.78) !important;
+        backdrop-filter: blur(6px) !important;
+        -webkit-backdrop-filter: blur(6px) !important;
+        border-radius: 0 6px 0 0 !important;
+        border: 1px solid rgba(255,255,255,.1) !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .maplibregl-ctrl-attrib-button {
+        width: 36px !important;
+        height: 28px !important;
+        background: transparent !important;
+        color: rgba(255,255,255,.55) !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        letter-spacing: 1px !important;
+      }
+      /* แทนไอคอน ⓘ ด้วย <> */
+      .maplibregl-ctrl-attrib-button::after {
+        display: none !important;
+      }
+      .maplibregl-ctrl-attrib-button::before {
+        content: '<>' !important;
+        font-family: monospace !important;
+      }
+      /* ถ้า user กดดู — เปิดขึ้นมาด้านบน */
+      .maplibregl-ctrl-attrib.maplibregl-compact-show .maplibregl-ctrl-attrib-inner {
+        display: block !important;
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        background: rgba(11,15,26,.92);
+        color: rgba(255,255,255,.65);
+        font-size: 10px;
+        padding: 6px 10px;
+        border-radius: 6px 6px 0 0;
+        white-space: nowrap;
+        border: 1px solid rgba(255,255,255,.1);
+      }
+    }
+
+    /* ── Mobile bottom sheet override ───────────────────────────── */
+    @media (max-width: 640px) {
+      #hmf-sheet-handle { display: flex; }
+
+      /* Legend ย้ายเข้า sidebar, ซ่อน floating */
+      #hmf-sb-legend   { display: block; }
+      #hmf-legend       { display: none !important; }
+
+      #hmf-sidebar {
+        position: fixed !important;
+        top: auto !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        max-height: 72vh !important;
+        transform: translateY(calc(100% - 58px)) !important;
+        transition: transform .32s cubic-bezier(.32,.72,0,1) !important;
+        border-radius: 16px 16px 0 0 !important;
+        border-top: 1px solid rgba(255,255,255,.15) !important;
+        box-shadow: 0 -4px 32px rgba(0,0,0,.6) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        z-index: 50 !important;
+        background: rgba(10,15,28,.96) !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+      }
+      #hmf-sidebar.open {
+        transform: translateY(0) !important;
+        box-shadow: 0 -8px 48px rgba(0,0,0,.75) !important;
+      }
+      #hmf-sidebar .map-sidebar-inner {
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      /* ซ่อน toggle เก่า */
+      #hmf-toggle { display: none !important; }
+
+      /* ปุ่ม locate อยู่เหนือ handle */
+      #hmf-locate-btn { bottom: 5rem !important; }
+    }
+
     /* ── Time selector ───────────────────────────────────────────── */
     .hmf-time-group {
       display: grid;
@@ -314,6 +497,18 @@
 
     <!-- ── SIDEBAR ──────────────────────────────────────────────────────── -->
     <aside class="map-sidebar" id="hmf-sidebar" aria-label="ข้อมูลความร้อน">
+
+      <!-- Handle strip — mobile bottom sheet toggle -->
+      <div id="hmf-sheet-handle" role="button" tabindex="0" aria-label="เปิด/ปิดข้อมูล">
+        <div class="hmf-grip"></div>
+        <span id="hmf-sheet-label">ข้อมูล &amp; ชั้นแผนที่</span>
+        <svg id="hmf-sheet-chevron" viewBox="0 0 16 16" fill="none" width="16" height="16"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <path d="M4 6l4 4 4-4"/>
+        </svg>
+      </div>
+
       <div class="map-sidebar-inner">
 
         <!-- Heading -->
@@ -367,6 +562,19 @@
           </div>
         </div>
 
+        <!-- Legend (mobile only — desktop uses floating #hmf-legend) -->
+        <div id="hmf-sb-legend">
+          <p class="sidebar-section-label">คำอธิบายสี</p>
+          <div class="hmf-legend-grid">
+            <span class="hlg-item"><i style="background:#60a5fa"></i>&lt; 28° เย็น</span>
+            <span class="hlg-item"><i style="background:#4ade80"></i>28–31° ปกติ</span>
+            <span class="hlg-item"><i style="background:#facc15"></i>31–33° อุ่น</span>
+            <span class="hlg-item"><i style="background:#fb923c"></i>33–36° ร้อน</span>
+            <span class="hlg-item"><i style="background:#ef4444"></i>36–39° ร้อนมาก</span>
+            <span class="hlg-item"><i style="background:#c026d3"></i>≥ 39° ร้อนจัด</span>
+          </div>
+        </div>
+
         <!-- Source -->
         <p class="sidebar-live-meta">
           ข้อมูลจาก <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a>
@@ -408,13 +616,37 @@
       if (typeof initHamburger   === 'function') initHamburger();
       initHeatMapFull();
 
-      /* Mobile sidebar toggle */
-      const toggle  = document.getElementById('hmf-toggle');
-      const sidebar = document.getElementById('hmf-sidebar');
+      /* Bottom sheet handle toggle */
+      var sidebar = document.getElementById('hmf-sidebar');
+      var handle  = document.getElementById('hmf-sheet-handle');
+      if (handle && sidebar) {
+        function toggleSheet(open) {
+          if (open === undefined) open = !sidebar.classList.contains('open');
+          sidebar.classList.toggle('open', open);
+          handle.setAttribute('aria-expanded', String(open));
+        }
+        handle.addEventListener('click', function () { toggleSheet(); });
+        handle.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleSheet(); }
+        });
+      }
+
+      /* กดปุ่ม toggle เก่า (ถ้ายังมี) */
+      var toggle = document.getElementById('hmf-toggle');
       if (toggle && sidebar) {
-        toggle.addEventListener('click', () => {
-          const open = sidebar.classList.toggle('open');
+        toggle.addEventListener('click', function () {
+          var open = sidebar.classList.toggle('open');
           toggle.setAttribute('aria-expanded', String(open));
+        });
+      }
+
+      /* แตะบนแผนที่ (นอก bubble) บน mobile → ปิด sheet */
+      var mapEl = document.getElementById('hmf-map-el');
+      if (mapEl && sidebar) {
+        mapEl.addEventListener('click', function () {
+          if (window.innerWidth <= 640 && sidebar.classList.contains('open')) {
+            sidebar.classList.remove('open');
+          }
         });
       }
     });

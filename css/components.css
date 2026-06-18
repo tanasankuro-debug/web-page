@@ -408,6 +408,20 @@
 .compare-table tr:last-child td { border-bottom: none; }
 .compare-table tr:nth-child(even) { background: rgba(255,255,255,0.02); }
 
+@media (max-width: 600px) {
+  .compare-table {
+    font-size: 0.78rem;
+    min-width: 420px;
+  }
+  .compare-table th,
+  .compare-table td {
+    padding: 0.6rem 0.75rem;
+  }
+  .compare-table th[scope="col"] {
+    font-size: 0.82rem;
+  }
+}
+
 .th-sub {
   display: block;
   font-size: 0.75rem;
