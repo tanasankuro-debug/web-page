@@ -3,6 +3,41 @@
    Page-specific styles and SVG animations for heat.html
    ========================================================================== */
 
+/* ── Phenomenon Label Badge ──────────────────────────────────────────────── */
+.pheno-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: rgba(239, 68, 68, 0.10);
+  border: 1.5px solid rgba(239, 68, 68, 0.32);
+  border-radius: 999px;
+  padding: 0.28rem 1rem 0.28rem 0.3rem;
+  margin-bottom: 1rem;
+}
+.pheno-tag__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  background: #EF4444;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: 800;
+  font-family: 'Barlow Condensed', sans-serif;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.pheno-tag__text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #EF4444;
+}
+
 /* ── Temperature Trend Block (#research addon) ───────────────────────────── */
 .temp-trend-block {
   margin-top: 2.5rem;
