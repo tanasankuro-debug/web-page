@@ -494,7 +494,8 @@
                       d="M 28,286 Q 300,48 572,286"
                       fill="none" stroke="#EF4444" stroke-width="16" stroke-opacity="0.25"
                       filter="url(#phd-arc-glow-f)">
-                  <animate attributeName="stroke-opacity" values="0.22;0.60;0.22" dur="3s" repeatCount="indefinite"/>
+                  <animate attributeName="stroke-opacity" values="0.18;0.75;0.18" dur="1.8s" repeatCount="indefinite"/>
+                  <animate attributeName="stroke-width" values="14;22;14" dur="1.8s" repeatCount="indefinite"/>
                 </path>
                 <!-- Main arc line -->
                 <path d="M 28,286 Q 300,48 572,286"
@@ -502,11 +503,12 @@
 
                 <!-- === SUN (top right) === -->
                 <circle id="phd-sun-halo" cx="524" cy="46" r="38" fill="url(#phd-sun-rg)">
-                  <animate attributeName="opacity" values="0.38;0.75;0.38" dur="3s" repeatCount="indefinite"/>
+                  <animate attributeName="r" values="38;54;38" dur="2s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" values="0.38;0.85;0.38" dur="2s" repeatCount="indefinite"/>
                 </circle>
                 <circle cx="524" cy="46" r="16" fill="#FACC15" opacity="0.94" filter="url(#phd-glow-f)"/>
-                <g id="phd-sun-rays" stroke="#FACC15" stroke-width="2.2" stroke-linecap="round" opacity="0.75">
-                  <animateTransform attributeName="transform" type="rotate" from="0 524 46" to="360 524 46" dur="20s" repeatCount="indefinite"/>
+                <g id="phd-sun-rays" stroke="#FACC15" stroke-width="2.8" stroke-linecap="round" opacity="0.90">
+                  <animateTransform attributeName="transform" type="rotate" from="0 524 46" to="360 524 46" dur="8s" repeatCount="indefinite"/>
                   <line x1="524" y1="16" x2="524" y2="8"/>
                   <line x1="524" y1="76" x2="524" y2="84"/>
                   <line x1="494" y1="46" x2="486" y2="46"/>
@@ -526,7 +528,7 @@
 
                 <!-- === PRESSURE ARROWS (animated bounce down) === -->
                 <g id="phd-press">
-                  <animateTransform attributeName="transform" type="translate" values="0,0;0,10;0,0" dur="2s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0.05 0.55 0.95;0.45 0.05 0.55 0.95" keyTimes="0;0.5;1"/>
+                  <animateTransform attributeName="transform" type="translate" values="0,0;0,28;0,0" dur="1.4s" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0.05 0.55 0.95;0.45 0.05 0.55 0.95" keyTimes="0;0.5;1"/>
                   <rect x="186" y="72" width="228" height="22" rx="6" fill="#EF4444" fill-opacity="0.20"/>
                   <text x="300" y="87" text-anchor="middle" fill="#EF4444" font-size="10.5" font-weight="700">ความกดอากาศกดลงมา ↓</text>
                   <!-- Center (large) -->
@@ -556,29 +558,40 @@
                 <text x="145" y="213" text-anchor="middle" fill="#FACC15" font-size="9.5" font-weight="600" opacity="0.88">ไอความร้อน ↑</text>
 
                 <!-- === HEAT PARTICLES === -->
-                <circle cx="232" cy="248" r="2.5" fill="#FB923C">
-                  <animate attributeName="cy" from="248" to="204" dur="1.9s" repeatCount="indefinite"/>
-                  <animate attributeName="opacity" from="0.85" to="0" dur="1.9s" repeatCount="indefinite"/>
+                <circle cx="232" cy="248" r="5" fill="#FB923C">
+                  <animate attributeName="cy" from="248" to="160" dur="1.9s" repeatCount="indefinite"/>
+                  <animate attributeName="r" from="5" to="1" dur="1.9s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.92" to="0" dur="1.9s" repeatCount="indefinite"/>
                 </circle>
-                <circle cx="274" cy="238" r="2" fill="#FACC15">
-                  <animate attributeName="cy" from="238" to="194" dur="2.2s" begin="0.5s" repeatCount="indefinite"/>
-                  <animate attributeName="opacity" from="0.85" to="0" dur="2.2s" begin="0.5s" repeatCount="indefinite"/>
+                <circle cx="274" cy="238" r="4" fill="#FACC15">
+                  <animate attributeName="cy" from="238" to="148" dur="2.2s" begin="0.5s" repeatCount="indefinite"/>
+                  <animate attributeName="r" from="4" to="1" dur="2.2s" begin="0.5s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.92" to="0" dur="2.2s" begin="0.5s" repeatCount="indefinite"/>
                 </circle>
-                <circle cx="306" cy="240" r="2.5" fill="#EF4444">
-                  <animate attributeName="cy" from="240" to="196" dur="1.7s" begin="1s" repeatCount="indefinite"/>
-                  <animate attributeName="opacity" from="0.85" to="0" dur="1.7s" begin="1s" repeatCount="indefinite"/>
+                <circle cx="306" cy="240" r="5" fill="#EF4444">
+                  <animate attributeName="cy" from="240" to="150" dur="1.7s" begin="1s" repeatCount="indefinite"/>
+                  <animate attributeName="r" from="5" to="1" dur="1.7s" begin="1s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.92" to="0" dur="1.7s" begin="1s" repeatCount="indefinite"/>
                 </circle>
-                <circle cx="338" cy="238" r="2" fill="#FACC15">
-                  <animate attributeName="cy" from="238" to="194" dur="2.1s" begin="1.5s" repeatCount="indefinite"/>
-                  <animate attributeName="opacity" from="0.85" to="0" dur="2.1s" begin="1.5s" repeatCount="indefinite"/>
+                <circle cx="338" cy="238" r="4" fill="#FACC15">
+                  <animate attributeName="cy" from="238" to="148" dur="2.1s" begin="1.5s" repeatCount="indefinite"/>
+                  <animate attributeName="r" from="4" to="1" dur="2.1s" begin="1.5s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.92" to="0" dur="2.1s" begin="1.5s" repeatCount="indefinite"/>
                 </circle>
-                <circle cx="368" cy="248" r="2.5" fill="#FB923C">
-                  <animate attributeName="cy" from="248" to="204" dur="2s" begin="0.8s" repeatCount="indefinite"/>
-                  <animate attributeName="opacity" from="0.85" to="0" dur="2s" begin="0.8s" repeatCount="indefinite"/>
+                <circle cx="368" cy="248" r="5" fill="#FB923C">
+                  <animate attributeName="cy" from="248" to="158" dur="2s" begin="0.8s" repeatCount="indefinite"/>
+                  <animate attributeName="r" from="5" to="1" dur="2s" begin="0.8s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.92" to="0" dur="2s" begin="0.8s" repeatCount="indefinite"/>
                 </circle>
-                <circle cx="196" cy="254" r="2" fill="#FACC15">
-                  <animate attributeName="cy" from="254" to="210" dur="2.4s" begin="1.3s" repeatCount="indefinite"/>
-                  <animate attributeName="opacity" from="0.85" to="0" dur="2.4s" begin="1.3s" repeatCount="indefinite"/>
+                <circle cx="196" cy="254" r="4" fill="#FACC15">
+                  <animate attributeName="cy" from="254" to="164" dur="2.4s" begin="1.3s" repeatCount="indefinite"/>
+                  <animate attributeName="r" from="4" to="1" dur="2.4s" begin="1.3s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.92" to="0" dur="2.4s" begin="1.3s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="434" cy="248" r="4" fill="#FB923C">
+                  <animate attributeName="cy" from="248" to="162" dur="2.1s" begin="0.3s" repeatCount="indefinite"/>
+                  <animate attributeName="r" from="4" to="1" dur="2.1s" begin="0.3s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.92" to="0" dur="2.1s" begin="0.3s" repeatCount="indefinite"/>
                 </circle>
 
                 <!-- === TRAPPED LABEL (center glow box) === -->
@@ -672,8 +685,8 @@
                 <rect x="0"   y="0" width="160" height="340" fill="url(#uhi-bg-l)"/>
                 <rect x="440" y="0" width="160" height="340" fill="url(#uhi-bg-r)"/>
                 <!-- City heat glow (center) -->
-                <rect id="uhi-city-rg" x="200" y="60" width="200" height="220" fill="url(#uhi-city-heat)">
-                  <animate attributeName="opacity" values="0.65;1;0.65" dur="3s" repeatCount="indefinite"/>
+                <rect id="uhi-city-rg" x="180" y="40" width="240" height="240" fill="url(#uhi-city-heat)">
+                  <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
                 </rect>
 
                 <!-- Ground -->
@@ -757,8 +770,8 @@
                 <!-- Peak dot (pulsing) -->
                 <circle cx="300" cy="92" r="8" fill="#EF4444" fill-opacity="0.22" filter="url(#uhi-dot-f)"/>
                 <circle id="uhi-peak-dot" cx="300" cy="92" r="5.5" fill="#EF4444" stroke="#050B16" stroke-width="2">
-                  <animate attributeName="r" values="5.5;9.5;5.5" dur="2s" repeatCount="indefinite"/>
-                  <animate attributeName="fill-opacity" values="1;0.55;1" dur="2s" repeatCount="indefinite"/>
+                  <animate attributeName="r" values="5.5;14;5.5" dur="1.4s" repeatCount="indefinite"/>
+                  <animate attributeName="fill-opacity" values="1;0.45;1" dur="1.4s" repeatCount="indefinite"/>
                 </circle>
 
                 <!-- BIG callout: +3-5°C (very prominent) -->
@@ -779,25 +792,30 @@
                   <polygon points="337,100 344,85 351,100" fill="#FB923C" opacity="0.68"/>
                 </g>
                 <!-- Heat particles -->
-                <circle cx="300" cy="140" r="2.5" fill="#EF4444">
-                  <animate attributeName="cy" from="140" to="108" dur="1.9s" repeatCount="indefinite"/>
-                  <animate attributeName="opacity" from="0.85" to="0" dur="1.9s" repeatCount="indefinite"/>
+                <circle cx="300" cy="140" r="5" fill="#EF4444">
+                  <animate attributeName="cy" from="140" to="72" dur="1.9s" repeatCount="indefinite"/>
+                  <animate attributeName="r" from="5" to="1" dur="1.9s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.95" to="0" dur="1.9s" repeatCount="indefinite"/>
                 </circle>
-                <circle cx="272" cy="152" r="2" fill="#FB923C">
-                  <animate attributeName="cy" from="152" to="120" dur="2.2s" begin="0.6s" repeatCount="indefinite"/>
-                  <animate attributeName="opacity" from="0.85" to="0" dur="2.2s" begin="0.6s" repeatCount="indefinite"/>
+                <circle cx="272" cy="152" r="4" fill="#FB923C">
+                  <animate attributeName="cy" from="152" to="82" dur="2.2s" begin="0.6s" repeatCount="indefinite"/>
+                  <animate attributeName="r" from="4" to="1" dur="2.2s" begin="0.6s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.95" to="0" dur="2.2s" begin="0.6s" repeatCount="indefinite"/>
                 </circle>
-                <circle cx="344" cy="152" r="2" fill="#FB923C">
-                  <animate attributeName="cy" from="152" to="120" dur="1.8s" begin="1.2s" repeatCount="indefinite"/>
-                  <animate attributeName="opacity" from="0.85" to="0" dur="1.8s" begin="1.2s" repeatCount="indefinite"/>
+                <circle cx="344" cy="152" r="4" fill="#FB923C">
+                  <animate attributeName="cy" from="152" to="82" dur="1.8s" begin="1.2s" repeatCount="indefinite"/>
+                  <animate attributeName="r" from="4" to="1" dur="1.8s" begin="1.2s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.95" to="0" dur="1.8s" begin="1.2s" repeatCount="indefinite"/>
                 </circle>
-                <circle cx="286" cy="156" r="1.8" fill="#FACC15">
-                  <animate attributeName="cy" from="156" to="124" dur="2.1s" begin="0.9s" repeatCount="indefinite"/>
-                  <animate attributeName="opacity" from="0.85" to="0" dur="2.1s" begin="0.9s" repeatCount="indefinite"/>
+                <circle cx="286" cy="156" r="3.5" fill="#FACC15">
+                  <animate attributeName="cy" from="156" to="86" dur="2.1s" begin="0.9s" repeatCount="indefinite"/>
+                  <animate attributeName="r" from="3.5" to="1" dur="2.1s" begin="0.9s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.95" to="0" dur="2.1s" begin="0.9s" repeatCount="indefinite"/>
                 </circle>
-                <circle cx="318" cy="154" r="1.8" fill="#FACC15">
-                  <animate attributeName="cy" from="154" to="122" dur="2.4s" begin="1.6s" repeatCount="indefinite"/>
-                  <animate attributeName="opacity" from="0.85" to="0" dur="2.4s" begin="1.6s" repeatCount="indefinite"/>
+                <circle cx="318" cy="154" r="3.5" fill="#FACC15">
+                  <animate attributeName="cy" from="154" to="84" dur="2.4s" begin="1.6s" repeatCount="indefinite"/>
+                  <animate attributeName="r" from="3.5" to="1" dur="2.4s" begin="1.6s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" from="0.95" to="0" dur="2.4s" begin="1.6s" repeatCount="indefinite"/>
                 </circle>
 
                 <!-- Cool air (rural, animated) -->
