@@ -133,30 +133,30 @@
     .map-card-cta svg { width: 13px; height: 13px; }
 
     /* ── Color themes ────────────────────────────────── */
-    .mc-main    { border-top: 3px solid #22C55E; }
+    .mc-main    { border: 1px solid rgba(34,197,94,.25);   border-top: 3px solid #22C55E; }
     .mc-main    .map-card-icon { background: rgba(34,197,94,.15);   color: #4ADE80; }
     .mc-main    .map-card-cta  { color: #4ADE80; }
-    .mc-main:hover              { border-color: rgba(34,197,94,.4); box-shadow: 0 8px 28px rgba(34,197,94,.08); }
+    .mc-main:hover              { border-color: rgba(34,197,94,.5); box-shadow: 0 8px 28px rgba(34,197,94,.12); }
 
-    .mc-heat    { border-top: 3px solid #FB923C; }
+    .mc-heat    { border: 1px solid rgba(251,146,60,.25);  border-top: 3px solid #FB923C; }
     .mc-heat    .map-card-icon { background: rgba(251,146,60,.15);  color: #FDBA74; }
     .mc-heat    .map-card-cta  { color: #FDBA74; }
-    .mc-heat:hover              { border-color: rgba(251,146,60,.4); box-shadow: 0 8px 28px rgba(251,146,60,.08); }
+    .mc-heat:hover              { border-color: rgba(251,146,60,.5); box-shadow: 0 8px 28px rgba(251,146,60,.12); }
 
-    .mc-aqi     { border-top: 3px solid #A78BFA; }
+    .mc-aqi     { border: 1px solid rgba(167,139,250,.25); border-top: 3px solid #A78BFA; }
     .mc-aqi     .map-card-icon { background: rgba(167,139,250,.15); color: #C4B5FD; }
     .mc-aqi     .map-card-cta  { color: #C4B5FD; }
-    .mc-aqi:hover               { border-color: rgba(167,139,250,.4); box-shadow: 0 8px 28px rgba(167,139,250,.08); }
+    .mc-aqi:hover               { border-color: rgba(167,139,250,.5); box-shadow: 0 8px 28px rgba(167,139,250,.12); }
 
-    .mc-rain    { border-top: 3px solid #60A5FA; }
+    .mc-rain    { border: 1px solid rgba(96,165,250,.25);  border-top: 3px solid #60A5FA; }
     .mc-rain    .map-card-icon { background: rgba(96,165,250,.15);  color: #93C5FD; }
     .mc-rain    .map-card-cta  { color: #93C5FD; }
-    .mc-rain:hover              { border-color: rgba(96,165,250,.4); box-shadow: 0 8px 28px rgba(96,165,250,.08); }
+    .mc-rain:hover              { border-color: rgba(96,165,250,.5); box-shadow: 0 8px 28px rgba(96,165,250,.12); }
 
-    .mc-flood   { border-top: 3px solid #2DD4BF; }
+    .mc-flood   { border: 1px solid rgba(45,212,191,.25);  border-top: 3px solid #2DD4BF; }
     .mc-flood   .map-card-icon { background: rgba(45,212,191,.15);  color: #5EEAD4; }
     .mc-flood   .map-card-cta  { color: #5EEAD4; }
-    .mc-flood:hover             { border-color: rgba(45,212,191,.4); box-shadow: 0 8px 28px rgba(45,212,191,.08); }
+    .mc-flood:hover             { border-color: rgba(45,212,191,.5); box-shadow: 0 8px 28px rgba(45,212,191,.12); }
 
     /* Combined card: full grid width */
     .mc-featured-full { grid-column: 1 / -1; cursor: default; }
@@ -190,10 +190,10 @@
       .mc-combined-wrap { flex-direction: column; }
     }
 
-    .mc-mapbox  { border-top: 3px solid #818CF8; }
+    .mc-mapbox  { border: 1px solid rgba(129,140,248,.25); border-top: 3px solid #818CF8; }
     .mc-mapbox  .map-card-icon { background: rgba(129,140,248,.15); color: #A5B4FC; }
     .mc-mapbox  .map-card-cta  { color: #A5B4FC; }
-    .mc-mapbox:hover            { border-color: rgba(129,140,248,.4); box-shadow: 0 8px 28px rgba(129,140,248,.08); }
+    .mc-mapbox:hover            { border-color: rgba(129,140,248,.5); box-shadow: 0 8px 28px rgba(129,140,248,.12); }
 
     /* ── Featured badge ──────────────────────────────── */
     .mc-badge {
@@ -302,6 +302,7 @@
                 <p class="map-card-desc">ดูสภาพแวดล้อมขอนแก่นแบบเรียลไทม์ — อุณหภูมิ ฝุ่น ฝน และน้ำท่วม พร้อมฟีเจอร์สำรวจจุด: แตะจุดใดก็ได้บนแผนที่เพื่อดูข้อมูล PM2.5 ความชื้น UV และสภาพอากาศ ณ จุดนั้น</p>
                 <div class="mc-combined-ctas">
                   <a href="map.html" class="mc-cta-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M14.5 2.5L9.5 4.5 4.5 2.5v13l5 2 5-2 5 2v-13l-5-2z"/><path d="M9.5 4.5v13M14.5 2.5v13"/></svg>
                     เปิดแผนที่
                     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
                   </a>
@@ -322,6 +323,7 @@
             <p class="map-card-title">แผนที่ความร้อน</p>
             <p class="map-card-desc">อุณหภูมิพื้นผิว (LST) และ Urban Heat Island จากข้อมูลดาวเทียม Landsat ครอบคลุมทั้งเมืองขอนแก่น</p>
             <span class="map-card-cta">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M14 14.76V5a2 2 0 1 0-4 0v9.76a4 4 0 1 0 4 0z"/></svg>
               ดูแผนที่ความร้อน
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
             </span>
@@ -339,6 +341,7 @@
             <p class="map-card-title">แผนที่คุณภาพอากาศ AQI</p>
             <p class="map-card-desc">ค่า PM2.5 และ AQI จากสถานีตรวจวัดคุณภาพอากาศของกรมควบคุมมลพิษทั่วขอนแก่น</p>
             <span class="map-card-cta">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M3 8h11a3 3 0 1 0-3-4"/><path d="M3 12h16a3.5 3.5 0 1 1-3.5 3.5"/><path d="M3 16h7"/></svg>
               ดูแผนที่ AQI
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
             </span>
@@ -358,6 +361,7 @@
             <p class="map-card-title">พยากรณ์อากาศและฝน</p>
             <p class="map-card-desc">ข้อมูลพยากรณ์อากาศ ฝนสะสม และสถานีอุตุนิยมวิทยาในพื้นที่ขอนแก่น</p>
             <span class="map-card-cta">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M4 14.5A3.5 3.5 0 0 1 4.7 8a4.5 4.5 0 0 1 8.8 1A3 3 0 0 1 14 14.5H4z"/><line x1="6" y1="17.5" x2="5.5" y2="20"/><line x1="10" y1="17.5" x2="9.5" y2="20"/></svg>
               ดูพยากรณ์สด
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
             </span>
@@ -375,6 +379,7 @@
             <p class="map-card-title">ข้อมูลน้ำท่วมสด</p>
             <p class="map-card-desc">ระดับน้ำและพื้นที่เสี่ยงน้ำท่วมในขอนแก่นแบบเรียลไทม์ พร้อมแจ้งเตือนเมื่อระดับน้ำสูงผิดปกติ</p>
             <span class="map-card-cta">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><path d="M1 16c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M12 2v10M8 6l4-4 4 4"/></svg>
               ดูข้อมูลสด
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
             </span>
@@ -392,6 +397,7 @@
             <p class="map-card-title">Map Box</p>
             <p class="map-card-desc">แผนที่เชิงภูมิสารสนเทศ (GIS) ความละเอียดสูง สำหรับวิเคราะห์เชิงพื้นที่แบบละเอียด</p>
             <span class="map-card-cta">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M2 8h20M2 14h20M8 2v20M14 2v20" stroke-opacity="0.6"/></svg>
               เปิด Map Box
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
             </span>
