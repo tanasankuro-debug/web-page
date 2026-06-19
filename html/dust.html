@@ -19,6 +19,14 @@
   <link rel="stylesheet" href="../css/themes.css" />
   <link rel="stylesheet" href="../css/topics.css" />
   <link rel="stylesheet" href="../css/aqimap.css" />
+  <style>
+    #hero.hero {
+      background: linear-gradient(-45deg, #06101B, #0D1D38, #0F1118, #1C0A0A, #06101B);
+      background-size: 400% 400%;
+      animation: thermalShimmer 18s ease infinite;
+      min-height: 55vh;
+    }
+  </style>
 </head>
 <body data-theme="dust">
 
@@ -67,13 +75,6 @@
     <!-- ─── HERO ─────────────────────────────────────────────────────────── -->
     <section id="hero" class="hero" aria-label="PM2.5 / Air — ฝุ่นละอองในอากาศ">
 
-      <div class="hero-bg" aria-hidden="true">
-        <video class="hero-img" autoplay loop muted playsinline>
-          <source src="../assets/khonkean.mp4" type="video/mp4" />
-        </video>
-        <div class="hero-overlay" aria-hidden="true"></div>
-      </div>
-
       <div class="hero-content container">
         <p class="hero-badge reveal">ฝุ่น PM2.5 &middot; ขอนแก่น ประเทศไทย &middot; 2569</p>
         <h1 class="hero-title reveal">
@@ -82,8 +83,7 @@
         </h1>
         <p class="hero-sub reveal">ฝุ่นละอองในอากาศ</p>
         <div class="hero-actions reveal">
-          <a href="#causes" class="btn btn-primary">อ่านบทความ</a>
-          <a href="aqimap.html" class="btn btn-outline">ดูแผนที่ AQI สด &#x2192;</a>
+          <a href="aqimap.html" class="btn btn-primary">ดูแผนที่ AQI สด &#x2192;</a>
         </div>
       </div>
 

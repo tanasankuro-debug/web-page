@@ -23,6 +23,177 @@
   <link rel="stylesheet" href="../css/topics.css" />
   <link rel="stylesheet" href="../css/heat.css" />
 
+  <style>
+    /* ── อ่านง่ายขึ้น: font ใหญ่ + สว่างขึ้น ───────────── */
+    .article-body p, .article-body li,
+    .section-intro, .lead,
+    .impact-card p, .solutions-list li p,
+    .panel-desc p, .research-text p,
+    .info-step-desc, .info-pillar-desc {
+      font-size: 1.125rem;
+      color: #e2e8f0;
+      line-height: 1.85;
+    }
+    .article-body li { margin-bottom: .3rem; }
+
+    /* ── กล่องสรุปสั้น ─────────────────────────────────── */
+    .section-summary {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      background: rgba(251,146,60,.11);
+      border-left: 4px solid #FB923C;
+      border-radius: 0 10px 10px 0;
+      padding: .9rem 1.125rem;
+      margin-bottom: 1.75rem;
+      font-size: 1.0625rem;
+      font-weight: 600;
+      color: #fdba74;
+      line-height: 1.55;
+    }
+    .section-summary::before { content:'⚡'; flex-shrink:0; margin-top:1px; }
+
+    /* ── กล่อง "แล้วต้องทำยังไง" ──────────────────────── */
+    .action-box {
+      background: rgba(239,68,68,.09);
+      border: 1px solid rgba(239,68,68,.30);
+      border-radius: 10px;
+      padding: 1.25rem 1.375rem;
+      margin: 2rem 0;
+    }
+    .action-box-title {
+      font-size: 1.0625rem; font-weight: 700;
+      color: #fca5a5; margin-bottom: .875rem;
+      display: flex; align-items: center; gap: .45rem;
+    }
+    .action-box-title::before { content:'🛡️'; }
+    .action-box ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:.5rem; }
+    .action-box li {
+      display:flex; align-items:flex-start; gap:.55rem;
+      font-size:1.0625rem; color:#fecaca; line-height:1.6;
+    }
+    .action-box li::before { content:'✓'; color:#fb7185; font-weight:700; flex-shrink:0; margin-top:2px; }
+
+    /* ── Hero: gradient แทนวิดีโอ ─────────────────────── */
+    #hero.hero {
+      background: linear-gradient(-45deg, #06101B, #0D1D38, #0F1118, #1C0A0A, #06101B);
+      background-size: 400% 400%;
+      animation: thermalShimmer 18s ease infinite;
+      min-height: 55vh;
+    }
+
+    /* ── Hero: warm glow radiating from bottom ─────── */
+    #hero.hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 85% 48% at 50% 115%, rgba(239,68,68,.22) 0%, transparent 65%),
+        radial-gradient(ellipse 45% 32% at 15% 92%,  rgba(251,146,60,.10) 0%, transparent 52%),
+        radial-gradient(ellipse 45% 32% at 85% 92%,  rgba(251,146,60,.10) 0%, transparent 52%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    #hero .hero-content { position: relative; z-index: 2; }
+    #hero .thermal-hero-bar { z-index: 3; }
+
+    /* ── Hero: staggered entry animation ────────────── */
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    /* override reveal transition so animation is in charge */
+    #hero .reveal { transition: none; }
+    #hero .hero-badge   { opacity:0; animation: heroFadeUp .65s cubic-bezier(.22,.68,0,1.15) .08s both; }
+    #hero .hero-title   { opacity:0; animation: heroFadeUp .80s cubic-bezier(.22,.68,0,1.15) .22s both; }
+    #hero .hero-sub     { opacity:0; animation: heroFadeUp .65s cubic-bezier(.22,.68,0,1.15) .42s both; }
+    #hero .hero-actions { opacity:0; animation: heroFadeUp .65s cubic-bezier(.22,.68,0,1.15) .58s both; }
+
+    /* ── Hero title: clean — no glow ────────────────── */
+    #hero .hero-title {
+      text-shadow: 0 2px 12px rgba(0,0,0,.55);
+    }
+    #hero .hero-title-accent {
+      filter: none;
+    }
+
+    /* ── Ember particles (floating up) ──────────────── */
+    .heat-particles {
+      position: absolute; inset: 0;
+      pointer-events: none; overflow: hidden; z-index: 1;
+    }
+    @keyframes emberFloat {
+      0%   { opacity: 0;   transform: translateY(0)     translateX(0)             scale(1); }
+      12%  { opacity: .85; }
+      88%  { opacity: .20; }
+      100% { opacity: 0;   transform: translateY(-58vh) translateX(var(--dx,8px)) scale(.25); }
+    }
+    .heat-particles span {
+      position: absolute;
+      bottom: 6%;
+      border-radius: 50%;
+      opacity: 0;
+      animation: emberFloat var(--dur,5s) var(--delay,0s) ease-in infinite;
+    }
+    .heat-particles span:nth-child(1){left:8%;  width:5px;height:5px;background:rgba(251,146,60,.85);--dur:4.8s;--delay:0.0s;--dx:10px;}
+    .heat-particles span:nth-child(2){left:19%; width:3px;height:3px;background:rgba(239,68,68,.80); --dur:5.5s;--delay:1.2s;--dx:-9px;}
+    .heat-particles span:nth-child(3){left:33%; width:4px;height:4px;background:rgba(250,204,21,.70);--dur:4.2s;--delay:2.1s;--dx:7px;}
+    .heat-particles span:nth-child(4){left:49%; width:6px;height:6px;background:rgba(251,146,60,.90);--dur:6.0s;--delay:0.8s;--dx:-13px;}
+    .heat-particles span:nth-child(5){left:62%; width:3px;height:3px;background:rgba(239,68,68,.75); --dur:4.6s;--delay:3.0s;--dx:9px;}
+    .heat-particles span:nth-child(6){left:75%; width:4px;height:4px;background:rgba(250,204,21,.65);--dur:5.2s;--delay:1.7s;--dx:-6px;}
+    .heat-particles span:nth-child(7){left:86%; width:5px;height:5px;background:rgba(251,146,60,.80);--dur:4.9s;--delay:2.5s;--dx:8px;}
+    .heat-particles span:nth-child(8){left:94%; width:3px;height:3px;background:rgba(239,68,68,.70); --dur:5.8s;--delay:0.4s;--dx:-5px;}
+
+    /* ── TOC link hover: slide + glow border ─────────── */
+    .toc-link {
+      border-radius: 8px;
+      transition: background .22s ease, box-shadow .22s ease, transform .22s ease;
+    }
+    .toc-link:hover, .toc-link:focus-visible {
+      background: rgba(251,146,60,.08);
+      box-shadow: inset 0 0 0 1px rgba(251,146,60,.35),
+                  0 4px 16px rgba(251,146,60,.10);
+      transform: translateX(5px);
+    }
+
+    /* ── Reduced motion: kill everything ────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      #hero.hero                             { animation: none; }
+      #hero.hero::before                     { display: none; }
+      #hero .hero-badge, #hero .hero-title,
+      #hero .hero-sub, #hero .hero-actions   { opacity:1; animation:none; }
+      .heat-particles                        { display: none; }
+      .toc-link                              { transition: none; }
+      .toc-link:hover, .toc-link:focus-visible { transform: none; }
+    }
+
+    /* ── อ่านเพิ่มเติม (details) ───────────────────────── */
+    .readmore {
+      margin-top: 1.5rem;
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .readmore > summary {
+      display: flex; align-items: center; gap: .5rem;
+      padding: .75rem 1rem;
+      font-size: .9375rem; font-weight: 600;
+      color: var(--text-sec);
+      cursor: pointer;
+      background: rgba(255,255,255,.04);
+      list-style: none; user-select: none;
+    }
+    .readmore > summary::-webkit-details-marker { display: none; }
+    .readmore > summary::before { content:'▸'; font-size:.75rem; transition:transform .2s; }
+    .readmore[open] > summary::before { transform: rotate(90deg); }
+    .readmore-body {
+      padding: 1rem 1.125rem 1.25rem;
+      font-size: .9375rem; color: var(--text-sec);
+      line-height: 1.75;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+    .readmore-body p + p { margin-top: .75rem; }
+  </style>
+
   <!-- MapLibre GL JS — satellite map section -->
   <link href="https://unpkg.com/maplibre-gl@4/dist/maplibre-gl.css" rel="stylesheet" />
 </head>
@@ -77,13 +248,6 @@
     <!-- ─── 1. HERO ─────────────────────────────────────────────────────── -->
     <section id="hero" class="hero" aria-label="Urban Heat — ความร้อนเมืองขอนแก่น">
 
-      <div class="hero-bg" aria-hidden="true">
-        <video class="hero-img" autoplay loop muted playsinline>
-          <source src="../assets/khonkean.mp4" type="video/mp4" />
-        </video>
-        <div class="hero-overlay" aria-hidden="true"></div>
-      </div>
-
       <div class="hero-content container">
         <p class="hero-badge reveal">ข้อมูลสาธารณะ &middot; ขอนแก่น ประเทศไทย &middot; 2569</p>
         <h1 class="hero-title reveal">
@@ -92,9 +256,14 @@
         </h1>
         <p class="hero-sub reveal">ความร้อนเมืองขอนแก่น</p>
         <div class="hero-actions reveal">
-          <a href="#intro"  class="btn btn-primary">อ่านบทความ</a>
-          <a href="heat-map-full.html" class="btn btn-outline">ดูแผนที่จริง &#x2192;</a>
+          <a href="heat-map-full.html" class="btn btn-primary">ดูแผนที่จริง &#x2192;</a>
         </div>
+      </div>
+
+      <!-- Floating ember particles -->
+      <div class="heat-particles" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
       </div>
 
       <!-- Signature thermal gradient bar at hero bottom -->
@@ -181,30 +350,21 @@
 
         <div class="thermal-divider reveal" aria-hidden="true"></div>
 
+        <div class="section-summary reveal">
+          ขอนแก่นร้อนจาก 2 แหล่งพร้อมกัน: ความร้อนจากฟ้า (โดมความร้อน) ที่เป็นเหตุการณ์ชั่วคราว และความร้อนจากตัวเมืองเอง (เกาะความร้อน) ที่เรื้อรังตลอดปี — สาเหตุต่างกัน วิธีรับมือก็ต่างกัน
+        </div>
+
         <div class="article-body">
           <p class="lead reveal">
-            ขอนแก่นคือศูนย์กลางภาคอีสาน — เมืองที่เติบโตรวดเร็ว
-            มีอาคารพาณิชย์และที่อยู่อาศัยหนาแน่น
-            และกำลังเผชิญกับความท้าทายด้านความร้อนที่ทวีความรุนแรงขึ้นทุกปี
+            ขอนแก่นเป็นศูนย์กลางภาคอีสาน — เมืองที่เติบโตเร็ว อาคารหนาแน่น และกำลังเผชิญความร้อนที่รุนแรงขึ้นทุกปี
           </p>
 
           <p class="reveal">
-            ปี 2567 (2024) ทำลายสถิติอุณหภูมิเฉลี่ยโลกสูงสุดเป็นประวัติการณ์
-            ตามรายงานขององค์การอุตุนิยมวิทยาโลก (WMO)
-            ขณะที่รายงานของธนาคารโลก (2025)
-            ชี้ว่าเมืองต่าง ๆ ในเอเชียตะวันออกเฉียงใต้กำลังเผชิญกับปรากฏการณ์ความร้อนอย่างน้อย
-            2 ชนิดพร้อมกัน ซึ่งมีสาเหตุและวิธีรับมือที่แตกต่างกันอย่างสิ้นเชิง
+            ปี 2567 (2024) ทำสถิติอุณหภูมิโลกสูงสุดตลอดกาล และรายงานจากธนาคารโลก (2025) ระบุว่าเมืองในเอเชียตะวันออกเฉียงใต้กำลังเผชิญความร้อน 2 รูปแบบพร้อมกัน ซึ่งต้องรับมือคนละวิธี
           </p>
 
           <p class="reveal">
-            บทความนี้จะอธิบายให้ชัดขึ้นว่า
-            <strong>โดมความร้อน</strong> (Heat Dome) และ
-            <strong>เกาะความร้อนเมือง</strong> (Urban Heat Island หรือ UHI)
-            แตกต่างกันอย่างไร
-            เพราะทั้งสองมักถูกใช้สลับกันในสื่อและการสนทนาทั่วไป
-            ทั้งที่จริงแล้วเป็นคนละปรากฏการณ์กัน
-            — และการแยกแยะออกจากกันมีความสำคัญอย่างยิ่งสำหรับการวางนโยบาย
-            การออกแบบเมือง และการปกป้องตนเองในชีวิตประจำวัน
+            หน้านี้จะอธิบายว่า <strong>โดมความร้อน</strong> (Heat Dome — ฝาครอบยักษ์ดักอากาศร้อนทั้งภูมิภาค) และ <strong>เกาะความร้อนเมือง</strong> (Urban Heat Island หรือ UHI — เมืองร้อนกว่าชนบทโดยรอบตลอดเวลา) แตกต่างกันอย่างไร และคุณควรปฏิบัติตัวอย่างไรในแต่ละกรณี
           </p>
         </div>
 
@@ -924,27 +1084,36 @@
         </h2>
         <div class="thermal-divider reveal" aria-hidden="true"></div>
 
+        <div class="section-summary reveal">
+          โดมความร้อน = ฝาครอบยักษ์ดักอากาศร้อนทั้งภูมิภาค อุณหภูมิพุ่งใน 1–2 วัน แต่สลายเองได้เมื่ออากาศเปลี่ยน ทั้งเมืองและชนบทได้รับผลพร้อมกัน
+        </div>
+
         <div class="article-body">
           <p class="lead reveal">
-            จินตนาการว่ามีฝาครอบขนาดยักษ์ครอบทั้งภูมิภาคไว้
-            ไม่ปล่อยให้อากาศร้อนระบายออก — นั่นคือโดมความร้อน
+            จินตนาการว่ามีฝาครอบยักษ์ครอบทั้งภูมิภาคไว้ ไม่ปล่อยให้อากาศร้อนระบายออก — นั่นคือโดมความร้อน
           </p>
 
           <p class="reveal">
-            เมื่อระบบ<strong>ความกดอากาศสูง</strong>ตั้งอยู่เหนือพื้นที่หนึ่งนาน ๆ
-            มันจะกดมวลอากาศร้อนลงมาและกักให้อยู่ใกล้พื้นโลก
-            อากาศที่ถูกกดลงมาจะร้อนขึ้นจากแรงอัด
-            (เหมือนเวลาสูบลมยาง อากาศในกระบอกจะอุ่นขึ้น)
-            และไม่สามารถลอยขึ้นหรือระบายออกได้ตามปกติ
-            ทำให้อุณหภูมิพุ่งขึ้นผิดปกติเป็นเวลาหลายวันหรือหลายสัปดาห์
+            เมื่อ<strong>ความกดอากาศสูง</strong>ตั้งอยู่เหนือพื้นที่นาน ๆ มันจะกดอากาศร้อนลงมาใกล้พื้นโลกและไม่ยอมให้ลอยออกไป — เหมือนเวลาสูบลมยาง ลมที่ถูกอัดจะร้อนขึ้นเอง อุณหภูมิจึงพุ่งขึ้นผิดปกติเป็นเวลาหลายวัน
           </p>
 
           <ul class="styled-list reveal">
-            <li>ครอบคลุมพื้นที่กว้างใหญ่ หลายร้อยถึงหลายพัน กม² ในคราวเดียว</li>
-            <li>เกิดขึ้นชั่วคราว — เมื่อระบบความกดอากาศสูงอ่อนกำลังลงหรือเคลื่อนที่ โดมจะสลายตัว</li>
-            <li>ส่งผลกระทบทั้งในเมืองและชนบทพร้อมกัน ไม่เลือกพื้นที่</li>
-            <li>อาจทำให้อุณหภูมิสูงกว่าค่าเฉลี่ย 5–15°C ในช่วงที่รุนแรง</li>
+            <li>ครอบพื้นที่กว้างหลายร้อยถึงหลายพัน กม² พร้อมกัน</li>
+            <li><strong>ชั่วคราว</strong> — เมื่อความกดอากาศเปลี่ยน โดมจะสลายเองตามธรรมชาติ</li>
+            <li>กระทบทั้งเมืองและชนบท ไม่เลือกพื้นที่</li>
+            <li>อุณหภูมิอาจสูงกว่าปกติ 5–15°C ในช่วงที่รุนแรงสุด</li>
           </ul>
+
+          <div class="action-box reveal">
+            <p class="action-box-title">แล้วต้องทำยังไงเมื่อเกิดโดมความร้อน?</p>
+            <ul>
+              <li>ติดตามประกาศเตือนภัยจากกรมอุตุนิยมวิทยา (tmd.go.th) ทุกวัน</li>
+              <li>งดออกกลางแดดช่วง 11.00–15.00 น. โดยเด็ดขาดในช่วงที่ประกาศเตือน</li>
+              <li>ดื่มน้ำทุก 20–30 นาที แม้ไม่รู้สึกกระหาย</li>
+              <li>เปิดแอร์หรือหาพื้นที่เย็น — ห้องสมุด ศูนย์การค้า หากบ้านไม่มีแอร์</li>
+              <li>ดูแลผู้สูงอายุและเด็กเล็กในบ้านเป็นพิเศษ เพราะร่างกายระบายความร้อนได้แย่กว่า</li>
+            </ul>
+          </div>
 
           <!-- To use a real image instead: replace the <svg> with <img src="..." alt="...">.
                Free/public-domain sources: NASA Earth Observatory, NOAA climate.gov,
@@ -1078,11 +1247,12 @@
             <figcaption>โดมความร้อน: ระบบความกดอากาศสูง (H) ทำหน้าที่เหมือน "ฝาครอบ" กักอากาศร้อนไว้เหนือพื้นดินหลายวัน ผลักลงมาและไม่ยอมให้ระบายออก — ปรากฏการณ์ชั่วคราวแต่รุนแรงมาก ส่งผลทั้งในเมืองและชนบทพร้อมกัน</figcaption>
           </figure>
 
-          <p class="reveal">
-            กรมอุตุนิยมวิทยาไทย (TMD) ติดตามและพยากรณ์โดมความร้อนในฐานะปรากฏการณ์อุตุนิยมวิทยา
-            ซึ่งแตกต่างจากเกาะความร้อนเมืองที่เป็นปรากฏการณ์ระยะยาว
-            ต้องการข้อมูลภาคพื้นดินและดาวเทียมในการติดตามอย่างต่อเนื่อง
-          </p>
+          <details class="readmore reveal">
+            <summary>อ่านเพิ่มเติม — โดมความร้อนกับระบบเตือนภัยไทย</summary>
+            <div class="readmore-body">
+              <p>กรมอุตุนิยมวิทยาไทย (TMD) ติดตามและพยากรณ์โดมความร้อนในฐานะปรากฏการณ์อุตุนิยมวิทยา ซึ่งต่างจากเกาะความร้อนเมืองที่เป็นปรากฏการณ์ระยะยาว — การติดตามโดมความร้อนต้องใช้ข้อมูลทั้งจากภาคพื้นดินและดาวเทียมอย่างต่อเนื่อง</p>
+            </div>
+          </details>
         </div>
 
       </div>
@@ -1102,42 +1272,25 @@
         </h2>
         <div class="thermal-divider reveal" aria-hidden="true"></div>
 
+        <div class="section-summary reveal">
+          เกาะความร้อนเมือง (Urban Heat Island หรือ UHI) = เมืองร้อนกว่าชนบทรอบข้างตลอดเวลา โดยเฉพาะตอนกลางคืน เพราะคอนกรีตและแอสฟัลต์เก็บความร้อนไว้ทั้งวัน — ไม่ใช่ปัญหาชั่วคราว แต่เป็นสภาพถาวรของเมือง
+        </div>
+
         <div class="article-body">
           <p class="lead reveal">
-            เมืองร้อนกว่าชนบทรอบ ๆ อยู่เสมอ
-            — และความแตกต่างนี้รุนแรงที่สุดในตอนกลางคืน
+            เมืองร้อนกว่าชนบทรอบ ๆ อยู่เสมอ — และรุนแรงที่สุดในตอนกลางคืน
           </p>
 
           <p class="reveal">
-            Urban Heat Island (UHI) หรือ เกาะความร้อนเมือง
-            คือปรากฏการณ์ที่พื้นที่ในเขตเมืองมีอุณหภูมิสูงกว่าพื้นที่ชนบทหรือชานเมืองโดยรอบ
-            อย่างมีนัยสำคัญและอย่างต่อเนื่อง
-            ต่างจากโดมความร้อนที่เป็นเหตุการณ์ชั่วคราว
-            UHI เป็นปรากฏการณ์<strong>เรื้อรัง</strong> ที่ดำรงอยู่ตลอดเวลาตราบใดที่เมืองขยายตัว
+            เกาะความร้อนเมือง (Urban Heat Island หรือ UHI) คือปรากฏการณ์ที่เขตเมืองร้อนกว่าพื้นที่ชนบทโดยรอบอย่างต่อเนื่อง ต่างจากโดมความร้อนที่เป็นเหตุการณ์ชั่วคราว UHI เป็นปัญหา<strong>เรื้อรัง</strong> ที่อยู่ตลอดเวลาตราบใดที่เมืองยังขยายตัว
           </p>
 
-          <p class="reveal"><strong>สาเหตุหลักของ UHI มี 4 ประการ:</strong></p>
+          <p class="reveal"><strong>สาเหตุหลัก 4 อย่าง:</strong></p>
           <ul class="styled-list reveal">
-            <li>
-              <strong>วัสดุดูดซับความร้อน:</strong>
-              คอนกรีต ยางมะตอย และหลังคาสีเข้มดูดซับความร้อนระหว่างวัน
-              แล้วค่อย ๆ ปล่อยออกในเวลากลางคืน ทำให้คืนในเมืองยังคงร้อน
-            </li>
-            <li>
-              <strong>ตึกสูงบังทิศทางลม:</strong>
-              อาคารหนาแน่นลดความเร็วลมและการระบายอากาศ
-              ทำให้ความร้อนสะสมในระดับถนน
-            </li>
-            <li>
-              <strong>พื้นที่สีเขียวลดลง:</strong>
-              ต้นไม้และพืชพรรณช่วยระเหยน้ำ (evapotranspiration)
-              ซึ่งทำให้อากาศเย็นลง เมื่อสิ่งเหล่านี้ถูกแทนที่ด้วยคอนกรีต
-              กลไกการระบายความร้อนตามธรรมชาติก็หายไป
-            </li>
-            <li>
-              <strong>ความร้อนจากกิจกรรมมนุษย์:</strong>
-              ยานพาหนะ เครื่องปรับอากาศ โรงงาน ปล่อยความร้อนเพิ่มเข้าสู่บรรยากาศโดยตรง
-            </li>
+            <li><strong>คอนกรีตและแอสฟัลต์:</strong> ดูดซับความร้อนทั้งวัน แล้วค่อย ๆ ปล่อยออกคืน ทำให้กลางคืนในเมืองยังร้อน</li>
+            <li><strong>ตึกสูงบังลม:</strong> อาคารหนาแน่นทำให้อากาศไหลเวียนน้อยลง ความร้อนสะสมในระดับถนน</li>
+            <li><strong>ต้นไม้น้อยลง:</strong> พืชช่วยระเหยน้ำ (evapotranspiration — เหมือนต้นไม้"เหงื่อออก" ทำให้อากาศเย็น) เมื่อถูกแทนด้วยคอนกรีต กลไกนี้หายไป</li>
+            <li><strong>ความร้อนจากกิจกรรมคน:</strong> รถ แอร์ โรงงาน — ปล่อยความร้อนเข้าบรรยากาศโดยตรง</li>
           </ul>
 
           <!-- To use a real image instead: replace the <svg> with <img src="..." alt="...">.
@@ -1354,9 +1507,12 @@
         <p class="section-label reveal">งานวิจัยท้องถิ่น</p>
         <h2 id="research-heading" class="section-heading reveal">สถานการณ์ในขอนแก่น</h2>
         <p class="section-intro reveal">
-          ปรากฏการณ์เกาะความร้อนในขอนแก่นไม่ใช่การคาดเดา
-          — มีงานวิจัยเชิงประจักษ์รองรับจากนักวิจัยในมหาวิทยาลัยขอนแก่นเอง
+          ความร้อนในขอนแก่นไม่ใช่ความรู้สึก — มีตัวเลขจากงานวิจัยจริงของมหาวิทยาลัยขอนแก่นรองรับ
         </p>
+
+        <div class="section-summary reveal">
+          งานวิจัย มข. วิเคราะห์ดาวเทียม Sentinel-3 พบว่าใจกลางขอนแก่นร้อนกว่าชนบทโดยรอบอย่างมีนัยสำคัญ และข้อมูลนี้คือสิ่งที่แผนที่ความร้อนในเว็บนี้แสดงแบบเรียลไทม์
+        </div>
 
         <div class="research-card reveal">
           <div class="research-card-header">
@@ -1493,32 +1649,28 @@
             </figure>
 
             <div class="research-text">
-              <h3>การศึกษาเชิงพื้นที่-เวลาของ LST และเกาะความร้อน</h3>
+              <h3>นักวิจัย มข. วัดความร้อนขอนแก่นจากดาวเทียม 5 ปี</h3>
               <p>
-                <strong>นักวิจัย:</strong>
-                ศักดิ์พด ทองเหลืองนาค และ รศมี สุวรรณวรกมล<br />
+                <strong>ทีมวิจัย:</strong> ศักดิ์พด ทองเหลืองนาค และ รศมี สุวรรณวรกมล<br />
                 วิทยาลัยการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น
               </p>
               <p>
-                การศึกษาวิเคราะห์รูปแบบ<strong>เชิงพื้นที่และเวลา (spatiotemporal)</strong>
-                ของ Land Surface Temperature (LST), เกาะความร้อนเมือง,
-                และพื้นที่เสี่ยงต่อความเครียดจากความร้อน
-                โดยใช้เทคนิค <strong>Geoinformatics</strong>
-                และข้อมูลจากดาวเทียม <strong>Sentinel-3 (ช่วงปี 2560–2565)</strong>
-              </p>
-              <p>
-                งานวิจัยนี้เป็นส่วนหนึ่งของการศึกษาเมืองเขตร้อนภายในแผ่นดิน (tropical inland city)
-                และเมืองชายฝั่ง (coastal city) ในประเทศไทย
-                เผยแพร่ใน <em>Applied Environmental Research</em>
+                ใช้ดาวเทียม <strong>Sentinel-3</strong> วิเคราะห์อุณหภูมิพื้นผิว (LST — ความร้อนที่วัดได้จากอากาศ) ของขอนแก่นและเมืองอื่นในไทย ระหว่างปี 2560–2565 และพบจุดร้อนที่เกาะตัวในเขตเมืองชัดเจน
               </p>
 
               <div class="research-highlight">
                 <p>
-                  การวัดในลักษณะเดียวกัน — LST จากดาวเทียม,
-                  การกระจายของเกาะความร้อน, จุดร้อน (Hotspot)
-                  — คือสิ่งที่แอปแผนที่ความร้อนขอนแก่นนำมาแสดงผลแบบเรียลไทม์
+                  สิ่งที่นักวิจัยวัด — อุณหภูมิพื้นผิวจากดาวเทียม, จุดสะสมความร้อน, จุดร้อน (Hotspot) — คือสิ่งที่แผนที่ความร้อนในเว็บนี้แสดงแบบเรียลไทม์
                 </p>
               </div>
+
+              <details class="readmore">
+                <summary>อ่านเพิ่มเติม — รายละเอียดงานวิจัยและการอ้างอิง</summary>
+                <div class="readmore-body">
+                  <p>การศึกษาวิเคราะห์รูปแบบเชิงพื้นที่และเวลา (spatiotemporal — การเปลี่ยนแปลงตามสถานที่และช่วงเวลา) ของ Land Surface Temperature (LST), เกาะความร้อนเมือง, และพื้นที่เสี่ยงต่อความเครียดจากความร้อน โดยใช้เทคนิค Geoinformatics (วิทยาศาสตร์ข้อมูลภูมิสารสนเทศ)</p>
+                  <p>เป็นส่วนหนึ่งของการศึกษาเมืองเขตร้อนภายในแผ่นดินและเมืองชายฝั่งในไทย เผยแพร่ใน <em>Applied Environmental Research</em></p>
+                </div>
+              </details>
 
               <div class="research-cite">
                 <p class="research-cite-label">แหล่งข้อมูล</p>
@@ -1671,6 +1823,21 @@
           ความร้อนส่งผล<br />กระทบอย่างไร
         </h2>
         <div class="thermal-divider reveal" aria-hidden="true"></div>
+
+        <div class="section-summary reveal">
+          ความร้อนกระทบสุขภาพ (ลมแดด, เครียดความร้อน), กระเป๋าเงิน (ค่าไฟพุ่ง), และชีวิตประจำวัน (ออกนอกบ้านยาก) — กลุ่มเสี่ยงสูงสุดคือผู้สูงอายุ เด็กเล็ก และคนทำงานกลางแจ้ง
+        </div>
+
+        <div class="action-box reveal">
+          <p class="action-box-title">แล้วต้องทำยังไงเพื่อป้องกันตัวเอง?</p>
+          <ul>
+            <li>หลีกเลี่ยงออกกลางแจ้งช่วง 11.00–15.00 น. โดยเฉพาะเดือน มี.ค.–พ.ค.</li>
+            <li>ดื่มน้ำสม่ำเสมอ อย่างน้อย 8 แก้วต่อวัน — เพิ่มขึ้นหากทำงานกลางแจ้ง</li>
+            <li>สังเกตอาการลมแดด: หน้ามืด คลื่นไส้ ผิวแดงร้อน ไม่มีเหงื่อ — โทร 1669 ทันที</li>
+            <li>ดูแลผู้สูงอายุในบ้าน ตรวจให้แน่ใจว่าห้องไม่ร้อนเกินไป</li>
+            <li>ตรวจแผนที่ความร้อนก่อนออกจากบ้าน เพื่อเลือกเส้นทางที่เย็นกว่า</li>
+          </ul>
+        </div>
 
         <div class="impact-grid">
 

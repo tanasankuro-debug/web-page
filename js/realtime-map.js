@@ -98,6 +98,9 @@ function initSatelliteMap() {
     attributionControl: { compact: true }
   });
 
+  /* Expose map instance for map-explore-plugin.js */
+  window.HSKK_MAP = map;
+
   map.addControl(new maplibregl.NavigationControl({ visualizePitch: false }), 'top-right');
   map.addControl(new maplibregl.GeolocateControl({
     positionOptions:  { enableHighAccuracy: true },

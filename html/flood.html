@@ -19,6 +19,14 @@
   <link rel="stylesheet" href="../css/live.css" />
   <link rel="stylesheet" href="../css/themes.css" />
   <link rel="stylesheet" href="../css/topics.css" />
+  <style>
+    #hero.hero {
+      background: linear-gradient(-45deg, #06101B, #0D1D38, #0F1118, #1C0A0A, #06101B);
+      background-size: 400% 400%;
+      animation: thermalShimmer 18s ease infinite;
+      min-height: 55vh;
+    }
+  </style>
 </head>
 <body data-theme="flood">
 
@@ -67,13 +75,6 @@
     <!-- ─── HERO ─────────────────────────────────────────────────────────── -->
     <section id="hero" class="hero" aria-label="Flood — น้ำท่วมเมือง">
 
-      <div class="hero-bg" aria-hidden="true">
-        <video class="hero-img" autoplay loop muted playsinline>
-          <source src="../assets/khonkean.mp4" type="video/mp4" />
-        </video>
-        <div class="hero-overlay" aria-hidden="true"></div>
-      </div>
-
       <div class="hero-content container">
         <p class="hero-badge reveal">น้ำท่วม &middot; ขอนแก่น ประเทศไทย &middot; 2569</p>
         <h1 class="hero-title reveal">
@@ -81,8 +82,7 @@
         </h1>
         <p class="hero-sub reveal">น้ำท่วมเมือง</p>
         <div class="hero-actions reveal">
-          <a href="#causes" class="btn btn-primary">อ่านบทความ</a>
-          <a href="flood-live.html" class="btn btn-outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:1.1em;height:1.1em;vertical-align:-0.2em;margin-right:0.3em;flex-shrink:0"><path d="M1 16c2-2 4-2 6 0s4 2 6 0"/><path d="M1 21c2-2 4-2 6 0s4 2 6 0" stroke-opacity="0.5"/><line x1="19" y1="4" x2="19" y2="14"/><path d="M15 7a5.5 5.5 0 0 1 8 0"/><path d="M17 9.5a2.5 2.5 0 0 1 4 0"/><circle cx="19" cy="14" r="1.2" fill="currentColor" stroke="none"/></svg> ดูข้อมูลสด &#x2192;</a>
+          <a href="flood-live.html" class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:1.1em;height:1.1em;vertical-align:-0.2em;margin-right:0.3em;flex-shrink:0"><path d="M1 16c2-2 4-2 6 0s4 2 6 0"/><path d="M1 21c2-2 4-2 6 0s4 2 6 0" stroke-opacity="0.5"/><line x1="19" y1="4" x2="19" y2="14"/><path d="M15 7a5.5 5.5 0 0 1 8 0"/><path d="M17 9.5a2.5 2.5 0 0 1 4 0"/><circle cx="19" cy="14" r="1.2" fill="currentColor" stroke="none"/></svg> ดูข้อมูลสด &#x2192;</a>
         </div>
       </div>
 

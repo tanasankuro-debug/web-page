@@ -176,6 +176,54 @@
     .ln-flood { border-top: 2px solid #3898A8; }
     .ln-flood .ln-icon { background: rgba(56,152,168,0.2);  color: #2DD4BF; }
 
+    /* smart map card — full-width row in grid */
+    .ln-smart {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: 0.75rem;
+      padding: 0.875rem 1.125rem;
+      border-top: 2px solid #10B981;
+      border-color: rgba(16,185,129,0.28);
+      position: relative;
+      overflow: hidden;
+    }
+    .ln-smart .ln-icon {
+      background: rgba(16,185,129,0.18);
+      color: #34D399;
+      flex-shrink: 0;
+    }
+    .ln-smart:hover {
+      background: rgba(16,185,129,0.10);
+      border-color: rgba(16,185,129,0.42);
+      box-shadow: 0 0 22px rgba(16,185,129,0.15);
+    }
+    .ln-smart-label {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.1rem;
+      text-align: left;
+    }
+    .ln-smart-sub {
+      font-size: 0.67rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.38);
+      display: block;
+    }
+    .ln-smart-badge {
+      position: absolute;
+      top: 50%; right: 1rem;
+      transform: translateY(-50%);
+      font-size: 0.6rem; font-weight: 700;
+      padding: 2px 8px; border-radius: 999px;
+      background: rgba(16,185,129,0.22);
+      color: #34D399;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
     /* map button */
     .ln-map {
       display: flex;
@@ -348,6 +396,23 @@
             <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 24l16-12 16 12"/><path d="M14 23v9"/><path d="M34 23v9"/><path d="M20 32h8"/><path d="M5 35c3-4 5.5-4 8 0s5 4 8 0 5.5-4 8 0 5 4 8 0"/><path d="M5 43c3-4 5.5-4 8 0s5 4 8 0 5.5-4 8 0 5 4 8 0"/></svg>
           </span>
           น้ำท่วม
+        </a>
+
+        <!-- Smart Map — spans full grid width -->
+        <a href="smart-map.html" class="ln-btn ln-smart" role="listitem">
+          <span class="ln-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M28 6L20 10 8 6v28l12 4 8-4 12 4V10L28 6z"/>
+              <path d="M20 10v28M28 6v28"/>
+              <circle cx="34" cy="28" r="5" stroke-width="2"/>
+              <path d="M34 33v5M31 31l-3 3"/>
+            </svg>
+          </span>
+          <span class="ln-smart-label">
+            แผนที่อัจฉริยะ
+            <span class="ln-smart-sub">รวมทุกแผนที่ในที่เดียว · 7 แผนที่</span>
+          </span>
+          <span class="ln-smart-badge" aria-hidden="true">อัจฉริยะ</span>
         </a>
 
       </div>

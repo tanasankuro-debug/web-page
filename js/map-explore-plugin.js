@@ -1,19 +1,16 @@
 /* ==========================================================================
-   Map Explorer — map-explore.js
+   Map Explore Plugin — map-explore-plugin.js
+   Attaches click-to-explore to the existing window.HSKK_MAP instance.
    Click any point → reverse geocode + weather + air quality
    Sources: Nominatim OSM · Open-Meteo Forecast · Open-Meteo Air Quality
    ========================================================================== */
 'use strict';
 
-const CFG    = window.HSKK_CONFIG || {};
-const CENTER = [CFG.loc?.lng ?? 102.82, CFG.loc?.lat ?? 16.44];
-const ZOOM   = CFG.loc?.zoom ?? 11;
-
 /* ────────────────────────────────────────────────────────────────────────── */
 /* LOOKUP TABLES                                                              */
 /* ────────────────────────────────────────────────────────────────────────── */
 
-const WMO = {
+const EXPLORE_WMO = {
   0:  { th: 'ท้องฟ้าแจ่มใส',        e: '☀️' },
   1:  { th: 'แจ่มใสเป็นส่วนใหญ่',   e: '🌤️' },
   2:  { th: 'มีเมฆบางส่วน',          e: '⛅'  },
@@ -33,17 +30,16 @@ const WMO = {
   99: { th: 'พายุรุนแรง',           e: '⛈️'  },
 };
 
-function wmoLookup(code) {
+function exWmoLookup(code) {
   if (code == null) return { th: 'ไม่ทราบ', e: '—' };
-  // WMO codes group: use floor to nearest known key
-  return WMO[code] || WMO[Math.floor(code / 10) * 10] || { th: 'ไม่ทราบ', e: '🌡️' };
+  return EXPLORE_WMO[code] || EXPLORE_WMO[Math.floor(code / 10) * 10] || { th: 'ไม่ทราบ', e: '🌡️' };
 }
 
 /* ────────────────────────────────────────────────────────────────────────── */
 /* LEVEL HELPERS                                                              */
 /* ────────────────────────────────────────────────────────────────────────── */
 
-function aqiMeta(aqi) {
+function exAqiMeta(aqi) {
   const n = aqi ?? null;
   if (n === null) return { label: 'ไม่มีข้อมูล', color: '#475569', chipBg: '#1E293B40', pct: 0 };
   if (n <= 50)   return { label: 'ดีมาก',                 color: '#22C55E', chipBg: '#14532D40', pct: n / 300 };
@@ -54,7 +50,7 @@ function aqiMeta(aqi) {
   return                 { label: 'อันตรายมาก',            color: '#7E22CE', chipBg: '#3B076440', pct: 1 };
 }
 
-function heatMeta(t) {
+function exHeatMeta(t) {
   if (t == null) return { label: '—', color: '#64748B' };
   if (t < 27) return { label: 'สบาย',         color: '#22D3EE' };
   if (t < 32) return { label: 'ร้อน',         color: '#FACC15' };
@@ -63,16 +59,16 @@ function heatMeta(t) {
   return              { label: 'อันตรายมาก', color: '#7C3AED' };
 }
 
-function humidMeta(h) {
+function exHumidMeta(h) {
   if (h == null) return { label: '—', color: '#64748B' };
-  if (h < 30) return { label: 'แห้งมาก',     color: '#FB923C' };
-  if (h < 50) return { label: 'ปกติ',         color: '#22D3EE' };
-  if (h < 70) return { label: 'ชื้นพอดี',    color: '#22C55E' };
+  if (h < 30) return { label: 'แห้งมาก',      color: '#FB923C' };
+  if (h < 50) return { label: 'ปกติ',          color: '#22D3EE' };
+  if (h < 70) return { label: 'ชื้นพอดี',     color: '#22C55E' };
   if (h < 85) return { label: 'ค่อนข้างชื้น', color: '#FACC15' };
-  return              { label: 'ชื้นมาก',     color: '#94A3B8' };
+  return              { label: 'ชื้นมาก',      color: '#94A3B8' };
 }
 
-function uvMeta(uv) {
+function exUvMeta(uv) {
   if (uv == null) return { label: '—', color: '#64748B' };
   if (uv < 3)  return { label: 'ต่ำ',     color: '#22D3EE' };
   if (uv < 6)  return { label: 'ปานกลาง', color: '#FACC15' };
@@ -81,172 +77,97 @@ function uvMeta(uv) {
   return               { label: 'อันตราย', color: '#A855F7' };
 }
 
-const WIND_TH    = ['เหนือ','ตะวันออกเฉียงเหนือ','ตะวันออก','ตะวันออกเฉียงใต้','ใต้','ตะวันตกเฉียงใต้','ตะวันตก','ตะวันตกเฉียงเหนือ'];
-const WIND_SHORT = ['N','NE','E','SE','S','SW','W','NW'];
-function windDir(deg) {
+const EX_WIND_TH    = ['เหนือ','ตะวันออกเฉียงเหนือ','ตะวันออก','ตะวันออกเฉียงใต้','ใต้','ตะวันตกเฉียงใต้','ตะวันตก','ตะวันตกเฉียงเหนือ'];
+const EX_WIND_SHORT = ['N','NE','E','SE','S','SW','W','NW'];
+function exWindDir(deg) {
   const i = Math.round((deg ?? 0) / 45) % 8;
-  return { th: WIND_TH[i], short: WIND_SHORT[i] };
+  return { th: EX_WIND_TH[i], short: EX_WIND_SHORT[i] };
 }
 
 /* ────────────────────────────────────────────────────────────────────────── */
 /* NOMINATIM PARSER                                                           */
 /* ────────────────────────────────────────────────────────────────────────── */
-function parseGeo(geo) {
+function exParseGeo(geo) {
   if (!geo?.address) return { main: 'ไม่ทราบสถานที่', sub: '', province: '' };
   const a = geo.address;
-
-  /* Main name: most local first */
   const main = a.village || a.hamlet || a.neighbourhood || a.suburb
              || a.quarter || a.city_district || a.town || a.city
              || a.county || 'ไม่ทราบพื้นที่';
-
-  /* Subdistrict + District (avoid repeating what's in main) */
   const parts = [];
   const tam = a.subdistrict || a.quarter;
   const amp = a.county || a.city_district;
   if (tam && tam !== main) parts.push('ต.' + tam);
   if (amp && amp !== main) parts.push('อ.' + amp);
-
   return {
     main,
     sub:      parts.join('  ·  '),
-    province: a.state  ? 'จ.' + a.state : '',
+    province: a.state ? 'จ.' + a.state : '',
   };
 }
 
 /* ────────────────────────────────────────────────────────────────────────── */
 /* FORMAT HELPERS                                                             */
 /* ────────────────────────────────────────────────────────────────────────── */
-const f1  = v => v != null ? (+v).toFixed(1) : '—';
-const f0  = v => v != null ? String(Math.round(+v)) : '—';
-const esc = s => String(s ?? '').replace(/[&<>"']/g,
+const exF1  = v => v != null ? (+v).toFixed(1) : '—';
+const exF0  = v => v != null ? String(Math.round(+v)) : '—';
+const exEsc = s => String(s ?? '').replace(/[&<>"']/g,
   c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 /* ────────────────────────────────────────────────────────────────────────── */
-/* MAP INIT                                                                   */
+/* ICON SET                                                                   */
 /* ────────────────────────────────────────────────────────────────────────── */
-let map, clickMarker = null, activeLayer = 'osm';
+const EX_ICON = {
+  temp:  `<svg class="dc-icon" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 14.76V5a2 2 0 1 0-4 0v9.76a4 4 0 1 0 4 0z"/></svg>`,
+  humid: `<svg class="dc-icon" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a7 7 0 0 0 7-7c0-4-7-12-7-12S5 11 5 15a7 7 0 0 0 7 7z"/></svg>`,
+  rain:  `<svg class="dc-icon" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14.5A3.5 3.5 0 0 1 4.7 8a4.5 4.5 0 0 1 8.8 1A3 3 0 0 1 14 14.5H4z"/><line x1="5" y1="18" x2="5" y2="20"/><line x1="9" y1="18" x2="9" y2="20"/><line x1="13" y1="18" x2="13" y2="20"/></svg>`,
+  wind:  `<svg class="dc-icon" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h11a3 3 0 1 0-3-4"/><path d="M3 12h16a3.5 3.5 0 1 1-3.5 3.5"/><path d="M3 16h7"/></svg>`,
+  uv:    `<svg class="dc-icon" viewBox="0 0 24 24" fill="none" stroke="#FACC15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>`,
+  press: `<svg class="dc-icon" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.1 17.5A8 8 0 1 1 18.9 17.5"/><path d="M12 12l-3-3"/><circle cx="12" cy="12" r="1.5" fill="#94A3B8" stroke="none"/></svg>`,
+};
 
-function buildStyle(layer) {
-  const layers = [];
-  if (layer === 'osm') {
-    layers.push({ id: 'osm-layer', type: 'raster', source: 'osm', layout: { visibility: 'visible' } });
-  } else {
-    layers.push({ id: 'sat-layer', type: 'raster', source: 'esriSat', layout: { visibility: 'visible' } });
-    layers.push({ id: 'ref-layer', type: 'raster', source: 'esriRef', layout: { visibility: 'visible' } });
-  }
-  return {
-    version: 8,
-    glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
-    sources: {
-      osm: {
-        type: 'raster',
-        tiles: [
-          'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
-          'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
-          'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
-        ],
-        tileSize: 256, maxzoom: 19,
-        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-      },
-      esriSat: {
-        type: 'raster',
-        tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
-        tileSize: 256, maxzoom: 19,
-        attribution: 'Tiles © Esri, Maxar, Earthstar Geographics'
-      },
-      esriRef: {
-        type: 'raster',
-        tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}'],
-        tileSize: 256, maxzoom: 19,
-        attribution: 'Labels © Esri'
-      }
-    },
-    layers
-  };
-}
-
-function initMap() {
-  map = new maplibregl.Map({
-    container: 'map',
-    style: buildStyle('osm'),
-    center: CENTER,
-    zoom:   ZOOM,
-    minZoom: 7,
-    maxZoom: 19,
-    attributionControl: false
-  });
-
-  map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right');
-  map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
-  map.addControl(new maplibregl.GeolocateControl({
-    positionOptions:  { enableHighAccuracy: true },
-    fitBoundsOptions: { maxZoom: 14 },
-    trackUserLocation: false,
-    showAccuracyCircle: true
-  }), 'bottom-right');
-
-  map.on('click', onMapClick);
-
-  map.on('load', () => {
-    map.getCanvas().style.cursor = 'crosshair';
-  });
-
-  map.on('error', (e) => {
-    console.error('[map-explore] MapLibre error:', e.error || e);
-  });
-
-  /* Layer toggle buttons */
-  document.querySelectorAll('.layer-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (btn.dataset.layer === activeLayer) return;
-      activeLayer = btn.dataset.layer;
-      document.querySelectorAll('.layer-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      map.setStyle(buildStyle(activeLayer));
-      map.once('styledata', () => { map.getCanvas().style.cursor = 'crosshair'; });
-    });
-  });
-
-  document.getElementById('panel-close')?.addEventListener('click', closePanel);
-}
+/* ────────────────────────────────────────────────────────────────────────── */
+/* STATE                                                                      */
+/* ────────────────────────────────────────────────────────────────────────── */
+let exClickMarker = null;
 
 /* ────────────────────────────────────────────────────────────────────────── */
 /* CLICK HANDLER                                                              */
 /* ────────────────────────────────────────────────────────────────────────── */
-async function onMapClick(e) {
+async function onExploreClick(e) {
+  const map = window.HSKK_MAP;
+  if (!map) return;
   try {
     const { lng, lat } = e.lngLat;
 
-    if (clickMarker) { clickMarker.remove(); clickMarker = null; }
-    clickMarker = new maplibregl.Marker({ element: makeMarkerEl(), anchor: 'center' })
+    if (exClickMarker) { exClickMarker.remove(); exClickMarker = null; }
+    exClickMarker = new maplibregl.Marker({ element: exMakeMarkerEl(), anchor: 'center' })
       .setLngLat([lng, lat]).addTo(map);
 
-    showLoading();
-    hideHint();
+    exShowLoading();
+    exHideHint();
 
     const [geoR, wxR, aqR] = await Promise.allSettled([
-      fetchGeocode(lat, lng),
-      fetchWeather(lat, lng),
-      fetchAir(lat, lng)
+      exFetchGeocode(lat, lng),
+      exFetchWeather(lat, lng),
+      exFetchAir(lat, lng)
     ]);
 
-    renderPanel(
+    exRenderPanel(
       geoR.status === 'fulfilled' ? geoR.value : null,
       wxR.status  === 'fulfilled' ? wxR.value  : null,
       aqR.status  === 'fulfilled' ? aqR.value  : null,
       lat, lng
     );
   } catch (err) {
-    console.error('[map-explore] onMapClick error:', err);
-    setPanel('<div style="padding:2rem;color:#EF4444;font-family:sans-serif">เกิดข้อผิดพลาด: ' + err.message + '</div>');
+    console.error('[explore-plugin] onExploreClick error:', err);
+    exSetPanel('<div style="padding:2rem;color:#EF4444;font-family:sans-serif">เกิดข้อผิดพลาด: ' + err.message + '</div>');
   }
 }
 
 /* ────────────────────────────────────────────────────────────────────────── */
 /* API CALLS                                                                  */
 /* ────────────────────────────────────────────────────────────────────────── */
-async function fetchGeocode(lat, lng) {
+async function exFetchGeocode(lat, lng) {
   const url =
     `https://nominatim.openstreetmap.org/reverse` +
     `?lat=${lat.toFixed(6)}&lon=${lng.toFixed(6)}` +
@@ -256,7 +177,7 @@ async function fetchGeocode(lat, lng) {
   return r.json();
 }
 
-async function fetchWeather(lat, lng) {
+async function exFetchWeather(lat, lng) {
   const p = new URLSearchParams({
     latitude:  lat.toFixed(4),
     longitude: lng.toFixed(4),
@@ -272,7 +193,7 @@ async function fetchWeather(lat, lng) {
   return r.json();
 }
 
-async function fetchAir(lat, lng) {
+async function exFetchAir(lat, lng) {
   const p = new URLSearchParams({
     latitude:  lat.toFixed(4),
     longitude: lng.toFixed(4),
@@ -287,10 +208,10 @@ async function fetchAir(lat, lng) {
 /* ────────────────────────────────────────────────────────────────────────── */
 /* PANEL RENDER                                                               */
 /* ────────────────────────────────────────────────────────────────────────── */
-function renderPanel(geo, wx, aq, lat, lng) {
-  const loc  = parseGeo(geo);
-  const c    = wx?.current  ?? {};
-  const ac   = aq?.current  ?? {};
+function exRenderPanel(geo, wx, aq, lat, lng) {
+  const loc  = exParseGeo(geo);
+  const c    = wx?.current ?? {};
+  const ac   = aq?.current ?? {};
 
   const temp   = c.temperature_2m       ?? null;
   const feels  = c.apparent_temperature ?? null;
@@ -305,20 +226,20 @@ function renderPanel(geo, wx, aq, lat, lng) {
   const pm10   = ac.pm10               ?? null;
   const aqi    = ac.us_aqi             ?? null;
 
-  const wmo  = wmoLookup(wCode);
-  const aqM  = aqiMeta(aqi);
-  const htM  = heatMeta(feels);
-  const humM = humidMeta(humid);
-  const uvM  = uvMeta(uv);
-  const wd   = wDirV != null ? windDir(wDirV) : null;
+  const wmo  = exWmoLookup(wCode);
+  const aqM  = exAqiMeta(aqi);
+  const htM  = exHeatMeta(feels);
+  const humM = exHumidMeta(humid);
+  const uvM  = exUvMeta(uv);
+  const wd   = wDirV != null ? exWindDir(wDirV) : null;
 
   const now  = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
 
   const rainHtml = precip != null && precip > 0
-    ? `<span style="color:#38BDF8">${f1(precip)} มม</span>`
+    ? `<span style="color:#38BDF8">${exF1(precip)} มม</span>`
     : `<span style="color:#475569">ไม่มีฝน</span>`;
 
-  setPanel(`
+  exSetPanel(`
     <div id="panel-drag-handle"></div>
 
     <!-- ── Location ─────────────────────────────────────────── -->
@@ -332,9 +253,9 @@ function renderPanel(geo, wx, aq, lat, lng) {
           </svg>
           <span style="font-size:0.62rem;color:#EF4444;font-weight:700;letter-spacing:.06em;text-transform:uppercase">สถานที่</span>
         </div>
-        <div id="loc-main">${esc(loc.main)}</div>
-        <div id="loc-sub">${esc(loc.sub)}</div>
-        <div id="loc-province">${esc(loc.province)}</div>
+        <div id="loc-main">${exEsc(loc.main)}</div>
+        <div id="loc-sub">${exEsc(loc.sub)}</div>
+        <div id="loc-province">${exEsc(loc.province)}</div>
         <div id="loc-coords">${lat.toFixed(5)}°N &nbsp;${lng.toFixed(5)}°E</div>
       </div>
       <button id="panel-close" aria-label="ปิด">✕</button>
@@ -347,53 +268,47 @@ function renderPanel(geo, wx, aq, lat, lng) {
         <div class="p-section-lbl">สภาพอากาศ ณ จุดนี้</div>
 
         <div id="wx-row">
-          <span id="wx-emoji" role="img" aria-label="${esc(wmo.th)}">${wmo.e}</span>
-          <span id="wx-label">${esc(wmo.th)}</span>
+          <span id="wx-emoji" role="img" aria-label="${exEsc(wmo.th)}">${wmo.e}</span>
+          <span id="wx-label">${exEsc(wmo.th)}</span>
         </div>
 
         <div class="data-grid">
 
-          <!-- Temperature -->
           <div class="data-card">
-            <div class="dc-label">🌡️ อุณหภูมิ</div>
-            <div class="dc-value">${f1(temp)}<span class="dc-unit">°C</span></div>
+            <div class="dc-label">${EX_ICON.temp} อุณหภูมิ</div>
+            <div class="dc-value">${exF1(temp)}<span class="dc-unit">°C</span></div>
             <div class="dc-sub" style="color:${htM.color}">
-              รู้สึก ${f1(feels)}°C &nbsp;·&nbsp; ${htM.label}
+              รู้สึก ${exF1(feels)}°C &nbsp;·&nbsp; ${htM.label}
             </div>
           </div>
 
-          <!-- Humidity -->
           <div class="data-card">
-            <div class="dc-label">💧 ความชื้น</div>
-            <div class="dc-value">${f0(humid)}<span class="dc-unit">%</span></div>
+            <div class="dc-label">${EX_ICON.humid} ความชื้น</div>
+            <div class="dc-value">${exF0(humid)}<span class="dc-unit">%</span></div>
             <div class="dc-sub" style="color:${humM.color}">${humM.label}</div>
           </div>
 
-          <!-- Rain -->
           <div class="data-card">
-            <div class="dc-label">🌧️ ฝน</div>
-            <div class="dc-value">${f1(precip)}<span class="dc-unit">มม</span></div>
+            <div class="dc-label">${EX_ICON.rain} ฝน</div>
+            <div class="dc-value">${exF1(precip)}<span class="dc-unit">มม</span></div>
             <div class="dc-sub">${rainHtml}</div>
           </div>
 
-          <!-- Wind -->
           <div class="data-card">
-            <div class="dc-label">🌬️ ลม</div>
-            <div class="dc-value">${f0(wSpeed)}<span class="dc-unit">กม/ชม</span></div>
+            <div class="dc-label">${EX_ICON.wind} ลม</div>
+            <div class="dc-value">${exF0(wSpeed)}<span class="dc-unit">กม/ชม</span></div>
             <div class="dc-sub">${wd ? `ทิศ${wd.th} (${wd.short})` : '—'}</div>
           </div>
 
-          <!-- UV -->
           <div class="data-card">
-            <div class="dc-label">☀️ UV Index</div>
-            <div class="dc-value">${f1(uv)}</div>
+            <div class="dc-label">${EX_ICON.uv} UV Index</div>
+            <div class="dc-value">${exF1(uv)}</div>
             <div class="dc-sub" style="color:${uvM.color}">${uvM.label}</div>
           </div>
 
-          <!-- Pressure -->
           <div class="data-card">
-            <div class="dc-label">🔵 ความดันอากาศ</div>
-            <div class="dc-value">${f0(press)}<span class="dc-unit">hPa</span></div>
+            <div class="dc-label">${EX_ICON.press} ความดันอากาศ</div>
+            <div class="dc-value">${exF0(press)}<span class="dc-unit">hPa</span></div>
             <div class="dc-sub" style="color:#64748B">
               ${press != null ? (press > 1013 ? 'สูงกว่าปกติ' : press < 1005 ? 'ต่ำกว่าปกติ' : 'ปกติ') : '—'}
             </div>
@@ -410,12 +325,12 @@ function renderPanel(geo, wx, aq, lat, lng) {
           <div class="aqi-row">
             <div>
               <div class="dc-label" style="margin-bottom:1px">PM2.5</div>
-              <span class="aqi-pm-val">${pm25 != null ? f1(pm25) : '—'}</span>
+              <span class="aqi-pm-val">${pm25 != null ? exF1(pm25) : '—'}</span>
               <span class="aqi-pm-unit">µg/m³</span>
             </div>
             <div style="text-align:right">
               <div class="dc-label" style="margin-bottom:1px">PM10</div>
-              <span class="aqi-pm-val">${pm10 != null ? f1(pm10) : '—'}</span>
+              <span class="aqi-pm-val">${pm10 != null ? exF1(pm10) : '—'}</span>
               <span class="aqi-pm-unit">µg/m³</span>
             </div>
           </div>
@@ -429,9 +344,9 @@ function renderPanel(geo, wx, aq, lat, lng) {
           <div class="aqi-meta">
             <span class="aqi-chip"
                   style="background:${aqM.chipBg};color:${aqM.color};border-color:${aqM.color}40">
-              ${esc(aqM.label)}
+              ${exEsc(aqM.label)}
             </span>
-            <span class="aqi-aqi-val">AQI US&nbsp;${aqi != null ? f0(aqi) : '—'}</span>
+            <span class="aqi-aqi-val">AQI US&nbsp;${aqi != null ? exF0(aqi) : '—'}</span>
           </div>
 
         </div>
@@ -449,21 +364,21 @@ function renderPanel(geo, wx, aq, lat, lng) {
     </div><!-- /panel-scroll -->
   `);
 
-  /* Re-attach close button after innerHTML */
-  document.getElementById('panel-close')?.addEventListener('click', closePanel);
+  document.getElementById('panel-close')?.addEventListener('click', exClosePanel);
 }
 
 /* ────────────────────────────────────────────────────────────────────────── */
 /* PANEL HELPERS                                                              */
 /* ────────────────────────────────────────────────────────────────────────── */
-function setPanel(html) {
+function exSetPanel(html) {
   const p = document.getElementById('info-panel');
+  if (!p) return;
   p.innerHTML = html;
   p.classList.add('open');
 }
 
-function showLoading() {
-  setPanel(`
+function exShowLoading() {
+  exSetPanel(`
     <div id="panel-drag-handle"></div>
     <div id="panel-loading">
       <div class="spinner"></div>
@@ -472,19 +387,19 @@ function showLoading() {
   `);
 }
 
-function closePanel() {
-  document.getElementById('info-panel').classList.remove('open');
-  if (clickMarker) { clickMarker.remove(); clickMarker = null; }
-  showHint();
+function exClosePanel() {
+  document.getElementById('info-panel')?.classList.remove('open');
+  if (exClickMarker) { exClickMarker.remove(); exClickMarker = null; }
+  exShowHint();
 }
 
-function hideHint() { document.getElementById('click-hint')?.classList.add('hidden'); }
-function showHint()  { document.getElementById('click-hint')?.classList.remove('hidden'); }
+function exHideHint() { document.getElementById('click-hint')?.classList.add('hidden'); }
+function exShowHint()  { document.getElementById('click-hint')?.classList.remove('hidden'); }
 
 /* ────────────────────────────────────────────────────────────────────────── */
 /* PULSE MARKER                                                               */
 /* ────────────────────────────────────────────────────────────────────────── */
-function makeMarkerEl() {
+function exMakeMarkerEl() {
   const el = document.createElement('div');
   el.className = 'explore-marker';
   el.innerHTML = `
@@ -499,9 +414,21 @@ function makeMarkerEl() {
 /* ────────────────────────────────────────────────────────────────────────── */
 /* BOOT                                                                       */
 /* ────────────────────────────────────────────────────────────────────────── */
-if (typeof maplibregl !== 'undefined') {
-  initMap();
-} else {
-  document.getElementById('map')?.insertAdjacentHTML('afterend',
-    '<p style="color:#EF4444;padding:1rem">MapLibre GL JS ไม่ถูกโหลด</p>');
+function initExplorePlugin() {
+  const map = window.HSKK_MAP;
+  if (!map) {
+    console.warn('[explore-plugin] window.HSKK_MAP not available — explore feature disabled');
+    return;
+  }
+
+  map.on('click', onExploreClick);
+
+  if (map.loaded()) {
+    map.getCanvas().style.cursor = 'crosshair';
+  } else {
+    map.on('load', () => { map.getCanvas().style.cursor = 'crosshair'; });
+  }
 }
+
+/* Runs after main.js DOMContentLoaded (registered first → fires first → sets window.HSKK_MAP) */
+document.addEventListener('DOMContentLoaded', initExplorePlugin);

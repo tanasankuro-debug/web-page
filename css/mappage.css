@@ -339,7 +339,7 @@ body.map-page {
 .map-sidebar-toggle {
   display: none;
   position: absolute;
-  top: 0.875rem;
+  top: 3rem;
   left: 0.875rem;
   z-index: 20;
   align-items: center;

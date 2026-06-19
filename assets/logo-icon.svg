@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 30" fill="none">
+  <!-- Map pin body: orange→red gradient -->
+  <path d="M12 0C7.6 0 4 3.6 4 8c0 6.2 8 20 8 20S20 14.2 20 8c0-4.4-3.6-8-8-8z" fill="url(#logoGrad)"/>
+  <!-- Inner dark circle -->
+  <circle cx="12" cy="7.8" r="4.4" fill="#010C1A"/>
+  <!-- Sun core -->
+  <circle cx="12" cy="7.8" r="1.85" fill="#FDBA74"/>
+  <!-- 8 sun rays -->
+  <path d="M12 2.2v1.6M12 12v1.6M6.6 7.8h1.6M15.8 7.8h1.6M8.6 4.5l1.1 1.1M14.3 10.2l1.1 1.1M8.6 11.1l1.1-1.1M14.3 5.5l1.1-1.1"
+        stroke="#FDBA74" stroke-width="1.15" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="logoGrad" x1="4" y1="0" x2="20" y2="28" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"  stop-color="#FB923C"/>
+      <stop offset="70%" stop-color="#EF4444"/>
+    </linearGradient>
+  </defs>
+</svg>
