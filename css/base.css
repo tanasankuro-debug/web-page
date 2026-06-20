@@ -41,7 +41,9 @@
   --article-w:  820px;
 
   /* UI */
-  --header-h:  68px;
+  --nav-h:       68px;
+  --util-bar-h:  32px;
+  --header-h:    calc(var(--nav-h) + var(--util-bar-h));
   --radius:    12px;
   --radius-sm: 6px;
   --shadow:    0 4px 24px rgba(0,0,0,0.45);
@@ -61,6 +63,23 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-h) + 1rem);
+  font-size: calc(var(--font-scale, 1) * 100%);
+}
+
+html.high-contrast {
+  --bg:           #000000;
+  --bg-card:      #0D0D0D;
+  --bg-alt:       #060606;
+  --bg-hover:     #1A1A1A;
+  --text:         #FFFFFF;
+  --text-sec:     #DDDDDD;
+  --text-muted:   #BBBBBB;
+  --border:       rgba(255,255,255,0.28);
+  --border-hover: rgba(255,255,255,0.48);
+  --cool:  #00FFFF;
+  --warm:  #FFE500;
+  --hot:   #FF8000;
+  --fire:  #FF3333;
 }
 
 body {
