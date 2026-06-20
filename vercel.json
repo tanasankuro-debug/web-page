@@ -23,6 +23,8 @@
     { "source": "/team", "destination": "/html/team.html" },
     { "source": "/team.html", "destination": "/html/team.html" },
     { "source": "/landcast", "destination": "/html/landcast.html" },
-    { "source": "/landcast.html", "destination": "/html/landcast.html" }
+    { "source": "/landcast.html", "destination": "/html/landcast.html" },
+    { "source": "/smart-map", "destination": "/html/smart-map.html" },
+    { "source": "/smart-map.html", "destination": "/html/smart-map.html" }
   ]
 }
