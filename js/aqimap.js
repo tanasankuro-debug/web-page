@@ -1,15 +1,12 @@
 'use strict';
 
 /* AQI Map — data source cascade:
-   1. Air4Thai PCD API  (official, may fail CORS)
-   2. OpenAQ v2         (CORS-friendly, radius search)
-   3. Open-Meteo        (always works, single point)
+   1. Air4Thai PCD API  (official, may fail CORS — all KK stations)
+   2. Open-Meteo        (always works, single point fallback)
    Markers: MapLibre HTML Marker per station (like Air4Thai pin style)
 */
 
 const AIR4THAI_URL = 'https://air4thai.pcd.go.th/services/getLastVal_V2.php';
-const OPENAQ_URL   = 'https://api.openaq.org/v2/latest?' +
-  'coordinates=16.44,102.82&radius=50000&parameter=pm25&limit=50&order_by=lastUpdated&sort=desc';
 
 /* ── AQI scale ────────────────────────────────────────────────────────────── */
 const AQI_SCALE = [
@@ -22,26 +19,33 @@ const AQI_SCALE = [
 ];
 
 function aqiColor(aqi) {
+  if (aqi == null || isNaN(+aqi)) return '#94a3b8';
   const row = AQI_SCALE.find(r => +aqi >= r.min && +aqi <= r.max);
   return row ? row.color : '#94a3b8';
 }
 
 function aqiLabel(aqi) {
+  if (aqi == null || isNaN(+aqi)) return 'ไม่มีข้อมูล';
   const row = AQI_SCALE.find(r => +aqi >= r.min && +aqi <= r.max);
   return row ? row.label : 'ไม่มีข้อมูล';
 }
 
 function pm25ToAQI(pm) {
   if (pm == null || isNaN(+pm)) return null;
+  const p = Math.round(+pm * 10) / 10;  /* EPA rounds PM2.5 to 1 decimal before lookup */
   const bp = [
-    [0,12,0,50],[12.1,35.4,51,100],[35.5,55.4,101,150],
-    [55.5,150.4,151,200],[150.5,250.4,201,300],
-    [250.5,350.4,301,400],[350.5,500.4,401,500]
+    [0,    12.0,  0,   50 ],
+    [12.1, 35.4,  51,  100],
+    [35.5, 55.4,  101, 150],
+    [55.5, 150.4, 151, 200],
+    [150.5,250.4, 201, 300],
+    [250.5,350.4, 301, 400],
+    [350.5,500.4, 401, 500]
   ];
-  for (const [cL,cH,iL,iH] of bp)
-    if (+pm >= cL && +pm <= cH)
-      return Math.round((iH - iL) / (cH - cL) * (+pm - cL) + iL);
-  return +pm > 500 ? 500 : 0;
+  for (const [cL, cH, iL, iH] of bp)
+    if (p >= cL && p <= cH)
+      return Math.round((iH - iL) / (cH - cL) * (p - cL) + iL);
+  return p > 500 ? 500 : null;
 }
 
 /* ── Data sources ─────────────────────────────────────────────────────────── */
@@ -57,43 +61,25 @@ async function fetchAir4Thai() {
   if (!list.length) throw new Error('no KK stations');
   return {
     source: 'Air4Thai · กรมควบคุมมลพิษ',
-    stations: list.filter(s => s.lat && s.long).map(s => ({
-      name:    s.nameTH || s.nameEN || s.stationID,
-      area:    s.areaTH || '',
-      lat:     +s.lat,
-      lng:     +s.long,
-      aqi:     s.AQI?.aqi != null ? +s.AQI.aqi : pm25ToAQI(s.PM25?.value),
-      pm25:    s.PM25?.value != null ? +s.PM25.value : null,
-      pm10:    s.PM10?.value != null ? +s.PM10.value : null,
-      updated: s.LastUpdate || ''
-    }))
+    stations: list.filter(s => s.lat && s.long).map(s => {
+      const rawAqi = s.AQI?.aqi;
+      const rawPm25 = s.PM25?.value;
+      const rawPm10 = s.PM10?.value;
+      const pm25 = (rawPm25 != null && rawPm25 !== '' && !isNaN(+rawPm25)) ? +rawPm25 : null;
+      const pm10 = (rawPm10 != null && rawPm10 !== '' && !isNaN(+rawPm10)) ? +rawPm10 : null;
+      /* Guard against empty-string AQI from API ("aqi": "") which coerces to 0 */
+      const aqi  = (rawAqi != null && rawAqi !== '' && !isNaN(+rawAqi) && +rawAqi > 0)
+                   ? +rawAqi : pm25ToAQI(pm25);
+      return {
+        name:    s.nameTH || s.nameEN || s.stationID,
+        area:    s.areaTH || '',
+        lat:     +s.lat,
+        lng:     +s.long,
+        aqi, pm25, pm10,
+        updated: s.LastUpdate || ''
+      };
+    })
   };
-}
-
-async function fetchOpenAQ() {
-  const res = await fetch(OPENAQ_URL, {
-    headers: { Accept: 'application/json' },
-    signal: AbortSignal.timeout(10000)
-  });
-  if (!res.ok) throw new Error('HTTP ' + res.status);
-  const data = await res.json();
-  const list = (data.results || []).filter(r => r.coordinates?.latitude);
-  if (!list.length) throw new Error('no results');
-  const stations = list.map(r => {
-    const m    = r.measurements?.find(x => x.parameter === 'pm25');
-    const pm25 = m?.value ?? null;
-    return {
-      name:    r.location,
-      area:    r.city || '',
-      lat:     r.coordinates.latitude,
-      lng:     r.coordinates.longitude,
-      aqi:     pm25ToAQI(pm25),
-      pm25,
-      updated: m?.lastUpdated?.slice(0, 16).replace('T', ' ') || ''
-    };
-  }).filter(s => s.pm25 !== null);
-  if (!stations.length) throw new Error('no pm25');
-  return { source: 'OpenAQ', stations };
 }
 
 async function fetchOpenMeteo() {
@@ -362,21 +348,15 @@ window.initAQIMap = function () {
       result = await fetchAir4Thai();
       console.info('[aqimap] Air4Thai OK');
     } catch (e1) {
-      console.warn('[aqimap] Air4Thai failed:', e1.message, '→ OpenAQ');
+      console.warn('[aqimap] Air4Thai failed:', e1.message, '→ Open-Meteo');
       try {
-        result = await fetchOpenAQ();
-        console.info('[aqimap] OpenAQ OK');
+        result = await fetchOpenMeteo();
+        console.info('[aqimap] Open-Meteo OK');
       } catch (e2) {
-        console.warn('[aqimap] OpenAQ failed:', e2.message, '→ Open-Meteo');
-        try {
-          result = await fetchOpenMeteo();
-          console.info('[aqimap] Open-Meteo OK');
-        } catch (e3) {
-          console.error('[aqimap] all failed:', e3.message);
-          const el = document.getElementById('aqi-station-list');
-          if (el) el.innerHTML = '<p class="aqi-status aqi-error">โหลดข้อมูลไม่สำเร็จ<br/>กรุณาลองใหม่</p>';
-          return;
-        }
+        console.error('[aqimap] all sources failed:', e2.message);
+        const el = document.getElementById('aqi-station-list');
+        if (el) el.innerHTML = '<p class="aqi-status aqi-error">โหลดข้อมูลไม่สำเร็จ<br/>กรุณาลองใหม่</p>';
+        return;
       }
     }
 

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather Icons Preview</title>
+  <link rel="stylesheet" href="css/weather-icons.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #060916;
+      color: #e2e8f0;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #94a3b8;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 0.75rem;
+      color: #475569;
+      margin-bottom: 2rem;
+    }
+
+    /* ── Section dividers ── */
+    .section-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #334155;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 0.4rem;
+      margin: 2rem 0 1.25rem;
+    }
+
+    /* ── Icon grid ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: #0d1117;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 1.25rem 0.75rem 0.875rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      transition: border-color 0.2s;
+    }
+
+    .card:hover {
+      border-color: #334155;
+    }
+
+    .icon-wrap {
+      width: 64px;
+      height: 64px;
+      flex-shrink: 0;
+    }
+
+    .icon-wrap.large {
+      width: 80px;
+      height: 80px;
+    }
+
+    .icon-wrap svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .label {
+      font-size: 0.68rem;
+      color: #64748b;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .label strong {
+      display: block;
+      font-size: 0.72rem;
+      color: #94a3b8;
+      margin-bottom: 0.1rem;
+    }
+
+    /* ── Size comparison row ── */
+    .size-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      padding: 1.25rem 1.5rem;
+      background: #0d1117;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+    }
+
+    .size-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .size-cell .sz { font-size: 0.6rem; color: #475569; }
+
+    /* ── Animation toggle ── */
+    .controls {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .ctrl-btn {
+      padding: 0.35rem 0.875rem;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      color: #94a3b8;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .ctrl-btn:hover { background: #273549; color: #e2e8f0; }
+    .ctrl-btn.active { background: #1d3a5f; border-color: #2563eb; color: #60a5fa; }
+
+    /* Pause all animations */
+    body.paused .wi-icon * {
+      animation-play-state: paused !important;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Weather Icons — Preview</h1>
+  <p class="subtitle">weather-icons.js + weather-icons.css · พื้นหลังธีมมืด (#060916)</p>
+
+  <div class="controls">
+    <button class="ctrl-btn active" id="btn-anim" onclick="toggleAnim()">⏸ หยุด animation</button>
+    <button class="ctrl-btn" id="btn-play" onclick="playAnim()" style="display:none">▶ เล่น animation</button>
+  </div>
+
+  <!-- ── Size comparison ── -->
+  <p class="section-title">สัดส่วนขนาดต่างๆ (clear-day)</p>
+  <div class="size-row" id="size-row"></div>
+
+  <!-- ── Daytime icons ── -->
+  <p class="section-title">กลางวัน (isDay = true)</p>
+  <div class="grid" id="grid-day"></div>
+
+  <!-- ── Night icons ── -->
+  <p class="section-title">กลางคืน (isDay = false)</p>
+  <div class="grid" id="grid-night"></div>
+
+  <!-- ── All WMO codes ── -->
+  <p class="section-title">ทดสอบ WMO code ครบทุกตัว (กลางวัน)</p>
+  <div class="grid" id="grid-wmo"></div>
+
+  <script src="js/weather-icons.js"></script>
+  <script>
+    /* ── Size comparison ─────────────────────────────────────────────── */
+    const sizes = [24, 32, 48, 64, 80, 96];
+    const sr = document.getElementById('size-row');
+    sr.innerHTML = sizes.map(s => `
+      <div class="size-cell">
+        <div style="width:${s}px;height:${s}px">${getWeatherIcon(0, true)}</div>
+        <span class="sz">${s}px</span>
+      </div>`).join('');
+
+    /* ── Daytime icons ───────────────────────────────────────────────── */
+    const dayIcons = [
+      { code: 0,  label: 'clear-day',            desc: 'WMO 0 · แดดจัด' },
+      { code: 1,  label: 'partly-cloudy-day',     desc: 'WMO 1 · มีเมฆบางส่วน' },
+      { code: 2,  label: 'partly-cloudy-day',     desc: 'WMO 2 · มีเมฆ' },
+      { code: 3,  label: 'cloudy',                desc: 'WMO 3 · มีเมฆมาก' },
+      { code: 45, label: 'fog',                   desc: 'WMO 45 · หมอก' },
+      { code: 51, label: 'drizzle',               desc: 'WMO 51 · ฝนปรอยเบา' },
+      { code: 61, label: 'rain',                  desc: 'WMO 61 · ฝนเบา' },
+      { code: 65, label: 'heavy-rain',            desc: 'WMO 65 · ฝนหนัก' },
+      { code: 80, label: 'showers-day',           desc: 'WMO 80 · ฝนกระโชก' },
+      { code: 95, label: 'thunderstorm',          desc: 'WMO 95 · พายุ' },
+      { code: 71, label: 'snow',                  desc: 'WMO 71 · หิมะ' },
+    ];
+
+    document.getElementById('grid-day').innerHTML = dayIcons.map(ic => `
+      <div class="card">
+        <div class="icon-wrap">${getWeatherIcon(ic.code, true)}</div>
+        <div class="label">
+          <strong>${ic.label}</strong>
+          ${ic.desc}
+        </div>
+      </div>`).join('');
+
+    /* ── Night icons ─────────────────────────────────────────────────── */
+    const nightIcons = [
+      { code: 0,  label: 'clear-night',           desc: 'WMO 0 · กลางคืนโปร่ง' },
+      { code: 1,  label: 'partly-cloudy-night',   desc: 'WMO 1 · กลางคืนมีเมฆ' },
+      { code: 3,  label: 'cloudy',                desc: 'WMO 3 · มีเมฆมาก' },
+      { code: 45, label: 'fog',                   desc: 'WMO 45 · หมอก' },
+      { code: 51, label: 'drizzle',               desc: 'WMO 51 · ฝนปรอย' },
+      { code: 61, label: 'rain',                  desc: 'WMO 61 · ฝนตก' },
+      { code: 80, label: 'showers-night',         desc: 'WMO 80 · ฝนกระโชก' },
+      { code: 95, label: 'thunderstorm',          desc: 'WMO 95 · พายุ' },
+      { code: 71, label: 'snow',                  desc: 'WMO 71 · หิมะ' },
+    ];
+
+    document.getElementById('grid-night').innerHTML = nightIcons.map(ic => `
+      <div class="card">
+        <div class="icon-wrap">${getWeatherIcon(ic.code, false)}</div>
+        <div class="label">
+          <strong>${ic.label}</strong>
+          ${ic.desc}
+        </div>
+      </div>`).join('');
+
+    /* ── WMO code sweep ──────────────────────────────────────────────── */
+    const wmoCodes = [0,1,2,3,45,48,51,53,55,61,63,65,71,73,75,77,80,81,82,85,86,95,96,99];
+    document.getElementById('grid-wmo').innerHTML = wmoCodes.map(c => `
+      <div class="card">
+        <div class="icon-wrap">${getWeatherIcon(c, true)}</div>
+        <div class="label">
+          <strong>WMO ${c}</strong>
+          ${wmoLabel(c)}<br/>
+          <span style="color:${
+            wmoRisk(c)==='danger'?'#f87171':
+            wmoRisk(c)==='high'  ?'#fb923c':
+            wmoRisk(c)==='medium'?'#facc15':'#4ade80'
+          }">${wmoRisk(c)}</span>
+        </div>
+      </div>`).join('');
+
+    /* ── Animation controls ──────────────────────────────────────────── */
+    let playing = true;
+    function toggleAnim() {
+      playing = false;
+      document.body.classList.add('paused');
+      document.getElementById('btn-anim').style.display = 'none';
+      document.getElementById('btn-play').style.display = '';
+    }
+    function playAnim() {
+      playing = true;
+      document.body.classList.remove('paused');
+      document.getElementById('btn-play').style.display = 'none';
+      document.getElementById('btn-anim').style.display = '';
+    }
+  </script>
+</body>
+</html>

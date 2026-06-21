@@ -66,8 +66,18 @@
   ====================================================================== -->
   <main class="map-main" id="aqi-canvas">
 
+    <!-- Backdrop — tap outside sidebar to close (mobile only) -->
+    <div class="sidebar-backdrop" id="sidebar-backdrop" aria-hidden="true"></div>
+
     <!-- ─── SIDEBAR ──────────────────────────────────────────────────────── -->
     <aside class="map-sidebar" id="map-sidebar" aria-label="สถานีตรวจวัดอากาศขอนแก่น">
+      <!-- Close button (mobile only) -->
+      <button class="sidebar-close-btn" id="sidebar-close" aria-label="ปิดแผงข้อมูล">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"
+             stroke-linecap="round" width="16" height="16" aria-hidden="true" focusable="false">
+          <path d="M3 3l10 10M13 3L3 13"/>
+        </svg>
+      </button>
       <div class="map-sidebar-inner">
 
         <!-- Title + dynamic gauge icon -->
@@ -209,15 +219,25 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      /* Mobile sidebar toggle */
-      const toggle  = document.getElementById('sidebar-toggle');
-      const sidebar = document.getElementById('map-sidebar');
-      if (toggle && sidebar) {
-        toggle.addEventListener('click', () => {
-          const isOpen = sidebar.classList.toggle('open');
-          toggle.setAttribute('aria-expanded', String(isOpen));
-        });
+      /* Mobile sidebar: toggle + backdrop + close button */
+      const toggle   = document.getElementById('sidebar-toggle');
+      const sidebar  = document.getElementById('map-sidebar');
+      const backdrop = document.getElementById('sidebar-backdrop');
+      const closeBtn = document.getElementById('sidebar-close');
+
+      function setSidebar(open) {
+        sidebar.classList.toggle('open', open);
+        sidebar.closest('.map-main')?.classList.toggle('sidebar-open', open);
+        toggle.setAttribute('aria-expanded', String(open));
+        backdrop.classList.toggle('active', open);
       }
+
+      if (toggle && sidebar) {
+        toggle.addEventListener('click', () => setSidebar(!sidebar.classList.contains('open')));
+        backdrop.addEventListener('click', () => setSidebar(false));
+        closeBtn.addEventListener('click',  () => setSidebar(false));
+      }
+
       /* Init AQI map */
       if (typeof initAQIMap === 'function') initAQIMap();
     });

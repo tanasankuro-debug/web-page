@@ -53,6 +53,12 @@
   flex-shrink: 0;
 }
 
+.rwc-icon .wi-icon {
+  width: 72px;
+  height: 72px;
+  display: block;
+}
+
 .rwc-main {
   display: flex;
   flex-direction: column;

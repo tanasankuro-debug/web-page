@@ -75,8 +75,19 @@
   ====================================================================== -->
   <main class="map-main" id="map-canvas">
 
+    <!-- Backdrop — tap outside sidebar to close (mobile only) -->
+    <div class="sidebar-backdrop" id="sidebar-backdrop" aria-hidden="true"></div>
+
     <!-- ─── SIDEBAR ──────────────────────────────────────────────────────── -->
     <aside class="map-sidebar" id="map-sidebar" aria-label="ข้อมูลสดและชั้นแผนที่">
+
+      <!-- Close button (mobile only) -->
+      <button class="sidebar-close-btn" id="sidebar-close" aria-label="ปิดแผงข้อมูล">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"
+             stroke-linecap="round" width="16" height="16" aria-hidden="true" focusable="false">
+          <path d="M3 3l10 10M13 3L3 13"/>
+        </svg>
+      </button>
 
       <div class="map-sidebar-inner">
 
@@ -294,19 +305,22 @@
   <!-- Mobile sidebar toggle (map page only) -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const toggle  = document.getElementById('sidebar-toggle');
-      const sidebar = document.getElementById('map-sidebar');
+      const toggle   = document.getElementById('sidebar-toggle');
+      const sidebar  = document.getElementById('map-sidebar');
+      const backdrop = document.getElementById('sidebar-backdrop');
+      const closeBtn = document.getElementById('sidebar-close');
       if (!toggle || !sidebar) return;
-      toggle.addEventListener('click', () => {
-        const isOpen = sidebar.classList.toggle('open');
-        toggle.setAttribute('aria-expanded', String(isOpen));
-      });
-      document.getElementById('satellite-map-el')?.addEventListener('click', () => {
-        if (sidebar.classList.contains('open')) {
-          sidebar.classList.remove('open');
-          toggle.setAttribute('aria-expanded', 'false');
-        }
-      });
+
+      function setSidebar(open) {
+        sidebar.classList.toggle('open', open);
+        sidebar.closest('.map-main')?.classList.toggle('sidebar-open', open);
+        toggle.setAttribute('aria-expanded', String(open));
+        backdrop?.classList.toggle('active', open);
+      }
+
+      toggle.addEventListener('click', () => setSidebar(!sidebar.classList.contains('open')));
+      backdrop?.addEventListener('click', () => setSidebar(false));
+      closeBtn?.addEventListener('click',  () => setSidebar(false));
     });
   </script>
 </body>

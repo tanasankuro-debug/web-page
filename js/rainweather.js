@@ -61,10 +61,10 @@ function renderCurrent(data, currentProb) {
   const col  = riskColor(info.risk);
 
   el.innerHTML = `
-    <div class="rwc-icon" aria-hidden="true">${info.icon}</div>
+    <div class="rwc-icon">${getWeatherIcon(c.weathercode, c.is_day === 1)}</div>
     <div class="rwc-main">
       <div class="rwc-temp">${Math.round(c.temperature_2m)}<span>°C</span></div>
-      <div class="rwc-desc" style="color:${col};">${info.label}</div>
+      <div class="rwc-desc" style="color:${col};">${wmoLabel(c.weathercode)}</div>
       ${currentProb > 0 ? `<div class="rwc-prob">โอกาสฝน <strong>${currentProb}%</strong></div>` : ''}
     </div>
     <div class="rwc-stats">

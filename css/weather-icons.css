@@ -1,0 +1,138 @@
+/* ==========================================================================
+   Heat Safe Khon Kaen — weather-icons.css
+   Animations for the custom SVG weather icon system (weather-icons.js).
+   All keyframe names are prefixed "wi-" to avoid collisions.
+   ========================================================================== */
+
+/* ── Icon container ──────────────────────────────────────────────────────── */
+.wi-icon {
+  display: block;
+  /* width / height controlled by the parent container */
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   KEYFRAMES
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* Sun rays — slow continuous rotation */
+@keyframes wi-rays {
+  to { transform: rotate(360deg); }
+}
+
+/* Cloud — gentle vertical float */
+@keyframes wi-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-2.5px); }
+}
+
+/* Cloud back — opposite phase so layers feel independent */
+@keyframes wi-float-r {
+  0%, 100% { transform: translateY(-1.5px); }
+  50%       { transform: translateY(1.5px); }
+}
+
+/* Rain drop — falls down while fading in then out */
+@keyframes wi-rain {
+  0%   { transform: translateY(-2px); opacity: 0; }
+  18%  { opacity: 0.9; }
+  82%  { opacity: 0.9; }
+  100% { transform: translateY(10px); opacity: 0; }
+}
+
+/* Lightning — off most of the time, double-flash briefly */
+@keyframes wi-flash {
+  0%, 74%, 100%  { opacity: 0; }
+  76%            { opacity: 1; }
+  78%            { opacity: 0.2; }
+  80%            { opacity: 1; }
+  82%            { opacity: 0; }
+}
+
+/* Star twinkle — breathe in/out */
+@keyframes wi-twinkle {
+  0%, 100% { opacity: 0.12; transform: scale(0.8); }
+  50%       { opacity: 1;    transform: scale(1.15); }
+}
+
+/* Fog lines — subtle horizontal drift */
+@keyframes wi-fog {
+  0%, 100% { transform: translateX(0px);  opacity: 0.5; }
+  50%       { transform: translateX(-5px); opacity: 0.85; }
+}
+
+/* Snowflake — drifts down with slight rotation, fades */
+@keyframes wi-snow {
+  0%   { transform: translateY(-3px) rotate(0deg);   opacity: 0; }
+  20%  { opacity: 0.88; }
+  80%  { opacity: 0.88; }
+  100% { transform: translateY(9px)  rotate(20deg);  opacity: 0; }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   ANIMATED ELEMENT CLASSES
+   ════════════════════════════════════════════════════════════════════════════ */
+
+.wi-sun-rays {
+  animation: wi-rays 14s linear infinite;
+  /* transform-origin set inline per icon (non-center suns need px values) */
+}
+
+.wi-sun-disc {
+  /* static — no animation; keeps the disc steady while rays spin */
+}
+
+.wi-moon {
+  /* static — crescent is already shaped via SVG mask */
+}
+
+.wi-cloud {
+  animation: wi-float 4.5s ease-in-out infinite;
+}
+
+.wi-cloud-back {
+  animation: wi-float-r 6s ease-in-out infinite;
+}
+
+.wi-rain-drop {
+  animation: wi-rain 0.80s linear infinite;
+}
+
+.wi-lightning {
+  animation: wi-flash 3.8s ease-in-out infinite;
+  /* starts fully off; first flash appears after ~74% = ~2.8s */
+  animation-delay: -0.6s;
+}
+
+.wi-star {
+  animation: wi-twinkle 2.8s ease-in-out infinite;
+}
+
+.wi-fog-lines {
+  animation: wi-fog 3.2s ease-in-out infinite;
+}
+
+.wi-snow-flake {
+  animation: wi-snow 2.2s ease-in-out infinite;
+}
+
+/* ── Stagger snow flakes so they don't all move in sync ─────────────────── */
+.wi-snow-flake:nth-child(2) { animation-delay: 0.7s; }
+.wi-snow-flake:nth-child(3) { animation-delay: 1.4s; }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   REDUCED MOTION — honour user OS preference
+   ════════════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .wi-sun-rays,
+  .wi-cloud,
+  .wi-cloud-back,
+  .wi-rain-drop,
+  .wi-lightning,
+  .wi-star,
+  .wi-fog-lines,
+  .wi-snow-flake {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
