@@ -134,6 +134,71 @@
 /* ════════════════════════════════════════════════════════════════════════════
    REDUCED MOTION — honour user OS preference
    ════════════════════════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════════════════════
+   METRIC STAT ICONS  (metric-icons.js companion styles)
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* Container — sized by parent (.rwc-stat-icon) */
+.mi-icon {
+  display: block;
+}
+
+.rwc-stat-icon .mi-icon {
+  width: 26px;
+  height: 26px;
+}
+
+/* ── Keyframes ───────────────────────────────────────────────────────────── */
+
+/* Precip motion lines: drift downward + fade */
+@keyframes mi-fall {
+  0%   { transform: translateY(-1px); opacity: 0.45; }
+  100% { transform: translateY(1.5px); opacity: 0.95; }
+}
+
+/* Wind / gust lines: breathe left-right */
+@keyframes mi-drift {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-2px); }
+}
+
+/* Humidity drop: gentle scale pulse */
+@keyframes mi-pulse-drop {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.07); }
+}
+
+/* ── Animated element classes ─────────────────────────────────────────────── */
+
+.mi-fall {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mi-fall 1.1s ease-in-out infinite alternate;
+}
+
+.mi-fall--d2 {
+  animation-delay: 0.45s;
+}
+
+.mi-wind-lines {
+  transform-box: fill-box;
+  animation: mi-drift 2.2s ease-in-out infinite alternate;
+}
+
+.mi-gust-lines {
+  transform-box: fill-box;
+  animation: mi-drift 1.0s ease-in-out infinite alternate;
+}
+
+.mi-drop--hum {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: mi-pulse-drop 2.8s ease-in-out infinite;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   REDUCED MOTION — honour user OS preference
+   ════════════════════════════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
   .wi-sun-rays,
   .wi-cloud,
@@ -143,6 +208,14 @@
   .wi-star,
   .wi-fog-lines,
   .wi-snow-flake {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  .mi-fall,
+  .mi-wind-lines,
+  .mi-gust-lines,
+  .mi-drop--hum {
     animation: none !important;
     transform: none !important;
     opacity: 1 !important;

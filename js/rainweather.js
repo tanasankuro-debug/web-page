@@ -69,22 +69,22 @@ function renderCurrent(data, currentProb) {
     </div>
     <div class="rwc-stats">
       <div class="rwc-stat">
-        <span class="rwc-stat-icon" aria-hidden="true">🌧️</span>
+        <span class="rwc-stat-icon" aria-hidden="true">${typeof getMetricIcon === 'function' ? getMetricIcon('precip') : '🌧️'}</span>
         <span class="rwc-stat-val">${(c.precipitation ?? 0).toFixed(1)}</span>
         <span class="rwc-stat-lbl">ฝน (mm)</span>
       </div>
       <div class="rwc-stat">
-        <span class="rwc-stat-icon" aria-hidden="true">💨</span>
+        <span class="rwc-stat-icon" aria-hidden="true">${typeof getMetricIcon === 'function' ? getMetricIcon('wind') : '💨'}</span>
         <span class="rwc-stat-val">${Math.round(c.windspeed_10m)}</span>
         <span class="rwc-stat-lbl">ลม (km/h)</span>
       </div>
       <div class="rwc-stat">
-        <span class="rwc-stat-icon" aria-hidden="true">💥</span>
+        <span class="rwc-stat-icon" aria-hidden="true">${typeof getMetricIcon === 'function' ? getMetricIcon('gust') : '💥'}</span>
         <span class="rwc-stat-val">${Math.round(c.windgusts_10m ?? 0)}</span>
         <span class="rwc-stat-lbl">กระโชก (km/h)</span>
       </div>
       <div class="rwc-stat">
-        <span class="rwc-stat-icon" aria-hidden="true">💧</span>
+        <span class="rwc-stat-icon" aria-hidden="true">${typeof getMetricIcon === 'function' ? getMetricIcon('humidity') : '💧'}</span>
         <span class="rwc-stat-val">${c.relative_humidity_2m}</span>
         <span class="rwc-stat-lbl">ความชื้น (%)</span>
       </div>
