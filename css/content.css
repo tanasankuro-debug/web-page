@@ -1,0 +1,367 @@
+/* ==========================================================================
+   Heat Safe Khon Kaen — content.css
+   Typography system for knowledge / article content sections.
+
+   REUSABLE CLASSES:
+     .content-section   → add to <section> for tighter vertical rhythm
+     .article-body      → prose text block (reading width + font + spacing)
+
+   Do NOT apply to live-data panels, heatmap, SVG diagrams, or widgets.
+   ========================================================================== */
+
+/* ════════════════════════════════════════════════════════════════════════
+   1. SECTION VERTICAL RHYTHM
+   Current --section-py = clamp(4rem,9vw,7rem) = 64–112px
+   Knowledge sections: tighter — 40–64px desktop, 28–36px mobile
+   ════════════════════════════════════════════════════════════════════════ */
+.content-section {
+  padding-block: clamp(2.5rem, 6vw, 4rem); /* 40–64px */
+}
+
+@media (max-width: 640px) {
+  .content-section { padding-block: clamp(1.75rem, 5vw, 2.25rem); } /* 28–36px */
+}
+
+@media (max-width: 430px) {
+  .content-section { padding-block: 1.75rem; } /* 28px */
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   2. READING WIDTH
+   ~70ch cap on the prose column — prevents fatigue on wide monitors.
+   The article-container is already 820px; adding max-width on .article-body
+   brings the live reading line to ≈68-72ch for Thai script.
+   ════════════════════════════════════════════════════════════════════════ */
+.article-body {
+  max-width: 72ch;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   3. BODY PARAGRAPHS
+   18px desktop / 17px mobile, 1.8 line-height for Thai readability.
+   Applies to the main prose containers only — not widget content.
+   ════════════════════════════════════════════════════════════════════════ */
+.article-body p,
+.panel-desc p,
+.research-text p {
+  font-size: clamp(1.0625rem, 1.4vw, 1.125rem); /* 17–18px */
+  line-height: 1.8;
+  color: #E2E8F0;
+  margin-bottom: 1em;
+  overflow-wrap: break-word;
+}
+
+.article-body p:last-child,
+.panel-desc p:last-child,
+.research-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* Cards that already have tighter colour context */
+.impact-card p       { font-size: 1.0625rem; line-height: 1.75; color: #94A3B8; margin-bottom: 0; }
+.solutions-list li p { font-size: 0.9375rem; line-height: 1.65; color: #64748B; margin-bottom: 0; }
+.info-step-desc,
+.info-pillar-desc    { font-size: 1.0625rem; line-height: 1.75; color: #E2E8F0; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   4. LIST ITEMS (in article-body and panel-desc)
+   ════════════════════════════════════════════════════════════════════════ */
+.article-body li {
+  font-size: clamp(1.0625rem, 1.4vw, 1.125rem);
+  line-height: 1.75;
+  color: #E2E8F0;
+  margin-bottom: 0.4em;
+}
+
+.article-body li:last-child { margin-bottom: 0; }
+
+/* Styled bullet list inside article-body — cyan dots */
+.article-body ul:not([class]) {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45em;
+  margin-bottom: 1em;
+}
+
+.article-body ul:not([class]) li {
+  position: relative;
+  padding-left: 1.375rem;
+  margin-bottom: 0;
+}
+
+.article-body ul:not([class]) li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.57em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22D3EE; /* --cool */
+  flex-shrink: 0;
+}
+
+/* Styled-list (explicit class from components.css) — keep gap wider */
+.article-body .styled-list { gap: 0.6em; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   5. HEADING HIERARCHY inside content sections
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* h2 section heading — generous space above the reading block */
+.content-section .section-heading {
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+/* h3 inside prose — clear but not as large as h2 */
+.article-body h3,
+.panel-desc h3,
+.research-text h3 {
+  font-size: clamp(1.2rem, 2.5vw, 1.45rem);
+  font-weight: 700;
+  color: #F5F5F4;        /* --text */
+  line-height: 1.25;
+  margin-top: 1.75rem;
+  margin-bottom: 0.55rem;
+  letter-spacing: -0.005em;
+}
+
+.article-body h3:first-child,
+.panel-desc h3:first-child,
+.research-text h3:first-child {
+  margin-top: 0;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   6. SECTION INTRO / LEAD TEXT
+   Lead: slightly larger + lighter colour, sets the reading context
+   ════════════════════════════════════════════════════════════════════════ */
+.section-intro {
+  font-size: clamp(1.0625rem, 1.8vw, 1.125rem);
+  line-height: 1.75;
+  color: #94A3B8;        /* --text-sec */
+  margin-bottom: 1.75rem;
+  max-width: 640px;
+  overflow-wrap: break-word;
+}
+
+/* Lead class — used directly on a paragraph to promote it */
+.lead {
+  font-size: clamp(1.1rem, 2vw, 1.2rem);
+  font-weight: 500;
+  color: #F5F5F4;
+  line-height: 1.75;
+  margin-bottom: 1.25em;
+}
+
+/* First <p> inside .article-body that has no class acts as natural lead */
+.article-body > p:first-child {
+  font-size: clamp(1.0625rem, 1.6vw, 1.15rem);
+  color: #E2E8F0;
+  font-weight: 500;
+  line-height: 1.8;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   7. SECTION SUMMARY BOX (⚡ callout)
+   ════════════════════════════════════════════════════════════════════════ */
+.section-summary {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: rgba(251, 146, 60, 0.10);
+  border-left: 4px solid #FB923C;
+  border-radius: 0 10px 10px 0;
+  padding: 1rem 1.375rem;
+  margin-bottom: 2rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: #fdba74;
+  line-height: 1.65;
+  overflow-wrap: break-word;
+}
+
+.section-summary::before {
+  content: '⚡';
+  flex-shrink: 0;
+  margin-top: 1px;
+  font-size: 1em;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   8. ACTION BOX ("แล้วต้องทำยังไง")
+   ════════════════════════════════════════════════════════════════════════ */
+.action-box {
+  background: rgba(239, 68, 68, 0.09);
+  border: 1px solid rgba(239, 68, 68, 0.28);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin-block: 2rem;
+}
+
+.action-box-title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: #fca5a5;
+  margin-bottom: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  line-height: 1.4;
+}
+
+.action-box-title::before { content: '🛡️'; }
+
+.action-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.action-box li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 1.0625rem;
+  color: #fecaca;
+  line-height: 1.65;
+  margin-bottom: 0;
+}
+
+.action-box li::before {
+  content: '✓';
+  color: #fb7185;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   9. CALLOUT & RESEARCH HIGHLIGHT BOXES
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* Generic callout (from components.css) — ensure breathing room */
+.callout {
+  padding: 1.375rem 1.5rem;
+}
+
+.callout-body p {
+  font-size: 1.0625rem;
+  color: #94A3B8;
+  line-height: 1.75;
+  margin-bottom: 0.6em;
+}
+
+.callout-body p:last-child { margin-bottom: 0; }
+
+/* Research highlight (cyan border) */
+.research-highlight {
+  background: rgba(34, 211, 238, 0.07);
+  border-left: 3px solid #22D3EE;
+  padding: 1rem 1.375rem;
+  border-radius: 0 6px 6px 0;
+  margin-block: 1.25rem;
+}
+
+.research-highlight p {
+  font-size: 1rem;
+  color: #94A3B8;
+  line-height: 1.8;
+  margin-bottom: 0;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   10. READMORE / DETAILS EXPANDABLE
+   ════════════════════════════════════════════════════════════════════════ */
+.readmore {
+  margin-top: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.readmore > summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #94A3B8;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.04);
+  list-style: none;
+  user-select: none;
+}
+
+.readmore > summary::-webkit-details-marker { display: none; }
+
+.readmore > summary::before {
+  content: '▸';
+  font-size: 0.75rem;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.readmore[open] > summary::before { transform: rotate(90deg); }
+
+.readmore-body {
+  padding: 1rem 1.25rem 1.375rem;
+  font-size: 0.9375rem;
+  color: #94A3B8;
+  line-height: 1.8;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.readmore-body p { margin-bottom: 0.75em; }
+.readmore-body p:last-child { margin-bottom: 0; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   11. MOBILE ADJUSTMENTS
+   ════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .article-body p,
+  .panel-desc p,
+  .research-text p {
+    font-size: 1.0625rem; /* 17px — comfortable Thai reading on mobile */
+    line-height: 1.8;
+  }
+
+  .article-body li { font-size: 1.0625rem; }
+
+  .section-intro   { font-size: 1rem; margin-bottom: 1.25rem; }
+  .section-summary { font-size: 1rem; padding: 0.875rem 1.125rem; }
+
+  .action-box      { padding: 1rem 1.125rem; }
+  .action-box li   { font-size: 1rem; }
+
+  .research-highlight { padding: 0.875rem 1.125rem; }
+  .callout            { padding: 1.125rem 1.25rem; }
+}
+
+@media (max-width: 430px) {
+  /* Side padding guarantee — text never hugs the screen edge */
+  .content-section > .container {
+    padding-inline: 1.125rem; /* 18px */
+  }
+
+  .article-body p,
+  .panel-desc p,
+  .research-text p {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+
+  .article-body h3,
+  .panel-desc h3,
+  .research-text h3 {
+    font-size: 1.2rem;
+    margin-top: 1.25rem;
+  }
+}
