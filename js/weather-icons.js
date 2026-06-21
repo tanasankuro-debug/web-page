@@ -291,3 +291,14 @@ window.wmoRisk = function (code) {
   if (c === 82 || c >= 95)                               return 'danger';
   return 'low';
 };
+
+window.weatherTheme = function (code, isDay) {
+  const key = wmoKey(code, isDay !== false);
+  if (key === 'clear-day')    return 'wx-clear-day';
+  if (key === 'clear-night')  return 'wx-clear-night';
+  if (key === 'thunderstorm') return 'wx-storm';
+  if (key === 'snow')         return 'wx-snow';
+  if (key === 'rain' || key === 'heavy-rain' || key === 'drizzle' ||
+      key === 'showers-day'  || key === 'showers-night') return 'wx-rain';
+  return 'wx-cloudy';
+};

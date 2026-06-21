@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="../css/themes.css" />
   <link rel="stylesheet" href="../css/topics.css" />
   <link rel="stylesheet" href="../css/heat.css" />
+  <link rel="stylesheet" href="../css/weather-icons.css" />
 
   <style>
     /* ── อ่านง่ายขึ้น: font ใหญ่ + สว่างขึ้น ───────────── */
@@ -417,6 +418,9 @@
             </p>
             <p class="live-source">แหล่งข้อมูล: Open-Meteo Forecast &amp; Air Quality API</p>
           </div>
+
+          <!-- Weather icon banner — populated by live.js -->
+          <div id="live-wx-banner" hidden></div>
 
           <!-- 6-card stats grid — structure in HTML, values injected by JS -->
           <dl class="live-grid" id="live-grid" aria-label="ข้อมูลสภาพอากาศปัจจุบันขอนแก่น">
@@ -2695,6 +2699,7 @@
   <script src="../js/utils.js"></script>
   <script src="../js/nav.js"></script>
   <script src="../js/widgets.js"></script>
+  <script src="../js/weather-icons.js"></script>
   <script src="../js/live.js"></script>
   <script src="../js/heat-map.js"></script>
   <script src="../js/main.js"></script>

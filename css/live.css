@@ -72,6 +72,35 @@
 .live-timestamp { font-size: 0.8125rem; font-weight: 600; color: var(--cool); }
 .live-source    { font-size: 0.75rem; color: var(--text-muted); }
 
+/* ── Weather icon banner ─────────────────────────────────────────────────── */
+.live-wx-banner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.07);
+  padding: 0.875rem 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.live-wx-icon {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+}
+
+.live-wx-icon .wi-icon {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.live-wx-label {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--text-sec);
+}
+
 /* ── Stats grid ──────────────────────────────────────────────────────────── */
 .live-grid {
   display: grid;

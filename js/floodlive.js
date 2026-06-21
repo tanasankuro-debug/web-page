@@ -10,7 +10,7 @@
 const FLOOD_API_URL =
   'https://api.open-meteo.com/v1/forecast' +
   '?latitude=16.44&longitude=102.82' +
-  '&current=precipitation,rain,weather_code' +
+  '&current=precipitation,rain,weather_code,is_day' +
   '&daily=precipitation_sum,rain_sum,precipitation_hours' +
   '&hourly=soil_moisture_0_to_7cm' +
   '&forecast_days=7' +
@@ -135,6 +135,24 @@ function renderFloodPanel(data) {
 
   /* ── แผนภูมิ 7 วัน */
   renderFloodBars(daily.date, daily.precipitation_sum);
+
+  /* ── Weather icon banner */
+  const cur    = data.current || {};
+  const wcode  = cur.weather_code != null ? +cur.weather_code : null;
+  const isDay  = cur.is_day != null ? cur.is_day === 1
+                 : (new Date().getHours() >= 6 && new Date().getHours() < 18);
+  const banner = document.getElementById('flood-wx-banner');
+  if (banner && wcode != null && typeof getWeatherIcon === 'function') {
+    const label = typeof wmoLabel    === 'function' ? wmoLabel(wcode)            : '';
+    const theme = typeof weatherTheme === 'function' ? weatherTheme(wcode, isDay) : '';
+    banner.className = 'live-wx-banner' + (theme ? ' ' + theme : '');
+    banner.setAttribute('role', 'region');
+    banner.setAttribute('aria-label', `สภาพอากาศปัจจุบัน: ${label}`);
+    banner.innerHTML =
+      `<div class="live-wx-icon">${getWeatherIcon(wcode, isDay)}</div>` +
+      `<span class="live-wx-label">${label}</span>`;
+    banner.hidden = false;
+  }
 
   /* ── Timestamp */
   const tsEl = document.getElementById('flood-live-ts');

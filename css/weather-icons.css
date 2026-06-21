@@ -120,6 +120,18 @@
 .wi-snow-flake:nth-child(3) { animation-delay: 1.4s; }
 
 /* ════════════════════════════════════════════════════════════════════════════
+   WEATHER THEME TINTS
+   Transparent gradient overlays for dark-background cards.
+   Opacity kept low so text contrast is maintained.
+   ════════════════════════════════════════════════════════════════════════════ */
+.wx-clear-day   { background: linear-gradient(135deg, rgba(255,180,0,0.09) 0%, rgba(255,120,0,0.04) 100%); }
+.wx-clear-night { background: linear-gradient(135deg, rgba(30,58,138,0.22) 0%, rgba(15,23,42,0.08)  100%); }
+.wx-cloudy      { background: linear-gradient(135deg, rgba(100,116,139,0.12) 0%, rgba(71,85,105,0.05) 100%); }
+.wx-rain        { background: linear-gradient(135deg, rgba(37,99,235,0.14) 0%, rgba(51,65,85,0.07)   100%); }
+.wx-storm       { background: linear-gradient(135deg, rgba(88,28,135,0.18) 0%, rgba(30,27,75,0.10)   100%); }
+.wx-snow        { background: linear-gradient(135deg, rgba(186,230,253,0.10) 0%, rgba(148,163,184,0.05) 100%); }
+
+/* ════════════════════════════════════════════════════════════════════════════
    REDUCED MOTION — honour user OS preference
    ════════════════════════════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {

@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="../css/live.css" />
   <link rel="stylesheet" href="../css/themes.css" />
   <link rel="stylesheet" href="../css/topics.css" />
+  <link rel="stylesheet" href="../css/weather-icons.css" />
   <script src="../js/utility-bar.js"></script>
 </head>
 <body data-theme="flood">
@@ -103,6 +104,9 @@
 
         <!-- Live panel -->
         <div id="flood-live-panel" hidden>
+
+          <!-- Weather icon banner — populated by floodlive.js -->
+          <div id="flood-wx-banner" hidden></div>
 
           <!-- 3 stat cards -->
           <div class="flood-cards-row">
@@ -228,6 +232,7 @@
   <script src="../js/nav.js"></script>
   <script src="../js/widgets.js"></script>
   <script src="../js/main.js"></script>
+  <script src="../js/weather-icons.js"></script>
   <script src="../js/floodlive.js"></script>
 </body>
 </html>

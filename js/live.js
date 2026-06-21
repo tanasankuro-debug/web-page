@@ -12,7 +12,7 @@ const _cfg = (typeof window !== 'undefined' && window.HSKK_CONFIG) || {};
 const LIVE_WEATHER_URL = _cfg.weatherUrl ||
   'https://api.open-meteo.com/v1/forecast' +
   '?latitude=16.44&longitude=102.82' +
-  '&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,uv_index,weather_code' +
+  '&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,uv_index,weather_code,is_day' +
   '&hourly=temperature_2m&forecast_hours=24' +
   '&timezone=Asia%2FBangkok';
 
@@ -212,6 +212,22 @@ function renderLivePanel(weather, airQuality) {
       day: 'numeric', month: 'short',
       hour: '2-digit', minute: '2-digit', hour12: false
     }) + ' น.';
+  }
+
+  /* ── Weather icon banner ──────────────────────────────────────────────── */
+  const wcode  = cur.weather_code != null ? +cur.weather_code : null;
+  const isDay  = cur.is_day != null ? cur.is_day === 1 : (new Date().getHours() >= 6 && new Date().getHours() < 18);
+  const banner = document.getElementById('live-wx-banner');
+  if (banner && wcode != null && typeof getWeatherIcon === 'function') {
+    const label = typeof wmoLabel    === 'function' ? wmoLabel(wcode)           : '';
+    const theme = typeof weatherTheme === 'function' ? weatherTheme(wcode, isDay) : '';
+    banner.className = 'live-wx-banner' + (theme ? ' ' + theme : '');
+    banner.setAttribute('role', 'region');
+    banner.setAttribute('aria-label', `สภาพอากาศปัจจุบัน: ${label}`);
+    banner.innerHTML =
+      `<div class="live-wx-icon">${getWeatherIcon(wcode, isDay)}</div>` +
+      `<span class="live-wx-label">${label}</span>`;
+    banner.hidden = false;
   }
 
   panel.hidden = false;

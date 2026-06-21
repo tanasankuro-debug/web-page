@@ -89,6 +89,14 @@ function renderCurrent(data, currentProb) {
         <span class="rwc-stat-lbl">ความชื้น (%)</span>
       </div>
     </div>`;
+
+  const panel = el.closest('.rw-panel');
+  if (panel) {
+    panel.className = panel.className.replace(/\bwx-\S+/g, '').trim();
+    panel.classList.add(weatherTheme(c.weathercode, c.is_day === 1));
+    panel.setAttribute('role', 'region');
+    panel.setAttribute('aria-label', `สภาพอากาศปัจจุบัน: ${wmoLabel(c.weathercode)}`);
+  }
 }
 
 /* ── Hourly precipitation chart (next 12 h) ───────────────────────────────── */
@@ -101,6 +109,7 @@ function renderHourly(data) {
   const probs    = data.hourly.precipitation_probability;
   const precips  = data.hourly.precipitation;
   const codes    = data.hourly.weathercode;
+  const isDayArr = data.hourly.is_day;
 
   /* find index of current or next hour */
   let start = 0;
@@ -110,7 +119,7 @@ function renderHourly(data) {
 
   const bars = [];
   for (let i = start; i < Math.min(start + 12, times.length); i++) {
-    bars.push({ time: times[i], prob: probs[i] ?? 0, rain: precips[i] ?? 0, code: codes[i] });
+    bars.push({ time: times[i], prob: probs[i] ?? 0, rain: precips[i] ?? 0, code: codes[i], isDay: isDayArr?.[i] ?? 0 });
   }
 
   const maxRain = Math.max(...bars.map(b => b.rain), 0.1);
@@ -123,7 +132,7 @@ function renderHourly(data) {
         const rainPx = Math.round((b.rain / maxRain) * 56);
         return `
           <div class="rh-col">
-            <div class="rh-icon" aria-hidden="true">${info.icon}</div>
+            <div class="rh-icon">${getWeatherIcon(b.code, b.isDay === 1)}</div>
             <div class="rh-bar-wrap">
               <div class="rh-bar-prob" style="height:${probH}%;" title="โอกาสฝน ${b.prob}%"></div>
               ${b.rain > 0 ? `<div class="rh-bar-rain" style="height:${Math.max(rainPx,3)}px;" title="ฝน ${b.rain} mm"></div>` : ''}
@@ -157,8 +166,8 @@ function renderDaily(data) {
     return `
       <div class="rd-card${isToday ? ' rd-today' : ''}">
         <div class="rd-day">${isToday ? 'วันนี้' : dayLabel(date)}</div>
-        <div class="rd-icon" aria-hidden="true">${info.icon}</div>
-        <div class="rd-desc" style="color:${col};">${info.label}</div>
+        <div class="rd-icon">${getWeatherIcon(d.weathercode[i], true)}</div>
+        <div class="rd-desc" style="color:${col};">${wmoLabel(d.weathercode[i])}</div>
         <div class="rd-temp">
           <span class="rd-tmax">${Math.round(d.temperature_2m_max[i])}°</span>
           <span class="rd-tmin">${Math.round(d.temperature_2m_min[i])}°</span>

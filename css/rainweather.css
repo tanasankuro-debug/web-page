@@ -168,6 +168,12 @@
   line-height: 1;
 }
 
+.rh-icon .wi-icon {
+  width: 36px;
+  height: 36px;
+  display: block;
+}
+
 .rh-bar-wrap {
   width: 32px;
   height: 80px;
@@ -284,6 +290,12 @@
 .rd-icon {
   font-size: 1.625rem;
   line-height: 1;
+}
+
+.rd-icon .wi-icon {
+  width: 44px;
+  height: 44px;
+  display: block;
 }
 
 .rd-desc {

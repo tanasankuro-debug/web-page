@@ -21,7 +21,7 @@ window.HSKK_CONFIG = {
     'https://api.open-meteo.com/v1/forecast' +
     '?latitude=16.44&longitude=102.82' +
     '&current=temperature_2m,relative_humidity_2m,apparent_temperature,' +
-    'wind_speed_10m,uv_index,weather_code' +
+    'wind_speed_10m,uv_index,weather_code,is_day' +
     '&hourly=temperature_2m&forecast_hours=24' +
     '&timezone=Asia%2FBangkok',
 
@@ -34,7 +34,7 @@ window.HSKK_CONFIG = {
     '?latitude=16.44&longitude=102.82' +
     '&current=temperature_2m,relative_humidity_2m,weathercode,' +
     'windspeed_10m,windgusts_10m,precipitation,is_day' +
-    '&hourly=temperature_2m,precipitation_probability,precipitation,weathercode,windspeed_10m' +
+    '&hourly=temperature_2m,precipitation_probability,precipitation,weathercode,windspeed_10m,is_day' +
     '&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,' +
     'precipitation_probability_max,windspeed_10m_max,windgusts_10m_max' +
     '&timezone=Asia%2FBangkok' +
