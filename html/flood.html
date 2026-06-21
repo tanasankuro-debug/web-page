@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="../css/live.css" />
   <link rel="stylesheet" href="../css/themes.css" />
   <link rel="stylesheet" href="../css/topics.css" />
+  <link rel="stylesheet" href="../css/content.css" />
   <style>
     #hero.hero {
       background: linear-gradient(-45deg, #06101B, #0D1D38, #0F1118, #1C0A0A, #06101B);
@@ -149,7 +150,7 @@
 
 
     <!-- ─── 01. สาเหตุ ───────────────────────────────────────────────────── -->
-    <section id="causes" class="section article-section" aria-labelledby="causes-heading">
+    <section id="causes" class="section article-section content-section" aria-labelledby="causes-heading">
       <div class="container article-container">
 
         <p class="section-label reveal">01 · สาเหตุ</p>
@@ -199,7 +200,7 @@
 
 
     <!-- ─── 02. พื้นที่เสี่ยง ─────────────────────────────────────────────── -->
-    <section id="risk-areas" class="section section-alt article-section" aria-labelledby="risk-heading">
+    <section id="risk-areas" class="section section-alt article-section content-section" aria-labelledby="risk-heading">
       <div class="container article-container">
 
         <p class="section-label reveal">02 · พื้นที่เสี่ยง</p>
@@ -305,7 +306,7 @@
 
 
     <!-- ─── INFO STORY: ทำไมต้องรู้ก่อน ──────────────────────────────────── -->
-    <section class="section section-alt info-story" aria-label="ทำไมต้องรู้ข้อมูลก่อนรับมือน้ำท่วม">
+    <section class="section section-alt info-story content-section" aria-label="ทำไมต้องรู้ข้อมูลก่อนรับมือน้ำท่วม">
       <div class="container">
 
         <!-- BLOCK 1 · Hook question ────────────────────────────────────────── -->
@@ -641,7 +642,7 @@
 
 
     <!-- ─── 03. การรับมือ ────────────────────────────────────────────────── -->
-    <section id="response" class="section article-section" aria-labelledby="response-heading">
+    <section id="response" class="section article-section content-section" aria-labelledby="response-heading">
       <div class="container article-container">
 
         <p class="section-label reveal">03 · การรับมือ</p>
@@ -683,12 +684,14 @@
             </li>
           </ul>
 
-          <div class="prevention-note reveal">
-            <strong>หลังน้ำลด:</strong>
-            อย่าเดินลุยน้ำที่ยังขังอยู่ — อาจปนเปื้อนสารพิษหรือปิดบังหลุมหรือท่อที่เปิดอยู่
-            ตรวจสอบความเสียหายของโครงสร้างอาคารก่อนเข้าพัก
-            และทำความสะอาดฆ่าเชื้อพื้นที่ทุกจุดที่น้ำท่วมถึง
-          </div>
+          <aside class="callout callout-hot reveal" aria-label="คำแนะนำหลังน้ำลด">
+            <div class="callout-body">
+              <strong>หลังน้ำลด</strong>
+              <p>อย่าเดินลุยน้ำที่ยังขังอยู่ — อาจปนเปื้อนสารพิษหรือปิดบังหลุมหรือท่อที่เปิดอยู่
+                ตรวจสอบความเสียหายของโครงสร้างอาคารก่อนเข้าพัก
+                และทำความสะอาดฆ่าเชื้อพื้นที่ทุกจุดที่น้ำท่วมถึง</p>
+            </div>
+          </aside>
         </div>
 
       </div>
@@ -696,7 +699,7 @@
 
 
     <!-- ─── 04. การป้องกัน ─────────────────────────────────────────────── -->
-    <section id="prevention" class="section section-alt" aria-labelledby="prevention-heading">
+    <section id="prevention" class="section section-alt content-section" aria-labelledby="prevention-heading">
       <div class="container">
 
         <p class="section-label reveal">04 · การป้องกัน</p>
@@ -906,7 +909,7 @@
 
 
     <!-- ─── 05. หน่วยงาน ─────────────────────────────────────────────────── -->
-    <section id="agencies" class="section article-section" aria-labelledby="agencies-heading">
+    <section id="agencies" class="section article-section content-section" aria-labelledby="agencies-heading">
       <div class="container">
 
         <p class="section-label reveal">05 · หน่วยงาน</p>
@@ -1159,7 +1162,6 @@
   <script src="../js/nav.js"></script>
   <script src="../js/widgets.js"></script>
   <script src="../js/live.js"></script>
-  <script src="../js/flood-map.js"></script>
   <script src="../js/main.js"></script>
 </body>
 </html>

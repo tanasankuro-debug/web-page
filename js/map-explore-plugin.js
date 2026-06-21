@@ -129,6 +129,7 @@ const EX_ICON = {
 /* STATE                                                                      */
 /* ────────────────────────────────────────────────────────────────────────── */
 let exClickMarker = null;
+let exAbortCtrl   = null;
 
 /* ────────────────────────────────────────────────────────────────────────── */
 /* CLICK HANDLER                                                              */
@@ -136,6 +137,11 @@ let exClickMarker = null;
 async function onExploreClick(e) {
   const map = window.HSKK_MAP;
   if (!map) return;
+
+  if (exAbortCtrl) { exAbortCtrl.abort(); }
+  exAbortCtrl = new AbortController();
+  const { signal } = exAbortCtrl;
+
   try {
     const { lng, lat } = e.lngLat;
 
@@ -147,10 +153,12 @@ async function onExploreClick(e) {
     exHideHint();
 
     const [geoR, wxR, aqR] = await Promise.allSettled([
-      exFetchGeocode(lat, lng),
-      exFetchWeather(lat, lng),
-      exFetchAir(lat, lng)
+      exFetchGeocode(lat, lng, signal),
+      exFetchWeather(lat, lng, signal),
+      exFetchAir(lat, lng, signal)
     ]);
+
+    if (signal.aborted) return;
 
     exRenderPanel(
       geoR.status === 'fulfilled' ? geoR.value : null,
@@ -159,6 +167,7 @@ async function onExploreClick(e) {
       lat, lng
     );
   } catch (err) {
+    if (err.name === 'AbortError') return;
     console.error('[explore-plugin] onExploreClick error:', err);
     exSetPanel('<div style="padding:2rem;color:#EF4444;font-family:sans-serif">เกิดข้อผิดพลาด: ' + err.message + '</div>');
   }
@@ -167,17 +176,17 @@ async function onExploreClick(e) {
 /* ────────────────────────────────────────────────────────────────────────── */
 /* API CALLS                                                                  */
 /* ────────────────────────────────────────────────────────────────────────── */
-async function exFetchGeocode(lat, lng) {
+async function exFetchGeocode(lat, lng, signal) {
   const url =
     `https://nominatim.openstreetmap.org/reverse` +
     `?lat=${lat.toFixed(6)}&lon=${lng.toFixed(6)}` +
     `&format=json&accept-language=th&zoom=16`;
-  const r = await fetch(url);
+  const r = await fetch(url, { signal });
   if (!r.ok) throw new Error('geocode ' + r.status);
   return r.json();
 }
 
-async function exFetchWeather(lat, lng) {
+async function exFetchWeather(lat, lng, signal) {
   const p = new URLSearchParams({
     latitude:  lat.toFixed(4),
     longitude: lng.toFixed(4),
@@ -188,19 +197,19 @@ async function exFetchWeather(lat, lng) {
     ].join(','),
     timezone: 'Asia/Bangkok'
   });
-  const r = await fetch(`https://api.open-meteo.com/v1/forecast?${p}`);
+  const r = await fetch(`https://api.open-meteo.com/v1/forecast?${p}`, { signal });
   if (!r.ok) throw new Error('weather ' + r.status);
   return r.json();
 }
 
-async function exFetchAir(lat, lng) {
+async function exFetchAir(lat, lng, signal) {
   const p = new URLSearchParams({
     latitude:  lat.toFixed(4),
     longitude: lng.toFixed(4),
     current: 'pm2_5,pm10,us_aqi,carbon_monoxide',
     timezone: 'Asia/Bangkok'
   });
-  const r = await fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?${p}`);
+  const r = await fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?${p}`, { signal });
   if (!r.ok) throw new Error('air ' + r.status);
   return r.json();
 }

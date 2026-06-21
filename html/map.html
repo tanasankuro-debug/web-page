@@ -99,9 +99,25 @@
           </p>
         </div>
 
-        <!-- ─── LIVE DATA ────────────────────────────────────────────────── -->
+        <!-- ─── SIDEBAR TABS ─────────────────────────────────────────────── -->
         <div>
-          <p class="sidebar-section-label">ข้อมูลสด</p>
+          <div class="stab-nav" role="tablist" aria-label="เลือกข้อมูล">
+            <button class="stab-btn stab-active" data-stab="live"
+                    role="tab" aria-selected="true" aria-controls="stab-panel-live">
+              🌡 ข้อมูลสด
+            </button>
+            <button class="stab-btn" data-stab="rain"
+                    role="tab" aria-selected="false" aria-controls="stab-panel-rain">
+              🌧 ฝน
+            </button>
+            <button class="stab-btn" data-stab="flood"
+                    role="tab" aria-selected="false" aria-controls="stab-panel-flood">
+              💧 น้ำท่วม
+            </button>
+          </div>
+
+          <!-- Live data tab panel -->
+          <div id="stab-panel-live" role="tabpanel">
 
           <!-- Loading state -->
           <div id="live-loading" class="live-loading" role="status" aria-label="กำลังโหลดข้อมูล" style="margin-top:0.75rem;">
@@ -213,7 +229,23 @@
             </p>
 
           </div><!-- /#live-panel -->
-        </div>
+          </div><!-- /#stab-panel-live -->
+
+          <!-- Rain tab panel -->
+          <div id="stab-panel-rain" role="tabpanel" hidden>
+            <p id="stb-rain-loading" class="stb-loading-msg">กำลังโหลด…</p>
+            <div id="stb-rain-panel" hidden></div>
+            <p id="stb-rain-error" class="stb-error-msg" hidden role="alert">โหลดไม่สำเร็จ</p>
+          </div>
+
+          <!-- Flood tab panel -->
+          <div id="stab-panel-flood" role="tabpanel" hidden>
+            <p id="stb-flood-loading" class="stb-loading-msg">กำลังโหลด…</p>
+            <div id="stb-flood-panel" hidden></div>
+            <p id="stb-flood-error" class="stb-error-msg" hidden role="alert">โหลดไม่สำเร็จ</p>
+          </div>
+
+        </div><!-- /.sidebar-tabs -->
 
         <!-- ─── LAYER SWITCHER ───────────────────────────────────────────── -->
         <div>
@@ -228,6 +260,27 @@
             <button class="layer-btn" data-map-layer="osm" aria-pressed="false">
               <span class="rt-icon rt-icon--roadmap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21L10 3"/><path d="M16 21L14 3"/><path d="M12 5v3"/><path d="M12 11v3"/><path d="M12 17v3"/></svg></span> แผนที่ถนน
             </button>
+          </div>
+        </div>
+
+        <!-- ─── RELATED MAPS ─────────────────────────────────────────────── -->
+        <div>
+          <p class="sidebar-section-label">แผนที่เพิ่มเติม</p>
+          <div class="ext-map-links">
+            <a href="heat-map-full.html" class="ext-map-link ext-map-link--heat">
+              อุณหภูมิละเอียด 26 อำเภอ
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" width="11" height="11" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4"/>
+              </svg>
+            </a>
+            <a href="landcast.html" class="ext-map-link ext-map-link--gis">
+              GIS / LandCast
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" width="11" height="11" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4"/>
+              </svg>
+            </a>
           </div>
         </div>
 
@@ -300,6 +353,8 @@
   <script src="../js/main.js"></script>
   <script src="../js/map-explore-plugin.js"></script>
   <script src="../js/heat-layer.js"></script>
+  <script src="../js/aqi-layer.js"></script>
+  <script src="../js/sidebar-tabs.js"></script>
   <script src="../js/layer-panel.js"></script>
 
   <!-- Mobile sidebar toggle (map page only) -->

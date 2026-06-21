@@ -90,11 +90,11 @@ function initLayerPanel() {
           <span class="lp-badge">26 จุด</span>
         </button>
 
-        <!-- Future: AQI -->
-        <button class="lp-layer-btn lp-disabled" data-lp-soon aria-disabled="true">
+        <!-- AQI layer -->
+        <button class="lp-layer-btn" data-overlay-layer="aqi" aria-pressed="false">
           <span class="lp-dot" style="background:#a78bfa;"></span>
-          <span class="lp-label">AQI</span>
-          <span class="lp-badge">เร็วๆนี้</span>
+          <span class="lp-label">คุณภาพอากาศ</span>
+          <span class="lp-badge">AQI</span>
         </button>
 
         <!-- Future: Rain -->
@@ -158,7 +158,9 @@ function initLayerPanel() {
   /* ── Layer toggle buttons ── */
   document.querySelectorAll('[data-overlay-layer]').forEach(btn => {
     btn.addEventListener('click', () => {
-      LayerRegistry.toggle(btn.dataset.overlayLayer);
+      const id = btn.dataset.overlayLayer;
+      LayerRegistry.toggle(id);
+      try { sessionStorage.setItem('hskk-layer-' + id, String(LayerRegistry.isActive(id))); } catch {}
     });
   });
 
@@ -192,6 +194,26 @@ function initLayerPanel() {
     enable:  () => window.HeatLayer?.enable(),
     disable: () => window.HeatLayer?.disable(),
   });
+
+  LayerRegistry.register('aqi', {
+    enable:  () => window.AQILayer?.enable(),
+    disable: () => window.AQILayer?.disable(),
+  });
+
+  /* ── Restore layer state from sessionStorage ── */
+  ['heat', 'aqi'].forEach(id => {
+    try {
+      if (sessionStorage.getItem('hskk-layer-' + id) === 'true') {
+        LayerRegistry.toggle(id);
+      }
+    } catch {}
+  });
+
+  /* ── Auto-activate layer from URL param (?layer=heat or ?layer=aqi) ── */
+  const paramLayer = new URLSearchParams(window.location.search).get('layer');
+  if (paramLayer && !LayerRegistry.isActive(paramLayer)) {
+    LayerRegistry.toggle(paramLayer);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', initLayerPanel);
