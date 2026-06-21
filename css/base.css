@@ -98,6 +98,11 @@ img {
   height: auto;
 }
 
+/* Safety net: prevent any embedded element from busting the viewport width */
+table, pre, svg, video, iframe {
+  max-width: 100%;
+}
+
 a { color: inherit; text-decoration: none; }
 ul, ol { list-style: none; }
 

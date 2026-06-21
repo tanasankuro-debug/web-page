@@ -733,3 +733,23 @@
   #uhiar-windows rect:nth-child(14) { animation: uhiar-glint 16.8s 11.2s  ease-in-out infinite; }
 
 }  /* end @media (prefers-reduced-motion: no-preference) */
+
+/* ═══ MOBILE RESPONSIVE OVERRIDES ══════════════════════════════════════════ */
+
+@media (max-width: 430px) {
+  /* Monthly average table: reduce font/padding so the min-width
+     scroll range requires less scrolling on very narrow screens */
+  .temp-monthly-table {
+    font-size: 0.68rem;
+    min-width: 460px;
+  }
+  .temp-monthly-table th,
+  .temp-monthly-table td {
+    padding: 3px 5px;
+  }
+
+  /* Heatmap grid: shrink cells slightly on very narrow screens */
+  .hm-grid        { font-size: 8px; }
+  .hm-grid td     { width: 22px; height: 19px; }
+  .hm-grid th     { font-size: 0.62rem; padding: 3px 5px; }
+}

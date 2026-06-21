@@ -803,3 +803,42 @@
 }
 
 .cta-body { font-size: clamp(1rem, 1.8vw, 1.1rem); color: var(--text-sec); line-height: 1.75; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOBILE RESPONSIVE OVERRIDES
+   These MUST live here (not in layout.css) because components.css loads after
+   layout.css — same-specificity base rules in this file defeat media queries
+   in earlier-loaded stylesheets.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  /* Panel block: image + text side-by-side → stacked */
+  .panel-inner  { grid-template-columns: 1fr; }
+  .panel-figure { border-right: none; border-bottom: 1px solid var(--border); }
+  .panel-figure img { min-height: 180px; }
+
+  /* Research Spotlight: fixed 320px left col → full width */
+  .research-body   { grid-template-columns: 1fr; }
+  .research-figure { border-right: none; border-bottom: 1px solid var(--border); }
+
+  /* Impact cards: 3 col → 1 col */
+  .impact-grid { grid-template-columns: 1fr; }
+
+  /* Solutions columns: 2 col → 1 col */
+  .solutions-grid { grid-template-columns: 1fr; gap: 1rem; }
+}
+
+@media (max-width: 430px) {
+  /* Compare table: shrink text so scroll range is smaller */
+  .compare-table {
+    font-size: 0.7rem;
+    min-width: 300px;
+  }
+  .compare-table th,
+  .compare-table td {
+    padding: 0.4rem 0.5rem;
+  }
+  .compare-table th[scope="col"] {
+    font-size: 0.75rem;
+  }
+}

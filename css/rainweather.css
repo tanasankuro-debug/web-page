@@ -394,3 +394,12 @@
     letter-spacing: 0.03em;
   }
 }
+
+@media (max-width: 430px) {
+  /* Hourly chart: narrower columns so more bars are visible before scrolling */
+  .rh-col      { width: 44px; }
+  .rh-bar-wrap { height: 64px; }
+  .rh-icon .wi-icon { width: 28px; height: 28px; }
+  .rh-prob     { font-size: 0.55rem; }
+  .rh-time     { font-size: 0.55rem; }
+}
