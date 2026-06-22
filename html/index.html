@@ -177,16 +177,15 @@
     .ln-flood { border-top: 2px solid #3898A8; }
     .ln-flood .ln-icon { background: rgba(56,152,168,0.2);  color: #2DD4BF; }
 
-    /* smart map card — full-width row in grid */
+    /* smart map card */
     .ln-smart {
-      grid-column: 1 / -1;
       flex-direction: row;
       justify-content: flex-start;
       gap: 0.75rem;
       padding: 0.875rem 1.125rem;
       border-top: 2px solid #10B981;
       border-color: rgba(16,185,129,0.28);
-      position: relative;
+      position: relative;       
       overflow: hidden;
     }
     .ln-smart .ln-icon {
@@ -227,7 +226,6 @@
 
     /* Map Box GIS card */
     .ln-gis {
-      grid-column: 1 / -1;
       flex-direction: row;
       justify-content: flex-start;
       gap: 0.75rem;
@@ -300,7 +298,20 @@
 
     .ln-map svg { flex-shrink: 0; }
 
+    /* 2-card side-by-side row (smart map + Map Box) */
+    .ln-pair-row {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.625rem;
+      align-items: stretch;
+    }
+
     /* ── Mobile ────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .ln-pair-row { grid-template-columns: 1fr; }
+    }
+
     @media (max-width: 540px) {
       html, body { overflow: hidden; }
 
@@ -448,38 +459,41 @@
           น้ำท่วม
         </a>
 
-        <!-- Smart Map — spans full grid width -->
-        <a href="map.html" class="ln-btn ln-smart" role="listitem">
-          <span class="ln-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M28 6L20 10 8 6v28l12 4 8-4 12 4V10L28 6z"/>
-              <path d="M20 10v28M28 6v28"/>
-              <circle cx="34" cy="28" r="5" stroke-width="2"/>
-              <path d="M34 33v5M31 31l-3 3"/>
-            </svg>
-          </span>
-          <span class="ln-smart-label">
-            แผนที่อัจฉริยะ
-            <span class="ln-smart-sub">รวมทุกแผนที่ในที่เดียว · 7 แผนที่</span>
-          </span>
-          <span class="ln-smart-badge" aria-hidden="true">อัจฉริยะ</span>
-        </a>
+        <!-- Smart Map + Map Box — side by side -->
+        <div class="ln-pair-row">
 
-        <!-- Map Box GIS — full-width row below smart map -->
-        <a href="landcast.html" class="ln-btn ln-gis" role="listitem">
-          <span class="ln-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M24 8L6 17l18 9 18-9-18-9z"/>
-              <path d="M6 26l18 9 18-9"/>
-              <path d="M6 35l18 9 18-9"/>
-            </svg>
-          </span>
-          <span class="ln-gis-label">
-            Map Box
-            <span class="ln-gis-sub">แผนที่ GIS เชิงลึก (LandCast)</span>
-          </span>
-          <span class="ln-gis-badge" aria-hidden="true">GIS</span>
-        </a>
+          <a href="map.html" class="ln-btn ln-smart" role="listitem">
+            <span class="ln-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M28 6L20 10 8 6v28l12 4 8-4 12 4V10L28 6z"/>
+                <path d="M20 10v28M28 6v28"/>
+                <circle cx="34" cy="28" r="5" stroke-width="2"/>
+                <path d="M34 33v5M31 31l-3 3"/>
+              </svg>
+            </span>
+            <span class="ln-smart-label">
+              แผนที่อัจฉริยะ
+              <span class="ln-smart-sub">รวมทุกแผนที่ในที่เดียว · 7 แผนที่</span>
+            </span>
+            <span class="ln-smart-badge" aria-hidden="true">อัจฉริยะ</span>
+          </a>
+
+          <a href="landcast.html" class="ln-btn ln-gis" role="listitem">
+            <span class="ln-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M24 8L6 17l18 9 18-9-18-9z"/>
+                <path d="M6 26l18 9 18-9"/>
+                <path d="M6 35l18 9 18-9"/>
+              </svg>
+            </span>
+            <span class="ln-gis-label">
+              Map Box
+              <span class="ln-gis-sub">แผนที่ GIS เชิงลึก (LandCast)</span>
+            </span>
+            <span class="ln-gis-badge" aria-hidden="true">GIS</span>
+          </a>
+
+        </div>
 
       </div>
 
