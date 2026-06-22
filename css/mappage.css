@@ -401,58 +401,81 @@ body.map-page {
   .map-sidebar { width: 280px; }
 }
 
+/* ── Mobile back button (hidden on desktop) ─────────────────────────────── */
+.map-mobile-back { display: none; }
+
 @media (max-width: 640px) {
-  .map-main { position: relative; }
-
-  .map-sidebar {
-    position: absolute;
-    inset-block: 0;
-    left: 0;
-    width: min(310px, 88vw);
-    z-index: 100;
-    transform: translateX(-105%);
-    transition: transform 0.3s var(--ease);
-    box-shadow: none;
+  /* ── 1. Unlock page scroll ──────────────────────────────────────────────── */
+  body.map-page {
+    overflow-y: auto;
+    height: auto;
   }
 
-  .map-sidebar.open {
-    transform: translateX(0);
-    box-shadow: 4px 0 40px rgba(0,0,0,0.55);
+  /* ── 2. Stack map + sidebar vertically ─────────────────────────────────── */
+  .map-main {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+    position: relative;
   }
 
+  /* ── 3. Map: fixed viewport height, still touchable/zoomable ───────────── */
   .map-canvas {
-    position: absolute;
-    inset: 0;
+    position: relative;
+    inset: unset;
+    height: 62dvh;
+    width: 100%;
   }
 
-  .map-sidebar-toggle {
+  /* ── 4. Sidebar: full-width panel below map ─────────────────────────────── */
+  .map-sidebar {
+    position: relative;
+    inset-block: unset;
+    left: unset;
+    width: 100%;
+    transform: none;
+    z-index: auto;
+    box-shadow: none;
+    transition: none;
+    border-right: none;
+    border-top: 1px solid var(--border);
+  }
+
+  .map-sidebar.open { transform: none; box-shadow: none; }
+
+  .map-sidebar-inner {
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  /* ── 5. Hide slide/overlay elements no longer needed ───────────────────── */
+  .map-sidebar-toggle { display: none; }
+  .sidebar-backdrop   { display: none !important; }
+  .sidebar-close-btn  { display: none; }
+
+  /* ── 6. Mobile back button — fixed top-right, always visible ───────────── */
+  .map-mobile-back {
     display: flex;
-    transition: opacity 0.2s;
+    position: fixed;
+    top: calc(var(--header-h, 68px) + 0.625rem);
+    right: 0.75rem;
+    z-index: 500;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.375rem 0.75rem;
+    background: rgba(9, 13, 24, 0.90);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.90);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    font-family: var(--font-body);
+    white-space: nowrap;
   }
 
-  /* Hide toggle when sidebar is open — prevents overlap with sidebar heading */
-  .map-main.sidebar-open .map-sidebar-toggle {
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  /* Backdrop covers the map area when sidebar is open */
-  .sidebar-backdrop {
-    display: block;
-    position: absolute;
-    inset: 0;
-    z-index: 90; /* below sidebar (100), above map canvas */
-    background: rgba(0,0,0,0);
-    pointer-events: none;
-    transition: background 0.3s;
-  }
-
-  .sidebar-backdrop.active {
-    background: rgba(0,0,0,0.45);
-    pointer-events: auto;
-    cursor: pointer;
-  }
-
-  /* Close × button — only visible on mobile */
-  .sidebar-close-btn { display: flex; }
+  .map-mobile-back svg { width: 14px; height: 14px; flex-shrink: 0; }
+  .map-mobile-back:hover { background: rgba(255, 255, 255, 0.12); }
 }

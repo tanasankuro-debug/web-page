@@ -694,7 +694,7 @@
 
 @media (max-width: 640px) {
   #lp-panel {
-    top: 5.75rem;   /* below .map-sidebar-toggle at top:3rem */
+    top: 0.75rem;   /* sidebar toggle removed on mobile; back to top of canvas */
     left: 0.875rem;
     min-width: 158px;
   }
