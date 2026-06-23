@@ -130,18 +130,44 @@
         <!-- ─── SIDEBAR TABS ─────────────────────────────────────────────── -->
         <div>
           <div class="stab-nav" role="tablist" aria-label="เลือกข้อมูล">
+
+            <!-- ข้อมูลสด: thermometer icon -->
             <button class="stab-btn stab-active" data-stab="live"
                     role="tab" aria-selected="true" aria-controls="stab-panel-live">
-              🌡 ข้อมูลสด
+              <svg class="stab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 14.76V5a2 2 0 0 0-4 0v9.76a4 4 0 1 0 4 0z"/>
+              </svg>
+              ข้อมูลสด
             </button>
+
+            <!-- ฝน: cloud + rain drops -->
             <button class="stab-btn" data-stab="rain"
                     role="tab" aria-selected="false" aria-controls="stab-panel-rain">
-              🌧 ฝน
+              <svg class="stab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 16.2A4.5 4.5 0 0 0 18 8h-1.26a8 8 0 1 0-11.62 9"/>
+                <line x1="8"  y1="19" x2="8"  y2="21"/>
+                <line x1="12" y1="18" x2="12" y2="22"/>
+                <line x1="16" y1="19" x2="16" y2="21"/>
+              </svg>
+              ฝน
             </button>
+
+            <!-- น้ำท่วม: house + water waves -->
             <button class="stab-btn" data-stab="flood"
                     role="tab" aria-selected="false" aria-controls="stab-panel-flood">
-              💧 น้ำท่วม
+              <svg class="stab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 10.5L12 4l9 6.5"/>
+                <path d="M6 9.5V16"/>
+                <path d="M18 9.5V16"/>
+                <path d="M10 16h4"/>
+                <path d="M2 19.5c2-2.5 4-2.5 6 0s4 2.5 6 0 4-2.5 6 0"/>
+              </svg>
+              น้ำท่วม
             </button>
+
           </div>
 
           <!-- Live data tab panel -->
