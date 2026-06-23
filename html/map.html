@@ -307,7 +307,7 @@
     <!-- ─── MAP CANVAS ───────────────────────────────────────────────────── -->
     <div class="map-canvas">
 
-      <!-- Mobile sidebar toggle -->
+      <!-- Mobile sidebar toggle (bottom sheet) -->
       <button class="map-sidebar-toggle" id="sidebar-toggle" aria-expanded="false" aria-controls="map-sidebar">
         <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
           <line x1="3" y1="5"  x2="17" y2="5"/>
@@ -315,6 +315,14 @@
           <line x1="3" y1="15" x2="17" y2="15"/>
         </svg>
         ข้อมูลและชั้นแผนที่
+      </button>
+
+      <!-- Desktop sidebar collapse tab — visible on screens > 640px only -->
+      <button class="sidebar-edge-tab" id="sidebar-edge-tab" aria-label="พับแผงข้อมูล">
+        <svg viewBox="0 0 10 16" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" width="10" height="16" aria-hidden="true">
+          <path d="M7 2L2 8l5 6"/>
+        </svg>
       </button>
 
       <!-- MapLibre container -->
@@ -385,6 +393,26 @@
       toggle.addEventListener('click', () => setSidebar(!sidebar.classList.contains('open')));
       backdrop?.addEventListener('click', () => setSidebar(false));
       closeBtn?.addEventListener('click',  () => setSidebar(false));
+
+      /* ── Desktop sidebar collapse tab ── */
+      const edgeTab = document.getElementById('sidebar-edge-tab');
+      if (edgeTab) {
+        edgeTab.addEventListener('click', () => {
+          const mapMain = sidebar.closest('.map-main');
+          if (!mapMain) return;
+          const nowCollapsed = mapMain.classList.toggle('sidebar-collapsed');
+          edgeTab.setAttribute('aria-label', nowCollapsed ? 'ขยายแผงข้อมูล' : 'พับแผงข้อมูล');
+          try { sessionStorage.setItem('sidebarCollapsed', String(nowCollapsed)); } catch {}
+        });
+
+        /* Restore collapse state from last visit */
+        try {
+          if (sessionStorage.getItem('sidebarCollapsed') === 'true') {
+            sidebar.closest('.map-main')?.classList.add('sidebar-collapsed');
+            edgeTab.setAttribute('aria-label', 'ขยายแผงข้อมูล');
+          }
+        } catch {}
+      }
     });
   </script>
 </body>

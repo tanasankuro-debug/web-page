@@ -57,6 +57,56 @@ body.map-page {
   flex-direction: column;
   overflow: hidden;
   border-right: 1px solid var(--border);
+  transition: width 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Collapsed state (desktop) */
+.map-main.sidebar-collapsed .map-sidebar {
+  width: 0;
+  border-right: none;
+}
+
+/* ── DESKTOP SIDEBAR EDGE TAB ─────────────────────────────────────────────── */
+.sidebar-edge-tab {
+  display: none; /* mobile: hidden (bottom sheet pattern used instead) */
+}
+
+@media (min-width: 641px) {
+  .sidebar-edge-tab {
+    display: flex;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 52px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(13, 17, 28, 0.88);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    color: rgba(255, 255, 255, 0.45);
+    cursor: pointer;
+    z-index: 50;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .sidebar-edge-tab:hover {
+    background: rgba(255, 255, 255, 0.10);
+    color: rgba(255, 255, 255, 0.90);
+  }
+
+  /* Flip chevron when sidebar is collapsed */
+  .sidebar-edge-tab svg {
+    transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .map-main.sidebar-collapsed .sidebar-edge-tab svg {
+    transform: rotate(180deg);
+  }
 }
 
 /* ── SIDEBAR PANEL — opaque so map/video never bleeds through text ────────── */
