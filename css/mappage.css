@@ -405,77 +405,107 @@ body.map-page {
 .map-mobile-back { display: none; }
 
 @media (max-width: 640px) {
-  /* ── 1. Unlock page scroll ──────────────────────────────────────────────── */
+  /* ── 1. Lock body — no page scroll, map is the viewport ──────────────────── */
   body.map-page {
-    overflow-y: auto;
-    height: auto;
+    overflow: hidden;
+    height: 100dvh;
   }
 
-  /* ── 2. Stack map + sidebar vertically ─────────────────────────────────── */
+  /* ── 2. Map main: full viewport below header ─────────────────────────────── */
   .map-main {
-    flex-direction: column;
-    height: auto;
-    overflow: visible;
+    flex-direction: row;
+    height: calc(100dvh - var(--header-h));
+    overflow: hidden;
     position: relative;
   }
 
-  /* ── 3. Map: fixed viewport height, still touchable/zoomable ───────────── */
+  /* ── 3. Map canvas: fills entire area ───────────────────────────────────── */
   .map-canvas {
-    position: relative;
-    inset: unset;
-    height: 62dvh;
+    position: absolute;
+    inset: 0;
     width: 100%;
+    height: 100%;
+    z-index: 1;
   }
 
-  /* ── 4. Sidebar: full-width panel below map ─────────────────────────────── */
+  /* ── 4. Sidebar: bottom sheet — hidden below screen by default ───────────── */
   .map-sidebar {
-    position: relative;
-    inset-block: unset;
-    left: unset;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
     width: 100%;
-    transform: none;
-    z-index: auto;
-    box-shadow: none;
-    transition: none;
+    max-height: 74dvh;
+    border-radius: 14px 14px 0 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
     border-right: none;
-    border-top: 1px solid var(--border);
+    box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.55);
+    z-index: 300;
+    transform: translateY(100%);
+    transition: transform 0.38s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
-  .map-sidebar.open { transform: none; box-shadow: none; }
+  /* Drag handle pill at top of sheet */
+  .map-sidebar::before {
+    content: '';
+    display: block;
+    width: 38px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.20);
+    border-radius: 2px;
+    margin: 10px auto 2px;
+    flex-shrink: 0;
+  }
+
+  .map-sidebar.open {
+    transform: translateY(0);
+  }
 
   .map-sidebar-inner {
-    max-height: none;
-    overflow-y: visible;
+    max-height: calc(74dvh - 26px);
+    overflow-y: auto;
   }
 
-  /* ── 5. Hide slide/overlay elements no longer needed ───────────────────── */
-  .map-sidebar-toggle { display: none; }
-  .sidebar-backdrop   { display: none !important; }
-  .sidebar-close-btn  { display: none; }
+  /* ── 5. Close button: visible inside sheet (top-right) ───────────────────── */
+  .sidebar-close-btn { display: flex; }
 
-  /* ── 6. Mobile back button — fixed top-right, always visible ───────────── */
-  .map-mobile-back {
+  /* ── 6. Backdrop: dims the map when sheet is open ────────────────────────── */
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 299;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .sidebar-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ── 7. Toggle button: floating pill at bottom of map ────────────────────── */
+  .map-sidebar-toggle {
     display: flex;
     position: fixed;
-    top: calc(var(--header-h, 68px) + 0.625rem);
-    right: 0.75rem;
-    z-index: 500;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.375rem 0.75rem;
-    background: rgba(9, 13, 24, 0.90);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: 8px;
-    color: rgba(255, 255, 255, 0.90);
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-decoration: none;
-    font-family: var(--font-body);
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
+    padding: 0.6rem 1.375rem;
+    font-size: 0.875rem;
+    border-radius: 999px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.55);
     white-space: nowrap;
+    gap: 0.5rem;
   }
 
-  .map-mobile-back svg { width: 14px; height: 14px; flex-shrink: 0; }
-  .map-mobile-back:hover { background: rgba(255, 255, 255, 0.12); }
+  /* Hide toggle when sheet is open */
+  .map-main.sidebar-open .map-sidebar-toggle { display: none; }
+
+  /* ── 8. Misc: hide back button (not needed with bottom sheet) ───────────── */
+  .map-mobile-back { display: none; }
 }
