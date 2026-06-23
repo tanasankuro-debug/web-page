@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="../css/hero.css" />
   <link rel="stylesheet" href="../css/components.css" />
   <link rel="stylesheet" href="../css/themes.css" />
+  <link rel="stylesheet" href="../css/weather-icons.css" />
 
   <style>
     /* ── Reveal overrides for landing (longer, deeper slide) ── */
@@ -74,8 +75,19 @@
       margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
     }
 
+    /* badge + weather chip on same row */
+    .landing-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
     .landing-badge {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 0.78rem;
       font-weight: 700;
@@ -85,7 +97,6 @@
       border: 1px solid rgba(255,255,255,0.18);
       border-radius: 999px;
       padding: 0.25rem 0.875rem;
-      margin-bottom: 1rem;
     }
 
     .landing-title {
@@ -326,6 +337,132 @@
       .landing-title { font-size: 2.4rem; }
       .ln-btn { font-size: 0.72rem; }
     }
+
+    /* ── Live weather chip ──────────────────────────────────── */
+    .ln-wx-chip {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.55rem 1.1rem 0.55rem 0.8rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 999px;
+      color: rgba(255,255,255,0.92);
+      text-decoration: none;
+      font-family: 'Noto Sans Thai', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
+      align-self: center;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+    }
+    .ln-wx-chip:hover { filter: brightness(1.12); }
+
+    /* icon container */
+    .ln-wx-icon { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .ln-wx-icon svg { width: 28px; height: 28px; }
+
+    /* temperature */
+    .ln-wx-temp {
+      font-weight: 800;
+      font-size: 1rem;
+      font-variant-numeric: tabular-nums;
+      transition: color 0.4s;
+    }
+    .ln-wx-divider { width: 1px; height: 14px; background: rgba(255,255,255,0.2); border-radius: 1px; }
+    .ln-wx-desc { color: rgba(255,255,255,0.65); font-size: 0.8rem; }
+    .ln-wx-more { opacity: 0.38; font-size: 0.7rem; margin-left: 0.15rem; white-space: nowrap; }
+
+    /* ── Weather-state skins ─────────────────────────────────── */
+    /* ☀ แดดจัด (กลางวัน) */
+    #landing-wx[data-wx="clear-day"] {
+      background: rgba(250,200,20,0.13);
+      border-color: rgba(250,190,0,0.45);
+      animation: wxSunGlow 3s ease-in-out infinite;
+    }
+    #landing-wx[data-wx="clear-day"] .ln-wx-temp { color: #FCD34D; }
+    @keyframes wxSunGlow {
+      0%,100% { box-shadow: 0 0 14px rgba(251,191,36,0.30), 0 2px 8px rgba(0,0,0,0.35); }
+      50%      { box-shadow: 0 0 28px rgba(251,191,36,0.55), 0 2px 8px rgba(0,0,0,0.35); }
+    }
+
+    /* 🌤 มีเมฆบางส่วน / ท้องฟ้าครึ้ม */
+    #landing-wx[data-wx="partly-cloudy"] {
+      background: rgba(255,210,40,0.09);
+      border-color: rgba(255,210,40,0.30);
+      box-shadow: 0 0 10px rgba(251,191,36,0.15), 0 2px 8px rgba(0,0,0,0.35);
+    }
+    #landing-wx[data-wx="partly-cloudy"] .ln-wx-temp { color: #FCD34D; }
+
+    /* ☁ เมฆมาก / มีเมฆ */
+    #landing-wx[data-wx="cloudy"] {
+      background: rgba(148,163,184,0.12);
+      border-color: rgba(148,163,184,0.32);
+      box-shadow: 0 0 10px rgba(100,116,139,0.2), 0 2px 8px rgba(0,0,0,0.35);
+    }
+    #landing-wx[data-wx="cloudy"] .ln-wx-temp { color: #CBD5E1; }
+
+    /* 🌫 หมอก */
+    #landing-wx[data-wx="fog"] {
+      background: rgba(148,163,184,0.10);
+      border-color: rgba(148,163,184,0.25);
+      box-shadow: 0 0 14px rgba(148,163,184,0.18), 0 2px 8px rgba(0,0,0,0.35);
+    }
+    #landing-wx[data-wx="fog"] .ln-wx-temp { color: #94A3B8; }
+
+    /* 🌦 ฝนปรอย */
+    #landing-wx[data-wx="drizzle"] {
+      background: rgba(96,165,250,0.11);
+      border-color: rgba(96,165,250,0.32);
+      box-shadow: 0 0 12px rgba(96,165,250,0.20), 0 2px 8px rgba(0,0,0,0.4);
+    }
+    #landing-wx[data-wx="drizzle"] .ln-wx-temp { color: #93C5FD; }
+
+    /* 🌧 ฝนตก — raindrop pulse */
+    #landing-wx[data-wx="rain"] {
+      background: rgba(59,130,246,0.14);
+      border-color: rgba(59,130,246,0.42);
+      animation: wxRainPulse 2.4s ease-in-out infinite;
+    }
+    #landing-wx[data-wx="rain"] .ln-wx-temp { color: #60A5FA; }
+    @keyframes wxRainPulse {
+      0%,100% { box-shadow: 0 0 12px rgba(59,130,246,0.25), 0 2px 8px rgba(0,0,0,0.4); }
+      50%      { box-shadow: 0 0 22px rgba(59,130,246,0.50), 0 2px 8px rgba(0,0,0,0.4); }
+    }
+
+    /* ⛈ พายุฝนฟ้าคะนอง — lightning flicker */
+    #landing-wx[data-wx="storm"] {
+      background: rgba(30,20,5,0.22);
+      border-color: rgba(253,224,71,0.50);
+      animation: wxLightning 5s ease-in-out infinite;
+    }
+    #landing-wx[data-wx="storm"] .ln-wx-temp { color: #FDE047; }
+    @keyframes wxLightning {
+      0%,88%,100% { box-shadow: 0 0 10px rgba(253,224,71,0.15), 0 2px 8px rgba(0,0,0,0.5); }
+      90%          { box-shadow: 0 0 36px rgba(253,224,71,0.70), 0 2px 8px rgba(0,0,0,0.5); }
+      92%          { box-shadow: 0 0 10px rgba(253,224,71,0.15), 0 2px 8px rgba(0,0,0,0.5); }
+      94%          { box-shadow: 0 0 28px rgba(253,224,71,0.55), 0 2px 8px rgba(0,0,0,0.5); }
+    }
+
+    /* 🌙 กลางคืนแจ่มใส */
+    #landing-wx[data-wx="clear-night"] {
+      background: rgba(30,41,80,0.20);
+      border-color: rgba(148,163,184,0.35);
+      box-shadow: 0 0 16px rgba(100,120,200,0.18), 0 2px 8px rgba(0,0,0,0.4);
+    }
+    #landing-wx[data-wx="clear-night"] .ln-wx-temp { color: #E2E8F0; }
+
+    @media (max-width: 540px) {
+      .ln-wx-desc { display: none; }
+      .ln-wx-more { display: none; }
+      .ln-wx-chip { padding: 0.48rem 0.85rem; gap: 0.45rem; }
+      .ln-wx-icon { width: 24px; height: 24px; }
+      .ln-wx-icon svg { width: 24px; height: 24px; }
+      .ln-wx-temp { font-size: 0.9rem; }
+    }
   </style>
   <script src="../js/utility-bar.js"></script>
 </head>
@@ -336,10 +473,10 @@
   ====================================================================== -->
   <div id="splash" role="dialog" aria-label="หน้าต้อนรับ" aria-modal="true">
     <video class="splash-video splash-desktop" autoplay muted loop playsinline aria-hidden="true">
-      <source src="../assets/PC3.mp4" type="video/mp4" />
+      <source src="../assets/desktop.mp4" type="video/mp4" />
     </video>
     <video class="splash-video splash-mobile" autoplay muted loop playsinline aria-hidden="true">
-      <source src="../assets/mobile3.mp4" type="video/mp4" />
+      <source src="../assets/mobile.mp4" type="video/mp4" />
     </video>
     <div class="splash-overlay" aria-hidden="true"></div>
     <button id="splash-enter" class="splash-btn" type="button">
@@ -404,7 +541,16 @@
 
     <!-- Title -->
     <div class="landing-text">
-      <span class="landing-badge reveal">ข้อมูลสาธารณะ &middot; ขอนแก่น &middot; 2569</span>
+      <div class="landing-meta reveal">
+        <span class="landing-badge">ข้อมูลสาธารณะ &middot; ขอนแก่น &middot; 2569</span>
+        <a href="rainforecast.html" id="landing-wx" class="ln-wx-chip" aria-label="พยากรณ์อากาศขอนแก่นตอนนี้">
+          <span id="landing-wx-icon" class="ln-wx-icon" aria-hidden="true"></span>
+          <span id="landing-wx-temp" class="ln-wx-temp">—°C</span>
+          <span class="ln-wx-divider" aria-hidden="true"></span>
+          <span id="landing-wx-desc" class="ln-wx-desc">—</span>
+          <span class="ln-wx-more" aria-hidden="true">พยากรณ์ →</span>
+        </a>
+      </div>
       <h1 class="landing-title reveal" style="transition-delay:.12s">
         HEAT SAFE<br>
         <span class="landing-title-accent">KHONKEAN</span>
@@ -483,9 +629,60 @@
   <script src="../js/config.js"></script>
   <script src="../js/utils.js"></script>
   <script src="../js/nav.js"></script>
+  <script src="../js/weather-icons.js"></script>
   <script src="../js/main.js"></script>
 
   <script>
+    /* ── Landing weather chip ── */
+    (function () {
+      var url = (window.HSKK_CONFIG && window.HSKK_CONFIG.weatherUrl) ||
+        'https://api.open-meteo.com/v1/forecast?latitude=16.44&longitude=102.82' +
+        '&current=temperature_2m,weather_code,is_day&timezone=Asia%2FBangkok';
+
+      fetch(url).then(function(r){ return r.json(); }).then(function(d) {
+        var cur = d && d.current;
+        if (!cur) return;
+
+        var temp  = cur.temperature_2m;
+        var code  = cur.weather_code != null ? +cur.weather_code : null;
+        var isDay = cur.is_day === 1;
+
+        var tempEl = document.getElementById('landing-wx-temp');
+        var iconEl = document.getElementById('landing-wx-icon');
+        var descEl = document.getElementById('landing-wx-desc');
+        var chip   = document.getElementById('landing-wx');
+
+        if (tempEl && temp != null) tempEl.textContent = Math.round(temp) + '°C';
+
+        if (iconEl && code != null && typeof getWeatherIcon === 'function') {
+          iconEl.innerHTML = getWeatherIcon(code, isDay);
+        }
+
+        if (descEl && code != null) {
+          descEl.textContent = (typeof wmoLabel === 'function') ? wmoLabel(code) : '—';
+        }
+
+        /* ── set data-wx for CSS weather animations ── */
+        if (chip && code != null) {
+          var wx;
+          if      (code === 0  &&  isDay)              wx = 'clear-day';
+          else if (code === 0  && !isDay)              wx = 'clear-night';
+          else if (code <= 2)                          wx = 'partly-cloudy';
+          else if (code === 3)                         wx = 'cloudy';
+          else if (code === 45 || code === 48)         wx = 'fog';
+          else if (code >= 51  && code <= 55)          wx = 'drizzle';
+          else if ((code >= 61 && code <= 65) ||
+                   (code >= 80 && code <= 82))         wx = 'rain';
+          else if (code >= 95)                         wx = 'storm';
+          else                                         wx = 'cloudy';
+          chip.dataset.wx = wx;
+        }
+      }).catch(function(){
+        var chip = document.getElementById('landing-wx');
+        if (chip) chip.style.display = 'none';
+      });
+    }());
+
     (function () {
       var splash = document.getElementById('splash');
       var btn    = document.getElementById('splash-enter');

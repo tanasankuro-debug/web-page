@@ -97,12 +97,6 @@ function initLayerPanel() {
           <span class="lp-badge">AQI</span>
         </button>
 
-        <!-- Future: Rain -->
-        <button class="lp-layer-btn lp-disabled" data-lp-soon aria-disabled="true">
-          <span class="lp-dot" style="background:#60a5fa;"></span>
-          <span class="lp-label">ฝน/พยากรณ์</span>
-          <span class="lp-badge">เร็วๆนี้</span>
-        </button>
 
       </div>
 

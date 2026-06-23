@@ -402,8 +402,30 @@ function exClosePanel() {
   exShowHint();
 }
 
-function exHideHint() { document.getElementById('click-hint')?.classList.add('hidden'); }
-function exShowHint()  { document.getElementById('click-hint')?.classList.remove('hidden'); }
+let _hintTimer = null;
+
+function exHideHint() {
+  const el = document.getElementById('click-hint');
+  if (!el) return;
+  clearTimeout(_hintTimer);
+  el.classList.remove('hint-visible');
+  el.classList.add('hidden');
+  try { sessionStorage.setItem('mapHintSeen', '1'); } catch {}
+}
+
+function exShowHint() { /* no-op — hint is one-time per session */ }
+
+function _initOneTimeHint() {
+  try { if (sessionStorage.getItem('mapHintSeen')) return; } catch {}
+  const el = document.getElementById('click-hint');
+  if (!el) return;
+  /* Slide in after 0.9s (map has finished loading), auto-dismiss after 4.2s more */
+  _hintTimer = setTimeout(() => {
+    el.classList.remove('hidden');
+    el.classList.add('hint-visible');
+    _hintTimer = setTimeout(exHideHint, 4200);
+  }, 900);
+}
 
 /* ────────────────────────────────────────────────────────────────────────── */
 /* PULSE MARKER                                                               */
@@ -437,6 +459,8 @@ function initExplorePlugin() {
   } else {
     map.on('load', () => { map.getCanvas().style.cursor = 'crosshair'; });
   }
+
+  _initOneTimeHint();
 }
 
 /* Runs after main.js DOMContentLoaded (registered first → fires first → sets window.HSKK_MAP) */

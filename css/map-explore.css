@@ -77,7 +77,7 @@
   position: absolute;
   bottom: 52px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(10px);
   z-index: 10;
   display: flex;
   align-items: center;
@@ -92,11 +92,20 @@
   font-size: 0.80rem;
   font-family: 'Noto Sans Thai', sans-serif;
   pointer-events: none;
-  transition: opacity 0.35s ease;
+  opacity: 0;
+  transition: opacity 0.45s ease, transform 0.45s ease;
   white-space: nowrap;
 }
 
-#click-hint.hidden { opacity: 0; }
+#click-hint.hint-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+#click-hint.hidden {
+  opacity: 0;
+  transform: translateX(-50%) translateY(10px);
+}
 
 /* ── Info Panel — fixed, slides in from the right over the map ──────────── */
 #info-panel {

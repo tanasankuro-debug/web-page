@@ -227,23 +227,187 @@ function hlDetailBody(pd, hour) {
 }
 
 function hlDefaultBody(data, hour) {
-  let hot = null, hotT = -Infinity;
-  data.forEach(pd => {
-    const d = hlDataAtHour(pd, hour);
-    const t = d?.temp ?? pd.current?.temperature_2m;
-    if (t != null && t > hotT) { hotT = t; hot = pd; }
+  /* ── compute temp for every point ── */
+  const pts = data.map(pd => {
+    const d = hlDataAtHour(pd, hour) ?? { temp: pd.current?.temperature_2m ?? null };
+    return { ...pd, temp: d?.temp ?? null };
+  }).filter(p => p.temp !== null);
+
+  if (!pts.length) {
+    return '<p style="color:#475569;font-size:0.82rem;padding:18px 0;text-align:center;">กำลังโหลดข้อมูล...</p>';
+  }
+
+  const temps  = pts.map(p => p.temp);
+  const maxT   = Math.max(...temps);
+  const minT   = Math.min(...temps);
+  const avgT   = temps.reduce((a, b) => a + b, 0) / temps.length;
+  const deltaT = +(maxT - minT).toFixed(1);
+  const hotPt  = pts.find(p => p.temp === maxT);
+  const coolPt = pts.find(p => p.temp === minT);
+
+  /* ── colour buckets ── */
+  const BUCKETS = [
+    { label: '< 28°',   sub: 'เย็น',     color: '#60a5fa', count: 0 },
+    { label: '28–31°',  sub: 'ปกติ',     color: '#4ade80', count: 0 },
+    { label: '31–33°',  sub: 'อุ่น',     color: '#facc15', count: 0 },
+    { label: '33–36°',  sub: 'ร้อน',    color: '#fb923c', count: 0 },
+    { label: '36–39°',  sub: 'ร้อนมาก', color: '#ef4444', count: 0 },
+    { label: '≥ 39°',   sub: 'ร้อนจัด', color: '#c026d3', count: 0 },
+  ];
+  pts.forEach(({ temp: t }) => {
+    if      (t < 28) BUCKETS[0].count++;
+    else if (t < 31) BUCKETS[1].count++;
+    else if (t < 33) BUCKETS[2].count++;
+    else if (t < 36) BUCKETS[3].count++;
+    else if (t < 39) BUCKETS[4].count++;
+    else             BUCKETS[5].count++;
   });
+
+  /* ── top 5 ── */
+  const top5 = [...pts].sort((a, b) => b.temp - a.temp).slice(0, 5);
+
+  /* ── delta colour ── */
+  const dcol = deltaT >= 6 ? '#ef4444' : deltaT >= 4 ? '#fb923c' : '#facc15';
+
+  /* ── warning ── */
+  const warn = maxT >= 36;
+
+  /* ── bucket bar HTML ── */
+  const bucketRows = BUCKETS.filter(b => b.count > 0).map(b => `
+    <div style="display:flex;align-items:center;gap:7px;margin-bottom:5px;">
+      <span style="width:8px;height:8px;border-radius:50%;flex-shrink:0;background:${b.color};
+                   box-shadow:0 0 4px ${b.color}99;"></span>
+      <span style="font-size:0.70rem;color:#94a3b8;width:3.8rem;flex-shrink:0;">${b.label}</span>
+      <span style="font-size:0.70rem;color:#64748b;">${b.sub}</span>
+      <div style="flex:1;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;">
+        <div style="height:100%;border-radius:2px;background:${b.color};
+                    width:${Math.round(b.count / pts.length * 100)}%;opacity:.75;"></div>
+      </div>
+      <span style="font-size:0.70rem;color:#64748b;width:1.2rem;text-align:right;">${b.count}</span>
+    </div>`).join('');
+
+  /* ── top 5 rows ── */
+  const top5Rows = top5.map((p, i) => {
+    const col   = hlTempColor(p.temp);
+    const medal = ['🥇','🥈','🥉','4.','5.'][i];
+    return `
+    <button onclick="window.HeatLayer?.flyAndShow('${p.id}')"
+            style="display:flex;align-items:center;gap:8px;width:100%;
+                   background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+                   border-radius:8px;padding:7px 10px;margin-bottom:5px;cursor:pointer;
+                   text-align:left;color:#e2e8f0;transition:background .15s;"
+            onmouseover="this.style.background='rgba(255,255,255,.09)'"
+            onmouseout="this.style.background='rgba(255,255,255,.04)'">
+      <span style="font-size:0.82rem;width:1.4rem;text-align:center;flex-shrink:0;">${medal}</span>
+      <span style="flex:1;font-size:0.80rem;font-weight:600;font-family:'Noto Sans Thai',sans-serif;">
+        ${p.name}
+      </span>
+      <span style="font-size:0.84rem;font-weight:800;color:${col};
+                   font-family:'Barlow Condensed',sans-serif;flex-shrink:0;">
+        ${p.temp.toFixed(1)}°C
+      </span>
+      <svg viewBox="0 0 16 16" fill="none" width="10" height="10" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+           style="flex-shrink:0;opacity:.35;">
+        <path d="M3 8h10M9 4l4 4-4 4"/>
+      </svg>
+    </button>`;
+  }).join('');
+
   return `
-<div style="text-align:center;padding:12px 0 6px;">
-  <p style="color:rgba(255,255,255,.38);font-size:0.82rem;line-height:1.8;margin-bottom:10px;">
-    แตะจุดบนแผนที่<br>เพื่อดูข้อมูลละเอียด
-  </p>
-  ${hot ? `<div style="padding:9px 12px;background:rgba(239,68,68,.1);
-    border:1px solid rgba(239,68,68,.22);border-radius:8px;
-    color:#fca5a5;font-size:0.80rem;line-height:1.5;text-align:left;">
-    🔴 ร้อนสุด: <strong>${hot.name}</strong> — ${Math.round(hotT)}°C
-  </div>` : ''}
-</div>`;
+<!-- A: ΔT headline -->
+<div style="background:rgba(251,146,60,.08);border:1px solid rgba(251,146,60,.22);
+            border-radius:10px;padding:11px 13px;margin-bottom:12px;text-align:center;">
+  <div style="font-size:0.62rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+              color:#94a3b8;margin-bottom:5px;">ช่วงต่างอุณหภูมิในพื้นที่</div>
+  <div style="font-size:1.65rem;font-weight:800;color:${dcol};
+              font-family:'Barlow Condensed',sans-serif;line-height:1;margin-bottom:5px;">
+    ต่างกันถึง ${deltaT}°C
+  </div>
+  <div style="font-size:0.70rem;color:#64748b;line-height:1.5;">
+    ${hotPt?.name ?? '—'} (ร้อน) → ${coolPt?.name ?? '—'} (เย็น)
+  </div>
+</div>
+
+<!-- B: Stats row -->
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px;">
+  <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);
+              border-radius:8px;padding:8px 6px;text-align:center;">
+    <div style="font-size:0.60rem;color:#94a3b8;margin-bottom:3px;font-weight:600;
+                text-transform:uppercase;letter-spacing:.05em;">ร้อนสุด</div>
+    <div style="font-size:1.05rem;font-weight:800;color:#ef4444;
+                font-family:'Barlow Condensed',sans-serif;line-height:1;">${maxT.toFixed(1)}°C</div>
+    <div style="font-size:0.62rem;color:#64748b;margin-top:2px;
+                font-family:'Noto Sans Thai',sans-serif;">${hotPt?.name ?? '—'}</div>
+  </div>
+  <div style="background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.2);
+              border-radius:8px;padding:8px 6px;text-align:center;">
+    <div style="font-size:0.60rem;color:#94a3b8;margin-bottom:3px;font-weight:600;
+                text-transform:uppercase;letter-spacing:.05em;">เย็นสุด</div>
+    <div style="font-size:1.05rem;font-weight:800;color:#60a5fa;
+                font-family:'Barlow Condensed',sans-serif;line-height:1;">${minT.toFixed(1)}°C</div>
+    <div style="font-size:0.62rem;color:#64748b;margin-top:2px;
+                font-family:'Noto Sans Thai',sans-serif;">${coolPt?.name ?? '—'}</div>
+  </div>
+  <div style="background:rgba(250,204,21,.07);border:1px solid rgba(250,204,21,.18);
+              border-radius:8px;padding:8px 6px;text-align:center;">
+    <div style="font-size:0.60rem;color:#94a3b8;margin-bottom:3px;font-weight:600;
+                text-transform:uppercase;letter-spacing:.05em;">เฉลี่ย ${pts.length} จุด</div>
+    <div style="font-size:1.05rem;font-weight:800;color:#facc15;
+                font-family:'Barlow Condensed',sans-serif;line-height:1;">${avgT.toFixed(1)}°C</div>
+    <div style="font-size:0.62rem;color:#64748b;margin-top:2px;">ทั่วขอนแก่น</div>
+  </div>
+</div>
+
+<!-- B: Bucket distribution -->
+<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+            border-radius:8px;padding:10px 11px;margin-bottom:12px;">
+  <div style="font-size:0.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+              color:#64748b;margin-bottom:8px;">การกระจายระดับอุณหภูมิ</div>
+  ${bucketRows}
+</div>
+
+<!-- C: Top 5 -->
+<div style="margin-bottom:12px;">
+  <div style="font-size:0.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+              color:#64748b;margin-bottom:7px;">Top 5 ร้อนสุด · กดเพื่อดูจุดบนแผนที่</div>
+  ${top5Rows}
+</div>
+
+<!-- D: Warning -->
+${warn ? `
+<div style="display:flex;gap:9px;align-items:flex-start;background:rgba(239,68,68,.10);
+            border:1px solid rgba(239,68,68,.28);border-radius:9px;
+            padding:10px 12px;margin-bottom:12px;">
+  <span style="font-size:1.1rem;flex-shrink:0;margin-top:1px;">⚠️</span>
+  <div>
+    <div style="font-size:0.72rem;font-weight:700;color:#fca5a5;margin-bottom:4px;">
+      อุณหภูมิสูง — ควรระวัง
+    </div>
+    <div style="font-size:0.72rem;color:#94a3b8;line-height:1.6;">
+      ดื่มน้ำบ่อยๆ · เลี่ยงแดดจัด 11–15 น.<br>
+      ดูแลผู้สูงอายุและเด็กเล็กเป็นพิเศษ
+    </div>
+  </div>
+</div>` : ''}
+
+<!-- F: Link -->
+<a href="heat-map-full.html"
+   style="display:flex;align-items:center;justify-content:space-between;
+          background:rgba(251,146,60,.10);border:1px solid rgba(251,146,60,.28);
+          border-radius:9px;padding:10px 13px;text-decoration:none;
+          color:#fb923c;font-size:0.78rem;font-weight:700;
+          font-family:'Noto Sans Thai',sans-serif;
+          transition:background .15s;"
+   onmouseover="this.style.background='rgba(251,146,60,.18)'"
+   onmouseout="this.style.background='rgba(251,146,60,.10)'">
+  <span>ดูอุณหภูมิละเอียด 26 อำเภอ</span>
+  <span style="font-size:0.9rem;">→</span>
+</a>
+
+<p style="font-size:0.62rem;color:#334155;text-align:center;margin-top:10px;line-height:1.5;">
+  แตะจุดบนแผนที่เพื่อดูข้อมูลละเอียดรายอำเภอ
+</p>`;
 }
 
 function hlBuildPanelHTML(pd, hour, data) {
@@ -257,11 +421,29 @@ function hlBuildPanelHTML(pd, hour, data) {
     <div id="panel-topbar">
       <div id="loc-body">
         <div id="loc-pin-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-               stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true">
-            <path d="M14 14.76V5a2 2 0 1 0-4 0v9.76a4 4 0 1 0 4 0z"/>
-          </svg>
-          <span style="font-size:0.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fb923c;">ความร้อน</span>
+          ${pd ? `
+          <button id="panel-back" aria-label="กลับภาพรวม"
+                  style="display:inline-flex;align-items:center;gap:5px;
+                         background:rgba(251,146,60,.12);border:1px solid rgba(251,146,60,.28);
+                         border-radius:99px;padding:3px 9px 3px 6px;cursor:pointer;
+                         color:#fb923c;font-size:0.68rem;font-weight:700;
+                         font-family:'Noto Sans Thai',sans-serif;
+                         transition:background .15s;margin-bottom:5px;"
+                  onmouseover="this.style.background='rgba(251,146,60,.22)'"
+                  onmouseout="this.style.background='rgba(251,146,60,.12)'">
+            <svg viewBox="0 0 16 16" fill="none" width="10" height="10"
+                 stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 3L5 8l5 5"/>
+            </svg>
+            ภาพรวม
+          </button>` : `
+          <div style="display:flex;align-items:center;gap:6px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true">
+              <path d="M14 14.76V5a2 2 0 1 0-4 0v9.76a4 4 0 1 0 4 0z"/>
+            </svg>
+            <span style="font-size:0.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fb923c;">ความร้อน</span>
+          </div>`}
         </div>
         <div id="loc-main">${mainTxt}</div>
         <div id="loc-sub">${subTxt}</div>
@@ -325,9 +507,15 @@ const HeatLayer = (() => {
     if (!panel) return;
     panel.innerHTML = hlBuildPanelHTML(pd, _activeHour(), _data);
     panel.classList.add('open');
+
     document.getElementById('panel-close')?.addEventListener('click', () => {
       panel.classList.remove('open');
       _clearSelection();
+    });
+
+    document.getElementById('panel-back')?.addEventListener('click', () => {
+      _clearSelection();
+      _openPanel(null);
     });
   }
 
@@ -462,6 +650,18 @@ const HeatLayer = (() => {
     get enabled()    { return _enabled; },
     get timeSlots()  { return TIME_SLOTS; },
     get activeSlot() { return _activeSlot; },
+
+    flyAndShow(id) {
+      const pd = _data.find(p => p.id === id);
+      if (!pd) return;
+      window.HSKK_MAP?.flyTo({ center: [pd.lng, pd.lat], zoom: 13, duration: 800 });
+      setTimeout(() => _showDetail(pd), 250);
+    },
+
+    openOverview() {
+      _clearSelection();
+      _openPanel(null);
+    },
 
     async enable() {
       if (_enabled) return;
