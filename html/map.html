@@ -90,7 +90,26 @@
     <!-- ─── SIDEBAR ──────────────────────────────────────────────────────── -->
     <aside class="map-sidebar" id="map-sidebar" aria-label="ข้อมูลสดและชั้นแผนที่">
 
-      <!-- Close button (mobile only) -->
+      <!-- Sheet handle — mobile peek bar (tap to expand/collapse) -->
+      <div class="sheet-handle" id="sheet-handle" role="button" tabindex="0"
+           aria-label="เปิด/ปิดแผงข้อมูล" aria-expanded="false">
+        <div class="sheet-handle-label">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" aria-hidden="true">
+            <line x1="3" y1="5"  x2="17" y2="5"/>
+            <line x1="3" y1="10" x2="14" y2="10"/>
+            <line x1="3" y1="15" x2="11" y2="15"/>
+          </svg>
+          <span>ข้อมูลและชั้นแผนที่</span>
+        </div>
+        <svg class="sheet-chevron" viewBox="0 0 20 12" fill="none"
+             stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+             stroke-linejoin="round" aria-hidden="true">
+          <path d="M2 10L10 2l8 8"/>
+        </svg>
+      </div>
+
+      <!-- Close button (mobile only, visible when sheet is expanded) -->
       <button class="sidebar-close-btn" id="sidebar-close" aria-label="ปิดแผงข้อมูล">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"
              stroke-linecap="round" width="16" height="16" aria-hidden="true" focusable="false">
@@ -374,41 +393,73 @@
   <script src="../js/sidebar-tabs.js"></script>
   <script src="../js/layer-panel.js"></script>
 
-  <!-- Mobile sidebar toggle (map page only) -->
+  <!-- Sidebar / bottom-sheet controller (map page only) -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const toggle   = document.getElementById('sidebar-toggle');
       const sidebar  = document.getElementById('map-sidebar');
       const backdrop = document.getElementById('sidebar-backdrop');
       const closeBtn = document.getElementById('sidebar-close');
-      if (!toggle || !sidebar) return;
+      const handle   = document.getElementById('sheet-handle');
+      const edgeTab  = document.getElementById('sidebar-edge-tab');
+      const mapMain  = sidebar?.closest('.map-main');
+      if (!sidebar) return;
 
-      function setSidebar(open) {
+      const isMobile = () => window.matchMedia('(max-width: 640px)').matches;
+
+      /* ── Mobile bottom sheet ── */
+      function setSheet(open) {
         sidebar.classList.toggle('open', open);
-        sidebar.closest('.map-main')?.classList.toggle('sidebar-open', open);
-        toggle.setAttribute('aria-expanded', String(open));
         backdrop?.classList.toggle('active', open);
+        if (handle) {
+          handle.setAttribute('aria-expanded', String(open));
+        }
       }
 
-      toggle.addEventListener('click', () => setSidebar(!sidebar.classList.contains('open')));
-      backdrop?.addEventListener('click', () => setSidebar(false));
-      closeBtn?.addEventListener('click',  () => setSidebar(false));
+      if (handle) {
+        handle.addEventListener('click', () => {
+          if (!isMobile()) return;
+          setSheet(!sidebar.classList.contains('open'));
+        });
+        handle.addEventListener('keydown', e => {
+          if (!isMobile()) return;
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setSheet(!sidebar.classList.contains('open'));
+          }
+        });
+      }
 
-      /* ── Desktop sidebar collapse tab ── */
-      const edgeTab = document.getElementById('sidebar-edge-tab');
+      closeBtn?.addEventListener('click', () => {
+        if (isMobile()) setSheet(false);
+      });
+
+      backdrop?.addEventListener('click', () => {
+        if (isMobile()) setSheet(false);
+      });
+
+      /* Drag-to-close: swipe down on the sheet handle or sidebar */
+      let touchY0 = 0;
+      sidebar.addEventListener('touchstart', e => {
+        touchY0 = e.touches[0].clientY;
+      }, { passive: true });
+      sidebar.addEventListener('touchend', e => {
+        if (!isMobile()) return;
+        const dy = e.changedTouches[0].clientY - touchY0;
+        if (dy > 72 && sidebar.classList.contains('open')) setSheet(false);
+      }, { passive: true });
+
+      /* ── Desktop sidebar collapse tab (edge tab) ── */
       if (edgeTab) {
         edgeTab.addEventListener('click', () => {
-          const mapMain = sidebar.closest('.map-main');
-          if (!mapMain) return;
-          const nowCollapsed = mapMain.classList.toggle('sidebar-collapsed');
+          if (isMobile()) return;
+          const nowCollapsed = mapMain?.classList.toggle('sidebar-collapsed');
           edgeTab.setAttribute('aria-label', nowCollapsed ? 'ขยายแผงข้อมูล' : 'พับแผงข้อมูล');
           try { sessionStorage.setItem('sidebarCollapsed', String(nowCollapsed)); } catch {}
         });
 
-        /* Restore collapse state from last visit */
         try {
-          if (sessionStorage.getItem('sidebarCollapsed') === 'true') {
-            sidebar.closest('.map-main')?.classList.add('sidebar-collapsed');
+          if (sessionStorage.getItem('sidebarCollapsed') === 'true' && !isMobile()) {
+            mapMain?.classList.add('sidebar-collapsed');
             edgeTab.setAttribute('aria-label', 'ขยายแผงข้อมูล');
           }
         } catch {}
