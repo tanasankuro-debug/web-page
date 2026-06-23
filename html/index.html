@@ -177,51 +177,32 @@
     .ln-flood { border-top: 2px solid #3898A8; }
     .ln-flood .ln-icon { background: rgba(56,152,168,0.2);  color: #2DD4BF; }
 
-    /* smart map card */
-    .ln-smart {
+    /* แผนที่อัจฉริยะ CTA — green override */
+    .ln-map--smart {
+      background: #10B981;
+      box-shadow: 0 4px 20px rgba(16,185,129,0.45);
       flex-direction: row;
       justify-content: flex-start;
+      align-items: center;
       gap: 0.75rem;
-      padding: 0.875rem 1.125rem;
-      border-top: 2px solid #10B981;
-      border-color: rgba(16,185,129,0.28);
-      position: relative;       
-      overflow: hidden;
+      color: #001a10;
     }
-    .ln-smart .ln-icon {
-      background: rgba(16,185,129,0.18);
-      color: #34D399;
-      flex-shrink: 0;
+    .ln-map--smart:hover {
+      background: #059669;
+      box-shadow: 0 6px 28px rgba(16,185,129,0.65);
     }
-    .ln-smart:hover {
-      background: rgba(16,185,129,0.10);
-      border-color: rgba(16,185,129,0.42);
-      box-shadow: 0 0 22px rgba(16,185,129,0.15);
-    }
-    .ln-smart-label {
+    .ln-map-smart-text {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       gap: 0.1rem;
       text-align: left;
     }
-    .ln-smart-sub {
+    .ln-map-smart-sub {
       font-size: 0.67rem;
       font-weight: 400;
-      color: rgba(255,255,255,0.38);
+      color: rgba(0,26,16,0.60);
       display: block;
-    }
-    .ln-smart-badge {
-      position: absolute;
-      top: 50%; right: 1rem;
-      transform: translateY(-50%);
-      font-size: 0.6rem; font-weight: 700;
-      padding: 2px 8px; border-radius: 999px;
-      background: rgba(16,185,129,0.22);
-      color: #34D399;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      white-space: nowrap;
     }
 
     /* Map Box GIS card */
@@ -298,31 +279,8 @@
 
     .ln-map svg { flex-shrink: 0; }
 
-    /* 2-card side-by-side row (smart map + Map Box) */
-    .ln-pair-row {
-      grid-column: 1 / -1;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.625rem;
-      align-items: stretch;
-    }
-
-    /* ── Mobile: pair-row stays 2-col, cards switch to vertical layout ─── */
+    /* ── Mobile: gis card layout ─── */
     @media (max-width: 640px) {
-      .ln-smart,
-      .ln-gis {
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 1rem 0.5rem;
-        text-align: center;
-      }
-      .ln-smart-label,
-      .ln-gis-label { align-items: center; }
-      .ln-smart-sub,
-      .ln-gis-sub   { text-align: center; }
-      /* Badge: pull out of absolute flow so it doesn't overlap at narrow width */
-      .ln-smart-badge,
       .ln-gis-badge {
         position: static;
         top: auto; right: auto;
@@ -356,17 +314,12 @@
       .ln-icon { width: 24px; height: 24px; }
       .ln-icon svg { width: 13px; height: 13px; }
 
-      /* Pair-row: hide verbose details so height matches topic cards */
-      .ln-smart,
-      .ln-gis { padding: 0.75rem 0.5rem; gap: 0.35rem; }
-      .ln-smart-sub,
+      .ln-gis { padding: 0.75rem 0.75rem; gap: 0.35rem; }
       .ln-gis-sub   { display: none; }
-      .ln-smart-badge,
       .ln-gis-badge { display: none; }
 
-      .ln-pair-row { gap: 0.5rem; }
-
       .ln-map { border-radius: 12px; font-size: 0.875rem; padding: 0.75rem 1.25rem; }
+      .ln-map-smart-sub { display: none; }
     }
 
     @media (max-width: 380px) {
@@ -493,48 +446,32 @@
           น้ำท่วม
         </a>
 
-        <!-- Smart Map + Map Box — side by side -->
-        <div class="ln-pair-row">
-
-          <a href="map.html" class="ln-btn ln-smart" role="listitem">
-            <span class="ln-icon" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M28 6L20 10 8 6v28l12 4 8-4 12 4V10L28 6z"/>
-                <path d="M20 10v28M28 6v28"/>
-                <circle cx="34" cy="28" r="5" stroke-width="2"/>
-                <path d="M34 33v5M31 31l-3 3"/>
-              </svg>
-            </span>
-            <span class="ln-smart-label">
-              แผนที่อัจฉริยะ
-              <span class="ln-smart-sub">รวมทุกแผนที่ในที่เดียว · 7 แผนที่</span>
-            </span>
-            <span class="ln-smart-badge" aria-hidden="true">อัจฉริยะ</span>
-          </a>
-
-          <a href="landcast.html" class="ln-btn ln-gis" role="listitem">
-            <span class="ln-icon" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M24 8L6 17l18 9 18-9-18-9z"/>
-                <path d="M6 26l18 9 18-9"/>
-                <path d="M6 35l18 9 18-9"/>
-              </svg>
-            </span>
-            <span class="ln-gis-label">
-              Map Box
-              <span class="ln-gis-sub">แผนที่ GIS เชิงลึก (LandCast)</span>
-            </span>
-            <span class="ln-gis-badge" aria-hidden="true">GIS</span>
-          </a>
-
-        </div>
+        <!-- Map Box GIS — full width -->
+        <a href="landcast.html" class="ln-btn ln-gis" role="listitem" style="grid-column: 1 / -1;">
+          <span class="ln-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M24 8L6 17l18 9 18-9-18-9z"/>
+              <path d="M6 26l18 9 18-9"/>
+              <path d="M6 35l18 9 18-9"/>
+            </svg>
+          </span>
+          <span class="ln-gis-label">
+            Map Box
+            <span class="ln-gis-sub">แผนที่ GIS เชิงลึก · วิเคราะห์พื้นที่ · LandCast</span>
+          </span>
+          <span class="ln-gis-badge" aria-hidden="true">GIS</span>
+        </a>
 
       </div>
 
-      <!-- Map CTA -->
-      <a href="map.html" class="ln-map">
-        <svg viewBox="0 0 20 20" fill="none" width="18" height="18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 2.5L7.5 4.375 2.5 2.5v12.5l5 1.875 5-1.875 5 1.875V4.375L12.5 2.5z"/><path d="M7.5 4.375v12.5M12.5 2.5v12.5"/></svg>
-        ดูแผนที่เรียลไทม์ →
+      <!-- แผนที่อัจฉริยะ — CTA หลัก รวมทุกแผนที่ -->
+      <a href="smart-map.html" class="ln-map ln-map--smart">
+        <svg viewBox="0 0 20 20" fill="none" width="20" height="20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M12.5 2.5L7.5 4.375 2.5 2.5v12.5l5 1.875 5-1.875 5 1.875V4.375L12.5 2.5z"/><path d="M7.5 4.375v12.5M12.5 2.5v12.5"/></svg>
+        <span class="ln-map-smart-text">
+          แผนที่อัจฉริยะ
+          <span class="ln-map-smart-sub">รวมทุกแผนที่ในที่เดียว &middot; ความร้อน &middot; ฝุ่น PM2.5 &middot; ฝน &middot; น้ำท่วม</span>
+        </span>
+        <span aria-hidden="true" style="margin-left:auto;">&#x2192;</span>
       </a>
 
     </nav>
