@@ -35,6 +35,9 @@ function riskColor(risk) { return RISK_COLOR[risk] ?? '#94a3b8'; }
 
 const DAYS_TH = ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'];
 
+/* Guard: fall back to plain fetch if helper not loaded */
+const _fetchRain = typeof fetchWithTimeout === 'function' ? fetchWithTimeout : fetch;
+
 function dayLabel(dateStr) {
   return DAYS_TH[new Date(dateStr + 'T00:00:00+07:00').getDay()];
 }
@@ -47,7 +50,7 @@ function hourLabel(iso) {
 async function fetchRainForecast() {
   const url = window.HSKK_CONFIG?.rainWeatherUrl;
   if (!url) throw new Error('no config');
-  const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
+  const res = await _fetchRain(url, {}, 10000);
   if (!res.ok) throw new Error('HTTP ' + res.status);
   return res.json();
 }
@@ -183,6 +186,9 @@ function renderDaily(data) {
 window.initRainWeather = async function () {
   const status = document.getElementById('rain-weather-status');
 
+  /* Reset to loading state on (re)try */
+  if (status) { status.textContent = 'กำลังโหลดข้อมูล...'; status.hidden = false; }
+
   try {
     const data = await fetchRainForecast();
 
@@ -207,6 +213,12 @@ window.initRainWeather = async function () {
 
   } catch (e) {
     console.error('[rainweather]', e);
-    if (status) status.textContent = 'โหลดข้อมูลพยากรณ์ไม่สำเร็จ — กรุณาลองใหม่';
+    if (status) {
+      if (typeof showFetchError === 'function') {
+        showFetchError(status, window.initRainWeather);
+      } else {
+        status.textContent = 'โหลดข้อมูลพยากรณ์ไม่สำเร็จ — กรุณาลองใหม่';
+      }
+    }
   }
 };

@@ -24,6 +24,9 @@ const LIVE_AQ_URL = _cfg.airQualityUrl ||
 
 const LIVE_REFRESH_MS = 10 * 60 * 1000;
 
+/* Guard: fall back to plain fetch if helper not loaded */
+const _fetch = typeof fetchWithTimeout === 'function' ? fetchWithTimeout : fetch;
+
 /* ── Color/threshold helpers ─────────────────────────────────────────────── */
 function tempColor(t) {
   if (t == null) return '#64748B';
@@ -246,11 +249,11 @@ async function fetchLiveData() {
   console.log('[live] Fetching:', LIVE_WEATHER_URL, LIVE_AQ_URL);
 
   const [wResult, aqResult] = await Promise.allSettled([
-    fetch(LIVE_WEATHER_URL)
+    _fetch(LIVE_WEATHER_URL, {}, 10000)
       .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then(d => { if (d.error) throw new Error(d.reason || 'forecast error'); return d; }),
 
-    fetch(LIVE_AQ_URL)
+    _fetch(LIVE_AQ_URL, {}, 10000)
       .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then(d => { if (d.error) throw new Error(d.reason || 'air quality error'); return d; })
   ]);

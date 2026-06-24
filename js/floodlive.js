@@ -18,6 +18,9 @@ const FLOOD_API_URL =
 
 const FLOOD_REFRESH_MS = 15 * 60 * 1000;
 
+/* Guard: fall back to plain fetch if helper not loaded */
+const _fetchFlood = typeof fetchWithTimeout === 'function' ? fetchWithTimeout : fetch;
+
 const RAIN_RANGES = [
   { max: 0,    label: 'ไม่มีฝน',       color: '#94A3B8' },
   { max: 10,   label: 'ฝนเล็กน้อย',    color: '#38BDF8' },
@@ -96,42 +99,44 @@ function renderFloodBars(dates, precip) {
 }
 
 function renderFloodPanel(data) {
-  const panel = document.getElementById('flood-live-panel');
-  if (!panel) return;
-
+  const panel  = document.getElementById('flood-live-panel');
   const daily  = data.daily  || {};
   const hourly = data.hourly || {};
 
-  /* ── ฝนวันนี้ */
+  /* ── Compute shared values ── */
   const rainToday = daily.precipitation_sum?.[0] != null ? Number(daily.precipitation_sum[0]) : null;
   const rainInfo  = rainToday != null ? floodRange(rainToday, RAIN_RANGES) : { label: '—', color: '#64748B' };
+
+  const hIdx     = getCurrentHourIndex(hourly.time || []);
+  const soilRaw  = hourly.soil_moisture_0_to_7cm?.[hIdx] != null ? Number(hourly.soil_moisture_0_to_7cm[hIdx]) : null;
+  const soilPct  = soilRaw != null ? Math.round(soilRaw * 100) : null;
+  const soilInfo = soilRaw != null ? floodRange(soilRaw, SOIL_RANGES) : { label: '—', color: '#64748B' };
+
+  const sum3 = daily.precipitation_sum
+    ? daily.precipitation_sum.slice(1, 4).reduce((a, v) => a + (Number(v) || 0), 0)
+    : null;
+  const sum3Info = sum3 != null ? floodRange(sum3, RAIN_RANGES) : { label: '—', color: '#64748B' };
+
+  /* ── Status strip — runs on both flood.html and flood-live.html ── */
+  updateStatusStrip(rainToday, rainInfo, soilPct, soilInfo, sum3, sum3Info);
+
+  /* ── flood-live.html panel only ── */
+  if (!panel) return;
+
   const rValEl = document.getElementById('flc-rain-val');
   const rSubEl = document.getElementById('flc-rain-sub');
   if (rValEl) { rValEl.textContent = rainToday != null ? rainToday.toFixed(1) : '—'; rValEl.style.color = rainInfo.color; }
   if (rSubEl) { rSubEl.textContent = rainInfo.label; rSubEl.style.color = rainInfo.color; }
 
-  /* ── ความชื้นในดิน (ชั่วโมงปัจจุบัน) */
-  const hIdx     = getCurrentHourIndex(hourly.time || []);
-  const soilRaw  = hourly.soil_moisture_0_to_7cm?.[hIdx] != null ? Number(hourly.soil_moisture_0_to_7cm[hIdx]) : null;
-  const soilPct  = soilRaw != null ? Math.round(soilRaw * 100) : null;
-  const soilInfo = soilRaw != null ? floodRange(soilRaw, SOIL_RANGES) : { label: '—', color: '#64748B' };
   const sValEl = document.getElementById('flc-soil-val');
   const sSubEl = document.getElementById('flc-soil-sub');
   if (sValEl) { sValEl.textContent = soilPct != null ? soilPct : '—'; sValEl.style.color = soilInfo.color; }
   if (sSubEl) { sSubEl.textContent = soilInfo.label; sSubEl.style.color = soilInfo.color; }
 
-  /* ── ฝนสะสม 3 วันข้างหน้า (วัน 1-3, ไม่รวมวันนี้) */
-  const sum3 = daily.precipitation_sum
-    ? daily.precipitation_sum.slice(1, 4).reduce((a, v) => a + (Number(v) || 0), 0)
-    : null;
-  const sum3Info = sum3 != null ? floodRange(sum3, RAIN_RANGES) : { label: '—', color: '#64748B' };
   const fValEl = document.getElementById('flc-forecast-val');
   const fSubEl = document.getElementById('flc-forecast-sub');
   if (fValEl) { fValEl.textContent = sum3 != null ? sum3.toFixed(0) : '—'; fValEl.style.color = sum3Info.color; }
   if (fSubEl) { fSubEl.textContent = sum3Info.label; fSubEl.style.color = '#94A3B8'; }
-
-  /* ── Status strip */
-  updateStatusStrip(rainToday, rainInfo, soilPct, soilInfo, sum3, sum3Info);
 
   /* ── แผนภูมิ 7 วัน */
   renderFloodBars(daily.date, daily.precipitation_sum);
@@ -177,7 +182,7 @@ async function fetchFloodLive() {
   if (panelEl) panelEl.hidden = true;
 
   try {
-    const res  = await fetch(FLOOD_API_URL);
+    const res  = await _fetchFlood(FLOOD_API_URL, {}, 10000);
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     if (data.error) throw new Error(data.reason || 'API error');
@@ -191,7 +196,10 @@ async function fetchFloodLive() {
 }
 
 function initFloodLive() {
-  if (!document.getElementById('flood-live-panel')) return;
+  /* Run on flood-live.html (full panel) OR flood.html (status strip only) */
+  const hasPanel = !!document.getElementById('flood-live-panel');
+  const hasStrip = !!document.getElementById('fss-rain');
+  if (!hasPanel && !hasStrip) return;
   fetchFloodLive();
   const btn = document.getElementById('flood-live-retry');
   if (btn) btn.addEventListener('click', fetchFloodLive);

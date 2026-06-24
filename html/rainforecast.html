@@ -77,8 +77,8 @@
         <a href="rain.html" class="btn btn-outline btn-sm rf-back">&#x2190; กลับหน้าฝน/พายุ</a>
       </div>
 
-      <!-- Status (removed after load) -->
-      <p id="rain-weather-status" class="rw-status" aria-live="polite">กำลังโหลดข้อมูล...</p>
+      <!-- Status / error (removed on success) -->
+      <div id="rain-weather-status" class="rw-status" aria-live="polite">กำลังโหลดข้อมูล...</div>
 
       <!-- Current conditions -->
       <div class="rw-panel rf-reveal">
@@ -109,6 +109,7 @@
   <script src="../js/nav.js"></script>
   <script src="../js/weather-icons.js"></script>
   <script src="../js/metric-icons.js"></script>
+  <script src="../js/fetch-helper.js"></script>
   <script src="../js/rainweather.js"></script>
   <script src="../js/main.js"></script>
   <script>

@@ -579,6 +579,39 @@
   margin-top: 0.15rem;
 }
 
+/* ── Research Findings List ── */
+.research-findings {
+  margin: 1rem 0;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.9rem 1.1rem;
+}
+.research-findings-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 0.65rem;
+}
+.research-findings-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.research-findings-list li {
+  font-size: 0.875rem;
+  color: var(--text-sec);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  line-height: 1.6;
+}
+
 /* ===== IMPACT CARDS ======================================================= */
 .impact-grid {
   display: grid;
