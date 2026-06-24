@@ -59,12 +59,12 @@
       z-index: -1;
     }
 
-    /* gradient overlay */
+    /* gradient overlay + deeper scrim at card zone */
     .landing-overlay {
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(to top,  rgba(1,8,20,0.88) 0%,  rgba(1,8,20,0.45) 45%, transparent 80%),
+        linear-gradient(to top, rgba(1,8,20,0.94) 0%, rgba(1,8,20,0.72) 38%, rgba(1,8,20,0.22) 68%, transparent 85%),
         linear-gradient(to bottom, rgba(1,8,20,0.55) 0%, transparent 20%);
       z-index: -1;
       pointer-events: none;
@@ -145,10 +145,10 @@
       justify-content: center;
       gap: 0.45rem;
       padding: 0.875rem 0.5rem;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(15,22,33,0.85);
+      border: 1px solid rgba(255,255,255,0.12);
       border-radius: 14px;
-      color: rgba(255,255,255,0.88);
+      color: #fff;
       text-decoration: none;
       font-family: 'Noto Sans Thai', sans-serif;
       font-size: 0.8rem;
@@ -160,8 +160,8 @@
     }
 
     .ln-btn:hover {
-      background: rgba(255,255,255,0.14);
-      border-color: rgba(255,255,255,0.32);
+      background: rgba(30,42,60,0.92);
+      border-color: rgba(255,255,255,0.24);
       transform: translateY(-2px);
     }
 
@@ -178,15 +178,15 @@
     }
     .ln-icon svg { width: 18px; height: 18px; }
 
-    /* color accents */
-    .ln-heat  { border-top: 2px solid #C47848; }
-    .ln-heat .ln-icon  { background: rgba(196,120,72,0.2);  color: #FB923C; }
-    .ln-dust  { border-top: 2px solid #8878C0; }
-    .ln-dust .ln-icon  { background: rgba(136,120,192,0.2); color: #A78BFA; }
-    .ln-rain  { border-top: 2px solid #4A8AAC; }
-    .ln-rain .ln-icon  { background: rgba(74,138,172,0.2);  color: #60A5FA; }
-    .ln-flood { border-top: 2px solid #3898A8; }
-    .ln-flood .ln-icon { background: rgba(56,152,168,0.2);  color: #2DD4BF; }
+    /* color accents — full border + bright top stripe */
+    .ln-heat  { border: 1px solid rgba(196,120,72,0.45); border-top: 2px solid #C47848; }
+    .ln-heat .ln-icon  { background: rgba(196,120,72,0.25);  color: #FB923C; }
+    .ln-dust  { border: 1px solid rgba(136,120,192,0.45); border-top: 2px solid #8878C0; }
+    .ln-dust .ln-icon  { background: rgba(136,120,192,0.25); color: #A78BFA; }
+    .ln-rain  { border: 1px solid rgba(74,138,172,0.45); border-top: 2px solid #4A8AAC; }
+    .ln-rain .ln-icon  { background: rgba(74,138,172,0.25);  color: #60A5FA; }
+    .ln-flood { border: 1px solid rgba(56,152,168,0.45); border-top: 2px solid #3898A8; }
+    .ln-flood .ln-icon { background: rgba(56,152,168,0.25);  color: #2DD4BF; }
 
     /* แผนที่อัจฉริยะ CTA — green override */
     .ln-map--smart {
@@ -216,10 +216,10 @@
       display: block;
     }
 
-    /* Map Box / จำลอง — horizontal layout, spans 2 cols */
+    /* Map Box / แบบจำลอง — horizontal layout, spans 2 cols */
     .ln-gis {
+      border: 1px solid rgba(99,102,241,0.45);
       border-top: 2px solid #6366F1;
-      border-color: rgba(99,102,241,0.28);
       grid-column: span 2;
       flex-direction: row;
       justify-content: flex-start;
@@ -227,15 +227,15 @@
       gap: 0.75rem;
       padding: 0.875rem 1.1rem;
     }
-    .ln-gis .ln-icon { background: rgba(99,102,241,0.18); color: #818CF8; flex-shrink: 0; }
-    .ln-gis:hover { background: rgba(99,102,241,0.10); border-color: rgba(99,102,241,0.42); }
+    .ln-gis .ln-icon { background: rgba(99,102,241,0.25); color: #818CF8; flex-shrink: 0; }
+    .ln-gis:hover { background: rgba(30,42,60,0.92); border-color: rgba(99,102,241,0.65); }
     .ln-gis-label { display: flex; flex-direction: column; gap: 0.1rem; text-align: left; flex: 1; }
-    .ln-gis-sub { font-size: 0.67rem; font-weight: 400; color: rgba(255,255,255,0.38); }
-    .ln-gis-arrow { margin-left: auto; opacity: 0.35; font-size: 0.9rem; flex-shrink: 0; }
-    /* จำลอง card */
-    .ln-airsim { border-top-color: #0EA5E9; border-color: rgba(14,165,233,0.28); }
-    .ln-airsim .ln-icon { background: rgba(14,165,233,0.18); color: #38BDF8; }
-    .ln-airsim:hover { background: rgba(14,165,233,0.08); border-color: rgba(14,165,233,0.42); }
+    .ln-gis-sub { font-size: 0.67rem; font-weight: 400; color: rgba(255,255,255,0.55); }
+    .ln-gis-arrow { margin-left: auto; opacity: 0.45; font-size: 0.9rem; flex-shrink: 0; }
+    /* แบบจำลอง card */
+    .ln-airsim { border-color: rgba(14,165,233,0.45); border-top-color: #0EA5E9; }
+    .ln-airsim .ln-icon { background: rgba(14,165,233,0.25); color: #38BDF8; }
+    .ln-airsim:hover { border-color: rgba(14,165,233,0.65); }
 
     /* map button */
     .ln-map {
@@ -298,6 +298,12 @@
     @media (max-width: 380px) {
       .landing-title { font-size: 2.4rem; }
       .ln-btn { font-size: 0.72rem; }
+    }
+
+    @media (forced-colors: active) {
+      .ln-btn  { border: 2px solid ButtonText; background: Canvas; color: ButtonText; }
+      .ln-gis  { border: 2px solid ButtonText; }
+      .ln-icon { background: Canvas !important; }
     }
 
     /* ── Live weather chip ──────────────────────────────────── */
