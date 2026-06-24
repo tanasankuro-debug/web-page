@@ -216,52 +216,26 @@
       display: block;
     }
 
-    /* Map Box GIS card */
+    /* Map Box / จำลอง — horizontal layout, spans 2 cols */
     .ln-gis {
-      flex-direction: row;
-      justify-content: flex-start;
-      gap: 0.75rem;
-      padding: 0.875rem 1.125rem;
       border-top: 2px solid #6366F1;
       border-color: rgba(99,102,241,0.28);
-      position: relative;
-      overflow: hidden;
+      grid-column: span 2;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.875rem 1.1rem;
     }
-    .ln-gis .ln-icon {
-      background: rgba(99,102,241,0.18);
-      color: #818CF8;
-      flex-shrink: 0;
-    }
-    .ln-gis:hover {
-      background: rgba(99,102,241,0.10);
-      border-color: rgba(99,102,241,0.42);
-      box-shadow: 0 0 22px rgba(99,102,241,0.15);
-    }
-    .ln-gis-label {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.1rem;
-      text-align: left;
-    }
-    .ln-gis-sub {
-      font-size: 0.67rem;
-      font-weight: 400;
-      color: rgba(255,255,255,0.38);
-      display: block;
-    }
-    .ln-gis-badge {
-      position: absolute;
-      top: 50%; right: 1rem;
-      transform: translateY(-50%);
-      font-size: 0.6rem; font-weight: 700;
-      padding: 2px 8px; border-radius: 999px;
-      background: rgba(99,102,241,0.22);
-      color: #818CF8;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
+    .ln-gis .ln-icon { background: rgba(99,102,241,0.18); color: #818CF8; flex-shrink: 0; }
+    .ln-gis:hover { background: rgba(99,102,241,0.10); border-color: rgba(99,102,241,0.42); }
+    .ln-gis-label { display: flex; flex-direction: column; gap: 0.1rem; text-align: left; flex: 1; }
+    .ln-gis-sub { font-size: 0.67rem; font-weight: 400; color: rgba(255,255,255,0.38); }
+    .ln-gis-arrow { margin-left: auto; opacity: 0.35; font-size: 0.9rem; flex-shrink: 0; }
+    /* จำลอง card */
+    .ln-airsim { border-top-color: #0EA5E9; border-color: rgba(14,165,233,0.28); }
+    .ln-airsim .ln-icon { background: rgba(14,165,233,0.18); color: #38BDF8; }
+    .ln-airsim:hover { background: rgba(14,165,233,0.08); border-color: rgba(14,165,233,0.42); }
 
     /* map button */
     .ln-map {
@@ -290,17 +264,6 @@
 
     .ln-map svg { flex-shrink: 0; }
 
-    /* ── Mobile: gis card layout ─── */
-    @media (max-width: 640px) {
-      .ln-gis-badge {
-        position: static;
-        top: auto; right: auto;
-        transform: none;
-        margin-top: 0.15rem;
-        align-self: center;
-      }
-    }
-
     @media (max-width: 540px) {
       html, body { overflow: hidden; }
 
@@ -314,6 +277,9 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 0.5rem;
       }
+      .ln-gis { grid-column: span 1; padding: 0.75rem 0.75rem; gap: 0.5rem; }
+      .ln-gis-sub { display: none; }
+      .ln-gis-arrow { display: none; }
 
       .ln-btn {
         padding: 0.75rem 0.5rem;
@@ -324,10 +290,6 @@
 
       .ln-icon { width: 24px; height: 24px; }
       .ln-icon svg { width: 13px; height: 13px; }
-
-      .ln-gis { padding: 0.75rem 0.75rem; gap: 0.35rem; }
-      .ln-gis-sub   { display: none; }
-      .ln-gis-badge { display: none; }
 
       .ln-map { border-radius: 12px; font-size: 0.875rem; padding: 0.75rem 1.25rem; }
       .ln-map-smart-sub { display: none; }
@@ -593,8 +555,8 @@
           น้ำท่วม
         </a>
 
-        <!-- Map Box GIS — full width -->
-        <a href="landcast.html" class="ln-btn ln-gis" role="listitem" style="grid-column: 1 / -1;">
+        <!-- Map Box GIS -->
+        <a href="landcast.html" class="ln-btn ln-gis" role="listitem">
           <span class="ln-icon" aria-hidden="true">
             <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
               <path d="M24 8L6 17l18 9 18-9-18-9z"/>
@@ -604,9 +566,25 @@
           </span>
           <span class="ln-gis-label">
             Map Box
-            <span class="ln-gis-sub">แผนที่ GIS เชิงลึก · วิเคราะห์พื้นที่ · LandCast</span>
+            <span class="ln-gis-sub">แผนที่ GIS เชิงลึก · LandCast</span>
           </span>
-          <span class="ln-gis-badge" aria-hidden="true">GIS</span>
+          <span class="ln-gis-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <!-- จำลอง -->
+        <a href="https://air-sim.vercel.app" target="_blank" rel="noopener noreferrer" class="ln-btn ln-gis ln-airsim" role="listitem">
+          <span class="ln-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 18h22c4.4 0 8-3.6 8-8s-3.6-8-8-8-8 3.6-8 8"/>
+              <path d="M6 26h32"/>
+              <path d="M6 34h18c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6"/>
+            </svg>
+          </span>
+          <span class="ln-gis-label">
+            จำลอง
+            <span class="ln-gis-sub">จำลองการแพร่กระจายอากาศ · ฝุ่น PM2.5</span>
+          </span>
+          <span class="ln-gis-arrow" aria-hidden="true">→</span>
         </a>
 
       </div>
