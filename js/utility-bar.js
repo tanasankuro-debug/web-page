@@ -109,8 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         '<div class="util-social" aria-label="โซเชียลมีเดีย">' +
 
-          /* Replace href="#" with actual LINE OA URL when available */
-          '<a href="#" target="_blank" rel="noopener noreferrer"' +
+          '<a href="https://lin.ee/U4KAC3H" target="_blank" rel="noopener noreferrer"' +
               ' aria-label="LINE Official Account — Heat Safe Khon Kaen"' +
               ' class="util-social-btn" title="LINE OA">' +
             '<svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"' +
