@@ -315,6 +315,19 @@
               <span class="rt-icon rt-icon--roadmap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21L10 3"/><path d="M16 21L14 3"/><path d="M12 5v3"/><path d="M12 11v3"/><path d="M12 17v3"/></svg></span> แผนที่ถนน
             </button>
           </div>
+
+          <!-- Heatmap overlay toggle (independent of base layer) -->
+          <div style="margin-top:0.75rem;">
+            <p class="sidebar-section-label" style="margin-bottom:0.4rem;">เลเยอร์ซ้อน</p>
+            <button class="layer-btn" id="btn-heatmap-overlay" aria-pressed="false"
+                    style="width:100%;justify-content:flex-start;gap:0.5rem;">
+              <span style="display:inline-flex;align-items:center;justify-content:center;
+                           width:20px;height:20px;border-radius:4px;
+                           background:linear-gradient(135deg,#3264ac,#00d2d2,#32dc50,#ffeb00,#ff8200,#e02814);
+                           flex-shrink:0;"></span>
+              Heatmap อุณหภูมิ
+            </button>
+          </div>
         </div>
 
         <!-- ─── RELATED MAPS ─────────────────────────────────────────────── -->
@@ -417,6 +430,7 @@
   <script src="../js/map-explore-plugin.js"></script>
   <script src="../js/heat-layer.js"></script>
   <script src="../js/aqi-layer.js"></script>
+  <script src="../js/heatmap-overlay.js"></script>
   <script src="../js/sidebar-tabs.js"></script>
   <script src="../js/layer-panel.js"></script>
 
@@ -490,6 +504,19 @@
             edgeTab.setAttribute('aria-label', 'ขยายแผงข้อมูล');
           }
         } catch {}
+      }
+
+      /* ── Heatmap overlay toggle ── */
+      const hmBtn = document.getElementById('btn-heatmap-overlay');
+      if (hmBtn) {
+        hmBtn.addEventListener('click', () => {
+          const overlay = window.HeatmapOverlay;
+          if (!overlay) return;
+          overlay.toggle();
+          const on = overlay.enabled;
+          hmBtn.setAttribute('aria-pressed', String(on));
+          hmBtn.classList.toggle('active', on);
+        });
       }
     });
   </script>
