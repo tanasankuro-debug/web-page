@@ -68,7 +68,7 @@ window.HSKK_CONFIG = {
   ─────────────────────────────────────────────────────────────────────────── */
   supabase: {
     url:     'https://vfnhvccdagboofywjumb.supabase.co',
-    anonKey: 'PASTE_YOUR_ANON_KEY_HERE'
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmbmh2Y2NkYWdib29meXdqdW1iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1MjQ3MzQsImV4cCI6MjA5ODEwMDczNH0.iKUN3ieEHOks4nblE6MYPzoPB-pwTIDX4fu07T65ulE'
   },
 
   /* ── Map tile layers ─────────────────────────────────────────────────────
