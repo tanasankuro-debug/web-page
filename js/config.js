@@ -67,8 +67,8 @@ window.HSKK_CONFIG = {
      In this vanilla build the values are set here directly (do NOT commit real keys to git).
   ─────────────────────────────────────────────────────────────────────────── */
   supabase: {
-    url:     '',   /* TODO: 'https://xxxx.supabase.co' */
-    anonKey: ''    /* TODO: your public anon key */
+    url:     'https://vfnhvccdagboofywjumb.supabase.co',
+    anonKey: 'PASTE_YOUR_ANON_KEY_HERE'
   },
 
   /* ── Map tile layers ─────────────────────────────────────────────────────
