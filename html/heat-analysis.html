@@ -130,12 +130,12 @@
     <div id="daily-drilldown" class="chart-wrap" hidden style="border-color:rgba(255,107,53,0.5);position:relative;scroll-margin-top:120px">
       <button onclick="document.getElementById('daily-drilldown').hidden=true" style="position:absolute;top:12px;right:14px;background:rgba(255,255,255,0.08);border:1px solid #333;color:#aaa;cursor:pointer;border-radius:6px;padding:3px 10px;font-size:0.8rem">✕ ปิด</button>
       <div class="chart-title" id="dd-title">อุณหภูมิรายวัน</div>
-      <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center;margin-bottom:12px;font-size:0.82rem;color:#ccc">
+      <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center;margin-bottom:10px;font-size:0.82rem;color:#ccc">
         <span>🔴 ร้อนสุด: วันที่ <b id="dd-maxday" style="color:#ff1744">—</b> · <b id="dd-max" style="color:#ff1744">—</b>°C</span>
         <span>🔵 เย็นสุด: วันที่ <b id="dd-minday" style="color:#4fc3f7">—</b> · <b id="dd-min" style="color:#4fc3f7">—</b>°C</span>
-        <span style="color:#ffd54f">·  ·  · ค่าเฉลี่ยเดือน <b id="dd-avg">—</b>°C</span>
-        <span style="color:#555;font-size:0.7rem;margin-left:auto">* อุณหภูมิรายวันประมาณจากค่าเฉลี่ยรายเดือน</span>
+        <span style="color:#ffd54f">— — ค่าเฉลี่ยเดือน <b id="dd-avg">—</b>°C</span>
       </div>
+      <div id="dd-source" style="font-size:0.7rem;color:#555;margin-bottom:10px">กำลังโหลด...</div>
       <div id="daily-chart"></div>
     </div>
 
@@ -249,107 +249,155 @@ years.forEach(yr => {
   hotmonthTbody.appendChild(tr);
 });
 
-// ===== DAILY DRILLDOWN =====
-function getDailyTemps(yr, month) {
-  const avg = data[yr][month];
+// ===== DAILY DRILLDOWN — ข้อมูลจริงจาก Open-Meteo Historical API =====
+const dailyCache = {};
+
+async function fetchDailyTemps(yr, month) {
+  const key = `${yr}-${month}`;
+  if (dailyCache[key]) return dailyCache[key];
+  const pad = n => String(n).padStart(2, '0');
   const daysInMonth = new Date(yr, month, 0).getDate();
-
-  // Seeded LCG for reproducibility
-  let s = (yr * 100 + month) * 6364136223846793005 | 0;
-  function rng() {
-    s = Math.imul(1664525, s) + 1013904223 | 0;
-    return (s >>> 0) / 4294967296;
-  }
-
-  // Raw noise
-  const raw = Array.from({length: daysInMonth}, () => rng() - 0.5);
-
-  // Slight bell-curve pattern within month (warmer mid-month in hot season)
-  const isHotSeason = [3, 4, 5].includes(month);
-  const curve = Array.from({length: daysInMonth}, (_, i) => {
-    const f = i / (daysInMonth - 1);
-    return (isHotSeason ? 0.6 : 0.25) * Math.sin(f * Math.PI);
-  });
-
-  // Normalize noise to std dev ≈ 1.3°C
-  const rawMean = raw.reduce((a,b)=>a+b,0) / daysInMonth;
-  const rawStd = Math.sqrt(raw.reduce((a,n)=>a+(n-rawMean)**2,0)/daysInMonth) || 1;
-  const temps = raw.map((n, i) => avg + (n - rawMean) / rawStd * 1.3 + curve[i]);
-
-  // Shift so mean == avg exactly
-  const tempMean = temps.reduce((a,b)=>a+b,0) / daysInMonth;
-  return temps.map(t => parseFloat((t + (avg - tempMean)).toFixed(1)));
+  const startDate = `${yr}-${pad(month)}-01`;
+  const endDate   = `${yr}-${pad(month)}-${pad(daysInMonth)}`;
+  const url = 'https://archive-api.open-meteo.com/v1/archive' +
+    '?latitude=16.44&longitude=102.82' +
+    `&start_date=${startDate}&end_date=${endDate}` +
+    '&daily=temperature_2m_max,temperature_2m_min,temperature_2m_mean' +
+    '&timezone=Asia%2FBangkok';
+  const resp = await fetch(url);
+  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+  const json = await resp.json();
+  const result = {
+    times:     json.daily.time,
+    maxTemps:  json.daily.temperature_2m_max,
+    minTemps:  json.daily.temperature_2m_min,
+    meanTemps: json.daily.temperature_2m_mean,
+  };
+  dailyCache[key] = result;
+  return result;
 }
 
-function showDailyDrilldown(yr, month) {
-  const avg = data[yr][month];
-  const temps = getDailyTemps(yr, month);
-  const daysInMonth = temps.length;
-
-  const maxT = Math.max(...temps);
-  const minT = Math.min(...temps);
-  const hotDay = temps.indexOf(maxT) + 1;
-  const coolDay = temps.indexOf(minT) + 1;
-
-  // Bar colors
-  const colors = temps.map((t, i) =>
-    (i + 1 === hotDay) ? '#ff1744' :
-    t >= avg + 0.7  ? '#ff6b35' :
-    t <= avg - 0.7  ? '#4fc3f7' : '#ffb74d'
-  );
-
-  // Update stat labels
-  document.getElementById('dd-title').textContent = `อุณหภูมิรายวัน — ${monthsTH[month-1]} ${yr}`;
-  document.getElementById('dd-avg').textContent = avg.toFixed(1);
-  document.getElementById('dd-max').textContent = maxT.toFixed(1);
-  document.getElementById('dd-maxday').textContent = hotDay;
-  document.getElementById('dd-min').textContent = minT.toFixed(1);
-  document.getElementById('dd-minday').textContent = coolDay;
-
-  const dayLabels = Array.from({length: daysInMonth}, (_, i) => String(i + 1));
-
-  Plotly.react('daily-chart', [{
-    x: dayLabels,
-    y: temps,
-    type: 'bar',
-    marker: { color: colors, line: { color: 'rgba(0,0,0,0.15)', width: 0.5 } },
-    hovertemplate: 'วันที่ %{x}<br><b>%{y}°C</b><extra></extra>',
-    text: temps.map(t => t.toFixed(1)),
-    textposition: 'outside',
-    textfont: { size: 8, color: '#bbb' },
-    cliponaxis: false,
-  }], {
-    ...baseLayout,
-    margin: { t: 35, b: 45, l: 55, r: 20 },
-    xaxis: { title: 'วันที่', gridcolor: gridColor, tickmode: 'array', tickvals: dayLabels.filter((_,i)=>(i+1)%5===0||i===0||i===daysInMonth-1), ticktext: dayLabels.filter((_,i)=>(i+1)%5===0||i===0||i===daysInMonth-1) },
-    yaxis: { title: '°C', gridcolor: gridColor, range: [minT - 1.5, maxT + 3.0] },
-    shapes: [{
-      type: 'line', x0: 0, x1: 1, xref: 'paper',
-      y0: avg, y1: avg, yref: 'y',
-      line: { color: '#ffd54f', width: 2, dash: 'dot' }
-    }],
-    annotations: [
-      {
-        x: String(daysInMonth), y: avg + 0.15,
-        text: `เฉลี่ย ${avg.toFixed(1)}°C`,
-        showarrow: false, xanchor: 'right',
-        font: { color: '#ffd54f', size: 10 }, xref: 'x', yref: 'y'
-      },
-      {
-        x: String(hotDay), y: maxT + 1.5,
-        text: `🔴 ร้อนสุด<br>วันที่ ${hotDay}`,
-        showarrow: true, arrowhead: 2, arrowsize: 0.8,
-        arrowcolor: '#ff1744', ax: 0, ay: -28,
-        font: { color: '#ff1744', size: 9 }, xref: 'x', yref: 'y',
-        align: 'center'
-      }
-    ],
-    height: 300,
-  }, { responsive: true, displayModeBar: false });
-
+async function showDailyDrilldown(yr, month) {
   const el = document.getElementById('daily-drilldown');
   el.hidden = false;
   el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  document.getElementById('dd-title').textContent = `กำลังโหลด — ${monthsTH[month-1]} ${yr}`;
+  document.getElementById('dd-source').textContent = 'กำลังดึงข้อมูลจาก Open-Meteo Historical API...';
+  document.getElementById('daily-chart').innerHTML =
+    '<div style="text-align:center;padding:48px;color:#888">กำลังโหลดข้อมูลจริง...</div>';
+  ['dd-avg','dd-max','dd-maxday','dd-min','dd-minday'].forEach(id => {
+    document.getElementById(id).textContent = '—';
+  });
+  try {
+    const { times, maxTemps, minTemps, meanTemps } = await fetchDailyTemps(yr, month);
+    const rows = times.map((t, i) => ({
+      day:  parseInt(t.split('-')[2]),
+      max:  maxTemps[i],
+      min:  minTemps[i],
+      mean: meanTemps[i],
+    })).filter(r => r.max !== null && r.min !== null && r.mean !== null);
+    if (rows.length === 0) throw new Error('ไม่มีข้อมูลสำหรับช่วงเวลานี้');
+    const days      = rows.map(r => r.day);
+    const maxVals   = rows.map(r => r.max);
+    const minVals   = rows.map(r => r.min);
+    const meanVals  = rows.map(r => r.mean);
+    const dayLabels = days.map(String);
+    const overallMax = Math.max(...maxVals);
+    const overallMin = Math.min(...minVals);
+    const hotDay  = days[maxVals.indexOf(overallMax)];
+    const coolDay = days[minVals.indexOf(overallMin)];
+    const monthAvgEntry = data[yr] && data[yr][month] != null ? data[yr][month] : null;
+    const barColors = maxVals.map((t, i) =>
+      days[i] === hotDay ? '#ff1744' :
+      t >= 38 ? '#b71c1c' :
+      t >= 36 ? '#e53935' :
+      t >= 34 ? '#ff5722' :
+      t >= 32 ? '#ff9800' : '#ffb74d'
+    );
+    document.getElementById('dd-title').textContent =
+      `อุณหภูมิรายวัน — ${monthsTH[month-1]} ${yr}  (${rows.length} วัน)`;
+    document.getElementById('dd-source').textContent =
+      `✓ ข้อมูลจริงจาก Open-Meteo Archive · lat 16.44°N lon 102.82°E · ${rows.length < new Date(yr,month,0).getDate() ? 'ข้อมูลบางส่วน' : 'ครบทุกวัน'}`;
+    document.getElementById('dd-max').textContent    = overallMax.toFixed(1);
+    document.getElementById('dd-maxday').textContent = hotDay;
+    document.getElementById('dd-min').textContent    = overallMin.toFixed(1);
+    document.getElementById('dd-minday').textContent = coolDay;
+    document.getElementById('dd-avg').textContent    =
+      monthAvgEntry != null ? monthAvgEntry.toFixed(1) : (meanVals.reduce((a,b)=>a+b,0)/meanVals.length).toFixed(1);
+    const avgLine = monthAvgEntry != null ? monthAvgEntry : meanVals.reduce((a,b)=>a+b,0)/meanVals.length;
+    const tickIdxs = days.reduce((a, d, i) => {
+      if (d % 5 === 0 || i === 0 || i === days.length - 1) a.push(i); return a;
+    }, []);
+    Plotly.react('daily-chart', [
+      {
+        name: 'สูงสุดรายวัน',
+        x: dayLabels, y: maxVals,
+        type: 'bar',
+        marker: { color: barColors, line: { color: 'rgba(0,0,0,0.12)', width: 0.5 } },
+        hovertemplate: 'วันที่ %{x}<br>สูงสุด: <b>%{y:.1f}°C</b><extra></extra>',
+        text: maxVals.map(t => t.toFixed(1)),
+        textposition: 'outside',
+        textfont: { size: 7.5, color: '#ccc' },
+        cliponaxis: false,
+      },
+      {
+        name: 'เฉลี่ยรายวัน',
+        x: dayLabels, y: meanVals,
+        type: 'scatter', mode: 'lines+markers',
+        line: { color: '#ffd54f', width: 2 }, marker: { size: 4, color: '#ffd54f' },
+        hovertemplate: 'วันที่ %{x}<br>เฉลี่ย: <b>%{y:.1f}°C</b><extra></extra>',
+      },
+      {
+        name: 'ต่ำสุดรายวัน',
+        x: dayLabels, y: minVals,
+        type: 'scatter', mode: 'lines+markers',
+        line: { color: '#4fc3f7', width: 2 }, marker: { size: 4, color: '#4fc3f7' },
+        hovertemplate: 'วันที่ %{x}<br>ต่ำสุด: <b>%{y:.1f}°C</b><extra></extra>',
+      },
+    ], {
+      ...baseLayout,
+      margin: { t: 50, b: 50, l: 55, r: 20 },
+      legend: { bgcolor: 'rgba(0,0,0,0.3)', bordercolor: gridColor, orientation: 'h', y: 1.15, x: 0, font: { size: 11 } },
+      xaxis: {
+        title: 'วันที่', gridcolor: gridColor,
+        tickmode: 'array',
+        tickvals: tickIdxs.map(i => dayLabels[i]),
+        ticktext: tickIdxs.map(i => dayLabels[i]),
+      },
+      yaxis: { title: '°C', gridcolor: gridColor, range: [Math.min(...minVals) - 2, Math.max(...maxVals) + 5] },
+      shapes: [{
+        type: 'line', x0: 0, x1: 1, xref: 'paper',
+        y0: avgLine, y1: avgLine, yref: 'y',
+        line: { color: '#ffd54f', width: 1.5, dash: 'dot' },
+      }],
+      annotations: [
+        {
+          x: dayLabels[dayLabels.length - 1], y: avgLine + 0.2,
+          text: `เฉลี่ย ${avgLine.toFixed(1)}°C`,
+          showarrow: false, xanchor: 'right',
+          font: { color: '#ffd54f', size: 10 }, xref: 'x', yref: 'y',
+        },
+        {
+          x: String(hotDay), y: overallMax + 3.0,
+          text: `ร้อนสุด วันที่ ${hotDay}<br>${overallMax.toFixed(1)}°C`,
+          showarrow: true, arrowhead: 2, arrowsize: 0.7,
+          arrowcolor: '#ff1744', ax: 0, ay: -32,
+          font: { color: '#ff1744', size: 9 }, xref: 'x', yref: 'y', align: 'center',
+          bgcolor: 'rgba(26,29,39,0.85)', bordercolor: '#ff1744', borderwidth: 1,
+        },
+      ],
+      height: 360,
+    }, { responsive: true, displayModeBar: false });
+  } catch (err) {
+    console.error('[drilldown]', err);
+    document.getElementById('dd-title').textContent = `อุณหภูมิรายวัน — ${monthsTH[month-1]} ${yr}`;
+    document.getElementById('dd-source').textContent = '';
+    document.getElementById('daily-chart').innerHTML =
+      `<div style="text-align:center;padding:36px;color:#ef4444;font-size:0.9rem">
+        โหลดข้อมูลไม่สำเร็จ: ${err.message}<br>
+        <span style="color:#666;font-size:0.8rem">ตรวจสอบการเชื่อมต่ออินเทอร์เน็ต หรือลองคลิกใหม่อีกครั้ง</span>
+      </div>`;
+  }
 }
 
 // Heatmap
@@ -364,8 +412,8 @@ Plotly.newPlot('heatmap', [{
   texttemplate: '%{text}', textfont: { size: 9.5, color: '#fff' },
 }], { ...baseLayout, xaxis:{title:'เดือน',gridcolor:gridColor,linecolor:gridColor}, yaxis:{title:'ปี',autorange:'reversed',gridcolor:gridColor,linecolor:gridColor,dtick:1}, height:400 }, { responsive:true, displayModeBar:false });
 
-// Heatmap click → daily drilldown
-document.getElementById('heatmap').on('plotly_click', function(eventData) {
+// Heatmap click → daily drilldown (ข้อมูลจริงจาก Open-Meteo)
+document.getElementById('heatmap').on('plotly_click', async function(eventData) {
   if (!eventData.points.length) return;
   const pt = eventData.points[0];
   const yr = parseInt(pt.y);
@@ -373,7 +421,7 @@ document.getElementById('heatmap').on('plotly_click', function(eventData) {
   if (mIdx === -1) return;
   const month = mIdx + 1;
   if (!data[yr] || data[yr][month] === undefined) return;
-  showDailyDrilldown(yr, month);
+  await showDailyDrilldown(yr, month);
 });
 
 // Yearly Trend
