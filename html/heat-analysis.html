@@ -328,8 +328,8 @@ async function showDailyDrilldown(yr, month) {
     const tickIdxs = days.reduce((a, d, i) => {
       if (d % 5 === 0 || i === 0 || i === days.length - 1) a.push(i); return a;
     }, []);
-    document.getElementById('daily-chart').innerHTML = '';
-    Plotly.react('daily-chart', [
+    Plotly.purge('daily-chart');
+    Plotly.newPlot('daily-chart', [
       {
         name: 'สูงสุดรายวัน',
         x: dayLabels, y: maxVals,
