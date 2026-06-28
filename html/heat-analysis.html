@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="UTF-8">
@@ -12,7 +12,6 @@
 <link rel="stylesheet" href="../css/layout.css" />
 <link rel="stylesheet" href="../css/components.css" />
 <link rel="stylesheet" href="../css/themes.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.26.0/plotly.min.js"></script>
 <script src="../js/utility-bar.js"></script>
 <style>
   body { background: #0f1117; color: #e8e8e8; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
@@ -62,6 +61,8 @@
 
   .page-footer { text-align: center; font-size: 0.72rem; color: #555; margin-top: 16px; padding-bottom: 24px; }
 </style>
+  <link rel="stylesheet" href="../css/skeleton.css" />
+  <script src="../js/skeleton.js"></script>
 </head>
 <body data-theme="heat">
 
@@ -123,6 +124,7 @@
     <!-- Chart 1: Heatmap -->
     <div class="chart-wrap">
       <div class="chart-title">🗺️ Heatmap อุณหภูมิเฉลี่ยรายเดือน (°C) — ขอนแก่น 2015–2026 <span style="font-size:0.75rem;color:#888;font-weight:400">· คลิก cell เพื่อดูอุณหภูมิรายวัน ↓</span></div>
+      <div id="sk-heatmap" class="sk sk-chart-ph sk-chart-ph--heatmap" style="height:400px"><span class="sk-chart-ph-label">กำลังโหลดกราฟ...</span></div>
       <div id="heatmap" class="chart-div"></div>
     </div>
 
@@ -158,18 +160,29 @@
     <!-- Chart 2: Yearly Trend -->
     <div class="chart-wrap">
       <div class="chart-title">📈 แนวโน้มอุณหภูมิเฉลี่ยรายปี พร้อม Trendline</div>
+      <div id="sk-trend" class="sk sk-chart-ph sk-chart-ph--line" style="height:320px"><span class="sk-chart-ph-label">กำลังโหลดกราฟ...</span></div>
       <div id="trend_chart" class="chart-div"></div>
     </div>
 
     <!-- Chart 3: Hottest Month Temp Per Year -->
     <div class="chart-wrap">
       <div class="chart-title">🔥 อุณหภูมิสูงสุด (เดือนร้อนสุด = เมษายน) แต่ละปี</div>
+      <div id="sk-hottest" class="sk-chart-ph sk-chart-ph--bar" style="height:300px">
+        <div class="sk-bar" style="height:72%"></div><div class="sk-bar" style="height:68%"></div>
+        <div class="sk-bar" style="height:65%"></div><div class="sk-bar" style="height:70%"></div>
+        <div class="sk-bar" style="height:67%"></div><div class="sk-bar" style="height:69%"></div>
+        <div class="sk-bar" style="height:66%"></div><div class="sk-bar" style="height:71%"></div>
+        <div class="sk-bar" style="height:78%"></div><div class="sk-bar" style="height:85%"></div>
+        <div class="sk-bar" style="height:79%"></div><div class="sk-bar" style="height:73%"></div>
+        <span class="sk-chart-ph-label">กำลังโหลดกราฟ...</span>
+      </div>
       <div id="hottest_chart" class="chart-div"></div>
     </div>
 
     <!-- Chart 4: Monthly Average Line All Years -->
     <div class="chart-wrap">
       <div class="chart-title">📉 อุณหภูมิเฉลี่ยรายเดือน แต่ละปี (เปรียบเทียบ)</div>
+      <div id="sk-lines" class="sk sk-chart-ph sk-chart-ph--line" style="height:380px"><span class="sk-chart-ph-label">กำลังโหลดกราฟ...</span></div>
       <div id="monthly_lines" class="chart-div"></div>
     </div>
 
@@ -194,6 +207,15 @@
     <!-- Chart 5: Monthly Average Bar -->
     <div class="chart-wrap">
       <div class="chart-title">📊 อุณหภูมิเฉลี่ยรายเดือน (ค่าเฉลี่ยจากทุกปี 2015–2026)</div>
+      <div id="sk-avg" class="sk-chart-ph sk-chart-ph--bar" style="height:300px">
+        <div class="sk-bar" style="height:45%"></div><div class="sk-bar" style="height:52%"></div>
+        <div class="sk-bar" style="height:68%"></div><div class="sk-bar" style="height:82%"></div>
+        <div class="sk-bar" style="height:76%"></div><div class="sk-bar" style="height:71%"></div>
+        <div class="sk-bar" style="height:65%"></div><div class="sk-bar" style="height:60%"></div>
+        <div class="sk-bar" style="height:58%"></div><div class="sk-bar" style="height:55%"></div>
+        <div class="sk-bar" style="height:43%"></div><div class="sk-bar" style="height:38%"></div>
+        <span class="sk-chart-ph-label">กำลังโหลดกราฟ...</span>
+      </div>
       <div id="monthly_avg_chart" class="chart-div"></div>
     </div>
 
@@ -203,6 +225,14 @@
 
   </main>
 
+<!-- Plotly loaded here (after HTML) so chart skeletons show during download -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.26.0/plotly.min.js"></script>
+<script>
+function removeSk(id) {
+  var el = document.getElementById(id);
+  if (el) { el.style.transition = 'opacity 0.3s'; el.style.opacity = '0'; setTimeout(function(){el.remove();}, 320); }
+}
+</script>
 <script>
 const data = {"2015":{"1":23.97,"2":26.36,"3":29.05,"4":30.64,"5":29.47,"6":28.94,"7":28.49,"8":27.69,"9":27.01,"10":26.55,"11":25.54,"12":23.79},"2016":{"1":23.93,"2":26.32,"3":29.05,"4":30.58,"5":29.47,"6":28.9,"7":28.45,"8":27.7,"9":26.97,"10":26.56,"11":25.5,"12":23.75},"2017":{"1":23.62,"2":25.91,"3":28.51,"4":30.06,"5":28.98,"6":28.54,"7":28.09,"8":27.38,"9":26.7,"10":26.2,"11":25.14,"12":23.39},"2018":{"1":23.7,"2":26.06,"3":28.64,"4":30.2,"5":29.14,"6":28.64,"7":28.22,"8":27.45,"9":26.77,"10":26.33,"11":25.24,"12":23.52},"2019":{"1":23.83,"2":26.15,"3":28.82,"4":30.34,"5":29.26,"6":28.78,"7":28.3,"8":27.56,"9":26.83,"10":26.41,"11":25.38,"12":23.6},"2020":{"1":23.78,"2":26.15,"3":28.77,"4":30.33,"5":29.21,"6":28.73,"7":28.3,"8":27.53,"9":26.85,"10":26.36,"11":25.33,"12":23.6},"2021":{"1":23.62,"2":25.97,"3":28.58,"4":30.08,"5":29.04,"6":28.55,"7":28.14,"8":27.43,"9":26.7,"10":26.25,"11":25.15,"12":23.44},"2022":{"1":23.71,"2":26.02,"3":28.65,"4":30.21,"5":29.1,"6":28.65,"7":28.18,"8":27.46,"9":26.78,"10":26.29,"11":25.25,"12":23.48},"2023":{"1":24.07,"2":26.47,"3":29.2,"4":30.8,"5":29.65,"6":29.05,"7":28.59,"8":27.77,"9":27.09,"10":26.7,"11":25.65,"12":23.89},"2024":{"1":24.36,"2":26.74,"3":29.62,"4":31.2,"5":29.99,"6":29.37,"7":28.83,"8":28.03,"9":27.3,"10":26.94,"11":25.97,"12":24.13},"2025":{"1":24.08,"2":26.48,"3":29.2,"4":30.81,"5":29.61,"6":29.06,"7":28.6,"8":27.78,"9":27.1,"10":26.66,"11":25.66,"12":23.9},"2026":{"1":23.91,"2":26.3,"3":29.02,"4":30.56,"5":29.44,"6":28.88}};
 
@@ -411,7 +441,7 @@ Plotly.newPlot('heatmap', [{
   hovertemplate: 'ปี %{y} %{x}<br>เฉลี่ย: <b>%{z}°C</b><br>คลิกเพื่อดูอุณหภูมิรายวัน<extra></extra>',
   text: zData.map(row => row.map(v => v !== null ? v.toFixed(1) : '')),
   texttemplate: '%{text}', textfont: { size: 9.5, color: '#fff' },
-}], { ...baseLayout, dragmode: false, xaxis:{title:'เดือน',gridcolor:gridColor,linecolor:gridColor}, yaxis:{title:'ปี',autorange:'reversed',gridcolor:gridColor,linecolor:gridColor,dtick:1}, height:400 }, { responsive:true, displayModeBar:false });
+}], { ...baseLayout, dragmode: false, xaxis:{title:'เดือน',gridcolor:gridColor,linecolor:gridColor}, yaxis:{title:'ปี',autorange:'reversed',gridcolor:gridColor,linecolor:gridColor,dtick:1}, height:400 }, { responsive:true, displayModeBar:false }).then(() => removeSk('sk-heatmap'));
 
 // Heatmap click → daily drilldown (ข้อมูลจริงจาก Open-Meteo)
 document.getElementById('heatmap').on('plotly_click', async function(eventData) {
@@ -436,12 +466,12 @@ const trendLine = years.map(x => slope*x + intercept);
 Plotly.newPlot('trend_chart', [
   { x:years, y:yearlyAvg, type:'scatter', mode:'lines+markers', name:'อุณหภูมิเฉลี่ยปี', line:{color:'#ff6b35',width:2}, marker:{size:8,color:'#ff6b35'}, hovertemplate:'ปี %{x}<br>เฉลี่ย: <b>%{y:.2f}°C</b><extra></extra>' },
   { x:years, y:trendLine, type:'scatter', mode:'lines', name:`Trendline (+${(slope*1).toFixed(4)}°C/ปี)`, line:{color:'#ffd54f',width:2,dash:'dash'}, hovertemplate:'ปี %{x}<br>แนวโน้ม: <b>%{y:.2f}°C</b><extra></extra>' }
-], { ...baseLayout, xaxis:{title:'ปี',gridcolor:gridColor,dtick:1,tickangle:-30}, yaxis:{title:'อุณหภูมิเฉลี่ย (°C)',gridcolor:gridColor,range:[26.5,28.5]}, legend:{bgcolor:'rgba(0,0,0,0.3)',bordercolor:gridColor}, height:320 }, {responsive:true,displayModeBar:false});
+], { ...baseLayout, xaxis:{title:'ปี',gridcolor:gridColor,dtick:1,tickangle:-30}, yaxis:{title:'อุณหภูมิเฉลี่ย (°C)',gridcolor:gridColor,range:[26.5,28.5]}, legend:{bgcolor:'rgba(0,0,0,0.3)',bordercolor:gridColor}, height:320 }, {responsive:true,displayModeBar:false}).then(() => removeSk('sk-trend'));
 
 // Hottest month bar
 const aprilTemps = years.map(yr => data[yr][4]);
 const aprilColors = aprilTemps.map(t => t >= 31 ? '#ff5252' : t >= 30.5 ? '#ff8a65' : '#ffb74d');
-Plotly.newPlot('hottest_chart', [{ x:years.map(String), y:aprilTemps, type:'bar', name:'เมษายน', marker:{color:aprilColors}, hovertemplate:'ปี %{x}<br>เม.ย. เฉลี่ย: <b>%{y:.2f}°C</b><extra></extra>', text:aprilTemps.map(t=>t.toFixed(2)), textposition:'outside', textfont:{color:'#ff6b35',size:10} }], { ...baseLayout, xaxis:{gridcolor:gridColor}, yaxis:{title:'°C',gridcolor:gridColor,range:[29.5,32]}, height:300 }, {responsive:true,displayModeBar:false});
+Plotly.newPlot('hottest_chart', [{ x:years.map(String), y:aprilTemps, type:'bar', name:'เมษายน', marker:{color:aprilColors}, hovertemplate:'ปี %{x}<br>เม.ย. เฉลี่ย: <b>%{y:.2f}°C</b><extra></extra>', text:aprilTemps.map(t=>t.toFixed(2)), textposition:'outside', textfont:{color:'#ff6b35',size:10} }], { ...baseLayout, xaxis:{gridcolor:gridColor}, yaxis:{title:'°C',gridcolor:gridColor,range:[29.5,32]}, height:300 }, {responsive:true,displayModeBar:false}).then(() => removeSk('sk-hottest'));
 
 // Monthly lines
 const lineColors = ['#ff6b35','#ffd54f','#66bb6a','#4fc3f7','#ab47bc','#ef5350','#ff7043','#26c6da','#9ccc65','#ffca28','#ec407a','#42a5f5'];
@@ -450,12 +480,12 @@ const traces = years.map((yr, i) => {
   const yvals = ymths.map(m => data[yr][m]);
   return { x:ymths.map(m=>monthsTH[m-1]), y:yvals, type:'scatter', mode:'lines+markers', name:String(yr), line:{color:lineColors[i%lineColors.length],width:yr===2024?3:1.5}, marker:{size:5}, opacity:yr===2024||yr===2015?1:0.6, hovertemplate:`ปี ${yr} %{x}: <b>%{y}°C</b><extra></extra>` };
 });
-Plotly.newPlot('monthly_lines', traces, { ...baseLayout, xaxis:{gridcolor:gridColor}, yaxis:{title:'°C',gridcolor:gridColor}, legend:{bgcolor:'rgba(0,0,0,0.3)',bordercolor:gridColor,orientation:'h',y:-0.25}, height:380 }, {responsive:true,displayModeBar:false});
+Plotly.newPlot('monthly_lines', traces, { ...baseLayout, xaxis:{gridcolor:gridColor}, yaxis:{title:'°C',gridcolor:gridColor}, legend:{bgcolor:'rgba(0,0,0,0.3)',bordercolor:gridColor,orientation:'h',y:-0.25}, height:380 }, {responsive:true,displayModeBar:false}).then(() => removeSk('sk-lines'));
 
 // Monthly average bar
 const monthlyOverallAvg = months.map(m => { const vals = years.map(yr=>data[yr][m]).filter(v=>v!==undefined&&v!==null); return vals.reduce((a,b)=>a+b,0)/vals.length; });
 const barColors = monthlyOverallAvg.map(t => t>=30?'#ff5252':t>=29?'#ff8a65':t>=28?'#ffb74d':t>=27?'#ffeb3b':t>=26?'#81c784':'#4fc3f7');
-Plotly.newPlot('monthly_avg_chart', [{ x:monthsTH, y:monthlyOverallAvg, type:'bar', marker:{color:barColors}, text:monthlyOverallAvg.map(t=>t.toFixed(2)), textposition:'outside', textfont:{color:'#ccc',size:10}, hovertemplate:'%{x}<br>เฉลี่ยทุกปี: <b>%{y:.2f}°C</b><extra></extra>' }], { ...baseLayout, xaxis:{gridcolor:gridColor}, yaxis:{title:'°C',gridcolor:gridColor,range:[22,32]}, height:300 }, {responsive:true,displayModeBar:false});
+Plotly.newPlot('monthly_avg_chart', [{ x:monthsTH, y:monthlyOverallAvg, type:'bar', marker:{color:barColors}, text:monthlyOverallAvg.map(t=>t.toFixed(2)), textposition:'outside', textfont:{color:'#ccc',size:10}, hovertemplate:'%{x}<br>เฉลี่ยทุกปี: <b>%{y:.2f}°C</b><extra></extra>' }], { ...baseLayout, xaxis:{gridcolor:gridColor}, yaxis:{title:'°C',gridcolor:gridColor,range:[22,32]}, height:300 }, {responsive:true,displayModeBar:false}).then(() => removeSk('sk-avg'));
 
 // Stats table
 const tbody = document.getElementById('stats-tbody');

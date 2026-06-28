@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="UTF-8">
@@ -99,6 +99,8 @@ body {
 .leaflet-popup-content-wrapper { background: #1a1d27 !important; color: #e8e8e8 !important; border: 1px solid #ff6b35 !important; border-radius: 8px !important; }
 .leaflet-popup-tip { background: #1a1d27 !important; }
 </style>
+  <link rel="stylesheet" href="../css/skeleton.css" />
+  <script src="../js/skeleton.js"></script>
 </head>
 <body data-theme="heat">
 
@@ -150,8 +152,14 @@ body {
     </div>
   </div>
 
-  <!-- MAP -->
-  <div id="map"></div>
+  <!-- MAP wrapper (relative so skeleton can overlay correctly) -->
+  <div style="position:relative;flex:1;overflow:hidden">
+    <div id="map-sk-overlay" class="sk-map-ph" style="position:absolute;inset:0;z-index:500">
+      <div class="sk-map-icon">🗺️</div>
+      <div class="sk-map-text">กำลังโหลดแผนที่...</div>
+    </div>
+    <div id="map" style="position:absolute;inset:0"></div>
+  </div>
 
   <!-- LEGEND -->
   <div id="legend">
@@ -246,6 +254,17 @@ const map = L.map('map', { center: [16.35, 102.60], zoom: 9, zoomControl: true }
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap contributors', maxZoom: 13
 }).addTo(map);
+
+// Remove map skeleton overlay once first tiles load
+map.once('load', function() {
+  var sk = document.getElementById('map-sk-overlay');
+  if (sk) { sk.style.transition = 'opacity 0.4s'; sk.style.opacity = '0'; setTimeout(function(){ sk.remove(); }, 450); }
+});
+// Fallback: remove after 4 s if load event doesn't fire
+setTimeout(function() {
+  var sk = document.getElementById('map-sk-overlay');
+  if (sk) { sk.style.transition = 'opacity 0.4s'; sk.style.opacity = '0'; setTimeout(function(){ sk.remove(); }, 450); }
+}, 4000);
 
 L.polygon(kkBoundary, { color:'#ff6b35', weight:2.5, opacity:0.9, fillColor:'#ff6b35', fillOpacity:0.06, dashArray:'5,3' }).addTo(map);
 L.marker([16.432, 102.824], {
