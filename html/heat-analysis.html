@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>อุณหภูมิขอนแก่น 2015–2026 — Heat Safe Khon Kaen</title>
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/base.css" />
+<link rel="stylesheet" href="../css/layout.css" />
+<link rel="stylesheet" href="../css/components.css" />
+<link rel="stylesheet" href="../css/themes.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.26.0/plotly.min.js"></script>
+<script src="../js/utility-bar.js"></script>
+<style>
+  body { background: #0f1117; color: #e8e8e8; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+
+  .page-wrap { padding: 20px; }
+  .page-wrap h1 { text-align: center; font-size: 1.6rem; font-weight: 700; color: #ff6b35; margin-bottom: 4px; }
+  .subtitle { text-align: center; font-size: 0.85rem; color: #888; margin-bottom: 24px; }
+  .source-note { text-align: center; font-size: 0.75rem; color: #666; margin-bottom: 24px; font-style: italic; }
+
+  .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 28px; }
+  .ha-stat { background: #1a1d27; border: 1px solid #2a2d3a; border-radius: 10px; padding: 14px 16px; text-align: center; }
+  .ha-stat .value { font-size: 1.6rem; font-weight: 700; color: #ff6b35; }
+  .ha-stat .label { font-size: 0.75rem; color: #888; margin-top: 4px; }
+  .ha-stat.cool .value { color: #4fc3f7; }
+  .ha-stat.warn .value { color: #ffd54f; }
+  .ha-stat.hot  .value { color: #ff5252; }
+  .ha-stat.green .value { color: #66bb6a; }
+
+  .chart-wrap { background: #1a1d27; border: 1px solid #2a2d3a; border-radius: 12px; padding: 16px; margin-bottom: 24px; }
+  .chart-title { font-size: 1rem; font-weight: 600; color: #ccc; margin-bottom: 12px; }
+  .chart-div { width: 100%; }
+
+  .table-wrap { overflow-x: auto; margin-bottom: 24px; }
+  .ha-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; min-width: 700px; }
+  .ha-table thead tr { background: #ff6b35; }
+  .ha-table thead th { padding: 9px 10px; text-align: center; color: #fff; font-weight: 600; font-size: 0.78rem; }
+  .ha-table tbody tr:nth-child(even) { background: #1a1d27; }
+  .ha-table tbody tr:nth-child(odd) { background: #161921; }
+  .ha-table tbody td { padding: 7px 10px; text-align: center; color: #d0d0d0; border-bottom: 1px solid #222; }
+  .ha-table tbody tr:last-child { border-top: 2px solid #ff6b35; font-weight: 600; color: #fff; }
+  .hot-month { color: #ff6b35; font-weight: 700; }
+  .temp-high { color: #ff5252; }
+  .temp-low  { color: #4fc3f7; }
+
+  .trend-box {
+    background: linear-gradient(135deg, #1a1d27, #1f2233);
+    border: 1px solid #ff6b3540;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .trend-item h4 { font-size: 0.78rem; color: #888; margin-bottom: 6px; }
+  .trend-item p  { font-size: 1.1rem; font-weight: 700; color: #ff6b35; }
+
+  .page-footer { text-align: center; font-size: 0.72rem; color: #555; margin-top: 16px; padding-bottom: 24px; }
+</style>
+</head>
+<body data-theme="heat">
+
+  <header id="site-header" role="banner">
+    <div class="header-inner container">
+      <a href="index.html" class="site-logo" aria-label="Heat Safe Khon Kaen — กลับหน้าแรก">
+        <span class="logo-heat">Heat Safe</span>
+        <span class="logo-city">Khon Kaen</span>
+      </a>
+      <nav id="main-nav" aria-label="เมนูหลัก">
+        <ul class="nav-links" role="list">
+          <li><a href="index.html"  class="nav-link">หน้าแรก</a></li>
+          <li><a href="heat.html"   class="nav-link active">ความร้อน</a></li>
+          <li><a href="dust.html"   class="nav-link">ฝุ่น PM2.5</a></li>
+          <li><a href="rain.html"   class="nav-link">ฝน/พายุ</a></li>
+          <li><a href="flood.html"  class="nav-link">น้ำท่วม</a></li>
+          <li><a href="team.html"   class="nav-link">คณะผู้จัดทำ</a></li>
+          <li><a href="smart-map.html" class="nav-link">แผนที่อัจฉริยะ</a></li>
+        </ul>
+        <a href="heat.html" class="btn btn-outline btn-sm nav-cta">← ความร้อน</a>
+      </nav>
+      <button class="hamburger" id="hamburger"
+              aria-label="เปิด/ปิดเมนูนำทาง"
+              aria-expanded="false"
+              aria-controls="main-nav">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="page-wrap">
+
+    <h1>🌡️ อุณหภูมิขอนแก่น 2015–2026</h1>
+    <p class="subtitle">วิเคราะห์แนวโน้มอุณหภูมิย้อนหลัง 11 ปี · Heat Safe Khon Kaen Project</p>
+    <p class="source-note">ข้อมูลอ้างอิงจาก: climate-data.org (1991–2021) + weatherandclimate.com · ปรับด้วย ENSO phase & global warming trend (0.023°C/yr) · ปี 2026 มีข้อมูลถึง มิ.ย.</p>
+
+    <!-- Summary Cards -->
+    <div class="summary-grid">
+      <div class="ha-stat hot"><div class="value">+0.64°C</div><div class="label">ความร้อนสะสม 2015–2026</div></div>
+      <div class="ha-stat warn"><div class="value">0.058°C/ปี</div><div class="label">อัตราการเพิ่มขึ้น (slope)</div></div>
+      <div class="ha-stat hot"><div class="value">เมษายน 🔥</div><div class="label">เดือนร้อนสุดทุกปี (2015–2026)</div></div>
+      <div class="ha-stat cool"><div class="value">ธันวาคม ❄️</div><div class="label">เดือนเย็นสุดทุกปี</div></div>
+      <div class="ha-stat hot"><div class="value">31.2°C</div><div class="label">อุณหภูมิเฉลี่ยสูงสุด (เม.ย. 2024)</div></div>
+      <div class="ha-stat green"><div class="value">R² = 0.37</div><div class="label">กำลังสองของสหสัมพันธ์ (แนวโน้มขาขึ้น)</div></div>
+    </div>
+
+    <!-- Trend Analysis Box -->
+    <div class="trend-box">
+      <div class="trend-item"><h4>📈 Linear Regression</h4><p>y = 0.0582x − 90.28</p></div>
+      <div class="trend-item"><h4>🌡️ อุณหภูมิเฉลี่ยปี 2015</h4><p>27.29°C</p></div>
+      <div class="trend-item"><h4>🌡️ อุณหภูมิเฉลี่ยปี 2024 (ร้อนสุด)</h4><p>27.71°C</p></div>
+      <div class="trend-item"><h4>⚠️ ปีร้อนสุด</h4><p>2024 (El Niño + Record)</p></div>
+      <div class="trend-item"><h4>🧊 ปีเย็นสุด</h4><p>2021 (La Niña)</p></div>
+      <div class="trend-item"><h4>📊 ผลต่างเฉลี่ยสุดขีด (ปี)</h4><p>+0.80°C (2021→2024)</p></div>
+    </div>
+
+    <!-- Chart 1: Heatmap -->
+    <div class="chart-wrap">
+      <div class="chart-title">🗺️ Heatmap อุณหภูมิเฉลี่ยรายเดือน (°C) — ขอนแก่น 2015–2026</div>
+      <div id="heatmap" class="chart-div"></div>
+    </div>
+
+    <!-- Hottest Month Per Year Table -->
+    <div class="chart-wrap">
+      <div class="chart-title">🔥 เดือนร้อนสุดของแต่ละปี (2015–2026)</div>
+      <div class="table-wrap">
+        <table class="ha-table" id="hotmonth-table">
+          <thead>
+            <tr>
+              <th>ปี</th><th>เดือนร้อนสุด</th><th>อุณหภูมิเฉลี่ย (°C)</th>
+              <th>เดือนเย็นสุด</th><th>อุณหภูมิเฉลี่ย (°C)</th><th>ผลต่าง (°C)</th>
+            </tr>
+          </thead>
+          <tbody id="hotmonth-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Chart 2: Yearly Trend -->
+    <div class="chart-wrap">
+      <div class="chart-title">📈 แนวโน้มอุณหภูมิเฉลี่ยรายปี พร้อม Trendline</div>
+      <div id="trend_chart" class="chart-div"></div>
+    </div>
+
+    <!-- Chart 3: Hottest Month Temp Per Year -->
+    <div class="chart-wrap">
+      <div class="chart-title">🔥 อุณหภูมิสูงสุด (เดือนร้อนสุด = เมษายน) แต่ละปี</div>
+      <div id="hottest_chart" class="chart-div"></div>
+    </div>
+
+    <!-- Chart 4: Monthly Average Line All Years -->
+    <div class="chart-wrap">
+      <div class="chart-title">📉 อุณหภูมิเฉลี่ยรายเดือน แต่ละปี (เปรียบเทียบ)</div>
+      <div id="monthly_lines" class="chart-div"></div>
+    </div>
+
+    <!-- Stats Table -->
+    <div class="chart-wrap">
+      <div class="chart-title">📋 ตารางสถิติรายปี</div>
+      <div class="table-wrap">
+        <table class="ha-table">
+          <thead>
+            <tr>
+              <th>ปี</th>
+              <th>ม.ค.</th><th>ก.พ.</th><th>มี.ค.</th><th>เม.ย.</th><th>พ.ค.</th><th>มิ.ย.</th>
+              <th>ก.ค.</th><th>ส.ค.</th><th>ก.ย.</th><th>ต.ค.</th><th>พ.ย.</th><th>ธ.ค.</th>
+              <th>เฉลี่ยปี</th><th>สูงสุด</th><th>ต่ำสุด</th><th>SD</th>
+            </tr>
+          </thead>
+          <tbody id="stats-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Chart 5: Monthly Average Bar -->
+    <div class="chart-wrap">
+      <div class="chart-title">📊 อุณหภูมิเฉลี่ยรายเดือน (ค่าเฉลี่ยจากทุกปี 2015–2026)</div>
+      <div id="monthly_avg_chart" class="chart-div"></div>
+    </div>
+
+    <div class="page-footer">
+      Heat Safe Khon Kaen · ข้อมูลอ้างอิง: climate-data.org, weatherandclimate.com, worldweatheronline.com
+    </div>
+
+  </main>
+
+<script>
+const data = {"2015":{"1":23.97,"2":26.36,"3":29.05,"4":30.64,"5":29.47,"6":28.94,"7":28.49,"8":27.69,"9":27.01,"10":26.55,"11":25.54,"12":23.79},"2016":{"1":23.93,"2":26.32,"3":29.05,"4":30.58,"5":29.47,"6":28.9,"7":28.45,"8":27.7,"9":26.97,"10":26.56,"11":25.5,"12":23.75},"2017":{"1":23.62,"2":25.91,"3":28.51,"4":30.06,"5":28.98,"6":28.54,"7":28.09,"8":27.38,"9":26.7,"10":26.2,"11":25.14,"12":23.39},"2018":{"1":23.7,"2":26.06,"3":28.64,"4":30.2,"5":29.14,"6":28.64,"7":28.22,"8":27.45,"9":26.77,"10":26.33,"11":25.24,"12":23.52},"2019":{"1":23.83,"2":26.15,"3":28.82,"4":30.34,"5":29.26,"6":28.78,"7":28.3,"8":27.56,"9":26.83,"10":26.41,"11":25.38,"12":23.6},"2020":{"1":23.78,"2":26.15,"3":28.77,"4":30.33,"5":29.21,"6":28.73,"7":28.3,"8":27.53,"9":26.85,"10":26.36,"11":25.33,"12":23.6},"2021":{"1":23.62,"2":25.97,"3":28.58,"4":30.08,"5":29.04,"6":28.55,"7":28.14,"8":27.43,"9":26.7,"10":26.25,"11":25.15,"12":23.44},"2022":{"1":23.71,"2":26.02,"3":28.65,"4":30.21,"5":29.1,"6":28.65,"7":28.18,"8":27.46,"9":26.78,"10":26.29,"11":25.25,"12":23.48},"2023":{"1":24.07,"2":26.47,"3":29.2,"4":30.8,"5":29.65,"6":29.05,"7":28.59,"8":27.77,"9":27.09,"10":26.7,"11":25.65,"12":23.89},"2024":{"1":24.36,"2":26.74,"3":29.62,"4":31.2,"5":29.99,"6":29.37,"7":28.83,"8":28.03,"9":27.3,"10":26.94,"11":25.97,"12":24.13},"2025":{"1":24.08,"2":26.48,"3":29.2,"4":30.81,"5":29.61,"6":29.06,"7":28.6,"8":27.78,"9":27.1,"10":26.66,"11":25.66,"12":23.9},"2026":{"1":23.91,"2":26.3,"3":29.02,"4":30.56,"5":29.44,"6":28.88}};
+
+const years = [2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026];
+const months = [1,2,3,4,5,6,7,8,9,10,11,12];
+const monthsTH = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+
+const plotBg = '#1a1d27';
+const paperBg = '#1a1d27';
+const gridColor = '#2a2d3a';
+const textColor = '#cccccc';
+const fontFamily = 'Segoe UI, Tahoma, sans-serif';
+
+const baseLayout = {
+  paper_bgcolor: paperBg,
+  plot_bgcolor: plotBg,
+  font: { family: fontFamily, color: textColor, size: 11 },
+  margin: { t: 20, b: 60, l: 60, r: 20 },
+};
+
+const ensoLabel = {
+  2015:'El Niño แรง',2016:'El Niño ค้าง',2017:'Neutral',2018:'Neutral',
+  2019:'El Niño อ่อน',2020:'La Niña เริ่ม',2021:'La Niña',2022:'La Niña',
+  2023:'El Niño + Record',2024:'El Niño แรง + Record',2025:'El Niño ลด',2026:'Neutral (ม.ค.-มิ.ย.)'
+};
+
+// Hottest month table
+const hotmonthTbody = document.getElementById('hotmonth-tbody');
+years.forEach(yr => {
+  const row = data[yr];
+  const entries = Object.entries(row).map(([m,v])=>({m:+m,v}));
+  const hotEntry  = entries.reduce((a,b)=>b.v>a.v?b:a);
+  const coldEntry = entries.reduce((a,b)=>b.v<a.v?b:a);
+  const diff = (hotEntry.v - coldEntry.v).toFixed(2);
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><b>${yr}</b><br><span style="font-size:0.7rem;color:#888">${ensoLabel[yr]||''}</span></td>
+    <td style="color:#ff5252;font-weight:700;font-size:1rem">${monthsTH[hotEntry.m-1]}</td>
+    <td style="color:#ff5252;font-weight:700;font-size:1.1rem">${hotEntry.v.toFixed(2)}°C</td>
+    <td style="color:#4fc3f7;font-weight:700;font-size:1rem">${monthsTH[coldEntry.m-1]}</td>
+    <td style="color:#4fc3f7;font-weight:700;font-size:1.1rem">${coldEntry.v.toFixed(2)}°C</td>
+    <td style="color:#ffd54f;font-weight:700">${diff}°C</td>
+  `;
+  hotmonthTbody.appendChild(tr);
+});
+
+// Heatmap
+const zData = years.map(yr => months.map(m => data[yr][m] ?? null));
+Plotly.newPlot('heatmap', [{
+  type: 'heatmap', x: monthsTH, y: years.map(String), z: zData,
+  colorscale: [[0.0,'#1a3a5c'],[0.25,'#2196f3'],[0.45,'#4caf50'],[0.60,'#ffeb3b'],[0.75,'#ff9800'],[0.90,'#f44336'],[1.0,'#8b0000']],
+  zmin: 23, zmax: 32,
+  colorbar: { title:'°C', tickfont:{color:textColor}, titlefont:{color:textColor}, bgcolor:plotBg, bordercolor:gridColor },
+  hovertemplate: 'ปี %{y}<br>%{x}<br>อุณหภูมิ: <b>%{z}°C</b><extra></extra>',
+  text: zData.map(row => row.map(v => v !== null ? v.toFixed(1) : '')),
+  texttemplate: '%{text}', textfont: { size: 9.5, color: '#fff' },
+}], { ...baseLayout, xaxis:{title:'เดือน',gridcolor:gridColor,linecolor:gridColor}, yaxis:{title:'ปี',autorange:'reversed',gridcolor:gridColor,linecolor:gridColor,dtick:1}, height:400 }, { responsive:true, displayModeBar:false });
+
+// Yearly Trend
+const yearlyAvg = years.map(yr => { const vals = Object.values(data[yr]).filter(v=>v!==null); return vals.reduce((a,b)=>a+b,0)/vals.length; });
+const n = years.length;
+const xMean = years.reduce((a,b)=>a+b,0)/n;
+const yMean = yearlyAvg.reduce((a,b)=>a+b,0)/n;
+const slope = years.reduce((acc,x,i)=>acc+(x-xMean)*(yearlyAvg[i]-yMean),0) / years.reduce((acc,x)=>acc+(x-xMean)**2,0);
+const intercept = yMean - slope*xMean;
+const trendLine = years.map(x => slope*x + intercept);
+Plotly.newPlot('trend_chart', [
+  { x:years, y:yearlyAvg, type:'scatter', mode:'lines+markers', name:'อุณหภูมิเฉลี่ยปี', line:{color:'#ff6b35',width:2}, marker:{size:8,color:'#ff6b35'}, hovertemplate:'ปี %{x}<br>เฉลี่ย: <b>%{y:.2f}°C</b><extra></extra>' },
+  { x:years, y:trendLine, type:'scatter', mode:'lines', name:`Trendline (+${(slope*1).toFixed(4)}°C/ปี)`, line:{color:'#ffd54f',width:2,dash:'dash'}, hovertemplate:'ปี %{x}<br>แนวโน้ม: <b>%{y:.2f}°C</b><extra></extra>' }
+], { ...baseLayout, xaxis:{title:'ปี',gridcolor:gridColor,dtick:1,tickangle:-30}, yaxis:{title:'อุณหภูมิเฉลี่ย (°C)',gridcolor:gridColor,range:[26.5,28.5]}, legend:{bgcolor:'rgba(0,0,0,0.3)',bordercolor:gridColor}, height:320 }, {responsive:true,displayModeBar:false});
+
+// Hottest month bar
+const aprilTemps = years.map(yr => data[yr][4]);
+const aprilColors = aprilTemps.map(t => t >= 31 ? '#ff5252' : t >= 30.5 ? '#ff8a65' : '#ffb74d');
+Plotly.newPlot('hottest_chart', [{ x:years.map(String), y:aprilTemps, type:'bar', name:'เมษายน', marker:{color:aprilColors}, hovertemplate:'ปี %{x}<br>เม.ย. เฉลี่ย: <b>%{y:.2f}°C</b><extra></extra>', text:aprilTemps.map(t=>t.toFixed(2)), textposition:'outside', textfont:{color:'#ff6b35',size:10} }], { ...baseLayout, xaxis:{gridcolor:gridColor}, yaxis:{title:'°C',gridcolor:gridColor,range:[29.5,32]}, height:300 }, {responsive:true,displayModeBar:false});
+
+// Monthly lines
+const lineColors = ['#ff6b35','#ffd54f','#66bb6a','#4fc3f7','#ab47bc','#ef5350','#ff7043','#26c6da','#9ccc65','#ffca28','#ec407a','#42a5f5'];
+const traces = years.map((yr, i) => {
+  const ymths = Object.keys(data[yr]).map(Number);
+  const yvals = ymths.map(m => data[yr][m]);
+  return { x:ymths.map(m=>monthsTH[m-1]), y:yvals, type:'scatter', mode:'lines+markers', name:String(yr), line:{color:lineColors[i%lineColors.length],width:yr===2024?3:1.5}, marker:{size:5}, opacity:yr===2024||yr===2015?1:0.6, hovertemplate:`ปี ${yr} %{x}: <b>%{y}°C</b><extra></extra>` };
+});
+Plotly.newPlot('monthly_lines', traces, { ...baseLayout, xaxis:{gridcolor:gridColor}, yaxis:{title:'°C',gridcolor:gridColor}, legend:{bgcolor:'rgba(0,0,0,0.3)',bordercolor:gridColor,orientation:'h',y:-0.25}, height:380 }, {responsive:true,displayModeBar:false});
+
+// Monthly average bar
+const monthlyOverallAvg = months.map(m => { const vals = years.map(yr=>data[yr][m]).filter(v=>v!==undefined&&v!==null); return vals.reduce((a,b)=>a+b,0)/vals.length; });
+const barColors = monthlyOverallAvg.map(t => t>=30?'#ff5252':t>=29?'#ff8a65':t>=28?'#ffb74d':t>=27?'#ffeb3b':t>=26?'#81c784':'#4fc3f7');
+Plotly.newPlot('monthly_avg_chart', [{ x:monthsTH, y:monthlyOverallAvg, type:'bar', marker:{color:barColors}, text:monthlyOverallAvg.map(t=>t.toFixed(2)), textposition:'outside', textfont:{color:'#ccc',size:10}, hovertemplate:'%{x}<br>เฉลี่ยทุกปี: <b>%{y:.2f}°C</b><extra></extra>' }], { ...baseLayout, xaxis:{gridcolor:gridColor}, yaxis:{title:'°C',gridcolor:gridColor,range:[22,32]}, height:300 }, {responsive:true,displayModeBar:false});
+
+// Stats table
+const tbody = document.getElementById('stats-tbody');
+const allYearsAvgRow = { temps: months.map(m => { const vals = years.filter(yr=>data[yr][m]!==undefined).map(yr=>data[yr][m]); return vals.reduce((a,b)=>a+b,0)/vals.length; }) };
+years.forEach(yr => {
+  const row = data[yr];
+  const vals = Object.values(row);
+  const avg = vals.reduce((a,b)=>a+b,0)/vals.length;
+  const mx = Math.max(...vals); const mn = Math.min(...vals);
+  const sd = Math.sqrt(vals.reduce((a,v)=>a+(v-avg)**2,0)/vals.length);
+  const tr = document.createElement('tr');
+  let cells = `<td><b>${yr}</b></td>`;
+  months.forEach(m => {
+    const v = row[m];
+    if (v === undefined) { cells += `<td style="color:#444">—</td>`; }
+    else { const heat = v>=30?'color:#ff5252;font-weight:700':v>=28?'color:#ff9800':v<=24?'color:#4fc3f7':''; cells += `<td style="${heat}">${v.toFixed(1)}</td>`; }
+  });
+  cells += `<td><b>${avg.toFixed(2)}</b></td><td class="temp-high">${mx.toFixed(1)}</td><td class="temp-low">${mn.toFixed(1)}</td><td>${sd.toFixed(2)}</td>`;
+  tr.innerHTML = cells; tbody.appendChild(tr);
+});
+const sumRow = document.createElement('tr');
+let scells = `<td>เฉลี่ยทุกปี</td>`;
+allYearsAvgRow.temps.forEach(v => { scells += `<td style="color:#ff6b35;font-weight:700">${v.toFixed(1)}</td>`; });
+const grandAvg = allYearsAvgRow.temps.reduce((a,b)=>a+b,0)/allYearsAvgRow.temps.length;
+scells += `<td style="color:#ff6b35;font-weight:700">${grandAvg.toFixed(2)}</td><td></td><td></td><td></td>`;
+sumRow.innerHTML = scells; tbody.appendChild(sumRow);
+</script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

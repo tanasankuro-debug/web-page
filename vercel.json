@@ -25,6 +25,12 @@
     { "source": "/landcast", "destination": "/html/landcast.html" },
     { "source": "/landcast.html", "destination": "/html/landcast.html" },
     { "source": "/smart-map", "destination": "/html/smart-map.html" },
-    { "source": "/smart-map.html", "destination": "/html/smart-map.html" }
+    { "source": "/smart-map.html", "destination": "/html/smart-map.html" },
+    { "source": "/pocket-park", "destination": "/html/pocket-park.html" },
+    { "source": "/pocket-park.html", "destination": "/html/pocket-park.html" },
+    { "source": "/heat-analysis", "destination": "/html/heat-analysis.html" },
+    { "source": "/heat-analysis.html", "destination": "/html/heat-analysis.html" },
+    { "source": "/heat-gis", "destination": "/html/heat-gis.html" },
+    { "source": "/heat-gis.html", "destination": "/html/heat-gis.html" }
   ]
 }
