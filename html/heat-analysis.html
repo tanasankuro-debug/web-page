@@ -411,7 +411,7 @@ Plotly.newPlot('heatmap', [{
   hovertemplate: 'ปี %{y} %{x}<br>เฉลี่ย: <b>%{z}°C</b><br>คลิกเพื่อดูอุณหภูมิรายวัน<extra></extra>',
   text: zData.map(row => row.map(v => v !== null ? v.toFixed(1) : '')),
   texttemplate: '%{text}', textfont: { size: 9.5, color: '#fff' },
-}], { ...baseLayout, xaxis:{title:'เดือน',gridcolor:gridColor,linecolor:gridColor}, yaxis:{title:'ปี',autorange:'reversed',gridcolor:gridColor,linecolor:gridColor,dtick:1}, height:400 }, { responsive:true, displayModeBar:false });
+}], { ...baseLayout, dragmode: false, xaxis:{title:'เดือน',gridcolor:gridColor,linecolor:gridColor}, yaxis:{title:'ปี',autorange:'reversed',gridcolor:gridColor,linecolor:gridColor,dtick:1}, height:400 }, { responsive:true, displayModeBar:false });
 
 // Heatmap click → daily drilldown (ข้อมูลจริงจาก Open-Meteo)
 document.getElementById('heatmap').on('plotly_click', async function(eventData) {
