@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>แบบจำลองเกาะความร้อนเมือง 3D — Heat Safe Khon Kaen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --bg:#dde8f2;--bg2:#1a2f4a;--accent:#FB923C;--accent2:#FBBF24;
+      --text:#F1F5F9;--muted:#94A3B8;--card:rgba(15,30,55,0.88);
+      --border:rgba(251,146,60,0.18);--red:#EF4444;--green:#22C55E;
+      --sidebar:220px;--bottom:148px;
+    }
+    html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
+      font-family:'Noto Sans Thai',sans-serif;font-size:13px}
+
+    /* ── TOP BAR ── */
+    .top-bar{
+      position:fixed;top:0;left:0;right:0;height:44px;z-index:100;
+      background:rgba(1,12,26,0.95);border-bottom:1px solid var(--border);
+      display:flex;align-items:center;gap:16px;padding:0 16px;
+      backdrop-filter:blur(8px);
+    }
+    .top-bar a{color:var(--accent);text-decoration:none;font-size:12px;white-space:nowrap}
+    .top-bar a:hover{text-decoration:underline}
+    .top-bar h1{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;
+      letter-spacing:.06em;color:var(--text);white-space:nowrap}
+    .top-bar .sub{color:var(--muted);font-size:11px;white-space:nowrap}
+    .top-bar .spacer{flex:1}
+    .top-bar .badge{
+      font-size:10px;padding:3px 8px;border-radius:20px;
+      background:rgba(251,146,60,0.15);border:1px solid var(--border);color:var(--accent)
+    }
+
+    /* ── LAYOUT ── */
+    .sim-wrap{
+      position:fixed;top:44px;left:0;right:0;bottom:0;
+      display:flex;overflow:hidden;
+    }
+
+    /* ── SIDEBAR ── */
+    .sim-sidebar{
+      width:var(--sidebar);flex-shrink:0;
+      background:var(--bg2);border-right:1px solid var(--border);
+      overflow-y:auto;padding:12px 10px;
+      display:flex;flex-direction:column;gap:10px;
+      scrollbar-width:thin;scrollbar-color:var(--border) transparent;
+    }
+    .sidebar-title{
+      font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;
+      letter-spacing:.1em;color:var(--muted);text-transform:uppercase;
+      padding:0 2px;margin-top:4px;
+    }
+
+    /* metric cards */
+    .metric-cards{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+    .metric-card{
+      background:var(--card);border:1px solid var(--border);border-radius:8px;
+      padding:8px 7px;text-align:center;
+    }
+    .metric-card .lbl{font-size:10px;color:var(--muted);line-height:1.2}
+    .metric-card .val{
+      font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;
+      line-height:1;margin:2px 0 0;
+    }
+    .metric-card .unit{font-size:10px;color:var(--muted)}
+    .metric-card.hot .val{color:#FF6B35}
+    .metric-card.warn .val{color:var(--accent2)}
+    .metric-card.ok .val{color:var(--green)}
+    .metric-card.bad .val{color:var(--red)}
+    .metric-card.full{grid-column:1/-1}
+    .metric-card .delta{font-size:11px;font-weight:600;color:#FF6B35}
+
+    /* progress bars */
+    .bars-section{display:flex;flex-direction:column;gap:7px}
+    .bar-row{display:flex;flex-direction:column;gap:3px}
+    .bar-row .bar-lbl{display:flex;justify-content:space-between;
+      font-size:10.5px;color:var(--muted)}
+    .bar-row .bar-lbl span{color:var(--text);font-weight:600}
+    .bar-track{height:5px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
+    .bar-fill{height:100%;border-radius:3px;transition:width .5s ease}
+    .bar-fill.heat{background:linear-gradient(90deg,#22C55E,#FBBF24,#FF6B35,#EF4444)}
+    .bar-fill.green{background:#22C55E}
+    .bar-fill.wind{background:#60A5FA}
+    .bar-fill.hum{background:#818CF8}
+    .bar-fill.poll{background:#F97316}
+
+    /* effects list */
+    .effects-panel{
+      background:var(--card);border:1px solid var(--border);border-radius:8px;padding:9px 9px;
+      flex:1;min-height:80px;
+    }
+    .effects-panel h4{font-size:10px;font-weight:700;letter-spacing:.08em;
+      text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+    .effects-list{list-style:none;display:flex;flex-direction:column;gap:5px}
+    .effects-list li{
+      font-size:10.5px;line-height:1.35;color:var(--text);
+      padding-left:14px;position:relative;
+    }
+    .effects-list li::before{
+      content:'';position:absolute;left:0;top:5px;
+      width:6px;height:6px;border-radius:50%;background:var(--accent);
+    }
+    .effects-list li.warn::before{background:var(--accent2)}
+    .effects-list li.ok::before{background:var(--green)}
+
+    /* ── CANVAS ── */
+    .sim-canvas{flex:1;position:relative;overflow:hidden}
+    #sim-three{display:block;width:100%;height:100%}
+
+    /* floating heat labels on canvas */
+    .heat-label{
+      position:absolute;pointer-events:none;
+      background:rgba(255,255,255,0.82);border:1px solid rgba(220,90,30,0.55);
+      color:#C04000;font-size:11px;padding:3px 8px;border-radius:4px;
+      white-space:nowrap;backdrop-filter:blur(4px);
+      animation:lblPulse 2.5s ease-in-out infinite;
+      font-weight:600;
+    }
+    @keyframes lblPulse{0%,100%{opacity:.75}50%{opacity:1}}
+    #lbl1{top:22%;left:52%;transform:translate(-50%,-50%)}
+    #lbl2{top:52%;left:62%;transform:translate(-50%,-50%)}
+    #lbl3{top:40%;left:28%;transform:translate(-50%,-50%)}
+    .heat-label.hidden{display:none}
+
+    /* compass */
+    .compass{
+      position:absolute;top:12px;right:12px;
+      width:44px;height:44px;border-radius:50%;
+      background:rgba(1,12,26,0.8);border:1px solid var(--border);
+      display:flex;align-items:center;justify-content:center;
+      font-size:10px;color:var(--muted);
+    }
+    .compass span{color:var(--red);font-weight:700;font-size:12px}
+
+    /* ── BOTTOM CONTROLS ── */
+    .sim-bottom{
+      position:absolute;bottom:0;left:var(--sidebar);right:0;
+      background:rgba(1,12,26,0.94);border-top:1px solid var(--border);
+      backdrop-filter:blur(10px);padding:10px 16px 12px;
+      display:flex;flex-direction:column;gap:8px;z-index:50;
+    }
+
+    /* presets */
+    .preset-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .preset-lbl{font-size:10px;color:var(--muted);white-space:nowrap;letter-spacing:.06em;text-transform:uppercase}
+    .preset-btn{
+      font-size:11.5px;font-family:'Noto Sans Thai',sans-serif;
+      padding:4px 11px;border-radius:20px;border:1px solid var(--border);
+      background:rgba(255,255,255,0.04);color:var(--muted);cursor:pointer;
+      transition:all .18s;white-space:nowrap;
+    }
+    .preset-btn:hover{border-color:var(--accent);color:var(--text)}
+    .preset-btn.active{
+      background:rgba(251,146,60,0.18);border-color:var(--accent);color:var(--accent);font-weight:600
+    }
+
+    /* sliders */
+    .sliders-row{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+    .sl-item{display:flex;flex-direction:column;gap:3px;min-width:100px}
+    .sl-item label{
+      font-size:10px;color:var(--muted);display:flex;justify-content:space-between;
+    }
+    .sl-item label em{color:var(--text);font-style:normal;font-weight:600}
+    input[type=range]{
+      width:100%;height:4px;appearance:none;background:rgba(255,255,255,0.1);
+      border-radius:2px;outline:none;cursor:pointer;
+    }
+    input[type=range]::-webkit-slider-thumb{
+      appearance:none;width:14px;height:14px;border-radius:50%;
+      background:var(--accent);cursor:pointer;
+    }
+    input[type=range]:hover{background:rgba(255,255,255,0.15)}
+
+    /* season + wind */
+    .controls-right{display:flex;gap:8px;align-items:flex-end;flex-shrink:0}
+    .season-btns{display:flex;gap:4px}
+    .season-btn{
+      font-size:11px;font-family:'Noto Sans Thai',sans-serif;
+      padding:4px 9px;border-radius:6px;border:1px solid var(--border);
+      background:rgba(255,255,255,0.04);color:var(--muted);cursor:pointer;
+      transition:all .18s;
+    }
+    .season-btn.active{
+      background:rgba(251,146,60,0.15);border-color:var(--accent);color:var(--accent)
+    }
+
+    /* scrollbar */
+    .sim-sidebar::-webkit-scrollbar{width:4px}
+    .sim-sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+  </style>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <a href="index.html">← Heat Safe KK</a>
+  <h1>แบบจำลองเกาะความร้อนเมือง 3D</h1>
+  <span class="sub">Urban Heat Island Simulator</span>
+  <span class="spacer"></span>
+  <span class="badge">🌡 Interactive</span>
+</div>
+
+<div class="sim-wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="sim-sidebar">
+    <div class="sidebar-title">อุณหภูมิ &amp; คุณภาพอากาศ</div>
+
+    <div class="metric-cards">
+      <div class="metric-card hot">
+        <div class="lbl">อุณหภูมิเมือง</div>
+        <div class="val" id="m-urban">--</div>
+        <div class="unit">°C</div>
+      </div>
+      <div class="metric-card warn">
+        <div class="lbl">เกาะความร้อน</div>
+        <div class="val" id="m-uhi">--</div>
+        <div class="unit">°C สูงกว่าชนบท</div>
+      </div>
+      <div class="metric-card bad">
+        <div class="lbl">PM2.5</div>
+        <div class="val" id="m-pm25">--</div>
+        <div class="unit">μg/m³</div>
+      </div>
+      <div class="metric-card ok">
+        <div class="lbl">ความสบาย</div>
+        <div class="val" id="m-comfort">--</div>
+        <div class="unit">/ 100</div>
+      </div>
+      <div class="metric-card full">
+        <div class="lbl">อุณหภูมิที่รู้สึก (Feels Like)</div>
+        <div class="val" id="m-feels" style="font-size:32px">--°C</div>
+        <div class="delta" id="m-comfort-text">--</div>
+      </div>
+    </div>
+
+    <div class="sidebar-title" style="margin-top:2px">ตัวแปรปัจจุบัน</div>
+    <div class="bars-section">
+      <div class="bar-row">
+        <div class="bar-lbl">ความหนาแน่นเมือง <span id="b-density">70%</span></div>
+        <div class="bar-track"><div class="bar-fill heat" id="bf-density" style="width:70%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-lbl">พื้นที่สีเขียว <span id="b-green">15%</span></div>
+        <div class="bar-track"><div class="bar-fill green" id="bf-green" style="width:15%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-lbl">ความเร็วลม <span id="b-wind">5 km/h</span></div>
+        <div class="bar-track"><div class="bar-fill wind" id="bf-wind" style="width:12%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-lbl">ความชื้นสัมพัทธ์ <span id="b-hum">60%</span></div>
+        <div class="bar-track"><div class="bar-fill hum" id="bf-hum" style="width:60%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-lbl">มลพิษ/ฝุ่น <span id="b-poll">50%</span></div>
+        <div class="bar-track"><div class="bar-fill poll" id="bf-poll" style="width:50%"></div></div>
+      </div>
+    </div>
+
+    <div class="sidebar-title" style="margin-top:2px">สิ่งที่เกิดขึ้น</div>
+    <div class="effects-panel">
+      <ul class="effects-list" id="effects-list">
+        <li>กำลังโหลดแบบจำลอง...</li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- CANVAS -->
+  <div class="sim-canvas" id="canvas-wrap">
+    <canvas id="sim-three"></canvas>
+
+    <!-- Floating heat labels -->
+    <div class="heat-label" id="lbl1">↑ อากาศร้อนสะสมเหนือเมือง</div>
+    <div class="heat-label" id="lbl2">← อากาศเย็นจากชนบทไหลเข้า</div>
+    <div class="heat-label hidden" id="lbl3">↑ มลพิษลอยตัวสูงขึ้น</div>
+
+    <div class="compass">N<br><span>↑</span></div>
+
+    <!-- Bottom controls (absolute inside canvas) -->
+    <div class="sim-bottom">
+      <div class="preset-row">
+        <span class="preset-lbl">ประเภทเมือง:</span>
+        <button class="preset-btn active" data-preset="cbd">🏙 ใจกลางเมือง</button>
+        <button class="preset-btn" data-preset="commercial">🏬 ย่านพาณิชย์</button>
+        <button class="preset-btn" data-preset="residential">🏘 ที่พักอาศัย</button>
+        <button class="preset-btn" data-preset="suburban">🏡 ชานเมือง</button>
+        <button class="preset-btn" data-preset="green">🌳 เมืองสีเขียว</button>
+        <button class="preset-btn" data-preset="industrial">🏭 อุตสาหกรรม</button>
+      </div>
+      <div style="display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap">
+        <div class="sliders-row" style="flex:1">
+          <div class="sl-item">
+            <label>ความหนาแน่น <em><span id="lbl-density">70</span>%</em></label>
+            <input type="range" id="sl-density" min="5" max="100" value="70">
+          </div>
+          <div class="sl-item">
+            <label>พื้นที่เขียว <em><span id="lbl-green">15</span>%</em></label>
+            <input type="range" id="sl-green" min="0" max="60" value="15">
+          </div>
+          <div class="sl-item">
+            <label>อุณหภูมิฐาน <em><span id="lbl-temp">32</span>°C</em></label>
+            <input type="range" id="sl-temp" min="22" max="42" value="32">
+          </div>
+          <div class="sl-item">
+            <label>ลม <em><span id="lbl-wind">5</span> km/h</em></label>
+            <input type="range" id="sl-wind" min="0" max="40" value="5">
+          </div>
+          <div class="sl-item">
+            <label>ความชื้น <em><span id="lbl-hum">60</span>%</em></label>
+            <input type="range" id="sl-hum" min="20" max="100" value="60">
+          </div>
+          <div class="sl-item">
+            <label>มลพิษ <em><span id="lbl-poll">50</span>%</em></label>
+            <input type="range" id="sl-poll" min="0" max="100" value="50">
+          </div>
+        </div>
+        <div class="controls-right">
+          <div class="season-btns">
+            <button class="season-btn active" data-season="hot">☀️ ร้อน</button>
+            <button class="season-btn" data-season="rain">🌧 ฝน</button>
+            <button class="season-btn" data-season="cool">❄️ หนาว</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// ============================================================
+// PARAMS
+// ============================================================
+const PRESETS = {
+  cbd:         { density:90, green:5,  wind:3,  hum:55, poll:75, temp:34, label:'ใจกลางเมือง CBD' },
+  commercial:  { density:72, green:10, wind:5,  hum:58, poll:55, temp:32, label:'ย่านพาณิชย์' },
+  residential: { density:45, green:28, wind:7,  hum:62, poll:30, temp:31, label:'ย่านที่พักอาศัย' },
+  suburban:    { density:25, green:42, wind:9,  hum:65, poll:15, temp:30, label:'ชานเมือง' },
+  green:       { density:50, green:52, wind:6,  hum:70, poll:18, temp:29, label:'เมืองสีเขียว' },
+  industrial:  { density:62, green:4,  wind:4,  hum:50, poll:92, temp:33, label:'นิคมอุตสาหกรรม' },
+};
+
+let P = { density:90, green:5, wind:3, hum:55, poll:75, temp:34, season:'hot', flood:0 };
+
+function computeMetrics() {
+  const d = P.density / 100;
+  const g = P.green / 100;
+  const seasonMult = P.season==='hot'?1.2 : P.season==='rain'?0.75 : 0.55;
+  const uhi = d * 7.5 * (1 - g * 0.65) * seasonMult;
+  const urbanTemp = P.temp + uhi;
+  const windCool = Math.sqrt(P.wind) * 0.9;
+  const humFactor = (P.hum - 50) * 0.055;
+  const feelsLike = urbanTemp - windCool + humFactor;
+  const pm25Base = P.poll * 1.4 * (d * 0.7 + 0.3) * (P.wind < 5 ? 1.35 : 0.85);
+  const pm25 = Math.round(Math.max(5, Math.min(500, pm25Base)));
+  const comfortBase = 100 - (Math.max(0, feelsLike - 27) * 6) - (pm25 / 25 * 8) - (P.hum > 70 ? (P.hum-70)*1.2:0);
+  const comfort = Math.round(Math.max(0, Math.min(100, comfortBase)));
+  return { uhi: uhi.toFixed(1), urbanTemp: urbanTemp.toFixed(1), feelsLike: feelsLike.toFixed(1), pm25, comfort };
+}
+
+function getEffects(m) {
+  const effects = [];
+  const d = P.density;
+  const g = P.green;
+  if (+m.uhi > 5) effects.push({ t:'เกาะความร้อนรุนแรง อุณหภูมิสูงกว่าชนบทมากกว่า 5°C', cls:'warn' });
+  else if (+m.uhi > 2) effects.push({ t:`เกาะความร้อนระดับกลาง (+${m.uhi}°C)`, cls:'' });
+  else effects.push({ t:`เกาะความร้อนน้อย (+${m.uhi}°C) สภาพอากาศดี`, cls:'ok' });
+  if (m.pm25 > 75) effects.push({ t:`PM2.5 ${m.pm25} μg/m³ — เกินมาตรฐาน ส่งผลต่อสุขภาพ`, cls:'warn' });
+  else effects.push({ t:`PM2.5 ${m.pm25} μg/m³ — ระดับปลอดภัย`, cls:'ok' });
+  if (d > 70) effects.push({ t:'อาคารหนาแน่นดักความร้อนไว้ ระบายอากาศลำบาก', cls:'' });
+  if (g < 10) effects.push({ t:'พื้นที่สีเขียวน้อยมาก ไม่สามารถลดความร้อนได้', cls:'warn' });
+  else if (g > 35) effects.push({ t:`ต้นไม้และสวน ${g}% ช่วยลดความร้อนได้ดี`, cls:'ok' });
+  if (P.wind < 4) effects.push({ t:'ลมอ่อน มลพิษสะสมในพื้นที่สูงขึ้น', cls:'warn' });
+  else effects.push({ t:`ลม ${P.wind} km/h ช่วยระบายความร้อนและมลพิษ`, cls:'ok' });
+  if (+m.feelsLike > 38) effects.push({ t:`รู้สึกร้อน ${m.feelsLike}°C — อันตรายต่อสุขภาพ`, cls:'warn' });
+  return effects;
+}
+
+function updateUI() {
+  const m = computeMetrics();
+  document.getElementById('m-urban').textContent = m.urbanTemp;
+  document.getElementById('m-uhi').textContent = '+'+m.uhi;
+  document.getElementById('m-pm25').textContent = m.pm25;
+  document.getElementById('m-comfort').textContent = m.comfort;
+  document.getElementById('m-feels').textContent = m.feelsLike+'°C';
+  const ct = m.comfort >= 70 ? '😊 สบาย' : m.comfort >= 45 ? '😐 พอทน' : '😓 ไม่สบาย';
+  document.getElementById('m-comfort-text').textContent = ct;
+
+  // sidebar bars
+  document.getElementById('b-density').textContent = P.density+'%';
+  document.getElementById('bf-density').style.width = P.density+'%';
+  document.getElementById('b-green').textContent = P.green+'%';
+  document.getElementById('bf-green').style.width = Math.min(100, P.green * 1.67)+'%';
+  document.getElementById('b-wind').textContent = P.wind+' km/h';
+  document.getElementById('bf-wind').style.width = Math.min(100, P.wind * 2.5)+'%';
+  document.getElementById('b-hum').textContent = P.hum+'%';
+  document.getElementById('bf-hum').style.width = P.hum+'%';
+  document.getElementById('b-poll').textContent = P.poll+'%';
+  document.getElementById('bf-poll').style.width = P.poll+'%';
+
+  const efx = getEffects(m);
+  const el = document.getElementById('effects-list');
+  el.innerHTML = efx.map(e=>`<li class="${e.cls||''}">${e.t}</li>`).join('');
+
+  // heat labels
+  document.getElementById('lbl3').classList.toggle('hidden', m.pm25 < 50);
+  document.getElementById('lbl1').style.opacity = 0.5 + (+m.uhi)/15;
+}
+
+// ============================================================
+// THREE.JS SCENE
+// ============================================================
+const GRID = 22;
+const CS = 1.75;        // cell size
+const MAX_BLDS = 380;
+const MAX_TREES = 160;
+const NPARTICLES = 900;
+
+const canvas = document.getElementById('sim-three');
+const wrap = document.getElementById('canvas-wrap');
+
+const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:false });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xdde8f2);
+scene.fog = new THREE.Fog(0xdde8f2, 50, 115);
+
+const camera = new THREE.PerspectiveCamera(42, 1, 0.5, 300);
+camera.position.set(32, 38, 32);
+camera.lookAt(0, 3, 0);
+
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+controls.dampingFactor = 0.08;
+controls.minDistance = 12;
+controls.maxDistance = 90;
+controls.maxPolarAngle = Math.PI / 2.05;
+controls.target.set(0, 3, 0);
+
+// ── LIGHTING ──
+const ambient = new THREE.AmbientLight(0xffffff, 2.5);
+scene.add(ambient);
+
+const hemi = new THREE.HemisphereLight(0xddeeff, 0x99aa88, 1.4);
+scene.add(hemi);
+
+const sun = new THREE.DirectionalLight(0xfff8f0, 1.2);
+sun.position.set(28, 55, 18);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+sun.shadow.camera.near = 1;
+sun.shadow.camera.far = 160;
+sun.shadow.camera.left = -40;
+sun.shadow.camera.right = 40;
+sun.shadow.camera.top = 40;
+sun.shadow.camera.bottom = -40;
+sun.shadow.bias = -0.001;
+scene.add(sun);
+
+const fillLight = new THREE.DirectionalLight(0x88aadd, 1.0);
+fillLight.position.set(-20, 20, -20);
+scene.add(fillLight);
+
+// Sun sphere in sky
+const sunGeo = new THREE.SphereGeometry(1.2, 12, 8);
+const sunMat = new THREE.MeshBasicMaterial({ color: 0xFFE066 });
+const sunSphere = new THREE.Mesh(sunGeo, sunMat);
+sunSphere.position.copy(sun.position.clone().normalize().multiplyScalar(70));
+scene.add(sunSphere);
+
+// ── STYLED PLATFORM ──
+const PW = GRID * 1.75 + 16.0;  // platform width (city grid + wide margin)
+const PH = 2.8;                   // platform height
+
+// Shadow ground far below (subtle)
+const shadowGeo = new THREE.PlaneGeometry(200, 200);
+shadowGeo.rotateX(-Math.PI / 2);
+const shadowMat = new THREE.MeshBasicMaterial({ color: 0xc8d8e8, transparent: true, opacity: 0.25 });
+const shadowPlane = new THREE.Mesh(shadowGeo, shadowMat);
+shadowPlane.position.y = -PH - 0.5;
+scene.add(shadowPlane);
+
+// Platform body (dark slate box)
+const platGeo = new THREE.BoxGeometry(PW, PH, PW);
+const platMat = new THREE.MeshPhongMaterial({
+  color: 0x1a2535, specular: 0x2244aa, shininess: 60,
+});
+const platMesh = new THREE.Mesh(platGeo, platMat);
+platMesh.position.y = -PH / 2;
+platMesh.receiveShadow = true;
+scene.add(platMesh);
+
+// TOP GLOWING RIM — bright cyan-blue strip
+const rimTopGeo = new THREE.BoxGeometry(PW + 0.5, 0.14, PW + 0.5);
+const rimTopMat = new THREE.MeshBasicMaterial({ color: 0x1aadff });
+const rimTop = new THREE.Mesh(rimTopGeo, rimTopMat);
+rimTop.position.y = 0.05;
+scene.add(rimTop);
+
+// SECOND RIM slightly inset and lower
+const rimTop2Geo = new THREE.BoxGeometry(PW + 0.15, 0.07, PW + 0.15);
+const rimTop2Mat = new THREE.MeshBasicMaterial({ color: 0x0066dd, transparent: true, opacity: 0.8 });
+const rimTop2 = new THREE.Mesh(rimTop2Geo, rimTop2Mat);
+rimTop2.position.y = -0.16;
+scene.add(rimTop2);
+
+// BOTTOM RIM
+const rimBotGeo = new THREE.BoxGeometry(PW + 0.5, 0.12, PW + 0.5);
+const rimBotMat = new THREE.MeshBasicMaterial({ color: 0x0055aa, transparent: true, opacity: 0.9 });
+const rimBot = new THREE.Mesh(rimBotGeo, rimBotMat);
+rimBot.position.y = -PH + 0.08;
+scene.add(rimBot);
+
+// HORIZONTAL CIRCUIT LINES on all 4 sides
+const circuitMat = new THREE.MeshBasicMaterial({ color: 0x0066bb, transparent: true, opacity: 0.55 });
+[-0.6, -1.3, -2.0].forEach(dy => {
+  // Front & back (long strips)
+  [PW / 2 + 0.02, -(PW / 2 + 0.02)].forEach(z => {
+    const g = new THREE.BoxGeometry(PW, 0.05, 0.05);
+    const m = new THREE.Mesh(g, circuitMat);
+    m.position.set(0, dy, z); scene.add(m);
+  });
+  // Left & right
+  [PW / 2 + 0.02, -(PW / 2 + 0.02)].forEach(x => {
+    const g = new THREE.BoxGeometry(0.05, 0.05, PW);
+    const m = new THREE.Mesh(g, circuitMat);
+    m.position.set(x, dy, 0); scene.add(m);
+  });
+});
+
+// Shorter accent lines (random horizontal dashes)
+const accentMat = new THREE.MeshBasicMaterial({ color: 0x44ccff, transparent: true, opacity: 0.7 });
+const accentData = [
+  { y:-0.6, x:-PW*0.25, len:PW*0.18, face:'front' },
+  { y:-0.6, x: PW*0.10, len:PW*0.12, face:'front' },
+  { y:-1.3, x:-PW*0.35, len:PW*0.20, face:'right' },
+  { y:-1.3, x: PW*0.05, len:PW*0.15, face:'back' },
+  { y:-2.0, x:-PW*0.10, len:PW*0.25, face:'left' },
+];
+accentData.forEach(({ y, x, len, face }) => {
+  let g, pos;
+  if(face === 'front' || face === 'back') {
+    g = new THREE.BoxGeometry(len, 0.05, 0.04);
+    pos = new THREE.Vector3(x, y, face==='front' ? PW/2+0.03 : -(PW/2+0.03));
+  } else {
+    g = new THREE.BoxGeometry(0.04, 0.05, len);
+    pos = new THREE.Vector3(face==='right' ? PW/2+0.03 : -(PW/2+0.03), y, x);
+  }
+  const m = new THREE.Mesh(g, accentMat); m.position.copy(pos); scene.add(m);
+});
+
+// CORNER COLUMNS — 4 corners
+const colGeo = new THREE.BoxGeometry(0.45, PH + 0.25, 0.45);
+const colMat = new THREE.MeshPhongMaterial({ color: 0x113355, specular: 0x0088ff, shininess: 80 });
+const colCapGeo = new THREE.BoxGeometry(0.6, 0.18, 0.6);
+const colCapMat = new THREE.MeshBasicMaterial({ color: 0x22bbff });
+const half = PW / 2;
+[[-half, -half], [half, -half], [half, half], [-half, half]].forEach(([x, z]) => {
+  const col = new THREE.Mesh(colGeo, colMat);
+  col.position.set(x, -PH / 2, z); scene.add(col);
+  const cap = new THREE.Mesh(colCapGeo, colCapMat);
+  cap.position.set(x, 0.06, z); scene.add(cap);
+  const capBot = new THREE.Mesh(colCapGeo, colCapMat);
+  capBot.position.set(x, -PH + 0.09, z); scene.add(capBot);
+});
+
+// CORNER VERTICAL LINES (thin glowing edges)
+const vLineMat = new THREE.MeshBasicMaterial({ color: 0x33ccff, transparent: true, opacity: 0.9 });
+[[-half, -half], [half, -half], [half, half], [-half, half]].forEach(([x, z]) => {
+  const g = new THREE.BoxGeometry(0.06, PH, 0.06);
+  const m = new THREE.Mesh(g, vLineMat);
+  m.position.set(x, -PH / 2, z); scene.add(m);
+});
+
+// ── CITY GRID DATA ──
+let cityGrid = [];
+
+function seededRand(s) {
+  const x = Math.sin(s * 127.1 + 311.7) * 43758.5453;
+  return x - Math.floor(x);
+}
+function noise2d(x, z) {
+  const ix=Math.floor(x), iz=Math.floor(z);
+  const fx=x-ix, fz=z-iz;
+  const a=seededRand(ix+iz*57), b=seededRand(ix+1+iz*57);
+  const c=seededRand(ix+(iz+1)*57), d=seededRand(ix+1+(iz+1)*57);
+  const ux=fx*fx*(3-2*fx), uz=fz*fz*(3-2*fz);
+  return a+(b-a)*ux+(c-a)*uz+(a-b-c+d)*ux*uz;
+}
+
+function buildCityGrid() {
+  cityGrid = [];
+  const cx=(GRID-1)/2, cz=(GRID-1)/2;
+  const d=P.density/100, g=P.green/100;
+  for(let row=0;row<GRID;row++){
+    cityGrid[row]=[];
+    for(let col=0;col<GRID;col++){
+      const dx=col-cx, dz=row-cz;
+      const dist=Math.sqrt(dx*dx+dz*dz)/((GRID-1)/2*1.41);
+      const localD = d * Math.pow(Math.max(0,1-dist*0.85),0.6);
+      const noiseV = noise2d(col*0.4, row*0.4);
+      const effD = Math.min(1, Math.max(0, localD + noiseV*0.25 - 0.05));
+      const rand = seededRand(col*GRID+row+P.density*0.01);
+
+      // Road grid (every 5th)
+      if(col%5===0||row%5===0){ cityGrid[row][col]={type:'road',height:0,density:0}; continue; }
+      // Water feature (rivers, ponds) - in green preset
+      if(P.green>35 && seededRand(col*31+row*7+200)<0.04){ cityGrid[row][col]={type:'water',height:0,density:0}; continue; }
+      // Green cells
+      const greenProb = g * (1.4 - effD * 0.8);
+      if(rand < greenProb){ cityGrid[row][col]={type:'park',height:0,density:effD}; continue; }
+      // Bare ground on low density edges
+      if(effD < 0.08){ cityGrid[row][col]={type:'ground',height:0,density:effD}; continue; }
+      // Building
+      let h;
+      if(P.density>=80 && dist<0.25) h = 5 + seededRand(col*17+row*3)*6;      // CBD core towers
+      else if(P.density>=80 && dist<0.5) h = 2.5 + seededRand(col*13+row)*3.5;
+      else h = effD * 6 * (0.6 + seededRand(col*7+row*11)*0.7);
+      h = Math.max(0.4, h);
+      cityGrid[row][col]={type:'building',height:h,density:effD};
+    }
+  }
+}
+
+// ── GROUND TILES — realistic city layout ──
+let groundMesh;
+function buildGround() {
+  if(groundMesh) scene.remove(groundMesh);
+  const pos=[], col=[], idx=[];
+  let vi=0;
+  const isRain = P.season==='rain';
+  for(let row=0;row<GRID;row++){
+    for(let col2=0;col2<GRID;col2++){
+      const cell=cityGrid[row][col2];
+      const cx2=(col2-GRID/2+0.5)*CS, cz=(row-GRID/2+0.5)*CS;
+      const hs=CS*0.48;
+      let r,g,b;
+      const nv=seededRand(col2*7+row*3)*0.025;
+
+      // Block-based colour variation (same within a city block, differs between blocks)
+      const blockC=Math.floor(col2/5), blockR=Math.floor(row/5);
+      const blockV=seededRand(blockC*17+blockR*31)*0.10;
+
+      // Position within the 5-cell road grid
+      const pC=col2%5, pR=row%5;
+      // Cells at index 1 or 4 within a block are sidewalk edges next to roads
+      const isSidewalk = cell.type!=='road' && cell.type!=='park' && cell.type!=='water' &&
+                         (pC===1||pC===4||pR===1||pR===4);
+      const isIntersection = pC===0 && pR===0;
+
+      if(cell.type==='road'){
+        if(isIntersection){
+          // Lighter box at intersections (crosswalk feel)
+          r=0.32+nv; g=0.32+nv; b=0.35+nv;
+        } else if(pC===0){
+          // Vertical road: very dark asphalt with centre divider hint
+          r=0.20+nv; g=0.20+nv; b=0.23+nv;
+        } else {
+          // Horizontal road
+          r=0.22+nv; g=0.22+nv; b=0.25+nv;
+        }
+        if(isRain){ r*=0.76; g*=0.76; b*=0.80; } // wet road = darker + slight blue
+
+      } else if(cell.type==='park'){
+        // Grass — greener in rain
+        r=0.24+seededRand(col2+row*3)*0.08+nv;
+        g=0.52+seededRand(col2*3+row)*0.12+(isRain?0.06:0);
+        b=0.18+nv;
+
+      } else if(cell.type==='water'){
+        r=0.12; g=0.40; b=0.78;
+
+      } else if(cell.type==='ground'){
+        // Bare edge ground
+        r=0.54+nv; g=0.52+nv; b=0.48+nv;
+
+      } else if(isSidewalk){
+        // Sidewalk: light concrete with per-block variation
+        r=0.68+blockV*0.5+nv; g=0.66+blockV*0.4+nv; b=0.62+blockV*0.3+nv;
+        if(isRain){ r*=0.86; g*=0.86; b*=0.88; }
+
+      } else {
+        // Building pad — concrete, varies warmth per block
+        const warm = blockV > 0.04; // some blocks have warmer concrete
+        if(warm){
+          r=0.55+blockV*0.35+nv; g=0.51+blockV*0.20+nv; b=0.46+nv;
+        } else {
+          r=0.50+blockV*0.20+nv; g=0.50+blockV*0.20+nv; b=0.53+blockV*0.15+nv;
+        }
+        if(isRain){ r*=0.84; g*=0.84; b*=0.87; }
+        if(P.season==='cool'){ r*=0.92; g*=0.94; b*=0.97; }
+      }
+
+      pos.push(cx2-hs,0.02,cz-hs, cx2+hs,0.02,cz-hs, cx2+hs,0.02,cz+hs, cx2-hs,0.02,cz+hs);
+      for(let v=0;v<4;v++) col.push(r,g,b);
+      idx.push(vi,vi+1,vi+2, vi,vi+2,vi+3);
+      vi+=4;
+    }
+  }
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));
+  geo.setAttribute('color',new THREE.Float32BufferAttribute(col,3));
+  geo.setIndex(idx);
+  geo.computeVertexNormals();
+  const mat=new THREE.MeshLambertMaterial({vertexColors:true});
+  groundMesh=new THREE.Mesh(geo,mat);
+  groundMesh.receiveShadow=true;
+  scene.add(groundMesh);
+}
+
+// ── BUILDINGS (InstancedMesh) ──
+const bGeo = new THREE.BoxGeometry(1,1,1);
+const bMat = new THREE.MeshBasicMaterial();
+const bMesh = new THREE.InstancedMesh(bGeo, bMat, MAX_BLDS);
+bMesh.castShadow = false;
+bMesh.receiveShadow = true;
+scene.add(bMesh);
+const bDummy = new THREE.Object3D();
+const bColor = new THREE.Color();
+
+function buildBuildings() {
+  let cnt=0;
+  for(let row=0;row<GRID&&cnt<MAX_BLDS;row++){
+    for(let col=0;col<GRID&&cnt<MAX_BLDS;col++){
+      const cell=cityGrid[row][col];
+      if(cell.type!=='building') continue;
+      const cx=(col-GRID/2+0.5)*CS, cz=(row-GRID/2+0.5)*CS;
+      const w=CS*0.82, h=cell.height, d2=CS*0.82;
+      bDummy.position.set(cx, h/2, cz);
+      bDummy.scale.set(w,h,d2);
+      bDummy.updateMatrix();
+      bMesh.setMatrixAt(cnt, bDummy.matrix);
+      // Buildings: pure neutral gray (MeshBasicMaterial = unaffected by light)
+      // short = darker gray, tall = lighter gray
+      const heightL = Math.min(1, cell.height / 10);
+      const gray = 0.50 + heightL * 0.22;
+      const rr = gray, gg = gray, bb = gray;
+      bMesh.setColorAt(cnt, bColor.setRGB(rr,gg,bb));
+      cnt++;
+    }
+  }
+  for(let i=cnt;i<MAX_BLDS;i++){
+    bDummy.position.set(9999,0,9999);bDummy.scale.set(0,0,0);bDummy.updateMatrix();
+    bMesh.setMatrixAt(i,bDummy.matrix);
+  }
+  bMesh.instanceMatrix.needsUpdate=true;
+  if(bMesh.instanceColor) bMesh.instanceColor.needsUpdate=true;
+}
+
+// ── TREES (InstancedMesh) ──
+// Simple merged: trunk(cylinder) + canopy(cone)
+const trunkG = new THREE.CylinderGeometry(0.06,0.09,0.5,6);
+trunkG.translate(0,0.25,0);
+const canopyG = new THREE.ConeGeometry(0.38,0.95,7);
+canopyG.translate(0,0.95,0);
+
+// Merge manually
+const mergedPos=[], mergedNorm=[], mergedIdx=[];
+function mergeGeo(g2, offset){
+  const p=g2.attributes.position, n=g2.attributes.normal, ix=g2.index;
+  const start=mergedPos.length/3;
+  for(let i=0;i<p.count;i++){mergedPos.push(p.getX(i),p.getY(i),p.getZ(i));mergedNorm.push(n.getX(i),n.getY(i),n.getZ(i));}
+  for(let i=0;i<ix.count;i++) mergedIdx.push(ix.getX(i)+start);
+}
+mergeGeo(trunkG,0);mergeGeo(canopyG,0);
+const tGeo=new THREE.BufferGeometry();
+tGeo.setAttribute('position',new THREE.Float32BufferAttribute(mergedPos,3));
+tGeo.setAttribute('normal',new THREE.Float32BufferAttribute(mergedNorm,3));
+tGeo.setIndex(mergedIdx);
+
+const tMat=new THREE.MeshLambertMaterial({color:0x2a7a28});
+const tMesh=new THREE.InstancedMesh(tGeo,tMat,MAX_TREES);
+tMesh.castShadow=true;
+scene.add(tMesh);
+const tDummy=new THREE.Object3D();
+
+function buildTrees(){
+  let cnt=0;
+  for(let row=0;row<GRID&&cnt<MAX_TREES;row++){
+    for(let col=0;col<GRID&&cnt<MAX_TREES;col++){
+      const cell=cityGrid[row][col];
+      if(cell.type!=='park') continue;
+      if(seededRand(col*GRID+row+50)<0.45) continue;
+      const cx=(col-GRID/2+0.5)*CS+(seededRand(col*3+row*7)-0.5)*CS*0.55;
+      const cz=(row-GRID/2+0.5)*CS+(seededRand(col*5+row*11)-0.5)*CS*0.55;
+      const sc=0.7+seededRand(col+row*17)*0.55;
+      tDummy.position.set(cx,0,cz);tDummy.scale.set(sc,sc,sc);tDummy.rotation.y=seededRand(col*9+row)*Math.PI*2;
+      tDummy.updateMatrix();tMesh.setMatrixAt(cnt,tDummy.matrix);cnt++;
+    }
+  }
+  for(let i=cnt;i<MAX_TREES;i++){
+    tDummy.position.set(9999,0,9999);tDummy.scale.set(0,0,0);tDummy.updateMatrix();
+    tMesh.setMatrixAt(i,tDummy.matrix);
+  }
+  tMesh.instanceMatrix.needsUpdate=true;
+}
+
+// ── HEAT DOME ──
+let heatDome, heatDome2;
+function buildHeatDome(){
+  if(heatDome){scene.remove(heatDome);scene.remove(heatDome2);}
+  const d=P.density/100, g=P.green/100;
+  const radius=10+d*8;
+  const domeGeo=new THREE.SphereGeometry(radius,32,16,0,Math.PI*2,0,Math.PI*0.55);
+  const domeMat=new THREE.MeshBasicMaterial({
+    color:new THREE.Color(1.0,0.38,0.05),
+    transparent:true,opacity:0.04+d*0.06*(1-g*0.5),
+    side:THREE.BackSide,depthWrite:false,
+  });
+  heatDome=new THREE.Mesh(domeGeo,domeMat);
+  heatDome.position.set(0,0,0);
+  scene.add(heatDome);
+
+  const domeGeo2=new THREE.SphereGeometry(radius*0.6,24,12,0,Math.PI*2,0,Math.PI*0.5);
+  const domeMat2=new THREE.MeshBasicMaterial({
+    color:new THREE.Color(1.0,0.22,0.02),
+    transparent:true,opacity:0.03+d*0.04,
+    side:THREE.BackSide,depthWrite:false,
+  });
+  heatDome2=new THREE.Mesh(domeGeo2,domeMat2);
+  scene.add(heatDome2);
+}
+
+// ── POLLUTION HAZE (industrial) ──
+let hazeMesh;
+function buildHaze(){
+  if(hazeMesh){scene.remove(hazeMesh);hazeMesh=null;}
+  if(P.poll<50) return;
+  const hGeo=new THREE.SphereGeometry(16,16,8,0,Math.PI*2,0,Math.PI*0.4);
+  const hMat=new THREE.MeshBasicMaterial({
+    color:new THREE.Color(0.55,0.48,0.22),
+    transparent:true,opacity:(P.poll-50)/100*0.12,
+    side:THREE.BackSide,depthWrite:false,
+  });
+  hazeMesh=new THREE.Mesh(hGeo,hMat);
+  hazeMesh.position.y=3;
+  scene.add(hazeMesh);
+}
+
+// ── FLOOD WATER — puddles at intersections, auto rain-based ──
+let floodMeshes = [];
+// Store base y for wave animation
+const _floodBaseY = [];
+
+function buildFloodWater() {
+  floodMeshes.forEach(m => scene.remove(m));
+  floodMeshes = [];
+  _floodBaseY.length = 0;
+
+  // Only show during rain season
+  if(P.season !== 'rain') return;
+  const level = Math.max(0.25, P.flood / 100);
+
+  // Wide shallow film on roads (very transparent base layer)
+  const filmGeo = new THREE.PlaneGeometry(GRID*CS*0.92, GRID*CS*0.92, 1, 1);
+  filmGeo.rotateX(-Math.PI/2);
+  const filmMat = new THREE.MeshPhongMaterial({
+    color: new THREE.Color(0.06,0.32,0.78),
+    transparent:true, opacity: 0.10 + level*0.12,
+    shininess:180, specular: new THREE.Color(0.8,0.92,1.0),
+    depthWrite:false, side:THREE.DoubleSide
+  });
+  const filmMesh = new THREE.Mesh(filmGeo, filmMat);
+  filmMesh.position.set(0, 0.05, 0);
+  filmMesh.renderOrder = 1;
+  scene.add(filmMesh);
+  floodMeshes.push(filmMesh);
+  _floodBaseY.push(0.05);
+
+  // Puddles at road intersections (roads every 5 cells)
+  for(let row=0; row<GRID; row+=5){
+    for(let col2=0; col2<GRID; col2+=5){
+      const prob = seededRand(col2*5+row*3+77);
+      if(prob > 0.28 + level*0.72) continue;
+
+      const cx=(col2-GRID/2+0.5)*CS;
+      const cz=(row-GRID/2+0.5)*CS;
+      const sz = CS*(1.4 + level*3.0 + prob*1.2);
+      const segs=10;
+      const pGeo = new THREE.PlaneGeometry(sz, sz, segs, segs);
+      pGeo.rotateX(-Math.PI/2);
+      const pMat = new THREE.MeshPhongMaterial({
+        color: new THREE.Color(0.06, 0.38, 0.88),
+        transparent:true, opacity: 0.55 + level*0.22,
+        shininess:200, specular: new THREE.Color(0.75,0.90,1.0),
+        depthWrite:false, side:THREE.DoubleSide
+      });
+      const pMesh = new THREE.Mesh(pGeo, pMat);
+      const baseY = 0.10 + level*0.12;
+      pMesh.position.set(cx, baseY, cz);
+      pMesh.renderOrder = 2;
+      scene.add(pMesh);
+      floodMeshes.push(pMesh);
+      _floodBaseY.push(baseY);
+    }
+  }
+
+  // Extra puddles along road mid-segments at high flood
+  if(level > 0.5){
+    for(let i=0; i<12; i++){
+      const row = Math.floor(seededRand(i*11+200)*GRID/5)*5;
+      const col2Offset = Math.floor(seededRand(i*7+300)*4+1); // 1-4 (mid-block)
+      const useRow = seededRand(i*3+400) > 0.5;
+      const r2 = useRow ? Math.floor(seededRand(i*13+500)*GRID/5)*5 : row;
+      const c2 = useRow ? col2Offset*Math.floor(seededRand(i*17+600)*4+1) : Math.floor(seededRand(i*19+700)*GRID/5)*5;
+      if(c2>=GRID||r2>=GRID) continue;
+      const cx=(c2-GRID/2+0.5)*CS, cz=(r2-GRID/2+0.5)*CS;
+      const sz=CS*(0.8+level*1.5);
+      const pGeo=new THREE.PlaneGeometry(sz,sz,6,6);
+      pGeo.rotateX(-Math.PI/2);
+      const pMat=new THREE.MeshPhongMaterial({
+        color:new THREE.Color(0.06,0.38,0.88),
+        transparent:true,opacity:0.45+level*0.20,
+        shininess:180,specular:new THREE.Color(0.7,0.88,1.0),
+        depthWrite:false,side:THREE.DoubleSide
+      });
+      const pMesh=new THREE.Mesh(pGeo,pMat);
+      const baseY=0.09+level*0.10;
+      pMesh.position.set(cx,baseY,cz);
+      pMesh.renderOrder=2;
+      scene.add(pMesh);
+      floodMeshes.push(pMesh);
+      _floodBaseY.push(baseY);
+    }
+  }
+}
+
+function animateFlood(t) {
+  if(floodMeshes.length===0) return;
+  for(let mi=0; mi<floodMeshes.length; mi++){
+    const mesh=floodMeshes[mi];
+    const pos=mesh.geometry.attributes.position;
+    const baseY=_floodBaseY[mi];
+    const offset=mi*0.7;
+    for(let i=0;i<pos.count;i++){
+      const x=pos.getX(i), z=pos.getZ(i);
+      const wave = Math.sin(t*0.00090+x*0.55+z*0.38+offset)*0.04
+                 + Math.sin(t*0.00065+x*0.30-z*0.48+offset*1.4)*0.025;
+      pos.setY(i, baseY+wave);
+    }
+    pos.needsUpdate=true;
+    mesh.geometry.computeVertexNormals();
+  }
+}
+
+// ── PARTICLES (rising heat) ──
+let particleGeo, particleMesh;
+const pPos=new Float32Array(NPARTICLES*3);
+const pLife=new Float32Array(NPARTICLES);
+const pSpeed=new Float32Array(NPARTICLES);
+const pCol=new Float32Array(NPARTICLES*3);
+
+function initParticles(){
+  const d=P.density/100;
+  const half=GRID*CS/2;
+  for(let i=0;i<NPARTICLES;i++){
+    pPos[i*3]=  (Math.random()-0.5)*half*2*d + (Math.random()-0.5)*2;
+    pPos[i*3+1]= Math.random()*20;
+    pPos[i*3+2]= (Math.random()-0.5)*half*2*d + (Math.random()-0.5)*2;
+    pLife[i]=Math.random();
+    pSpeed[i]=0.015+Math.random()*0.035;
+    const t=Math.random();
+    pCol[i*3]=1;pCol[i*3+1]=t*0.35;pCol[i*3+2]=0;
+  }
+  if(particleMesh) scene.remove(particleMesh);
+  particleGeo=new THREE.BufferGeometry();
+  particleGeo.setAttribute('position',new THREE.BufferAttribute(pPos,3));
+  particleGeo.setAttribute('color',new THREE.BufferAttribute(pCol,3));
+  const pMat=new THREE.PointsMaterial({
+    size:0.12,vertexColors:true,transparent:true,opacity:0.55,depthWrite:false,sizeAttenuation:true
+  });
+  particleMesh=new THREE.Points(particleGeo,pMat);
+  scene.add(particleMesh);
+}
+
+function updateParticles(dt){
+  const d=P.density/100, g=P.green/100;
+  const half=GRID*CS/2*d;
+  const windDrift=P.wind*0.0004;
+  const intensity=d*(1-g*0.5);
+  for(let i=0;i<NPARTICLES;i++){
+    pPos[i*3+1]+=pSpeed[i]*intensity*60*dt;
+    pPos[i*3]+=windDrift;
+    pLife[i]+=dt*pSpeed[i]*2;
+    if(pLife[i]>1||pPos[i*3+1]>22){
+      pPos[i*3]=(Math.random()-0.5)*half*1.8+(Math.random()-0.5);
+      pPos[i*3+1]=seededRand(i*7)*3;
+      pPos[i*3+2]=(Math.random()-0.5)*half*1.8+(Math.random()-0.5);
+      pLife[i]=0;
+    }
+  }
+  particleGeo.attributes.position.needsUpdate=true;
+  particleMesh.material.opacity=0.3+intensity*0.4;
+}
+
+// ── RAIN EFFECT (LineSegments — falling streaks) ──
+const NRAIN = 3200;
+const rainPts = new Float32Array(NRAIN * 6); // 2 vertices per streak × xyz
+let rainGeo, rainLines;
+
+function initRain() {
+  for(let i=0; i<NRAIN; i++){
+    const x=(Math.random()-0.5)*72;
+    const y=Math.random()*38;
+    const z=(Math.random()-0.5)*72;
+    const len=0.35+Math.random()*0.45;
+    rainPts[i*6]=x;   rainPts[i*6+1]=y;       rainPts[i*6+2]=z;
+    rainPts[i*6+3]=x; rainPts[i*6+4]=y-len;   rainPts[i*6+5]=z;
+  }
+  if(rainLines) scene.remove(rainLines);
+  rainGeo=new THREE.BufferGeometry();
+  rainGeo.setAttribute('position',new THREE.BufferAttribute(rainPts,3));
+  const rainMat=new THREE.LineBasicMaterial({
+    color:0xb0d8f2, transparent:true, opacity:0.45, depthWrite:false
+  });
+  rainLines=new THREE.LineSegments(rainGeo,rainMat);
+  rainLines.visible=false;
+  scene.add(rainLines);
+}
+
+function updateRain(dt) {
+  if(!rainLines) return;
+  const isRaining=(P.season==='rain');
+  rainLines.visible=isRaining;
+  if(!isRaining) return;
+
+  const speed=22+Math.sqrt(P.wind)*1.8;
+  const drift=P.wind*0.0014; // horizontal wind drift
+
+  for(let i=0;i<NRAIN;i++){
+    // Move top and bottom of each streak down
+    rainPts[i*6+1]-=speed*dt;
+    rainPts[i*6+4]-=speed*dt;
+    // Slight wind horizontal drift
+    rainPts[i*6]  +=drift;
+    rainPts[i*6+3]+=drift;
+
+    // Respawn above when streak passes ground
+    if(rainPts[i*6+1]<-2){
+      const x=(Math.random()-0.5)*72;
+      const z=(Math.random()-0.5)*72;
+      const len=0.35+Math.random()*0.50;
+      const topY=30+Math.random()*10;
+      rainPts[i*6]=x;   rainPts[i*6+1]=topY;      rainPts[i*6+2]=z;
+      rainPts[i*6+3]=x; rainPts[i*6+4]=topY-len;  rainPts[i*6+5]=z;
+    }
+  }
+  rainGeo.attributes.position.needsUpdate=true;
+}
+
+// ── REBUILD SCENE ──
+function rebuildScene(){
+  buildCityGrid();
+  buildGround();
+  buildBuildings();
+  buildTrees();
+  buildHeatDome();
+  buildHaze();
+  buildFloodWater();
+  updateUI();
+}
+
+// Initial build
+initParticles();
+initRain();
+rebuildScene();
+
+// ── SEASON LIGHTING ──
+function updateSeasonLighting(){
+  if(P.season==='hot'){
+    scene.background.set(0xe8eff8);
+    scene.fog.color.set(0xe8eff8);
+    ambient.color.set(0xffffff); ambient.intensity=2.5;
+    sun.color.set(0xfff8f0); sun.intensity=1.2;
+    sunSphere.material.color.set(0xFFE066);
+  } else if(P.season==='rain'){
+    scene.background.set(0xc8d4de);
+    scene.fog.color.set(0xc8d4de);
+    ambient.color.set(0xddeeee); ambient.intensity=2.0;
+    sun.color.set(0xaacccc); sun.intensity=0.7;
+    sunSphere.material.color.set(0x99aabb);
+  } else {
+    scene.background.set(0xdde4f0);
+    scene.fog.color.set(0xdde4f0);
+    ambient.color.set(0xeef2ff); ambient.intensity=2.2;
+    sun.color.set(0xeef4ff); sun.intensity=1.0;
+    sunSphere.material.color.set(0xeeeeff);
+  }
+}
+
+// ── RESIZE ──
+function onResize(){
+  const w=wrap.clientWidth, h=wrap.clientHeight;
+  renderer.setSize(w,h);
+  camera.aspect=w/h;
+  camera.updateProjectionMatrix();
+}
+window.addEventListener('resize',onResize);
+onResize();
+
+// ── ANIMATION ──
+let last=0;
+function animate(t){
+  requestAnimationFrame(animate);
+  const dt=Math.min((t-last)/1000,0.05);
+  last=t;
+  controls.update();
+
+  // Animate platform rim pulse
+  if(rimTop){
+    const pulse = 0.85 + Math.sin(t * 0.0018) * 0.15;
+    rimTop.material.color.setRGB(pulse * 0.10, pulse * 0.68, 1.0);
+  }
+
+  // Animate heat dome pulse
+  if(heatDome){
+    const pulse=Math.sin(t*0.001)*0.015+0.01;
+    heatDome.material.opacity=Math.max(0,(0.04+(P.density/100)*0.06*(1-(P.green/100)*0.5))+pulse);
+  }
+  updateParticles(dt);
+  updateRain(dt);
+  animateFlood(t);
+  renderer.render(scene,camera);
+}
+requestAnimationFrame(animate);
+
+// ── CONTROLS ──
+// Sliders
+const sliders = [
+  ['sl-density','lbl-density','density',1],
+  ['sl-green',  'lbl-green',  'green',  1],
+  ['sl-temp',   'lbl-temp',   'temp',   1],
+  ['sl-wind',   'lbl-wind',   'wind',   1],
+  ['sl-hum',    'lbl-hum',    'hum',    1],
+  ['sl-poll',   'lbl-poll',   'poll',   1],
+];
+let rebuildTimer=null;
+sliders.forEach(([id,lbl,key])=>{
+  const el=document.getElementById(id);
+  el.addEventListener('input',()=>{
+    P[key]=+el.value;
+    document.getElementById(lbl).textContent=el.value;
+    updateUI();
+    clearTimeout(rebuildTimer);
+    rebuildTimer=setTimeout(rebuildScene,280);
+  });
+});
+
+// Presets
+document.querySelectorAll('.preset-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const pr=PRESETS[btn.dataset.preset];
+    if(!pr) return;
+    P.density=pr.density; P.green=pr.green; P.wind=pr.wind;
+    P.hum=pr.hum; P.poll=pr.poll; P.temp=pr.temp;
+    document.getElementById('sl-density').value=pr.density;
+    document.getElementById('lbl-density').textContent=pr.density;
+    document.getElementById('sl-green').value=pr.green;
+    document.getElementById('lbl-green').textContent=pr.green;
+    document.getElementById('sl-temp').value=pr.temp;
+    document.getElementById('lbl-temp').textContent=pr.temp;
+    document.getElementById('sl-wind').value=pr.wind;
+    document.getElementById('lbl-wind').textContent=pr.wind;
+    document.getElementById('sl-hum').value=pr.hum;
+    document.getElementById('lbl-hum').textContent=pr.hum;
+    document.getElementById('sl-poll').value=pr.poll;
+    document.getElementById('lbl-poll').textContent=pr.poll;
+    rebuildScene();
+  });
+});
+
+// Season
+document.querySelectorAll('.season-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.season-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    P.season=btn.dataset.season;
+    // Auto manage flood: rain = on, dry = off
+    P.flood = (P.season==='rain') ? 60 : 0;
+    updateSeasonLighting();
+    rebuildScene();
+  });
+});
+
+// Init season
+updateSeasonLighting();
+</script>
+</body>
+</html>
