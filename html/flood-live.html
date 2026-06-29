@@ -20,6 +20,8 @@
   <link rel="stylesheet" href="../css/topics.css" />
   <link rel="stylesheet" href="../css/weather-icons.css" />
   <script src="../js/utility-bar.js"></script>
+  <link rel="stylesheet" href="../css/skeleton.css" />
+  <script src="../js/skeleton.js"></script>
 </head>
 <body data-theme="flood">
 
@@ -190,6 +192,24 @@
       </div><!-- /container -->
     </div><!-- /section -->
 
+    <!-- ─── LINE OA FEED ─────────────────────────────────────────────────── -->
+    <div class="lf-section">
+      <div class="container">
+
+        <div class="lf-header">
+          <h2>แจ้งเตือนจาก Line OA</h2>
+          <span class="lf-live-dot">สด</span>
+          <span class="lf-count" id="line-feed-count"></span>
+        </div>
+        <p class="lf-subtitle">รายงานสถานการณ์น้ำท่วมแบบเรียลไทม์จากเจ้าหน้าที่และชุมชน</p>
+
+        <div id="line-feed-list">
+          <div class="lf-empty">ยังไม่มีข้อความ — รอรับสัญญาณจาก Line OA</div>
+        </div>
+
+      </div>
+    </div>
+
   </main>
 
 
@@ -229,6 +249,7 @@
     </svg>
   </button>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="../js/config.js"></script>
   <script src="../js/utils.js"></script>
   <script src="../js/nav.js"></script>
@@ -237,5 +258,6 @@
   <script src="../js/weather-icons.js"></script>
   <script src="../js/fetch-helper.js"></script>
   <script src="../js/floodlive.js"></script>
+  <script src="../js/linefeed.js"></script>
 </body>
 </html>

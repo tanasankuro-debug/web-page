@@ -1,0 +1,387 @@
+﻿<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GIS Heatmap อุณหภูมิขอนแก่น 2000–2026 — Heat Safe Khon Kaen</title>
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/base.css" />
+<link rel="stylesheet" href="../css/layout.css" />
+<link rel="stylesheet" href="../css/components.css" />
+<link rel="stylesheet" href="../css/themes.css" />
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js"></script>
+<script src="../js/utility-bar.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #0f1117;
+  color: #e8e8e8;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* TOP BAR */
+#topbar {
+  background: #1a1d27;
+  border-bottom: 2px solid #ff6b35;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+#topbar h1 { font-size: 1rem; color: #ff6b35; font-weight: 700; white-space: nowrap; }
+
+/* SLIDER */
+.slider-wrap { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 200px; }
+.slider-wrap label { font-size: 0.78rem; color: #aaa; white-space: nowrap; }
+#yearSlider {
+  flex: 1; -webkit-appearance: none; height: 5px; border-radius: 3px;
+  background: linear-gradient(to right, #1976d2, #ff6b35); outline: none; cursor: pointer;
+}
+#yearSlider::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
+  background: #ff6b35; cursor: pointer; box-shadow: 0 0 6px #ff6b3588;
+}
+#yearLabel { font-size: 1.5rem; font-weight: 800; color: #fff; min-width: 52px; text-align: center; }
+
+/* STATS STRIP */
+.stat-strip { display: flex; gap: 10px; }
+.sbox { background: #12151e; border: 1px solid #2a2d3a; border-radius: 8px; padding: 6px 12px; text-align: center; min-width: 90px; }
+.sbox .sv { font-size: 1.1rem; font-weight: 700; }
+.sbox .sl { font-size: 0.65rem; color: #888; margin-top: 1px; }
+.gis-hot { color: #ff5252; }
+.gis-warm { color: #ff9800; }
+.gis-cool { color: #4fc3f7; }
+.anom-pos { color: #ff6b35; }
+.anom-neg { color: #4fc3f7; }
+
+/* PLAY BTN */
+#playBtn {
+  background: #ff6b35; color: #fff; border: none; border-radius: 6px;
+  padding: 6px 14px; font-size: 0.82rem; cursor: pointer; font-weight: 700;
+  white-space: nowrap; transition: background 0.2s;
+}
+#playBtn:hover { background: #e55a25; }
+
+/* MAP */
+#map { flex: 1; width: 100%; }
+
+/* LEGEND */
+#legend {
+  position: absolute; bottom: 30px; right: 12px;
+  background: rgba(26,29,39,0.92); border: 1px solid #2a2d3a;
+  border-radius: 10px; padding: 12px 16px; z-index: 1000; min-width: 150px;
+}
+#legend h4 { font-size: 0.75rem; color: #aaa; margin-bottom: 8px; }
+.legend-bar {
+  width: 100%; height: 14px; border-radius: 4px;
+  background: linear-gradient(to right, #1a3a5c, #2196f3, #4caf50, #ffeb3b, #ff9800, #f44336, #8b0000);
+  margin-bottom: 5px;
+}
+.legend-labels { display: flex; justify-content: space-between; font-size: 0.68rem; color: #888; }
+
+/* YEAR CHART STRIP */
+#chartStrip { background: #13161f; border-top: 1px solid #2a2d3a; padding: 8px 16px 6px; flex-shrink: 0; }
+#miniChart { width: 100%; height: 55px; cursor: pointer; }
+
+/* Tooltips */
+.leaflet-popup-content-wrapper { background: #1a1d27 !important; color: #e8e8e8 !important; border: 1px solid #ff6b35 !important; border-radius: 8px !important; }
+.leaflet-popup-tip { background: #1a1d27 !important; }
+</style>
+  <link rel="stylesheet" href="../css/skeleton.css" />
+  <script src="../js/skeleton.js"></script>
+</head>
+<body data-theme="heat">
+
+  <!-- SITE NAVIGATION -->
+  <header id="site-header" role="banner" style="flex-shrink:0">
+    <div class="header-inner container">
+      <a href="index.html" class="site-logo" aria-label="Heat Safe Khon Kaen — กลับหน้าแรก">
+        <span class="logo-heat">Heat Safe</span>
+        <span class="logo-city">Khon Kaen</span>
+      </a>
+      <nav id="main-nav" aria-label="เมนูหลัก">
+        <ul class="nav-links" role="list">
+          <li><a href="index.html"  class="nav-link">หน้าแรก</a></li>
+          <li><a href="heat.html"   class="nav-link active">ความร้อน</a></li>
+          <li><a href="dust.html"   class="nav-link">ฝุ่น PM2.5</a></li>
+          <li><a href="rain.html"   class="nav-link">ฝน/พายุ</a></li>
+          <li><a href="flood.html"  class="nav-link">น้ำท่วม</a></li>
+          <li><a href="team.html"   class="nav-link">คณะผู้จัดทำ</a></li>
+          <li><a href="smart-map.html" class="nav-link">แผนที่อัจฉริยะ</a></li>
+        </ul>
+        <a href="heat.html" class="btn btn-outline btn-sm nav-cta">← ความร้อน</a>
+      </nav>
+      <button class="hamburger" id="hamburger"
+              aria-label="เปิด/ปิดเมนูนำทาง"
+              aria-expanded="false"
+              aria-controls="main-nav">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- PAGE TOP BAR -->
+  <div id="topbar">
+    <h1>🗺️ GIS Heatmap อุณหภูมิขอนแก่น</h1>
+    <div class="slider-wrap">
+      <label>ปี:</label>
+      <input type="range" id="yearSlider" min="2000" max="2026" value="2000" step="1">
+      <span id="yearLabel">2000</span>
+    </div>
+    <button id="playBtn">▶ เล่นอัตโนมัติ</button>
+    <div class="stat-strip">
+      <div class="sbox"><div class="sv gis-hot" id="statMax">—</div><div class="sl">สูงสุด (°C)</div></div>
+      <div class="sbox"><div class="sv gis-warm" id="statAvg">—</div><div class="sl">เฉลี่ย (°C)</div></div>
+      <div class="sbox"><div class="sv gis-cool" id="statMin">—</div><div class="sl">ต่ำสุด (°C)</div></div>
+      <div class="sbox"><div class="sv" id="statAnom">—</div><div class="sl">Anomaly (°C)</div></div>
+      <div class="sbox"><div class="sv" id="statEnso" style="font-size:0.75rem">—</div><div class="sl">ENSO Phase</div></div>
+    </div>
+  </div>
+
+  <!-- MAP wrapper (relative so skeleton can overlay correctly) -->
+  <div style="position:relative;flex:1;overflow:hidden">
+    <div id="map-sk-overlay" class="sk-map-ph" style="position:absolute;inset:0;z-index:500">
+      <div class="sk-map-icon">🗺️</div>
+      <div class="sk-map-text">กำลังโหลดแผนที่...</div>
+    </div>
+    <div id="map" style="position:absolute;inset:0"></div>
+  </div>
+
+  <!-- LEGEND -->
+  <div id="legend">
+    <h4>อุณหภูมิเฉลี่ย (°C)</h4>
+    <div class="legend-bar"></div>
+    <div class="legend-labels"><span>26.0</span><span>27.0</span><span>28.5</span></div>
+  </div>
+
+  <!-- MINI CHART STRIP -->
+  <div id="chartStrip">
+    <canvas id="miniChart"></canvas>
+  </div>
+
+<script>
+const districtsMeta = [
+  {name:"เมืองขอนแก่น", lat:16.432, lon:102.824},
+  {name:"บ้านฝาง",      lat:16.638, lon:102.713},
+  {name:"พระยืน",       lat:16.322, lon:102.770},
+  {name:"หนองเรือ",     lat:16.800, lon:102.390},
+  {name:"ชุมแพ",        lat:16.551, lon:102.103},
+  {name:"สีชมพู",       lat:16.597, lon:102.482},
+  {name:"น้ำพอง",       lat:16.757, lon:102.856},
+  {name:"อุบลรัตน์",    lat:16.735, lon:102.613},
+  {name:"กระนวน",       lat:16.710, lon:103.070},
+  {name:"บ้านไผ่",      lat:16.073, lon:102.728},
+  {name:"เปือยน้อย",    lat:16.022, lon:102.957},
+  {name:"พล",           lat:15.823, lon:102.613},
+  {name:"แวงใหญ่",      lat:15.873, lon:102.847},
+  {name:"แวงน้อย",      lat:15.883, lon:102.740},
+  {name:"หนองสองห้อง",  lat:15.883, lon:103.000},
+  {name:"ภูเวียง",      lat:16.897, lon:102.304},
+  {name:"มัญจาคีรี",    lat:16.985, lon:102.780},
+  {name:"ชนบท",         lat:15.973, lon:102.597},
+  {name:"เขาสวนกวาง",   lat:16.575, lon:102.960},
+  {name:"ภูผาม่าน",     lat:16.700, lon:101.931},
+  {name:"ซำสูง",        lat:16.490, lon:102.860},
+  {name:"โคกโพธิ์ไชย",  lat:16.160, lon:102.910},
+  {name:"หนองนาคำ",     lat:16.850, lon:103.357},
+  {name:"บ้านแฮด",      lat:16.582, lon:102.967},
+  {name:"โนนศิลา",      lat:16.350, lon:103.085},
+  {name:"เวียงเก่า",    lat:16.863, lon:102.527},
+];
+
+const yearAnomalyRaw = {
+  2000:-0.05,2001:0.05,2002:0.20,2003:0.10,2004:0.05,2005:0.15,
+  2006:0.10, 2007:0.05,2008:-0.10,2009:0.10,2010:-0.20,2011:-0.15,
+  2012:0.10, 2013:0.20,2014:0.20,2015:0.60,2016:0.55,2017:0.10,
+  2018:0.20, 2019:0.30,2020:0.25,2021:0.05,2022:0.10,2023:0.55,
+  2024:0.85, 2025:0.50,2026:0.30
+};
+
+const ensoLabel = {
+  2000:"La Niña",2001:"Neutral",2002:"El Niño อ่อน",2003:"Neutral",
+  2004:"Neutral",2005:"Warm/Neutral",2006:"El Niño อ่อน",2007:"La Niña",
+  2008:"La Niña",2009:"El Niño อ่อน",2010:"La Niña แรง",2011:"La Niña",
+  2012:"Neutral",2013:"Neutral/Warm",2014:"El Niño อ่อน",2015:"El Niño แรง",
+  2016:"El Niño ค้าง",2017:"Neutral",2018:"El Niño อ่อน",2019:"El Niño",
+  2020:"La Niña เริ่ม",2021:"La Niña",2022:"La Niña",2023:"El Niño + Record 🔥",
+  2024:"El Niño แรง + Record 🔥",2025:"El Niño ลด",2026:"Neutral (ม.ค.-มิ.ย.)"
+};
+
+const distOffsets = [0.30,-0.04,0.00,-0.08,-0.12,-0.08,0.00,-0.08,0.00,0.00,0.00,0.00,0.00,0.00,0.00,-0.16,-0.04,0.00,-0.08,-0.20,-0.04,0.00,-0.04,-0.02,0.00,-0.08];
+const baseline = 26.6;
+const years = Array.from({length:27}, (_,i) => 2000+i);
+
+function getAnnualData(yr) {
+  const anom = yearAnomalyRaw[yr] + (yr - 2000) * 0.023;
+  return districtsMeta.map((d, i) => ({
+    ...d,
+    temp: parseFloat((baseline + anom + distOffsets[i]).toFixed(2)),
+    anom: parseFloat(anom.toFixed(2))
+  }));
+}
+
+const yearlyAvg = {};
+years.forEach(yr => {
+  const d = getAnnualData(yr);
+  yearlyAvg[yr] = parseFloat((d.reduce((a,b)=>a+b.temp,0)/d.length).toFixed(2));
+});
+
+const kkBoundary = [
+  [17.050, 101.800],[17.070, 102.100],[17.120, 102.350],[17.100, 102.650],
+  [17.050, 102.900],[16.970, 103.100],[16.900, 103.280],[16.800, 103.450],
+  [16.650, 103.580],[16.500, 103.660],[16.300, 103.600],[16.100, 103.520],
+  [15.930, 103.380],[15.780, 103.180],[15.680, 103.000],[15.660, 102.780],
+  [15.700, 102.550],[15.780, 102.340],[15.900, 102.170],[16.050, 102.020],
+  [16.130, 101.850],[16.280, 101.730],[16.450, 101.700],[16.620, 101.740],
+  [16.780, 101.790],[16.900, 101.800],[17.050, 101.800]
+];
+
+const map = L.map('map', { center: [16.35, 102.60], zoom: 9, zoomControl: true });
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors', maxZoom: 13
+}).addTo(map);
+
+// Remove map skeleton overlay once first tiles load
+map.once('load', function() {
+  var sk = document.getElementById('map-sk-overlay');
+  if (sk) { sk.style.transition = 'opacity 0.4s'; sk.style.opacity = '0'; setTimeout(function(){ sk.remove(); }, 450); }
+});
+// Fallback: remove after 4 s if load event doesn't fire
+setTimeout(function() {
+  var sk = document.getElementById('map-sk-overlay');
+  if (sk) { sk.style.transition = 'opacity 0.4s'; sk.style.opacity = '0'; setTimeout(function(){ sk.remove(); }, 450); }
+}, 4000);
+
+L.polygon(kkBoundary, { color:'#ff6b35', weight:2.5, opacity:0.9, fillColor:'#ff6b35', fillOpacity:0.06, dashArray:'5,3' }).addTo(map);
+L.marker([16.432, 102.824], {
+  icon: L.divIcon({ className:'', html:'<div style="font-size:11px;font-weight:700;color:#ff6b35;text-shadow:1px 1px 3px #000,0 0 8px #000;white-space:nowrap">จ.ขอนแก่น</div>', iconSize:[80,20], iconAnchor:[-4,10] })
+}).addTo(map);
+
+let heatLayer = null;
+let markerGroup = L.layerGroup().addTo(map);
+
+function tempToIntensity(temp) { return Math.min(1.0, Math.max(0.05, (temp - 25.5) / 3.0)); }
+
+function updateMap(yr) {
+  const data = getAnnualData(yr);
+  const temps = data.map(d => d.temp);
+  const avg = data.reduce((a,b)=>a+b.temp,0)/data.length;
+  const mx = Math.max(...temps); const mn = Math.min(...temps);
+  const anom = data[0].anom;
+
+  document.getElementById('statMax').textContent = mx.toFixed(2)+'°C';
+  document.getElementById('statAvg').textContent = avg.toFixed(2)+'°C';
+  document.getElementById('statMin').textContent = mn.toFixed(2)+'°C';
+  const anomEl = document.getElementById('statAnom');
+  anomEl.textContent = (anom >= 0 ? '+' : '') + anom.toFixed(2);
+  anomEl.className = 'sv ' + (anom >= 0 ? 'anom-pos' : 'anom-neg');
+  document.getElementById('statEnso').textContent = ensoLabel[yr] || 'Neutral';
+
+  const heatPoints = data.map(d => [d.lat, d.lon, tempToIntensity(d.temp)]);
+  if (heatLayer) map.removeLayer(heatLayer);
+  heatLayer = L.heatLayer(heatPoints, {
+    radius:55, blur:45, maxZoom:12, max:1.0,
+    gradient: { 0.0:'#1a3a5c', 0.2:'#2196f3', 0.4:'#4caf50', 0.55:'#ffeb3b', 0.70:'#ff9800', 0.85:'#f44336', 1.0:'#8b0000' }
+  }).addTo(map);
+
+  markerGroup.clearLayers();
+  data.forEach(d => {
+    const heat = d.temp>=28.2?'#ff5252':d.temp>=27.5?'#ff9800':d.temp>=27.0?'#ffeb3b':'#4fc3f7';
+    const circle = L.circleMarker([d.lat, d.lon], { radius:6, fillColor:heat, color:'#000', weight:0.5, fillOpacity:0.85 });
+    circle.bindPopup(`<div style="font-size:13px;min-width:150px"><b style="color:#ff6b35">อ.${d.name}</b><br>อุณหภูมิเฉลี่ยปี ${yr}: <b>${d.temp}°C</b><br>Anomaly: <b>${d.anom>=0?'+':''}${d.anom}°C</b><br>ENSO: ${ensoLabel[yr]||'Neutral'}</div>`);
+    markerGroup.addLayer(circle);
+  });
+  drawMiniChart(yr);
+}
+
+function drawMiniChart(activeYr) {
+  const canvas = document.getElementById('miniChart');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.offsetWidth; const H = canvas.offsetHeight;
+  canvas.width = W * window.devicePixelRatio; canvas.height = H * window.devicePixelRatio;
+  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  ctx.clearRect(0,0,W,H);
+
+  const vals = years.map(y => yearlyAvg[y]);
+  const minV = Math.min(...vals) - 0.2; const maxV = Math.max(...vals) + 0.2;
+  const padL=36, padR=8, padT=4, padB=18;
+  const chartW=W-padL-padR; const chartH=H-padT-padB;
+
+  function xOf(i) { return padL + (i/(years.length-1))*chartW; }
+  function yOf(v) { return padT + (1-(v-minV)/(maxV-minV))*chartH; }
+
+  ctx.strokeStyle='#2a2d3a'; ctx.lineWidth=0.5;
+  ctx.beginPath(); ctx.moveTo(padL,padT); ctx.lineTo(padL,H-padB); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(padL,H-padB); ctx.lineTo(W-padR,H-padB); ctx.stroke();
+
+  ctx.fillStyle='#666'; ctx.font='9px sans-serif'; ctx.textAlign='right';
+  ctx.fillText(maxV.toFixed(1), padL-3, padT+8);
+  ctx.fillText(minV.toFixed(1), padL-3, H-padB-2);
+
+  ctx.beginPath();
+  years.forEach((yr,i)=>{ const x=xOf(i),y=yOf(yearlyAvg[yr]); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
+  ctx.strokeStyle='#ff6b3588'; ctx.lineWidth=1.5; ctx.stroke();
+
+  ctx.beginPath();
+  years.forEach((yr,i)=>{ const x=xOf(i),y=yOf(yearlyAvg[yr]); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
+  ctx.lineTo(xOf(years.length-1),H-padB); ctx.lineTo(xOf(0),H-padB); ctx.closePath();
+  const grad=ctx.createLinearGradient(0,padT,0,H-padB);
+  grad.addColorStop(0,'#ff6b3533'); grad.addColorStop(1,'#ff6b3500');
+  ctx.fillStyle=grad; ctx.fill();
+
+  years.forEach((yr,i)=>{
+    const x=xOf(i),y=yOf(yearlyAvg[yr]);
+    const isActive=yr===activeYr;
+    ctx.beginPath(); ctx.arc(x,y,isActive?5:2.5,0,Math.PI*2);
+    ctx.fillStyle=isActive?'#ff6b35':'#ff9800'; ctx.fill();
+    if(isActive){
+      ctx.fillStyle='#fff'; ctx.font='bold 9px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(yr,x,y-8); ctx.fillText(yearlyAvg[yr].toFixed(2)+'°C',x,y+15);
+    }
+    if(yr%5===0){ ctx.fillStyle='#555'; ctx.font='8px sans-serif'; ctx.textAlign='center'; ctx.fillText(yr,x,H-3); }
+  });
+}
+
+const slider = document.getElementById('yearSlider');
+const yearLabel = document.getElementById('yearLabel');
+slider.addEventListener('input', ()=>{ const yr=+slider.value; yearLabel.textContent=yr; updateMap(yr); });
+
+document.getElementById('miniChart').addEventListener('click', e=>{
+  const canvas=document.getElementById('miniChart');
+  const rect=canvas.getBoundingClientRect();
+  const x=e.clientX-rect.left;
+  const padL=36,padR=8,chartW=rect.width-padL-padR;
+  const idx=Math.round(((x-padL)/chartW)*(years.length-1));
+  if(idx>=0&&idx<years.length){ slider.value=years[idx]; yearLabel.textContent=years[idx]; updateMap(years[idx]); }
+});
+
+let playInterval=null;
+const playBtn=document.getElementById('playBtn');
+playBtn.addEventListener('click',()=>{
+  if(playInterval){ clearInterval(playInterval); playInterval=null; playBtn.textContent='▶ เล่นอัตโนมัติ'; }
+  else {
+    playBtn.textContent='⏸ หยุด';
+    let yr=+slider.value; if(yr>=2026) yr=2000;
+    playInterval=setInterval(()=>{ yr++; if(yr>2026){ yr=2000; } slider.value=yr; yearLabel.textContent=yr; updateMap(yr); },700);
+  }
+});
+
+updateMap(2000);
+</script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

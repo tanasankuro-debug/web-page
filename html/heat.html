@@ -121,6 +121,8 @@
   </style>
 
   <script src="../js/utility-bar.js"></script>
+  <link rel="stylesheet" href="../css/skeleton.css" />
+  <script src="../js/skeleton.js"></script>
 </head>
 <body data-theme="heat">
 
@@ -2458,6 +2460,50 @@
             ติดตามข้อมูลอุณหภูมิแบบเรียลไทม์ เพื่อวางแผนและปกป้องตัวเองได้ทุกวัน
           </p>
           <a href="heat-map-full.html" class="btn btn-primary btn-lg">เปิดดูแผนที่ความร้อนขอนแก่นเรียลไทม์ &#x2192;</a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── TOOLS ─────────────────────────────────────────────────────────── -->
+    <section class="section" aria-labelledby="tools-heading" style="border-top:1px solid var(--border)">
+      <div class="container">
+        <p class="section-label reveal">เครื่องมือเชิงลึก</p>
+        <h2 id="tools-heading" class="section-heading reveal">สำรวจข้อมูลความร้อน</h2>
+        <p class="section-intro reveal">เครื่องมือเชิงวิชาการสำหรับวิเคราะห์และจำลองปัญหาความร้อนในขอนแก่น</p>
+
+        <div class="reveal" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;margin-top:1.5rem">
+
+          <!-- GIS Heatmap -->
+          <a href="heat-gis.html" style="text-decoration:none;display:flex;flex-direction:column;gap:.75rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;transition:transform .2s,box-shadow .2s;color:inherit" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+            <div style="width:44px;height:44px;border-radius:10px;background:rgba(239,68,68,.12);display:flex;align-items:center;justify-content:center;font-size:1.5rem">🗺️</div>
+            <div>
+              <div style="font-family:var(--font-display);font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:.3rem">GIS Heatmap อุณหภูมิขอนแก่น</div>
+              <div style="font-size:.85rem;color:var(--text-sec);line-height:1.55">แผนที่ความร้อนเชิง GIS แสดงอุณหภูมิ 26 อำเภอย้อนหลังถึงปี 2000 พร้อม ENSO phase และ slider เลือกปีแบบเรียลไทม์</div>
+            </div>
+            <span style="font-size:.78rem;color:var(--heat);font-weight:600;margin-top:auto">เปิดแผนที่ GIS &#x2192;</span>
+          </a>
+
+          <!-- Temperature Analysis -->
+          <a href="heat-analysis.html" style="text-decoration:none;display:flex;flex-direction:column;gap:.75rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;transition:transform .2s,box-shadow .2s;color:inherit" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+            <div style="width:44px;height:44px;border-radius:10px;background:rgba(239,68,68,.12);display:flex;align-items:center;justify-content:center;font-size:1.5rem">📈</div>
+            <div>
+              <div style="font-family:var(--font-display);font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:.3rem">วิเคราะห์อุณหภูมิ 2015–2026</div>
+              <div style="font-size:.85rem;color:var(--text-sec);line-height:1.55">กราฟ Heatmap รายเดือน แนวโน้มรายปี trendline และตารางสถิติ ครอบคลุม 11 ปี พร้อม regression analysis</div>
+            </div>
+            <span style="font-size:.78rem;color:var(--heat);font-weight:600;margin-top:auto">ดูการวิเคราะห์ &#x2192;</span>
+          </a>
+
+          <!-- Pocket Park Simulation -->
+          <a href="pocket-park.html" style="text-decoration:none;display:flex;flex-direction:column;gap:.75rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;transition:transform .2s,box-shadow .2s;color:inherit" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='var(--shadow)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+            <div style="width:44px;height:44px;border-radius:10px;background:rgba(34,197,94,.12);display:flex;align-items:center;justify-content:center;font-size:1.5rem">🌳</div>
+            <div>
+              <div style="font-family:var(--font-display);font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:.3rem">โมเดลสวนกระเป๋าลดความร้อน</div>
+              <div style="font-size:.85rem;color:var(--text-sec);line-height:1.55">จำลองผลการวางสวนกระเป๋าในเขตเมืองขอนแก่น คลิกบนแผนที่เพื่อวางสวนและดูอุณหภูมิที่ลดลงแบบเรียลไทม์</div>
+            </div>
+            <span style="font-size:.78rem;color:#22c55e;font-weight:600;margin-top:auto">เปิดโมเดลจำลอง &#x2192;</span>
+          </a>
+
         </div>
       </div>
     </section>

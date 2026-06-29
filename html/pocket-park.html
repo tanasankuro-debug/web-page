@@ -1,0 +1,344 @@
+﻿<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>โมเดลสวนกระเป๋าลดความร้อน — Heat Safe Khon Kaen</title>
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/base.css" />
+<link rel="stylesheet" href="../css/layout.css" />
+<link rel="stylesheet" href="../css/components.css" />
+<link rel="stylesheet" href="../css/themes.css" />
+<script src="../js/utility-bar.js"></script>
+<style>
+  body { background: #0f1117; color: #e8e8e8; padding: 0; line-height: 1.5; }
+
+  .page-wrap { padding: 18px; font-family: 'Segoe UI', Tahoma, sans-serif; }
+  .page-wrap h1 { text-align: center; font-size: 1.5rem; color: #ff6b35; margin-bottom: 2px; }
+  .subtitle { text-align: center; font-size: 0.82rem; color: #888; margin-bottom: 4px; }
+  .src { text-align: center; font-size: 0.7rem; color: #5b6b7a; margin-bottom: 18px; font-style: italic; }
+
+  .layout { display: grid; grid-template-columns: 1fr 300px; gap: 18px; max-width: 1180px; margin: 0 auto; }
+  @media (max-width: 880px){ .layout{ grid-template-columns: 1fr; } }
+
+  .panel { background: #1a1d27; border: 1px solid #2a2d3a; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+  .panel h2 { font-size: 0.95rem; color: #ccc; margin-bottom: 10px; border-bottom: 1px solid #2a2d3a; padding-bottom: 6px; }
+
+  #mapwrap { position: relative; }
+  canvas { width: 100%; height: auto; border-radius: 8px; display: block; cursor: crosshair; background:#000; }
+  .hint { font-size: 0.72rem; color: #7a8a99; margin-top: 8px; text-align:center; }
+
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 4px; }
+  .pk-stat-card { background: #12151d; border: 1px solid #2a2d3a; border-radius: 9px; padding: 10px; text-align: center; }
+  .pk-stat-card .value { font-size: 1.45rem; font-weight: 700; color: #ff6b35; }
+  .pk-stat-card .label { font-size: 0.68rem; color: #8a98a8; margin-top: 2px; }
+  .pk-stat-card.cool .value{ color:#4fc3f7; } .pk-stat-card.green .value{ color:#66bb6a; }
+  .pk-stat-card.warn .value{ color:#ffd54f; }
+
+  label.ctl { display:block; font-size:0.78rem; color:#aeb9c5; margin: 12px 0 4px; }
+  .ctl-val { float:right; color:#ff6b35; font-weight:600; }
+  input[type=range]{ width:100%; accent-color:#ff6b35; }
+
+  .page-wrap .pk-btn { display:inline-block; width:100%; padding:9px; border:none; border-radius:8px; background:#ff6b35; color:#fff; font-weight:600; font-size:0.82rem; cursor:pointer; margin-top:10px; }
+  .page-wrap .pk-btn.sec { background:#2a2d3a; color:#cfd8e3; }
+  .page-wrap .pk-btn:hover{ opacity:0.9; }
+
+  .legend-strip { display:flex; align-items:center; gap:6px; font-size:0.68rem; color:#9aa7b4; margin-top:8px; flex-wrap:wrap; justify-content:center; }
+  .grad { width:140px; height:11px; border-radius:3px; background:linear-gradient(90deg,#2c7bb6,#7fcdbb,#ffffbf,#fdae61,#d7191c); }
+
+  .toggle-row{ display:flex; gap:8px; margin-top:6px; }
+  .toggle-row .pk-btn{ margin-top:0; }
+  .toggle-row .pk-btn.active{ outline:2px solid #ff6b35; background:#3a2418; }
+
+  table.method { width:100%; font-size:0.74rem; border-collapse:collapse; }
+  table.method td{ padding:4px 6px; border-bottom:1px solid #232733; vertical-align:top; }
+  table.method td:first-child{ color:#8a98a8; white-space:nowrap; }
+  code { background:#12151d; padding:1px 5px; border-radius:4px; color:#7fd6c0; font-size:0.74rem; }
+  .ref { font-size:0.68rem; color:#6b7a89; margin-top:6px; }
+  .ref a{ color:#4fc3f7; text-decoration:none; }
+  .parklist{ font-size:0.72rem; color:#9aa7b4; max-height:90px; overflow:auto; }
+</style>
+  <link rel="stylesheet" href="../css/skeleton.css" />
+  <script src="../js/skeleton.js"></script>
+</head>
+<body data-theme="heat">
+
+  <header id="site-header" role="banner">
+    <div class="header-inner container">
+      <a href="index.html" class="site-logo" aria-label="Heat Safe Khon Kaen — กลับหน้าแรก">
+        <span class="logo-heat">Heat Safe</span>
+        <span class="logo-city">Khon Kaen</span>
+      </a>
+      <nav id="main-nav" aria-label="เมนูหลัก">
+        <ul class="nav-links" role="list">
+          <li><a href="index.html"  class="nav-link">หน้าแรก</a></li>
+          <li><a href="heat.html"   class="nav-link active">ความร้อน</a></li>
+          <li><a href="dust.html"   class="nav-link">ฝุ่น PM2.5</a></li>
+          <li><a href="rain.html"   class="nav-link">ฝน/พายุ</a></li>
+          <li><a href="flood.html"  class="nav-link">น้ำท่วม</a></li>
+          <li><a href="team.html"   class="nav-link">คณะผู้จัดทำ</a></li>
+          <li><a href="smart-map.html" class="nav-link">แผนที่อัจฉริยะ</a></li>
+        </ul>
+        <a href="heat.html" class="btn btn-outline btn-sm nav-cta">← ความร้อน</a>
+      </nav>
+      <button class="hamburger" id="hamburger"
+              aria-label="เปิด/ปิดเมนูนำทาง"
+              aria-expanded="false"
+              aria-controls="main-nav">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="page-wrap">
+    <h1>🌳 โมเดลจำลองสวนกระเป๋าลดความร้อนเมือง</h1>
+    <div class="subtitle">Pocket Park Urban Cooling Simulation — เขตเมืองขอนแก่น (พื้นที่จำลอง ~3 × 2 กม.)</div>
+    <div class="src">โมเดลเชิงวิชาการ • Heat Safe Khon Kaen • อิงพารามิเตอร์จากงานวิจัย Park Cooling Intensity (PCI) & Park Cooling Distance (PCD)</div>
+
+    <div class="layout">
+      <!-- LEFT: MAP -->
+      <div>
+        <div class="panel">
+          <h2>แผนที่ความร้อนเชิงจำลอง (คลิกเพื่อวางสวนกระเป๋า)</h2>
+          <div id="mapwrap">
+            <canvas id="cv" width="600" height="400"></canvas>
+          </div>
+          <div class="legend-strip">
+            <span>เย็น</span><div class="grad"></div><span>ร้อน</span>
+            <span style="margin-left:10px;">🟩 สวนกระเป๋า &nbsp; 💧 แหล่งน้ำ/บึง &nbsp; ⬛ ย่านเมืองหนาแน่น</span>
+          </div>
+          <div class="toggle-row">
+            <button class="pk-btn sec active" id="vAfter">มุมมอง: หลังวางสวน</button>
+            <button class="pk-btn sec" id="vBefore">ก่อนวางสวน</button>
+            <button class="pk-btn sec" id="vDiff">ส่วนต่าง ΔT</button>
+          </div>
+          <div class="hint">คลิกบนแผนที่เพื่อวางสวน • คลิกที่สวนเดิมเพื่อลบ • ปรับขนาด/เรือนยอดไม้ทางขวา</div>
+        </div>
+
+        <div class="panel">
+          <h2>📐 ระเบียบวิธี (Methodology)</h2>
+          <table class="method">
+            <tr><td>พื้นผิวความร้อน</td><td>สร้างจากการใช้ที่ดิน: ย่านเมืองหนาแน่น (+ร้อน), ถนนสายหลัก, แหล่งน้ำ/พื้นที่สีเขียวเดิม (−เย็น) บนกริด 60×40 เซลล์ (1 เซลล์ ≈ 50 ม.)</td></tr>
+            <tr><td>ผลเย็นต่อสวน</td><td><code>ΔT(d) = ΔTmax · k · exp(−d² / 2σ²)</code> — ผลเย็นลดลงแบบเกาส์เซียนตามระยะห่าง d จากใจกลางสวน</td></tr>
+            <tr><td>ΔTmax</td><td>ความเย็นสูงสุดใจกลางสวน ตั้งต้น ~2.5°C สำหรับสวนเล็ก (อิงผล ~3°C ของสวน 60×40 ม.)</td></tr>
+            <tr><td>k (เรือนยอดไม้)</td><td><code>k = min(canopy / 42%, 1)</code> — ผลเย็นแปรตามสัดส่วนเรือนยอดไม้ อิ่มตัวที่ ~42%</td></tr>
+            <tr><td>σ (ระยะเย็น)</td><td>แปรตามรัศมีสวน → สวนใหญ่กระจายความเย็นไกลขึ้น (Park Cooling Distance)</td></tr>
+            <tr><td>การซ้อนทับ</td><td>หลายสวนรวมผลแบบบวก แล้วจำกัดไม่ให้เย็นเกินอุณหภูมิแหล่งน้ำ</td></tr>
+          </table>
+          <div class="ref">
+            อ้างอิงพารามิเตอร์: สวนเล็ก 60×40 ม. ลด ~3°C; เกณฑ์เรือนยอดไม้ ~42% ให้ผลเย็นสูงสุด; ระยะเย็นเฉลี่ย ~210 ม. แปรตามขนาดสวน —
+            Frontiers (Shanghai 2021), Oxford IJLCT (Hong Kong), ScienceDirect/STOTEN, MDPI Sustainability 2025.
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: CONTROLS + STATS -->
+      <div>
+        <div class="panel">
+          <h2>📊 ผลการจำลอง</h2>
+          <div class="stat-grid">
+            <div class="pk-stat-card"><div class="value" id="sParks">0</div><div class="label">จำนวนสวน</div></div>
+            <div class="pk-stat-card green"><div class="value" id="sArea">0</div><div class="label">พื้นที่สวนรวม (ไร่)</div></div>
+            <div class="pk-stat-card cool"><div class="value" id="sDrop">0.0</div><div class="label">ลดอุณหภูมิเฉลี่ย (°C)</div></div>
+            <div class="pk-stat-card warn"><div class="value" id="sPeak">0.0</div><div class="label">ลดจุดร้อนสุด (°C)</div></div>
+            <div class="pk-stat-card"><div class="value" id="sAvgNow">—</div><div class="label">อุณหภูมิเฉลี่ยปัจจุบัน</div></div>
+            <div class="pk-stat-card cool"><div class="value" id="sCoolPct">0%</div><div class="label">พื้นที่ที่เย็นลง</div></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>🎛️ พารามิเตอร์สวน</h2>
+          <label class="ctl">รัศมีสวน (เมตร) <span class="ctl-val" id="vRad">35</span></label>
+          <input type="range" id="rRad" min="15" max="90" value="35" step="5">
+          <label class="ctl">สัดส่วนเรือนยอดไม้ (%) <span class="ctl-val" id="vCan">60</span></label>
+          <input type="range" id="rCan" min="10" max="90" value="60" step="5">
+          <label class="ctl">ความเย็นสูงสุด ΔTmax (°C) <span class="ctl-val" id="vDt">2.5</span></label>
+          <input type="range" id="rDt" min="1" max="4" value="2.5" step="0.1">
+          <button class="pk-btn" id="bSmart">⚡ วางอัตโนมัติที่จุดร้อนสุด 5 จุด</button>
+          <button class="pk-btn sec" id="bClear">ล้างสวนทั้งหมด</button>
+        </div>
+
+        <div class="panel">
+          <h2>🗒️ รายการสวนที่วาง</h2>
+          <div class="parklist" id="plist">— ยังไม่มีสวน —</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+<script>
+// ---------- GRID & HEAT SURFACE ----------
+const COLS = 60, ROWS = 40, CELL_M = 50;
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+const PX = cv.width / COLS;
+
+let seed = 1337;
+function rnd(){ seed = (seed*1103515245 + 12345) & 0x7fffffff; return seed/0x7fffffff; }
+
+const base = new Float32Array(COLS*ROWS);
+const idx = (x,y)=> y*COLS+x;
+
+function buildBaseline(){
+  const baseT = 27.0;
+  const features = [];
+  features.push({x:30,y:20,r:14,amp:+3.2,type:'urban'});
+  features.push({x:20,y:14,r:7, amp:+2.2,type:'urban'});
+  features.push({x:42,y:26,r:8, amp:+2.4,type:'urban'});
+  features.push({x:14,y:27,r:6, amp:-3.0,type:'water'});
+  features.push({x:48,y:11,r:8, amp:-1.8,type:'green'});
+  for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){
+    let t = baseT + (rnd()-0.5)*0.4;
+    for(const f of features){
+      const d = Math.hypot(x-f.x, y-f.y);
+      t += f.amp * Math.exp(-(d*d)/(2*f.r*f.r));
+    }
+    base[idx(x,y)] = t;
+  }
+  for(let x=0;x<COLS;x++){ base[idx(x,20)] += 0.6; base[idx(x,21)] += 0.4; }
+  for(let y=0;y<ROWS;y++){ base[idx(30,y)] += 0.5; }
+  return features;
+}
+const features = buildBaseline();
+const waterFloor = 24.0;
+
+const parks = [];
+let P = { radiusM:35, canopy:60, dtmax:2.5 };
+
+function parkCellRadius(p){ return p.radiusM / CELL_M; }
+function parkAreaRai(p){ return (Math.PI*p.radiusM*p.radiusM)/1600; }
+function pcdMeters(p){ return 50 + 1.6 * p.radiusM; }
+
+function coolingField(){
+  const cool = new Float32Array(COLS*ROWS);
+  for(const p of parks){
+    const sigma = (pcdMeters(p)/CELL_M) / 2;
+    const k = Math.min(p.canopy/42, 1.0);
+    const reach = Math.ceil(sigma*3);
+    for(let y=Math.max(0,p.y-reach); y<=Math.min(ROWS-1,p.y+reach); y++){
+      for(let x=Math.max(0,p.x-reach); x<=Math.min(COLS-1,p.x+reach); x++){
+        const d2 = (x-p.x)**2 + (y-p.y)**2;
+        cool[idx(x,y)] += p.dtmax * k * Math.exp(-d2/(2*sigma*sigma));
+      }
+    }
+  }
+  return cool;
+}
+
+function currentSurface(){
+  const cool = coolingField();
+  const out = new Float32Array(COLS*ROWS);
+  for(let i=0;i<out.length;i++){
+    out[i] = Math.max(waterFloor, base[i] - cool[i]);
+  }
+  return {out, cool};
+}
+
+let view = 'after';
+function tempColor(t){
+  const tt = Math.min(1, Math.max(0, (t-24.5)/6.5));
+  const stops = [[44,123,182],[127,205,187],[255,255,191],[253,174,97],[215,25,28]];
+  const s = tt*(stops.length-1); const i = Math.floor(s); const f = s-i;
+  const a = stops[i], b = stops[Math.min(i+1,stops.length-1)];
+  return `rgb(${Math.round(a[0]+(b[0]-a[0])*f)},${Math.round(a[1]+(b[1]-a[1])*f)},${Math.round(a[2]+(b[2]-a[2])*f)})`;
+}
+function diffColor(d){ const tt = Math.min(1, d/3.0); return `rgba(79,195,247,${tt})`; }
+
+function render(){
+  const {out, cool} = currentSurface();
+  for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){
+    let col;
+    if(view==='before') col = tempColor(base[idx(x,y)]);
+    else if(view==='diff'){ ctx.fillStyle='#0d1016'; ctx.fillRect(x*PX,y*PX,PX+0.5,PX+0.5); col = diffColor(cool[idx(x,y)]); }
+    else col = tempColor(out[idx(x,y)]);
+    ctx.fillStyle = col;
+    ctx.fillRect(x*PX, y*PX, PX+0.5, PX+0.5);
+  }
+  for(const p of parks){
+    const cx=(p.x+0.5)*PX, cy=(p.y+0.5)*PX, r=Math.max(PX*0.7, parkCellRadius(p)*PX);
+    const g = ctx.createRadialGradient(cx,cy,1,cx,cy,r);
+    g.addColorStop(0,'rgba(102,187,106,0.85)');
+    g.addColorStop(1,'rgba(102,187,106,0.05)');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,r,0,7); ctx.fill();
+    ctx.strokeStyle='#2e7d32'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(cx,cy,r,0,7); ctx.stroke();
+    ctx.font='12px Segoe UI'; ctx.textAlign='center'; ctx.fillStyle='#fff'; ctx.fillText('🌳',cx,cy+4);
+  }
+  updateStats(out, cool);
+}
+
+function mean(arr){ let s=0; for(let i=0;i<arr.length;i++) s+=arr[i]; return s/arr.length; }
+function updateStats(out, cool){
+  const before = mean(base), after = mean(out);
+  const drop = before - after;
+  let peak=0, cooled=0;
+  for(let i=0;i<cool.length;i++){ if(cool[i]>peak) peak=cool[i]; if(cool[i]>0.1) cooled++; }
+  const totalArea = parks.reduce((a,p)=>a+parkAreaRai(p),0);
+  document.getElementById('sParks').textContent = parks.length;
+  document.getElementById('sArea').textContent = totalArea.toFixed(1);
+  document.getElementById('sDrop').textContent = drop.toFixed(2);
+  document.getElementById('sPeak').textContent = peak.toFixed(2);
+  document.getElementById('sAvgNow').textContent = after.toFixed(1)+'°';
+  document.getElementById('sCoolPct').textContent = Math.round(100*cooled/cool.length)+'%';
+  const pl = document.getElementById('plist');
+  if(!parks.length){ pl.textContent='— ยังไม่มีสวน —'; return; }
+  pl.innerHTML = parks.map((p,i)=>`#${i+1} • รัศมี ${p.radiusM}ม • เรือนยอด ${p.canopy}% • ${parkAreaRai(p).toFixed(2)} ไร่`).join('<br>');
+}
+
+cv.addEventListener('click', e=>{
+  const rect = cv.getBoundingClientRect();
+  const sx = cv.width/rect.width, sy = cv.height/rect.height;
+  const gx = Math.floor((e.clientX-rect.left)*sx / PX);
+  const gy = Math.floor((e.clientY-rect.top)*sy / PX);
+  const hit = parks.findIndex(p=> Math.hypot(p.x-gx,p.y-gy) <= parkCellRadius(p)+0.6);
+  if(hit>=0){ parks.splice(hit,1); render(); return; }
+  parks.push({x:gx,y:gy,radiusM:P.radiusM,canopy:P.canopy,dtmax:P.dtmax});
+  render();
+});
+
+document.getElementById('bSmart').addEventListener('click', ()=>{
+  const cool = coolingField();
+  const cand = [];
+  for(let y=2;y<ROWS-2;y++)for(let x=2;x<COLS-2;x++){
+    const eff = base[idx(x,y)] - cool[idx(x,y)];
+    cand.push({x,y,eff});
+  }
+  cand.sort((a,b)=>b.eff-a.eff);
+  let placed=0, i=0;
+  while(placed<5 && i<cand.length){
+    const c=cand[i++];
+    const minSep = (pcdMeters({radiusM:P.radiusM})/CELL_M)*0.9;
+    if(parks.some(p=>Math.hypot(p.x-c.x,p.y-c.y)<minSep)) continue;
+    parks.push({x:c.x,y:c.y,radiusM:P.radiusM,canopy:P.canopy,dtmax:P.dtmax});
+    placed++;
+  }
+  render();
+});
+document.getElementById('bClear').addEventListener('click', ()=>{ parks.length=0; render(); });
+
+function bind(id,key,valId,fmt){
+  const el=document.getElementById(id);
+  el.addEventListener('input', ()=>{ P[key]=parseFloat(el.value); document.getElementById(valId).textContent=fmt(el.value); render(); });
+}
+bind('rRad','radiusM','vRad',v=>v);
+bind('rCan','canopy','vCan',v=>v);
+bind('rDt','dtmax','vDt',v=>parseFloat(v).toFixed(1));
+
+const vmap={vAfter:'after',vBefore:'before',vDiff:'diff'};
+['vAfter','vBefore','vDiff'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',()=>{
+    view=vmap[id];
+    ['vAfter','vBefore','vDiff'].forEach(j=>document.getElementById(j).classList.toggle('active',j===id));
+    render();
+  });
+});
+
+render();
+</script>
+<script src="../js/nav.js"></script>
+</body>
+</html>
