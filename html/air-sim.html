@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>แบบจำลอง 3D — Heat Safe Khon Kaen</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100dvh;
+      background: #010C1A;
+      font-family: 'Noto Sans Thai', 'Barlow Condensed', sans-serif;
+      overflow: hidden;
+    }
+
+    /* ── Top bar ── */
+    .mb-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0 1rem;
+      height: 52px;
+      background: #0B1829;
+      border-bottom: 1px solid #1E3050;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .mb-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #FB923C;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 0.4rem 0.8rem;
+      border: 1.5px solid rgba(251,146,60,0.35);
+      border-radius: 8px;
+      transition: background 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .mb-back:hover,
+    .mb-back:focus-visible {
+      background: rgba(251,146,60,0.12);
+      border-color: rgba(251,146,60,0.65);
+      outline: 2px solid rgba(251,146,60,0.5);
+      outline-offset: 2px;
+    }
+
+    .mb-title {
+      flex: 1;
+      color: #F1F5F9;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .mb-close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      color: #64748B;
+      font-size: 1.1rem;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background 0.15s, color 0.15s;
+      line-height: 1;
+    }
+    .mb-close:hover,
+    .mb-close:focus-visible {
+      background: rgba(255,255,255,0.08);
+      color: #F1F5F9;
+      outline: 2px solid rgba(255,255,255,0.3);
+      outline-offset: 2px;
+    }
+
+    /* ── iframe ── */
+    .mb-frame {
+      flex: 1;
+      width: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* ── Fallback message (shown on timeout or error) ── */
+    .mb-fallback {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      color: #64748B;
+      text-align: center;
+      padding: 2rem;
+    }
+    .mb-fallback svg { opacity: 0.4; }
+    .mb-fallback p  { font-size: 0.9rem; line-height: 1.7; }
+    .mb-fallback p small { font-size: 0.8rem; opacity: 0.75; display: block; margin-top: 0.3rem; }
+
+    .mb-fallback-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+    .mb-fallback-open,
+    .mb-fallback-retry {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.875rem;
+      font-weight: 700;
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      font-family: inherit;
+    }
+    .mb-fallback-open {
+      color: #FB923C;
+      text-decoration: none;
+      border: 1.5px solid rgba(251,146,60,0.5);
+      background: transparent;
+    }
+    .mb-fallback-open:hover,
+    .mb-fallback-open:focus-visible {
+      background: rgba(251,146,60,0.1);
+      border-color: #FB923C;
+      outline: 2px solid rgba(251,146,60,0.4);
+      outline-offset: 2px;
+    }
+    .mb-fallback-retry {
+      color: #94A3B8;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.12);
+    }
+    .mb-fallback-retry:hover,
+    .mb-fallback-retry:focus-visible {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.25);
+      color: #F1F5F9;
+      outline: 2px solid rgba(255,255,255,0.2);
+      outline-offset: 2px;
+    }
+  </style>
+  <script src="../js/utility-bar.js"></script>
+  <link rel="stylesheet" href="../css/skeleton.css" />
+  <script src="../js/skeleton.js"></script>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <div class="mb-bar">
+    <a href="javascript:history.back()" class="mb-back" aria-label="กลับ">
+      <svg viewBox="0 0 20 20" fill="none" width="15" height="15" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M13 10H7M10 13l-3-3 3-3"/>
+        <circle cx="10" cy="10" r="8"/>
+      </svg>
+      กลับ
+    </a>
+    <span class="mb-title" style="flex-direction:column;align-items:flex-start;gap:0;line-height:1.2;">
+      <span style="display:flex;align-items:center;gap:5px;">
+        <svg viewBox="0 0 16 16" fill="none" width="13" height="13" stroke="#FB923C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M8 2C5.8 2 4 3.8 4 6c0 3 4 8 4 8s4-5 4-8c0-2.2-1.8-4-4-4z"/>
+          <circle cx="8" cy="6" r="1.5"/>
+        </svg>
+        <h1 style="display:inline;font:inherit;margin:0;padding:0;color:inherit;">แบบจำลอง 3D</h1>
+      </span>
+      <span style="font-size:0.65rem;color:rgba(241,245,249,0.5);font-weight:400;padding-left:18px;">จำลองสภาพแวดล้อมเมืองและเกาะความร้อน</span>
+    </span>
+    <a href="index.html" class="mb-close" aria-label="ปิด">✕</a>
+  </div>
+
+  <!-- Air Sim iframe -->
+  <iframe
+    class="mb-frame"
+    src="https://air-sim.vercel.app/"
+    title="แบบจำลอง 3D — Air Sim"
+    allow="geolocation; fullscreen"
+    id="mb-iframe">
+  </iframe>
+
+  <!-- Fallback panel (hidden until timeout or error) -->
+  <div class="mb-fallback" id="mb-fallback" role="alert" aria-live="assertive" aria-atomic="true">
+    <svg viewBox="0 0 48 48" fill="none" width="56" height="56" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="24" cy="24" r="20"/>
+      <path d="M24 14v13M24 34v1"/>
+    </svg>
+    <p>
+      ไม่สามารถโหลดแบบจำลองได้
+      <small>บริการภายนอกอาจใช้งานไม่ได้ชั่วคราว หรือการเชื่อมต่ออินเทอร์เน็ตขัดข้อง</small>
+    </p>
+    <div class="mb-fallback-btns">
+      <a
+        href="https://air-sim.vercel.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mb-fallback-open"
+      >
+        <svg viewBox="0 0 16 16" fill="none" width="13" height="13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2h4v4M14 2l-7 7M6 4H3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-3"/></svg>
+        เปิดในแท็บใหม่
+      </a>
+      <button class="mb-fallback-retry" id="mb-retry-btn" type="button">
+        <svg viewBox="0 0 16 16" fill="none" width="13" height="13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 7A5.5 5.5 0 1 0 12 11.2"/><path d="M14 7V4.5l-2.5 2.5"/></svg>
+        ลองใหม่
+      </button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var iframe    = document.getElementById('mb-iframe');
+      var fallback  = document.getElementById('mb-fallback');
+      var retryBtn  = document.getElementById('mb-retry-btn');
+      var iframeSrc = iframe.getAttribute('src');
+      var timer     = null;
+      var didLoad   = false;
+
+      function showFallback() {
+        clearTimeout(timer);
+        iframe.style.display   = 'none';
+        fallback.style.display = 'flex';
+      }
+
+      function startTimer() {
+        clearTimeout(timer);
+        didLoad = false;
+        timer = setTimeout(function () {
+          if (!didLoad) showFallback();
+        }, 10000);
+      }
+
+      iframe.addEventListener('load', function () {
+        didLoad = true;
+        clearTimeout(timer);
+      });
+
+      iframe.addEventListener('error', showFallback);
+
+      retryBtn.addEventListener('click', function () {
+        fallback.style.display = 'none';
+        iframe.style.display   = 'block';
+        iframe.setAttribute('src', '');
+        iframe.setAttribute('src', iframeSrc);
+        startTimer();
+      });
+
+      startTimer();
+    }());
+  </script>
+
+</body>
+</html>

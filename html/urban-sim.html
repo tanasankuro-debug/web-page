@@ -36,6 +36,15 @@
       font-size:10px;padding:3px 8px;border-radius:20px;
       background:rgba(251,146,60,0.15);border:1px solid var(--border);color:var(--accent)
     }
+    .view-toggle{
+      display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;
+    }
+    .view-btn{
+      padding:5px 14px;font-size:12px;font-family:'Noto Sans Thai',sans-serif;
+      background:transparent;border:none;color:var(--muted);cursor:pointer;
+      transition:all .2s;white-space:nowrap;
+    }
+    .view-btn.active{background:rgba(251,146,60,.2);color:var(--accent);font-weight:700}
 
     /* ── LAYOUT ── */
     .sim-wrap{
@@ -212,6 +221,10 @@
   <h1>แบบจำลองเกาะความร้อนเมือง 3D</h1>
   <span class="sub">Urban Heat Island Simulator</span>
   <span class="spacer"></span>
+  <div class="view-toggle" id="view-toggle">
+    <button class="view-btn" data-view="2d">🗺 2D</button>
+    <button class="view-btn active" data-view="3d">🏙 3D</button>
+  </div>
   <span class="badge">🌡 Interactive</span>
 </div>
 
@@ -429,10 +442,10 @@ function updateUI() {
 // ============================================================
 // THREE.JS SCENE
 // ============================================================
-const GRID = 22;
+const GRID = 30;
 const CS = 1.75;        // cell size
-const MAX_BLDS = 380;
-const MAX_TREES = 160;
+const MAX_BLDS = 680;
+const MAX_TREES = 260;
 const NPARTICLES = 900;
 
 const canvas = document.getElementById('sim-three');
@@ -449,7 +462,7 @@ scene.background = new THREE.Color(0xdde8f2);
 scene.fog = new THREE.Fog(0xdde8f2, 50, 115);
 
 const camera = new THREE.PerspectiveCamera(42, 1, 0.5, 300);
-camera.position.set(32, 38, 32);
+camera.position.set(36, 40, 36);
 camera.lookAt(0, 3, 0);
 
 const controls = new OrbitControls(camera, canvas);
@@ -818,30 +831,119 @@ function buildTrees(){
   tMesh.instanceMatrix.needsUpdate=true;
 }
 
-// ── HEAT DOME ──
-let heatDome, heatDome2;
-function buildHeatDome(){
-  if(heatDome){scene.remove(heatDome);scene.remove(heatDome2);}
-  const d=P.density/100, g=P.green/100;
-  const radius=10+d*8;
-  const domeGeo=new THREE.SphereGeometry(radius,32,16,0,Math.PI*2,0,Math.PI*0.55);
-  const domeMat=new THREE.MeshBasicMaterial({
-    color:new THREE.Color(1.0,0.38,0.05),
-    transparent:true,opacity:0.04+d*0.06*(1-g*0.5),
-    side:THREE.BackSide,depthWrite:false,
-  });
-  heatDome=new THREE.Mesh(domeGeo,domeMat);
-  heatDome.position.set(0,0,0);
-  scene.add(heatDome);
+// ── VIEW MODE ──
+let viewMode = '3d';
 
-  const domeGeo2=new THREE.SphereGeometry(radius*0.6,24,12,0,Math.PI*2,0,Math.PI*0.5);
-  const domeMat2=new THREE.MeshBasicMaterial({
-    color:new THREE.Color(1.0,0.22,0.02),
-    transparent:true,opacity:0.03+d*0.04,
-    side:THREE.BackSide,depthWrite:false,
-  });
-  heatDome2=new THREE.Mesh(domeGeo2,domeMat2);
-  scene.add(heatDome2);
+function setViewMode(mode) {
+  viewMode = mode;
+  document.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b.dataset.view === mode));
+  if(mode === '2d') {
+    // Top-down orthographic-like view
+    camera.position.set(0.01, 82, 0.01);
+    camera.lookAt(0, 0, 0);
+    controls.maxPolarAngle = 0.08;
+    controls.minPolarAngle = 0;
+    controls.enableRotate = false;
+    document.getElementById('lbl1').style.display = 'none';
+    document.getElementById('lbl2').style.display = 'none';
+  } else {
+    camera.position.set(36, 40, 36);
+    camera.lookAt(0, 3, 0);
+    controls.maxPolarAngle = Math.PI / 2 - 0.05;
+    controls.minPolarAngle = 0;
+    controls.enableRotate = true;
+    document.getElementById('lbl1').style.display = '';
+    document.getElementById('lbl2').style.display = '';
+  }
+  buildHeatDome();
+}
+
+// ── HEAT DOME ──
+let heatDome, heatDome2, heatDome3, heatDome4, heatDomeRim;
+const _domeBaseOpacity = [];
+
+function buildHeatDome(){
+  [heatDome, heatDome2, heatDome3, heatDome4, heatDomeRim].forEach(m => { if(m) scene.remove(m); });
+  heatDome = heatDome2 = heatDome3 = heatDome4 = heatDomeRim = null;
+  _domeBaseOpacity.length = 0;
+
+  const d = P.density / 100, g = P.green / 100;
+
+  if(viewMode === '3d') {
+    // ── PROMINENT 3D DOME (4 concentric shells + base glow) ──
+    const r = 18 + d * 10;
+
+    // Shell 1: outermost — large, diffuse orange-red
+    const g1 = new THREE.SphereGeometry(r, 48, 22, 0, Math.PI*2, 0, Math.PI*0.54);
+    const m1 = new THREE.MeshBasicMaterial({
+      color: new THREE.Color(1.0, 0.22, 0.02),
+      transparent: true, opacity: 0.13 + d*0.10*(1-g*0.45),
+      side: THREE.BackSide, depthWrite: false
+    });
+    heatDome = new THREE.Mesh(g1, m1);
+    heatDome.position.y = -1;
+    scene.add(heatDome);
+    _domeBaseOpacity.push(0.13 + d*0.10*(1-g*0.45));
+
+    // Shell 2: mid-outer — brighter orange
+    const g2 = new THREE.SphereGeometry(r*0.78, 40, 18, 0, Math.PI*2, 0, Math.PI*0.52);
+    const m2 = new THREE.MeshBasicMaterial({
+      color: new THREE.Color(1.0, 0.35, 0.04),
+      transparent: true, opacity: 0.20 + d*0.14,
+      side: THREE.BackSide, depthWrite: false
+    });
+    heatDome2 = new THREE.Mesh(g2, m2);
+    scene.add(heatDome2);
+    _domeBaseOpacity.push(0.20 + d*0.14);
+
+    // Shell 3: mid-inner — warm orange
+    const g3 = new THREE.SphereGeometry(r*0.52, 32, 14, 0, Math.PI*2, 0, Math.PI*0.50);
+    const m3 = new THREE.MeshBasicMaterial({
+      color: new THREE.Color(1.0, 0.48, 0.08),
+      transparent: true, opacity: 0.28 + d*0.16,
+      side: THREE.BackSide, depthWrite: false
+    });
+    heatDome3 = new THREE.Mesh(g3, m3);
+    scene.add(heatDome3);
+    _domeBaseOpacity.push(0.28 + d*0.16);
+
+    // Shell 4: innermost core — intense bright orange-yellow
+    const g4 = new THREE.SphereGeometry(r*0.28, 24, 12, 0, Math.PI*2, 0, Math.PI*0.46);
+    const m4 = new THREE.MeshBasicMaterial({
+      color: new THREE.Color(1.0, 0.62, 0.12),
+      transparent: true, opacity: 0.35 + d*0.18,
+      side: THREE.BackSide, depthWrite: false
+    });
+    heatDome4 = new THREE.Mesh(g4, m4);
+    scene.add(heatDome4);
+    _domeBaseOpacity.push(0.35 + d*0.18);
+
+    // Base ring glow — radiating from ground at city center
+    const ringGeo = new THREE.RingGeometry(1, r*1.05, 64);
+    ringGeo.rotateX(-Math.PI / 2);
+    const ringMat = new THREE.MeshBasicMaterial({
+      color: new THREE.Color(1.0, 0.30, 0.03),
+      transparent: true, opacity: 0.16 + d*0.10,
+      side: THREE.DoubleSide, depthWrite: false
+    });
+    heatDomeRim = new THREE.Mesh(ringGeo, ringMat);
+    heatDomeRim.position.y = 0.35;
+    heatDomeRim.renderOrder = 2;
+    scene.add(heatDomeRim);
+
+  } else {
+    // ── 2D mode: subtle diffuse ground glow only ──
+    const r = 14 + d*6;
+    const g1 = new THREE.SphereGeometry(r, 32, 12, 0, Math.PI*2, 0, Math.PI*0.52);
+    const m1 = new THREE.MeshBasicMaterial({
+      color: new THREE.Color(1.0, 0.38, 0.05),
+      transparent: true, opacity: 0.06 + d*0.06*(1-g*0.5),
+      side: THREE.BackSide, depthWrite: false
+    });
+    heatDome = new THREE.Mesh(g1, m1);
+    scene.add(heatDome);
+    _domeBaseOpacity.push(0.06 + d*0.06*(1-g*0.5));
+  }
 }
 
 // ── POLLUTION HAZE (industrial) ──
@@ -1136,9 +1238,22 @@ function animate(t){
   }
 
   // Animate heat dome pulse
-  if(heatDome){
-    const pulse=Math.sin(t*0.001)*0.015+0.01;
-    heatDome.material.opacity=Math.max(0,(0.04+(P.density/100)*0.06*(1-(P.green/100)*0.5))+pulse);
+  if(heatDome && viewMode === '3d'){
+    const p1 = Math.sin(t*0.00095)*0.030 + Math.sin(t*0.00153)*0.015;
+    const p2 = Math.sin(t*0.00110)*0.028 + Math.sin(t*0.00180)*0.012;
+    const p3 = Math.sin(t*0.00130)*0.025 + Math.sin(t*0.00210)*0.010;
+    const p4 = Math.sin(t*0.00160)*0.022 + Math.sin(t*0.00240)*0.008;
+    heatDome.material.opacity  = Math.max(0.04, (_domeBaseOpacity[0]||0.13) + p1);
+    if(heatDome2) heatDome2.material.opacity = Math.max(0.06, (_domeBaseOpacity[1]||0.20) + p2);
+    if(heatDome3) heatDome3.material.opacity = Math.max(0.08, (_domeBaseOpacity[2]||0.28) + p3);
+    if(heatDome4) heatDome4.material.opacity = Math.max(0.10, (_domeBaseOpacity[3]||0.35) + p4);
+    if(heatDomeRim){
+      const rp = 0.5 + Math.sin(t*0.00080)*0.5;
+      heatDomeRim.material.opacity = Math.max(0.05, (0.16+(P.density/100)*0.10) * (0.7 + rp*0.3));
+    }
+  } else if(heatDome && viewMode === '2d'){
+    const pulse = Math.sin(t*0.00080)*0.012;
+    heatDome.material.opacity = Math.max(0, (_domeBaseOpacity[0]||0.06) + pulse);
   }
   updateParticles(dt);
   updateRain(dt);
@@ -1205,6 +1320,12 @@ document.querySelectorAll('.season-btn').forEach(btn=>{
     updateSeasonLighting();
     rebuildScene();
   });
+});
+
+// View mode toggle
+document.getElementById('view-toggle').addEventListener('click', e => {
+  const btn = e.target.closest('.view-btn');
+  if(btn) setViewMode(btn.dataset.view);
 });
 
 // Init season

@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>แผนที่เกาะความร้อนเมือง UHI — Heat Safe Khon Kaen</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
   <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -43,6 +44,19 @@
       transition:all .18s;white-space:nowrap;
     }
     .mode-btn.active{background:rgba(249,115,22,.18);color:var(--accent);font-weight:700}
+    .spin-btn{
+      padding:5px 12px;font-size:12px;font-family:'Noto Sans Thai',sans-serif;
+      background:transparent;border:1px solid var(--border);border-radius:8px;
+      color:var(--muted);cursor:pointer;transition:all .18s;white-space:nowrap;
+    }
+    .spin-btn.active{background:rgba(249,115,22,.18);color:var(--accent);border-color:var(--accent);}
+    .rotate-hint{
+      position:fixed;bottom:60px;left:50%;transform:translateX(-50%);
+      background:rgba(0,0,0,.65);color:#ccc;font-size:11px;
+      padding:5px 14px;border-radius:20px;pointer-events:none;
+      opacity:0;transition:opacity .4s;z-index:100;white-space:nowrap;
+    }
+    .rotate-hint.show{opacity:1}
     .topbar .badge{
       font-size:10px;padding:3px 8px;border-radius:20px;
       background:rgba(249,115,22,.12);border:1px solid var(--border);color:var(--accent);
@@ -224,8 +238,10 @@
     <button class="mode-btn active" data-mode="2d">🗺 2D</button>
     <button class="mode-btn" data-mode="3d">🏙 3D</button>
   </div>
+  <button class="spin-btn" id="spin-btn" title="หมุนอัตโนมัติ">⟳ หมุน</button>
   <span class="badge" id="src-badge">OSM Buildings</span>
 </div>
+<div class="rotate-hint" id="rotate-hint">🖱 คลิกขวาลาก หรือ Ctrl+ลาก = หมุน &nbsp;|&nbsp; 🤏 สองนิ้วบิด = หมุน</div>
 
 <div class="layout">
 
@@ -406,8 +422,8 @@ const MAX_DIST_KM = 8;              // รัศมี UHI สูงสุด
 const BASE_TEMP = 32.5;             // อุณหภูมิฐาน °C
 const UHI_MAX = 6.5;                // ΔT สูงสุดใจกลางเมือง
 
-// Bounding box อ.เมืองขอนแก่น (ส่วนที่มีอาคารหนาแน่น)
-const BBOX = '16.37,102.76,16.52,102.92';
+// Bounding box อ.เมืองขอนแก่น (ครอบคลุมกว้างขึ้นเพื่อดึงอาคารมากขึ้น)
+const BBOX = '16.33,102.73,16.56,102.96';
 
 // Overpass API query — ดึง building ทุกหลังใน bbox
 const OVERPASS_QUERY = `[out:json][timeout:150];(way["building"](${BBOX});relation["building"]["type"="multipolygon"](${BBOX}););out body;>;out skel qt;`;
@@ -442,10 +458,15 @@ const map = new maplibregl.Map({
   pitch: 0,
   bearing: 0,
   maxZoom: 18,
-  minZoom: 10
+  minZoom: 10,
+  maxPitch: 80,
+  dragRotate: true,
+  pitchWithRotate: true,
+  touchPitch: true,
+  touchZoomRotate: true
 });
 
-map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
+map.addControl(new maplibregl.NavigationControl({ showCompass: true, visualizePitch: true }), 'bottom-right');
 
 // ── HEAT CALCULATION ──
 function distKm(lat, lng) {
@@ -613,7 +634,7 @@ function addBuildingLayers(geojson, points) {
     }
   });
 
-  // ── UHI DOME ring ──
+  // ── UHI DOME 2D (flat rings) ──
   const domeGeoJSON = createDomeGeoJSON();
   map.addSource('uhi-dome', { type: 'geojson', data: domeGeoJSON });
   map.addLayer({
@@ -642,19 +663,49 @@ function addBuildingLayers(geojson, points) {
     }
   });
 
+  // ── UHI DOME 3D (hemisphere fill-extrusion, hidden in 2D) ──
+  const dome3DGeoJSON = createDome3DGeoJSON();
+  map.addSource('uhi-dome-3d', { type: 'geojson', data: dome3DGeoJSON });
+  map.addLayer({
+    id: 'uhi-dome-3d-fill',
+    type: 'fill-extrusion',
+    source: 'uhi-dome-3d',
+    layout: { visibility: 'none' },
+    paint: {
+      'fill-extrusion-base':   ['get', 'base'],
+      'fill-extrusion-height': ['get', 'height'],
+      'fill-extrusion-color': [
+        'interpolate', ['linear'], ['get', 'heat'],
+        0.55, '#fbbf24',
+        0.70, '#fb923c',
+        0.82, '#f97316',
+        1.00, '#ef4444'
+      ],
+      'fill-extrusion-opacity': 0.55,
+      'fill-extrusion-vertical-gradient': true
+    }
+  });
+
   buildingsLoaded = true;
   bindLayerEvents();
 }
 
-// ── UHI DOME GeoJSON (3 concentric rings) ──
+// ── HELPER: circle points (lng/lat) ──
+function circlePoints(cx, cy, r_km, n) {
+  const pts = [];
+  const rLng = r_km / (111.32 * Math.cos(cy * Math.PI / 180));
+  const rLat = r_km / 111.32;
+  for (let i = 0; i <= n; i++) {
+    const a = (i / n) * Math.PI * 2;
+    pts.push([cx + Math.cos(a) * rLng, cy + Math.sin(a) * rLat]);
+  }
+  return pts;
+}
+
+// ── UHI DOME GeoJSON 2D (3 concentric flat rings) ──
 function createDomeGeoJSON() {
   function circle(cx, cy, r, ring) {
-    const pts = [], N = 64;
-    for (let i = 0; i <= N; i++) {
-      const a = (i / N) * Math.PI * 2;
-      pts.push([cx + Math.cos(a) * r / 111.32, cy + Math.sin(a) * r / (111.32 * Math.cos(cy * Math.PI / 180))]);
-    }
-    return { type: 'Feature', geometry: { type: 'Polygon', coordinates: [pts] }, properties: { ring } };
+    return { type: 'Feature', geometry: { type: 'Polygon', coordinates: [circlePoints(cx, cy, r, 64)] }, properties: { ring } };
   }
   return {
     type: 'FeatureCollection',
@@ -664,6 +715,43 @@ function createDomeGeoJSON() {
       circle(CENTER[0], CENTER[1], 6.5, 2)
     ]
   };
+}
+
+// ── UHI DOME 3D GeoJSON — hemisphere rings stacked by height ──
+function createDome3DGeoJSON() {
+  const features = [];
+  const N = 22;          // more rings = smoother dome
+  const R_MAX = 4.2;     // base radius km
+  const H_MAX = 2600;    // 2600 m — clearly visible dome at zoom 13 with pitch 60°
+
+  for (let i = 0; i < N; i++) {
+    const θLo = (i / N) * Math.PI / 2;
+    const θHi = ((i + 1) / N) * Math.PI / 2;
+
+    const rOuter = R_MAX * Math.cos(θLo);
+    const rInner = R_MAX * Math.cos(θHi);
+    const hBase  = H_MAX * Math.sin(θLo);
+    const hTop   = H_MAX * Math.sin(θHi);
+
+    const heat = 1 - (i / N) * 0.5;
+
+    let coords;
+    if (rInner < 0.08) {
+      coords = [circlePoints(CENTER[0], CENTER[1], rOuter, 64)];
+    } else {
+      coords = [
+        circlePoints(CENTER[0], CENTER[1], rOuter, 64),
+        circlePoints(CENTER[0], CENTER[1], rInner, 64).reverse()
+      ];
+    }
+
+    features.push({
+      type: 'Feature',
+      geometry: { type: 'Polygon', coordinates: coords },
+      properties: { base: +hBase.toFixed(1), height: +hTop.toFixed(1), heat: +heat.toFixed(3), level: i }
+    });
+  }
+  return { type: 'FeatureCollection', features };
 }
 
 // ── CLICK POPUP ──
@@ -704,15 +792,26 @@ function setMode(mode) {
   if (!buildingsLoaded) return;
 
   if (mode === '3d') {
-    map.easeTo({ pitch: 52, bearing: -18, duration: 900 });
+    map.easeTo({ pitch: 62, bearing: -30, duration: 1000 });
     map.setLayoutProperty('buildings-2d', 'visibility', 'none');
     map.setLayoutProperty('buildings-outline', 'visibility', 'none');
     map.setLayoutProperty('buildings-3d', 'visibility', 'visible');
+    // Show 3D dome, hide 2D dome
+    if (map.getLayer('uhi-dome-3d-fill')) map.setLayoutProperty('uhi-dome-3d-fill', 'visibility', 'visible');
+    if (map.getLayer('uhi-dome-fill'))    map.setLayoutProperty('uhi-dome-fill',    'visibility', 'none');
+    if (map.getLayer('uhi-dome-outline')) map.setLayoutProperty('uhi-dome-outline', 'visibility', 'none');
+    if (typeof showRotateHint === 'function') showRotateHint();
   } else {
+    // Stop auto-spin when switching to 2D
+    if (typeof stopSpin === 'function') { stopSpin(); document.getElementById('spin-btn').classList.remove('active'); spinActive = false; }
     map.easeTo({ pitch: 0, bearing: 0, duration: 900 });
     map.setLayoutProperty('buildings-2d', 'visibility', 'visible');
     map.setLayoutProperty('buildings-outline', 'visibility', 'visible');
     map.setLayoutProperty('buildings-3d', 'visibility', 'none');
+    // Show 2D dome, hide 3D dome
+    if (map.getLayer('uhi-dome-3d-fill')) map.setLayoutProperty('uhi-dome-3d-fill', 'visibility', 'none');
+    if (map.getLayer('uhi-dome-fill'))    map.setLayoutProperty('uhi-dome-fill',    'visibility', 'visible');
+    if (map.getLayer('uhi-dome-outline')) map.setLayoutProperty('uhi-dome-outline', 'visibility', 'visible');
   }
 }
 
@@ -720,6 +819,54 @@ document.getElementById('mode-toggle').addEventListener('click', e => {
   const btn = e.target.closest('.mode-btn');
   if (btn) setMode(btn.dataset.mode);
 });
+
+// ── AUTO SPIN ──
+let spinRAF = null;
+let spinActive = false;
+
+function startSpin() {
+  let lastTime = null;
+  function spin(t) {
+    if (!spinActive) return;
+    if (lastTime !== null) {
+      const dt = t - lastTime;
+      map.setBearing((map.getBearing() + dt * 0.018) % 360); // ~10.8 deg/s
+    }
+    lastTime = t;
+    spinRAF = requestAnimationFrame(spin);
+  }
+  spinRAF = requestAnimationFrame(spin);
+}
+
+function stopSpin() {
+  spinActive = false;
+  if (spinRAF) { cancelAnimationFrame(spinRAF); spinRAF = null; }
+}
+
+document.getElementById('spin-btn').addEventListener('click', () => {
+  spinActive = !spinActive;
+  document.getElementById('spin-btn').classList.toggle('active', spinActive);
+  if (spinActive) {
+    // Auto-switch to 3D when spinning
+    if (currentMode !== '3d') setMode('3d');
+    startSpin();
+  } else {
+    stopSpin();
+  }
+});
+
+// Stop spin if user manually drags the map
+map.on('mousedown', () => { if (spinActive) { stopSpin(); document.getElementById('spin-btn').classList.remove('active'); } });
+map.on('touchstart', () => { if (spinActive) { stopSpin(); document.getElementById('spin-btn').classList.remove('active'); } });
+
+// ── ROTATION HINT (show briefly when entering 3D) ──
+let hintTimer = null;
+function showRotateHint() {
+  const h = document.getElementById('rotate-hint');
+  h.classList.add('show');
+  clearTimeout(hintTimer);
+  hintTimer = setTimeout(() => h.classList.remove('show'), 4000);
+}
 
 // ── LAYER TOGGLES ──
 function bindToggles() {
@@ -764,9 +911,13 @@ function bindToggles() {
   document.getElementById('tog-dome').addEventListener('change', e => {
     if (!buildingsLoaded) return;
     const v = e.target.checked ? 'visible' : 'none';
-    ['uhi-dome-fill', 'uhi-dome-outline'].forEach(l => {
-      if (map.getLayer(l)) map.setLayoutProperty(l, 'visibility', v);
-    });
+    if (currentMode === '3d') {
+      if (map.getLayer('uhi-dome-3d-fill')) map.setLayoutProperty('uhi-dome-3d-fill', 'visibility', v);
+    } else {
+      ['uhi-dome-fill', 'uhi-dome-outline'].forEach(l => {
+        if (map.getLayer(l)) map.setLayoutProperty(l, 'visibility', v);
+      });
+    }
   });
 }
 bindToggles();
