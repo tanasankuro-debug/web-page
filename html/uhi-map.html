@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>แผนที่เกาะความร้อนเมือง UHI — Heat Safe Khon Kaen</title>
+  <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --bg:#0b1220;--sidebar:#0f1c32;--accent:#f97316;--accent2:#fbbf24;
+      --text:#f1f5f9;--muted:#94a3b8;--border:rgba(251,146,60,.18);
+      --green:#22c55e;--red:#ef4444;--blue:#3b82f6;
+      --sidebar-w:250px;--topbar:46px;
+    }
+    html,body{height:100%;overflow:hidden;background:var(--bg);
+      font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text)}
+
+    /* ── TOP BAR ── */
+    .topbar{
+      position:fixed;top:0;left:0;right:0;height:var(--topbar);z-index:200;
+      background:rgba(5,10,22,.96);border-bottom:1px solid var(--border);
+      display:flex;align-items:center;gap:14px;padding:0 16px;
+      backdrop-filter:blur(10px);
+    }
+    .topbar a{color:var(--accent);text-decoration:none;font-size:11.5px;white-space:nowrap}
+    .topbar a:hover{text-decoration:underline}
+    .topbar h1{
+      font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:800;
+      letter-spacing:.05em;color:var(--text);white-space:nowrap;
+    }
+    .topbar .sub{color:var(--muted);font-size:10.5px;white-space:nowrap}
+    .topbar .spacer{flex:1}
+    .mode-toggle{
+      display:flex;gap:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;
+    }
+    .mode-btn{
+      padding:5px 14px;font-size:12px;font-family:'Noto Sans Thai',sans-serif;
+      background:transparent;border:none;color:var(--muted);cursor:pointer;
+      transition:all .18s;white-space:nowrap;
+    }
+    .mode-btn.active{background:rgba(249,115,22,.18);color:var(--accent);font-weight:700}
+    .topbar .badge{
+      font-size:10px;padding:3px 8px;border-radius:20px;
+      background:rgba(249,115,22,.12);border:1px solid var(--border);color:var(--accent);
+      white-space:nowrap;
+    }
+
+    /* ── LAYOUT ── */
+    .layout{
+      position:fixed;top:var(--topbar);left:0;right:0;bottom:0;
+      display:flex;overflow:hidden;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar{
+      width:var(--sidebar-w);flex-shrink:0;
+      background:var(--sidebar);border-right:1px solid var(--border);
+      overflow-y:auto;padding:12px 10px;
+      display:flex;flex-direction:column;gap:10px;
+      scrollbar-width:thin;scrollbar-color:var(--border) transparent;
+    }
+    .sidebar::-webkit-scrollbar{width:3px}
+    .sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+    .sec-title{
+      font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;
+      letter-spacing:.12em;color:var(--muted);text-transform:uppercase;
+      padding:4px 2px 2px;border-top:1px solid var(--border);margin-top:4px;
+    }
+    .sec-title:first-child{border-top:none;margin-top:0}
+
+    /* stat cards */
+    .stat-row{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+    .stat-card{
+      background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;
+      padding:8px 7px;text-align:center;
+    }
+    .stat-card .lbl{font-size:9.5px;color:var(--muted);line-height:1.3}
+    .stat-card .val{
+      font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;
+      color:var(--accent);line-height:1.1;margin-top:2px;
+    }
+    .stat-card .val.green{color:var(--green)}
+    .stat-card .val.blue{color:var(--blue)}
+
+    /* layer toggles */
+    .layer-row{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:7px 8px;background:rgba(255,255,255,.03);border-radius:7px;
+      border:1px solid rgba(255,255,255,.06);gap:8px;
+    }
+    .layer-label{font-size:11.5px;color:var(--text);display:flex;align-items:center;gap:6px}
+    .layer-icon{font-size:13px}
+    .layer-sub{font-size:9.5px;color:var(--muted);display:block;margin-top:1px}
+    .toggle-sw{
+      position:relative;width:36px;height:20px;flex-shrink:0;
+    }
+    .toggle-sw input{opacity:0;width:0;height:0}
+    .toggle-sw .knob{
+      position:absolute;inset:0;background:rgba(255,255,255,.12);
+      border-radius:20px;cursor:pointer;transition:.2s;
+    }
+    .toggle-sw .knob::after{
+      content:'';position:absolute;top:3px;left:3px;
+      width:14px;height:14px;border-radius:50%;
+      background:#64748b;transition:.2s;
+    }
+    .toggle-sw input:checked+.knob{background:rgba(249,115,22,.35)}
+    .toggle-sw input:checked+.knob::after{transform:translateX(16px);background:var(--accent)}
+
+    /* opacity slider */
+    .opacity-row{display:flex;align-items:center;gap:8px;padding:0 2px}
+    .opacity-row label{font-size:10px;color:var(--muted);white-space:nowrap}
+    .opacity-row input[type=range]{
+      flex:1;height:3px;appearance:none;background:rgba(255,255,255,.12);
+      border-radius:2px;outline:none;cursor:pointer;
+    }
+    .opacity-row input[type=range]::-webkit-slider-thumb{
+      appearance:none;width:12px;height:12px;border-radius:50%;background:var(--accent);cursor:pointer;
+    }
+    .opacity-val{font-size:10px;color:var(--text);font-weight:600;width:28px;text-align:right}
+
+    /* legend */
+    .legend-bar{
+      height:12px;border-radius:4px;
+      background:linear-gradient(90deg,#4488ff,#22ccee,#fbbf24,#f97316,#ef4444);
+      margin:4px 0;
+    }
+    .legend-labels{display:flex;justify-content:space-between;font-size:9.5px;color:var(--muted)}
+
+    /* selected info */
+    .sel-panel{
+      background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;
+      padding:9px;display:none;
+    }
+    .sel-panel.show{display:block}
+    .sel-panel .sp-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px}
+    .sel-row{display:flex;justify-content:space-between;font-size:10.5px;
+      padding:2px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+    .sel-row:last-child{border-bottom:none}
+    .sel-row .sk{color:var(--muted)}
+    .sel-row .sv{color:var(--text);font-weight:600}
+
+    /* ── MAP ── */
+    .map-wrap{flex:1;position:relative;overflow:hidden}
+    #map{width:100%;height:100%}
+
+    /* shimmer canvas — sits on top of map */
+    #shimmer-canvas{
+      position:absolute;top:0;left:0;width:100%;height:100%;
+      pointer-events:none;z-index:10;
+    }
+
+    /* ── LOADING ── */
+    .loading-overlay{
+      position:absolute;inset:0;z-index:100;
+      background:rgba(5,10,22,.88);backdrop-filter:blur(6px);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+    }
+    .loading-overlay.hide{display:none}
+    .spinner{
+      width:44px;height:44px;border-radius:50%;
+      border:3px solid rgba(249,115,22,.18);border-top-color:var(--accent);
+      animation:spin 1s linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .loading-text{font-size:13px;color:var(--text);text-align:center;line-height:1.6}
+    .loading-sub{font-size:11px;color:var(--muted);margin-top:4px;text-align:center}
+    .progress-bar{
+      width:200px;height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;
+    }
+    .progress-fill{
+      height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));
+      border-radius:2px;transition:width .4s ease;width:0%;
+    }
+
+    /* error overlay */
+    .error-overlay{
+      position:absolute;inset:0;z-index:100;
+      background:rgba(5,10,22,.9);
+      display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+    }
+    .error-overlay.show{display:flex}
+    .error-icon{font-size:40px}
+    .error-text{font-size:13px;color:var(--text);text-align:center;max-width:260px;line-height:1.6}
+    .retry-btn{
+      padding:8px 22px;border-radius:8px;border:1px solid var(--accent);
+      background:rgba(249,115,22,.15);color:var(--accent);font-size:12px;
+      font-family:'Noto Sans Thai',sans-serif;cursor:pointer;
+    }
+    .retry-btn:hover{background:rgba(249,115,22,.28)}
+
+    /* compass */
+    .compass{
+      position:absolute;top:12px;right:12px;z-index:20;
+      width:40px;height:40px;border-radius:50%;
+      background:rgba(5,10,22,.8);border:1px solid var(--border);
+      display:flex;align-items:center;justify-content:center;
+      font-size:10px;color:var(--muted);flex-direction:column;gap:0;
+    }
+    .compass .n{color:var(--red);font-weight:700;font-size:12px;line-height:1}
+
+    /* heat dome ring */
+    .dome-hint{
+      position:absolute;bottom:16px;right:60px;z-index:20;
+      background:rgba(5,10,22,.85);border:1px solid var(--border);border-radius:8px;
+      padding:6px 10px;font-size:10px;color:var(--muted);pointer-events:none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="smart-map.html">← แผนที่อัจฉริยะ</a>
+  <h1>แผนที่เกาะความร้อนเมือง UHI</h1>
+  <span class="sub">อ.เมืองขอนแก่น</span>
+  <span class="spacer"></span>
+  <div class="mode-toggle" id="mode-toggle">
+    <button class="mode-btn active" data-mode="2d">🗺 2D</button>
+    <button class="mode-btn" data-mode="3d">🏙 3D</button>
+  </div>
+  <span class="badge" id="src-badge">OSM Buildings</span>
+</div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="sec-title">สถิติ</div>
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="lbl">อาคารทั้งหมด</div>
+        <div class="val blue" id="stat-count">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="lbl">โซนร้อนจัด</div>
+        <div class="val" id="stat-hot">—</div>
+      </div>
+    </div>
+
+    <div class="sec-title">ชั้นข้อมูล</div>
+
+    <!-- Buildings toggle -->
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div class="layer-row">
+        <div class="layer-label">
+          <span class="layer-icon">🏢</span>
+          <div>
+            <span>อาคาร</span>
+            <span class="layer-sub">OSM Building Footprints</span>
+          </div>
+        </div>
+        <label class="toggle-sw">
+          <input type="checkbox" id="tog-buildings" checked>
+          <span class="knob"></span>
+        </label>
+      </div>
+      <div class="opacity-row">
+        <label>ความทึบ</label>
+        <input type="range" id="op-buildings" min="10" max="100" value="85">
+        <span class="opacity-val" id="opv-buildings">85%</span>
+      </div>
+    </div>
+
+    <!-- Heat overlay toggle -->
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <div class="layer-row">
+        <div class="layer-label">
+          <span class="layer-icon">🌡</span>
+          <div>
+            <span>ความหนาแน่นความร้อน</span>
+            <span class="layer-sub">Heatmap density layer</span>
+          </div>
+        </div>
+        <label class="toggle-sw">
+          <input type="checkbox" id="tog-heatmap" checked>
+          <span class="knob"></span>
+        </label>
+      </div>
+      <div class="opacity-row">
+        <label>ความทึบ</label>
+        <input type="range" id="op-heatmap" min="5" max="100" value="65">
+        <span class="opacity-val" id="opv-heatmap">65%</span>
+      </div>
+    </div>
+
+    <!-- Shimmer toggle -->
+    <div class="layer-row">
+      <div class="layer-label">
+        <span class="layer-icon">✨</span>
+        <div>
+          <span>ละอองความร้อน</span>
+          <span class="layer-sub">Heat shimmer animation</span>
+        </div>
+      </div>
+      <label class="toggle-sw">
+        <input type="checkbox" id="tog-shimmer" checked>
+        <span class="knob"></span>
+      </label>
+    </div>
+
+    <!-- UHI ring toggle -->
+    <div class="layer-row">
+      <div class="layer-label">
+        <span class="layer-icon">🔴</span>
+        <div>
+          <span>โดมความร้อน UHI</span>
+          <span class="layer-sub">Heat dome boundary</span>
+        </div>
+      </div>
+      <label class="toggle-sw">
+        <input type="checkbox" id="tog-dome" checked>
+        <span class="knob"></span>
+      </label>
+    </div>
+
+    <div class="sec-title">ตำนานสีความร้อน</div>
+    <div style="padding:2px 4px">
+      <div class="legend-bar"></div>
+      <div class="legend-labels">
+        <span>เย็น</span><span>ปกติ</span><span>ร้อน</span><span>ร้อนจัด</span>
+      </div>
+      <div style="margin-top:8px;display:flex;flex-direction:column;gap:4px">
+        <div style="display:flex;align-items:center;gap:6px;font-size:10.5px">
+          <span style="width:10px;height:10px;border-radius:2px;background:#4488ff;flex-shrink:0"></span>
+          <span style="color:var(--muted)">เย็น — ชานเมือง พื้นที่เขียว</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:10.5px">
+          <span style="width:10px;height:10px;border-radius:2px;background:#fbbf24;flex-shrink:0"></span>
+          <span style="color:var(--muted)">ปานกลาง — ย่านพักอาศัย</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:10.5px">
+          <span style="width:10px;height:10px;border-radius:2px;background:#ef4444;flex-shrink:0"></span>
+          <span style="color:var(--muted)">ร้อนจัด — ใจกลาง CBD</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">อาคารที่เลือก</div>
+    <div class="sel-panel" id="sel-panel">
+      <div class="sp-name" id="sel-name">—</div>
+      <div class="sel-row"><span class="sk">ประเภท</span><span class="sv" id="sel-type">—</span></div>
+      <div class="sel-row"><span class="sk">ความร้อน UHI</span><span class="sv" id="sel-heat">—</span></div>
+      <div class="sel-row"><span class="sk">อุณหภูมิประมาณ</span><span class="sv" id="sel-temp">—</span></div>
+      <div class="sel-row"><span class="sk">ความสูงประมาณ</span><span class="sv" id="sel-height">—</span></div>
+    </div>
+    <div id="sel-hint" style="font-size:10px;color:var(--muted);text-align:center;padding:4px">
+      กดที่อาคารเพื่อดูข้อมูล
+    </div>
+
+  </aside>
+
+  <!-- MAP -->
+  <div class="map-wrap" id="map-wrap">
+    <div id="map"></div>
+    <canvas id="shimmer-canvas"></canvas>
+
+    <!-- Loading -->
+    <div class="loading-overlay" id="loading-overlay">
+      <div class="spinner"></div>
+      <div style="text-align:center">
+        <div class="loading-text" id="loading-text">กำลังดาวน์โหลดข้อมูลอาคาร</div>
+        <div class="loading-sub">อ.เมืองขอนแก่น จาก OpenStreetMap</div>
+        <div class="loading-sub" id="loading-sub2" style="margin-top:2px"></div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+      <!-- First-load notice -->
+      <div style="
+        background:rgba(251,191,36,.10);border:1px solid rgba(251,191,36,.28);
+        border-radius:10px;padding:10px 16px;max-width:280px;text-align:center;
+      ">
+        <div style="font-size:11px;color:#fbbf24;font-weight:700;margin-bottom:4px">⚠ การโหลดครั้งแรก</div>
+        <div style="font-size:10.5px;color:#94a3b8;line-height:1.6">
+          หน้านี้ดึงข้อมูลอาคารทั้งหมดจาก OpenStreetMap<br>
+          <strong style="color:#e2e8f0">อาจใช้เวลา 30–120 วินาที</strong><br>
+          ขึ้นอยู่กับความเร็วอินเทอร์เน็ตและ Overpass API<br>
+          <span style="color:#64748b;font-size:9.5px">โหลดซ้ำหน้าจะเร็วกว่าเนื่องจาก cache</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error -->
+    <div class="error-overlay" id="error-overlay">
+      <div class="error-icon">⚠️</div>
+      <div class="error-text" id="error-text">ไม่สามารถดาวน์โหลดข้อมูลได้<br>โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ต</div>
+      <button class="retry-btn" id="retry-btn">ลองใหม่</button>
+    </div>
+
+    <div class="compass"><div class="n">N</div><div style="color:#ef4444;font-size:14px;line-height:1">↑</div></div>
+  </div>
+
+</div>
+
+<script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/osmtogeojson@3.0.0-beta.5/osmtogeojson.js"></script>
+<script>
+// ── CONSTANTS ──
+const CENTER = [102.8360, 16.4419]; // ใจกลาง อ.เมืองขอนแก่น
+const MAX_DIST_KM = 8;              // รัศมี UHI สูงสุด
+const BASE_TEMP = 32.5;             // อุณหภูมิฐาน °C
+const UHI_MAX = 6.5;                // ΔT สูงสุดใจกลางเมือง
+
+// Bounding box อ.เมืองขอนแก่น (ส่วนที่มีอาคารหนาแน่น)
+const BBOX = '16.37,102.76,16.52,102.92';
+
+// Overpass API query — ดึง building ทุกหลังใน bbox
+const OVERPASS_QUERY = `[out:json][timeout:150];(way["building"](${BBOX});relation["building"]["type"="multipolygon"](${BBOX}););out body;>;out skel qt;`;
+const OVERPASS_URL = 'https://overpass-api.de/api/interpreter?data=' + encodeURIComponent(OVERPASS_QUERY);
+const OVERPASS_URL2 = 'https://overpass.kumi.systems/api/interpreter?data=' + encodeURIComponent(OVERPASS_QUERY);
+
+// ── STATE ──
+let currentMode = '2d';
+let shimmerActive = true;
+let buildingsLoaded = false;
+let cachedGeoJSON = null;
+
+// ── MAPLIBRE INIT ──
+const map = new maplibregl.Map({
+  container: 'map',
+  style: {
+    version: 8,
+    glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
+    sources: {
+      satellite: {
+        type: 'raster',
+        tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+        tileSize: 256,
+        maxzoom: 19,
+        attribution: 'Tiles © Esri'
+      }
+    },
+    layers: [{ id: 'satellite', type: 'raster', source: 'satellite' }]
+  },
+  center: CENTER,
+  zoom: 13,
+  pitch: 0,
+  bearing: 0,
+  maxZoom: 18,
+  minZoom: 10
+});
+
+map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
+
+// ── HEAT CALCULATION ──
+function distKm(lat, lng) {
+  const R = 111.32;
+  const dLat = lat - CENTER[1];
+  const dLng = (lng - CENTER[0]) * Math.cos(CENTER[1] * Math.PI / 180);
+  return Math.sqrt(dLat * dLat + dLng * dLng) * R;
+}
+
+function calcHeat(lat, lng, areaM2) {
+  const dist = distKm(lat, lng);
+  // Distance factor: closer to center = hotter
+  const distFactor = Math.max(0, 1 - Math.pow(dist / MAX_DIST_KM, 0.75));
+  // Area factor: larger building = more heat retention
+  const areaFactor = Math.min(1, Math.log10(Math.max(1, areaM2)) / 3.8);
+  // Combined UHI heat value 0–1
+  return Math.min(1, Math.max(0, distFactor * 0.72 + areaFactor * 0.28 + (Math.random() - 0.5) * 0.04));
+}
+
+function heatToTemp(h) {
+  return (BASE_TEMP + h * UHI_MAX).toFixed(1);
+}
+
+function heatLabel(h) {
+  if (h > 0.75) return 'ร้อนจัด';
+  if (h > 0.55) return 'ร้อน';
+  if (h > 0.35) return 'ปานกลาง';
+  if (h > 0.15) return 'เย็นกว่าใจกลาง';
+  return 'เย็น';
+}
+
+function calcBuildingArea(coordinates) {
+  // Shoelace formula (approximate m²)
+  const ring = Array.isArray(coordinates[0][0]) ? coordinates[0] : coordinates;
+  let area = 0;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    area += (ring[j][0] + ring[i][0]) * (ring[j][1] - ring[i][1]);
+  }
+  // Convert deg² → m² (rough: 1 deg ≈ 111,000 m)
+  return Math.abs(area / 2) * 111000 * 111000 * Math.cos(CENTER[1] * Math.PI / 180);
+}
+
+// ── GEOJSON PROCESSING ──
+function processGeoJSON(geojson) {
+  let hotCount = 0;
+  geojson.features = geojson.features.filter(f => {
+    const t = f.geometry?.type;
+    return t === 'Polygon' || t === 'MultiPolygon';
+  });
+
+  const points = []; // for heatmap layer
+
+  geojson.features.forEach(f => {
+    const coords = f.geometry.type === 'Polygon'
+      ? f.geometry.coordinates[0]
+      : f.geometry.coordinates[0][0];
+
+    // Centroid
+    let sumLng = 0, sumLat = 0, cnt = 0;
+    for (const [lng, lat] of coords) { sumLng += lng; sumLat += lat; cnt++; }
+    const cLng = sumLng / cnt, cLat = sumLat / cnt;
+
+    const areaM2 = calcBuildingArea(coords);
+    const heat = calcHeat(cLat, cLng, areaM2);
+    if (heat > 0.65) hotCount++;
+
+    // Height: use levels if available, else estimate
+    const levels = parseInt(f.properties?.['building:levels']) || 0;
+    const height = levels > 0 ? levels * 3.5 : Math.max(3.5, 3 + heat * 14 + Math.sqrt(areaM2) * 0.04);
+
+    f.properties = {
+      heat: +heat.toFixed(4),
+      height: +Math.min(height, 60).toFixed(1),
+      name: f.properties?.name || f.properties?.['name:th'] || '',
+      building: f.properties?.building || 'yes',
+      levels: levels || Math.max(1, Math.round(height / 3.5)),
+      areaM2: Math.round(areaM2),
+      cLat, cLng
+    };
+
+    points.push({ type: 'Feature', geometry: { type: 'Point', coordinates: [cLng, cLat] }, properties: { heat } });
+  });
+
+  document.getElementById('stat-count').textContent = geojson.features.length.toLocaleString();
+  document.getElementById('stat-hot').textContent = hotCount.toLocaleString();
+
+  return { geojson, points };
+}
+
+// ── ADD LAYERS TO MAP ──
+function addBuildingLayers(geojson, points) {
+  const pointsGeoJSON = { type: 'FeatureCollection', features: points };
+
+  // Building source
+  map.addSource('buildings', { type: 'geojson', data: geojson });
+  // Points source for heatmap
+  map.addSource('bld-points', { type: 'geojson', data: pointsGeoJSON });
+
+  const heatColor = [
+    'interpolate', ['linear'], ['get', 'heat'],
+    0.00, '#4488ff',
+    0.25, '#22ccee',
+    0.45, '#a8e063',
+    0.60, '#fbbf24',
+    0.78, '#f97316',
+    1.00, '#ef4444'
+  ];
+
+  // ── 2D FILL ──
+  map.addLayer({
+    id: 'buildings-2d',
+    type: 'fill',
+    source: 'buildings',
+    paint: {
+      'fill-color': heatColor,
+      'fill-opacity': 0.85
+    }
+  });
+
+  // Building outline (subtle)
+  map.addLayer({
+    id: 'buildings-outline',
+    type: 'line',
+    source: 'buildings',
+    paint: {
+      'line-color': 'rgba(0,0,0,0.25)',
+      'line-width': 0.5
+    }
+  });
+
+  // ── 3D EXTRUSION ──
+  map.addLayer({
+    id: 'buildings-3d',
+    type: 'fill-extrusion',
+    source: 'buildings',
+    layout: { visibility: 'none' },
+    paint: {
+      'fill-extrusion-color': heatColor,
+      'fill-extrusion-height': ['get', 'height'],
+      'fill-extrusion-base': 0,
+      'fill-extrusion-opacity': 0.88
+    }
+  });
+
+  // ── HEATMAP density layer ──
+  map.addLayer({
+    id: 'heat-density',
+    type: 'heatmap',
+    source: 'bld-points',
+    maxzoom: 17,
+    paint: {
+      'heatmap-weight': ['interpolate', ['linear'], ['get', 'heat'], 0, 0, 1, 1.5],
+      'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 10, 0.4, 16, 1.2],
+      'heatmap-color': [
+        'interpolate', ['linear'], ['heatmap-density'],
+        0,    'rgba(0,0,255,0)',
+        0.15, 'rgba(0,100,255,0.5)',
+        0.35, 'rgba(0,200,200,0.65)',
+        0.55, 'rgba(250,190,36,0.75)',
+        0.75, 'rgba(249,115,22,0.85)',
+        1.0,  'rgba(239,68,68,0.92)'
+      ],
+      'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 10, 18, 14, 28, 16, 12],
+      'heatmap-opacity': 0.65
+    }
+  });
+
+  // ── UHI DOME ring ──
+  const domeGeoJSON = createDomeGeoJSON();
+  map.addSource('uhi-dome', { type: 'geojson', data: domeGeoJSON });
+  map.addLayer({
+    id: 'uhi-dome-fill',
+    type: 'fill',
+    source: 'uhi-dome',
+    paint: {
+      'fill-color': [
+        'interpolate', ['linear'], ['get', 'ring'],
+        0, 'rgba(239,68,68,0.18)',
+        1, 'rgba(249,115,22,0.08)',
+        2, 'rgba(251,191,36,0.04)'
+      ],
+      'fill-opacity': 1
+    }
+  });
+  map.addLayer({
+    id: 'uhi-dome-outline',
+    type: 'line',
+    source: 'uhi-dome',
+    filter: ['==', ['get', 'ring'], 0],
+    paint: {
+      'line-color': 'rgba(239,68,68,0.55)',
+      'line-width': 1.5,
+      'line-dasharray': [4, 3]
+    }
+  });
+
+  buildingsLoaded = true;
+  bindLayerEvents();
+}
+
+// ── UHI DOME GeoJSON (3 concentric rings) ──
+function createDomeGeoJSON() {
+  function circle(cx, cy, r, ring) {
+    const pts = [], N = 64;
+    for (let i = 0; i <= N; i++) {
+      const a = (i / N) * Math.PI * 2;
+      pts.push([cx + Math.cos(a) * r / 111.32, cy + Math.sin(a) * r / (111.32 * Math.cos(cy * Math.PI / 180))]);
+    }
+    return { type: 'Feature', geometry: { type: 'Polygon', coordinates: [pts] }, properties: { ring } };
+  }
+  return {
+    type: 'FeatureCollection',
+    features: [
+      circle(CENTER[0], CENTER[1], 2.0, 0),
+      circle(CENTER[0], CENTER[1], 4.0, 1),
+      circle(CENTER[0], CENTER[1], 6.5, 2)
+    ]
+  };
+}
+
+// ── CLICK POPUP ──
+function bindLayerEvents() {
+  ['buildings-2d', 'buildings-3d'].forEach(layer => {
+    map.on('click', layer, e => {
+      const f = e.features[0];
+      if (!f) return;
+      const p = f.properties;
+      const panel = document.getElementById('sel-panel');
+      panel.classList.add('show');
+      document.getElementById('sel-hint').style.display = 'none';
+      document.getElementById('sel-name').textContent = p.name || 'อาคารไม่ระบุชื่อ';
+      document.getElementById('sel-type').textContent = p.building === 'yes' ? 'อาคาร' : p.building;
+      document.getElementById('sel-heat').textContent = heatLabel(p.heat) + ` (${(p.heat * 100).toFixed(0)}%)`;
+      document.getElementById('sel-temp').textContent = heatToTemp(p.heat) + ' °C';
+      document.getElementById('sel-height').textContent = p.height + ' m (~' + p.levels + ' ชั้น)';
+    });
+
+    map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
+    map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
+  });
+
+  map.on('click', e => {
+    const fs2 = map.queryRenderedFeatures(e.point, { layers: ['buildings-2d', 'buildings-3d'] });
+    if (!fs2.length) {
+      document.getElementById('sel-panel').classList.remove('show');
+      document.getElementById('sel-hint').style.display = 'block';
+    }
+  });
+}
+
+// ── MODE TOGGLE 2D / 3D ──
+function setMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+
+  if (!buildingsLoaded) return;
+
+  if (mode === '3d') {
+    map.easeTo({ pitch: 52, bearing: -18, duration: 900 });
+    map.setLayoutProperty('buildings-2d', 'visibility', 'none');
+    map.setLayoutProperty('buildings-outline', 'visibility', 'none');
+    map.setLayoutProperty('buildings-3d', 'visibility', 'visible');
+  } else {
+    map.easeTo({ pitch: 0, bearing: 0, duration: 900 });
+    map.setLayoutProperty('buildings-2d', 'visibility', 'visible');
+    map.setLayoutProperty('buildings-outline', 'visibility', 'visible');
+    map.setLayoutProperty('buildings-3d', 'visibility', 'none');
+  }
+}
+
+document.getElementById('mode-toggle').addEventListener('click', e => {
+  const btn = e.target.closest('.mode-btn');
+  if (btn) setMode(btn.dataset.mode);
+});
+
+// ── LAYER TOGGLES ──
+function bindToggles() {
+  // Buildings
+  document.getElementById('tog-buildings').addEventListener('change', e => {
+    if (!buildingsLoaded) return;
+    const v = e.target.checked ? 'visible' : 'none';
+    ['buildings-2d', 'buildings-3d', 'buildings-outline'].forEach(l => {
+      if (map.getLayer(l)) map.setLayoutProperty(l, 'visibility', v);
+    });
+  });
+
+  // Opacity buildings
+  document.getElementById('op-buildings').addEventListener('input', e => {
+    const v = e.target.value / 100;
+    document.getElementById('opv-buildings').textContent = e.target.value + '%';
+    if (!buildingsLoaded) return;
+    if (map.getLayer('buildings-2d')) map.setPaintProperty('buildings-2d', 'fill-opacity', v);
+    if (map.getLayer('buildings-3d')) map.setPaintProperty('buildings-3d', 'fill-extrusion-opacity', Math.min(0.98, v + 0.05));
+  });
+
+  // Heatmap
+  document.getElementById('tog-heatmap').addEventListener('change', e => {
+    if (!buildingsLoaded) return;
+    const v = e.target.checked ? 'visible' : 'none';
+    if (map.getLayer('heat-density')) map.setLayoutProperty('heat-density', 'visibility', v);
+  });
+
+  document.getElementById('op-heatmap').addEventListener('input', e => {
+    const v = e.target.value / 100;
+    document.getElementById('opv-heatmap').textContent = e.target.value + '%';
+    if (map.getLayer('heat-density')) map.setPaintProperty('heat-density', 'heatmap-opacity', v);
+  });
+
+  // Shimmer
+  document.getElementById('tog-shimmer').addEventListener('change', e => {
+    shimmerActive = e.target.checked;
+    document.getElementById('shimmer-canvas').style.opacity = shimmerActive ? '1' : '0';
+  });
+
+  // Dome
+  document.getElementById('tog-dome').addEventListener('change', e => {
+    if (!buildingsLoaded) return;
+    const v = e.target.checked ? 'visible' : 'none';
+    ['uhi-dome-fill', 'uhi-dome-outline'].forEach(l => {
+      if (map.getLayer(l)) map.setLayoutProperty(l, 'visibility', v);
+    });
+  });
+}
+bindToggles();
+
+// ── SHIMMER CANVAS ──
+const shimmerCanvas = document.getElementById('shimmer-canvas');
+const shimmerCtx = shimmerCanvas.getContext('2d');
+let shimmerT = 0;
+
+function resizeShimmer() {
+  const wrap = document.getElementById('map-wrap');
+  shimmerCanvas.width = wrap.clientWidth;
+  shimmerCanvas.height = wrap.clientHeight;
+}
+resizeShimmer();
+window.addEventListener('resize', resizeShimmer);
+
+function animateShimmer() {
+  requestAnimationFrame(animateShimmer);
+  shimmerCtx.clearRect(0, 0, shimmerCanvas.width, shimmerCanvas.height);
+  if (!shimmerActive) return;
+
+  shimmerT += 0.008;
+  const cp = map.project(CENTER);
+
+  // Multiple heat blobs rising from center
+  for (let i = 0; i < 12; i++) {
+    const angle = (i / 12) * Math.PI * 2 + shimmerT * 0.25 + i * 0.3;
+    const drift = 70 + Math.sin(shimmerT * 0.7 + i) * 35;
+    const bx = cp.x + Math.cos(angle) * drift;
+    const by = cp.y + Math.sin(angle) * drift * 0.55 - shimmerT * 4 % (shimmerCanvas.height * 0.4);
+    const br = 28 + Math.sin(shimmerT * 0.9 + i * 0.6) * 14;
+
+    const g = shimmerCtx.createRadialGradient(bx, by, 0, bx, by, br);
+    g.addColorStop(0, 'rgba(255,80,0,0.09)');
+    g.addColorStop(1, 'rgba(255,120,0,0)');
+    shimmerCtx.beginPath();
+    shimmerCtx.arc(bx, by, br, 0, Math.PI * 2);
+    shimmerCtx.fillStyle = g;
+    shimmerCtx.fill();
+  }
+
+  // Main central dome glow
+  const dr = 160 + Math.sin(shimmerT * 0.35) * 22;
+  const dg = shimmerCtx.createRadialGradient(cp.x, cp.y, 0, cp.x, cp.y, dr);
+  dg.addColorStop(0, 'rgba(255,100,20,0.10)');
+  dg.addColorStop(0.4, 'rgba(255,130,30,0.055)');
+  dg.addColorStop(1, 'rgba(255,100,0,0)');
+  shimmerCtx.beginPath();
+  shimmerCtx.ellipse(cp.x, cp.y, dr, dr * 0.62, 0, 0, Math.PI * 2);
+  shimmerCtx.fillStyle = dg;
+  shimmerCtx.fill();
+
+  // Upward heat streaks
+  for (let i = 0; i < 7; i++) {
+    const sx = cp.x + (Math.sin(i * 1.73 + shimmerT * 0.2) * 55);
+    const sy = cp.y - ((shimmerT * 18 + i * 40) % 140);
+    const sg = shimmerCtx.createLinearGradient(sx, sy, sx, sy - 40);
+    sg.addColorStop(0, 'rgba(255,120,0,0)');
+    sg.addColorStop(0.5, `rgba(255,100,0,${0.06 + Math.sin(shimmerT + i) * 0.02})`);
+    sg.addColorStop(1, 'rgba(255,80,0,0)');
+    shimmerCtx.beginPath();
+    shimmerCtx.moveTo(sx - 4, sy);
+    shimmerCtx.quadraticCurveTo(sx + 3 * Math.sin(shimmerT * 2 + i), sy - 20, sx, sy - 40);
+    shimmerCtx.lineWidth = 2 + Math.sin(shimmerT + i) * 1;
+    shimmerCtx.strokeStyle = sg;
+    shimmerCtx.stroke();
+  }
+}
+animateShimmer();
+
+// ── LOAD BUILDINGS ──
+function setProgress(pct, text, sub) {
+  document.getElementById('prog-fill').style.width = pct + '%';
+  if (text) document.getElementById('loading-text').textContent = text;
+  if (sub !== undefined) document.getElementById('loading-sub2').textContent = sub;
+}
+
+function showError(msg) {
+  document.getElementById('loading-overlay').classList.add('hide');
+  document.getElementById('error-overlay').classList.add('show');
+  document.getElementById('error-text').textContent = msg;
+}
+
+async function loadBuildings(useBackup = false) {
+  document.getElementById('loading-overlay').classList.remove('hide');
+  document.getElementById('error-overlay').classList.remove('show');
+  setProgress(5, 'กำลังเชื่อมต่อ Overpass API...', '');
+
+  try {
+    const url = useBackup ? OVERPASS_URL2 : OVERPASS_URL;
+    setProgress(12, 'กำลังส่งคำขอข้อมูล...', useBackup ? 'กำลังใช้เซิร์ฟเวอร์สำรอง' : '');
+
+    const resp = await fetch(url, { signal: AbortSignal.timeout(160000) });
+    if (!resp.ok) throw new Error('API ตอบกลับ HTTP ' + resp.status);
+
+    setProgress(35, 'กำลังรับข้อมูล...', 'รอสักครู่ อาจใช้เวลา 30–90 วินาที');
+    const osmData = await resp.json();
+    const featureCount = (osmData.elements || []).length;
+
+    setProgress(65, 'กำลังแปลงเป็น GeoJSON...', `ได้รับ ${featureCount.toLocaleString()} องค์ประกอบ`);
+    await new Promise(r => setTimeout(r, 80)); // yield to browser
+
+    const raw = osmtogeojson(osmData);
+    setProgress(80, 'กำลังคำนวณความร้อน UHI...', `อาคาร ${raw.features.length.toLocaleString()} หลัง`);
+    await new Promise(r => setTimeout(r, 80));
+
+    const { geojson, points } = processGeoJSON(raw);
+    cachedGeoJSON = { geojson, points };
+
+    setProgress(95, 'กำลังวาดบนแผนที่...');
+    await new Promise(r => setTimeout(r, 80));
+
+    addBuildingLayers(geojson, points);
+    setProgress(100, 'โหลดเสร็จแล้ว!');
+    setTimeout(() => document.getElementById('loading-overlay').classList.add('hide'), 600);
+
+  } catch (e) {
+    console.error('[UHI] load error:', e);
+    if (!useBackup && !e.message.includes('สำรอง')) {
+      // Try backup server
+      await loadBuildings(true);
+    } else {
+      showError('โหลดข้อมูลไม่สำเร็จ:\n' + e.message + '\n\nโปรดลองใหม่อีกครั้ง');
+    }
+  }
+}
+
+document.getElementById('retry-btn').addEventListener('click', () => {
+  if (cachedGeoJSON) {
+    addBuildingLayers(cachedGeoJSON.geojson, cachedGeoJSON.points);
+    document.getElementById('error-overlay').classList.remove('show');
+    document.getElementById('loading-overlay').classList.add('hide');
+  } else {
+    loadBuildings();
+  }
+});
+
+// ── INIT ──
+map.on('load', () => {
+  loadBuildings();
+});
+
+window.addEventListener('resize', () => {
+  resizeShimmer();
+});
+</script>
+</body>
+</html>
