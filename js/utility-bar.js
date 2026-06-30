@@ -193,4 +193,27 @@ document.addEventListener('DOMContentLoaded', function () {
   contrastBtn.addEventListener('click', function () {
     applyContrast(!document.documentElement.classList.contains('high-contrast'));
   });
+
+  /* ── Sync --header-h to actual rendered height ──────────────────────────── */
+  function syncHeaderHeight() {
+    var utilEl   = document.getElementById('util-bar');
+    var headerEl = document.getElementById('site-header');
+    if (!utilEl || !headerEl) return;
+    var total = utilEl.getBoundingClientRect().height
+              + headerEl.getBoundingClientRect().height;
+    document.documentElement.style.setProperty('--header-h', total + 'px');
+  }
+
+  syncHeaderHeight();
+
+  // Re-sync on font scale changes (A- / A+ buttons)
+  document.getElementById('util-font-dec').addEventListener('click', function () {
+    requestAnimationFrame(syncHeaderHeight);
+  });
+  document.getElementById('util-font-inc').addEventListener('click', function () {
+    requestAnimationFrame(syncHeaderHeight);
+  });
+
+  // Re-sync on resize (orientation change, zoom)
+  window.addEventListener('resize', syncHeaderHeight, { passive: true });
 });
