@@ -619,6 +619,7 @@
       async function toggleRain() {
         const map = window._mapInstance;
         if (!map) return;
+        if (!map.isStyleLoaded()) await new Promise(r => map.once('load', r));
         if (!rainReady) {
           let tileUrl = 'https://tilecache.rainviewer.com/v2/radar/nowcast/256/{z}/{x}/{y}/2/1_0.png';
           try {
@@ -642,9 +643,10 @@
 
       /* ── PM2.5 ── */
       let pm25Ready = false;
-      function togglePm25() {
+      async function togglePm25() {
         const map = window._mapInstance;
         if (!map) return;
+        if (!map.isStyleLoaded()) await new Promise(r => map.once('load', r));
         if (!pm25Ready) {
           const pm25Val = parseFloat(document.querySelector('[id*="pm25"]')?.textContent) || 30;
           const color = pm25Val < 25 ? '#22c55e' : pm25Val < 50 ? '#fbbf24' : pm25Val < 100 ? '#f97316' : '#ef4444';

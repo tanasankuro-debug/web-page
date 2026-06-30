@@ -162,7 +162,7 @@ function initBackToTop() {
   function onScroll() {
     if (!ticking) {
       requestAnimationFrame(() => {
-        btn.hidden = window.scrollY <= 600;
+        btn.classList.toggle('is-visible', window.scrollY > 600);
         ticking = false;
       });
       ticking = true;

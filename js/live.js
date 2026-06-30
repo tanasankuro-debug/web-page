@@ -246,8 +246,6 @@ async function fetchLiveData() {
   if (errorEl)   errorEl.hidden   = true;
   if (panelEl)   panelEl.hidden   = true;
 
-  console.log('[live] Fetching:', LIVE_WEATHER_URL, LIVE_AQ_URL);
-
   const [wResult, aqResult] = await Promise.allSettled([
     _fetch(LIVE_WEATHER_URL, {}, 10000)
       .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
@@ -263,8 +261,6 @@ async function fetchLiveData() {
 
   const weather    = wResult.status  === 'fulfilled' ? wResult.value  : null;
   const airQuality = aqResult.status === 'fulfilled' ? aqResult.value : null;
-
-  console.log('[live] weather:', weather, 'airQuality:', airQuality);
 
   if (loadingEl) loadingEl.hidden = true;
 

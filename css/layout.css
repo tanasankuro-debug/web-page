@@ -159,7 +159,7 @@
 /* ===== STICKY HEADER ====================================================== */
 #site-header {
   position: fixed;
-  top: var(--util-bar-h); left: 0; right: 0;
+  top: calc(var(--util-bar-h) + env(safe-area-inset-top, 0px)); left: 0; right: 0;
   z-index: 1000;
   height: var(--nav-h);
   background: rgba(11,15,26,0.7);
@@ -507,12 +507,17 @@
   color: var(--text);
   cursor: pointer;
   box-shadow: var(--shadow);
-  transition: opacity var(--dur), transform var(--dur) var(--ease), background var(--dur);
+  transition: opacity var(--dur), visibility var(--dur), transform var(--dur) var(--ease), background var(--dur);
   opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
 }
 
-.back-to-top:not([hidden]) { opacity: 1; }
-.back-to-top[hidden] { display: flex !important; opacity: 0; pointer-events: none; }
+.back-to-top.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
 
 .back-to-top:hover {
   background: var(--bg-hover);

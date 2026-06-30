@@ -54,6 +54,9 @@
   /* Transition */
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   --dur:  0.25s;
+
+  /* RGB triplets for rgba() usage */
+  --cool-rgb: 34, 211, 238;
 }
 
 /* ===== RESET ============================================================== */
