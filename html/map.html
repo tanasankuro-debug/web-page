@@ -320,37 +320,70 @@
             </button>
           </div>
 
-          <!-- Heatmap overlay toggle (independent of base layer) -->
-          <div style="margin-top:0.75rem;">
-            <p class="sidebar-section-label" style="margin-bottom:0.4rem;">เลเยอร์ซ้อน</p>
-            <button class="layer-btn" id="btn-heatmap-overlay" aria-pressed="false"
-                    style="width:100%;justify-content:flex-start;gap:0.5rem;">
-              <span style="display:inline-flex;align-items:center;justify-content:center;
-                           width:20px;height:20px;border-radius:4px;
-                           background:linear-gradient(135deg,#3264ac,#00d2d2,#32dc50,#ffeb00,#ff8200,#e02814);
-                           flex-shrink:0;"></span>
-              Heatmap อุณหภูมิ
-            </button>
+          <!-- ─── OVERLAY TOGGLES ─────────────────────────────────────── -->
+          <div style="margin-top:0.875rem;">
+            <p class="sidebar-section-label" style="margin-bottom:0.5rem;">เลเยอร์ซ้อนทับ <span style="font-size:0.68rem;color:var(--text-muted);font-weight:400;">(กดเปิด/ปิด)</span></p>
+            <div class="ov-list">
+
+              <!-- ความร้อน -->
+              <button class="ov-btn" id="ov-heat" data-ov="heat" aria-pressed="false">
+                <span class="ov-swatch" style="background:linear-gradient(90deg,#3b82f6,#fbbf24,#ef4444);"></span>
+                <span class="ov-name">🌡️ ความร้อน</span>
+                <span class="ov-state">ปิด</span>
+              </button>
+
+              <!-- เรดาร์ฝน -->
+              <button class="ov-btn" id="ov-rain" data-ov="rain" aria-pressed="false">
+                <span class="ov-swatch" style="background:linear-gradient(90deg,#06b6d4,#3b82f6,#7c3aed);"></span>
+                <span class="ov-name">🌧️ เรดาร์ฝน</span>
+                <span class="ov-state">ปิด</span>
+              </button>
+
+              <!-- PM2.5 -->
+              <button class="ov-btn" id="ov-pm25" data-ov="pm25" aria-pressed="false">
+                <span class="ov-swatch" style="background:linear-gradient(90deg,#a3e635,#fbbf24,#dc2626);"></span>
+                <span class="ov-name">💨 ฝุ่น PM2.5</span>
+                <span class="ov-state">ปิด</span>
+              </button>
+
+              <!-- น้ำท่วม -->
+              <button class="ov-btn" id="ov-flood" data-ov="flood" aria-pressed="false">
+                <span class="ov-swatch" style="background:linear-gradient(90deg,#0ea5e9,#0369a1,#164e63);"></span>
+                <span class="ov-name">🌊 น้ำท่วม</span>
+                <span class="ov-state">ปิด</span>
+              </button>
+
+            </div>
           </div>
         </div>
 
         <!-- ─── RELATED MAPS ─────────────────────────────────────────────── -->
         <div>
-          <p class="sidebar-section-label">แผนที่เพิ่มเติม</p>
+          <p class="sidebar-section-label">หน้าแผนที่เฉพาะทาง</p>
           <div class="ext-map-links">
             <a href="heat-map-full.html" class="ext-map-link ext-map-link--heat">
-              อุณหภูมิละเอียด 26 อำเภอ
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
-                   stroke-linecap="round" stroke-linejoin="round" width="11" height="11" aria-hidden="true">
-                <path d="M3 8h10M9 4l4 4-4 4"/>
-              </svg>
+              🌡️ อุณหภูมิ 26 อำเภอ
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="11" height="11" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+            <a href="aqimap.html" class="ext-map-link ext-map-link--pm">
+              💨 แผนที่ฝุ่น PM2.5
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="11" height="11" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+            <a href="flood-live.html" class="ext-map-link ext-map-link--flood">
+              🌊 น้ำท่วมสด + Line OA
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="11" height="11" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+            <a href="uhi-map.html" class="ext-map-link ext-map-link--uhi">
+              🏙️ แผนที่ UHI 3D
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="11" height="11" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
             </a>
             <a href="landcast.html" class="ext-map-link ext-map-link--gis">
-              GIS / LandCast
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
-                   stroke-linecap="round" stroke-linejoin="round" width="11" height="11" aria-hidden="true">
-                <path d="M3 8h10M9 4l4 4-4 4"/>
-              </svg>
+              🗺️ GIS / LandCast
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="11" height="11" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+            <a href="air-sim.html" class="ext-map-link ext-map-link--sim">
+              🏗️ แบบจำลอง 3D
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="11" height="11" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
             </a>
           </div>
         </div>
@@ -411,6 +444,42 @@
 
       <!-- Info panel — populated by map-explore-plugin.js -->
       <aside id="info-panel" aria-label="ข้อมูลสภาพแวดล้อม ณ จุดที่เลือก" aria-live="polite"></aside>
+
+      <!-- ── FLOATING OVERLAY PANEL ──────────────────────────────────────── -->
+      <div id="float-ov-panel" aria-label="เลเยอร์ซ้อนทับ">
+        <div id="float-ov-header">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          เลเยอร์
+        </div>
+        <div id="float-ov-btns">
+
+          <button class="fov-btn" id="fov-heat" data-fov="heat">
+            <span class="fov-icon">🌡️</span>
+            <span class="fov-label">ความร้อน</span>
+            <span class="fov-dot"></span>
+          </button>
+
+          <button class="fov-btn" id="fov-rain" data-fov="rain">
+            <span class="fov-icon">🌧️</span>
+            <span class="fov-label">เรดาร์ฝน</span>
+            <span class="fov-dot"></span>
+          </button>
+
+          <button class="fov-btn" id="fov-pm25" data-fov="pm25">
+            <span class="fov-icon">💨</span>
+            <span class="fov-label">PM2.5</span>
+            <span class="fov-dot"></span>
+          </button>
+
+          <button class="fov-btn" id="fov-flood" data-fov="flood">
+            <span class="fov-icon">🌊</span>
+            <span class="fov-label">น้ำท่วม</span>
+            <span class="fov-dot"></span>
+          </button>
+
+        </div>
+      </div>
+      <!-- ────────────────────────────────────────────────────────────────── -->
 
     </div><!-- /.map-canvas -->
 
@@ -510,19 +579,196 @@
         } catch {}
       }
 
-      /* ── Heatmap overlay toggle ── */
-      const hmBtn = document.getElementById('btn-heatmap-overlay');
-      if (hmBtn) {
-        hmBtn.addEventListener('click', () => {
-          const overlay = window.HeatmapOverlay;
-          if (!overlay) return;
-          overlay.toggle();
-          const on = overlay.enabled;
-          hmBtn.setAttribute('aria-pressed', String(on));
-          hmBtn.classList.toggle('active', on);
-        });
+      /* ══ SHARED OVERLAY TOGGLE SYSTEM ═══════════════════════════════════
+         Single source of truth per overlay. Both floating panel (fov-*)
+         and sidebar (ov-*) call the same toggle function.             */
+
+      const ovState = { heat: false, rain: false, pm25: false };
+
+      function setAllOvUI(key, on) {
+        /* floating panel button */
+        const fBtn = document.getElementById('fov-' + key);
+        if (fBtn) {
+          fBtn.classList.toggle('fov-btn--on', on);
+          const dot = fBtn.querySelector('.fov-dot');
+          if (dot) dot.classList.toggle('fov-dot--on', on);
+        }
+        /* sidebar button */
+        const sBtn = document.getElementById('ov-' + key);
+        if (sBtn) {
+          sBtn.classList.toggle('ov-btn--on', on);
+          sBtn.setAttribute('aria-pressed', String(on));
+          const st = sBtn.querySelector('.ov-state');
+          if (st) st.textContent = on ? 'เปิด ●' : 'ปิด';
+        }
       }
+
+      /* ── ความร้อน ── */
+      async function toggleHeat() {
+        const overlay = window.HeatmapOverlay;
+        if (!overlay) return;
+        overlay.toggle();
+        ovState.heat = overlay.enabled;
+        setAllOvUI('heat', ovState.heat);
+      }
+      document.getElementById('fov-heat')?.addEventListener('click', toggleHeat);
+      document.getElementById('ov-heat')?.addEventListener('click', toggleHeat);
+
+      /* ── เรดาร์ฝน ── */
+      let rainReady = false;
+      async function toggleRain() {
+        const map = window._mapInstance;
+        if (!map) return;
+        if (!rainReady) {
+          let tileUrl = 'https://tilecache.rainviewer.com/v2/radar/nowcast/256/{z}/{x}/{y}/2/1_0.png';
+          try {
+            const resp = await fetch('https://tilecache.rainviewer.com/api/public/weather-maps.json');
+            const json = await resp.json();
+            const ts = json.radar?.past?.slice(-1)[0]?.time;
+            if (ts) tileUrl = `https://tilecache.rainviewer.com/v2/radar/${ts}/256/{z}/{x}/{y}/2/1_0.png`;
+          } catch {}
+          if (!map.getSource('rainviewer')) {
+            map.addSource('rainviewer', { type: 'raster', tiles: [tileUrl], tileSize: 256, attribution: '© RainViewer' });
+            map.addLayer({ id: 'rainviewer-layer', type: 'raster', source: 'rainviewer', paint: { 'raster-opacity': 0.72 } });
+          }
+          rainReady = true;
+        }
+        ovState.rain = !ovState.rain;
+        map.setLayoutProperty('rainviewer-layer', 'visibility', ovState.rain ? 'visible' : 'none');
+        setAllOvUI('rain', ovState.rain);
+      }
+      document.getElementById('fov-rain')?.addEventListener('click', toggleRain);
+      document.getElementById('ov-rain')?.addEventListener('click', toggleRain);
+
+      /* ── PM2.5 ── */
+      let pm25Ready = false;
+      function togglePm25() {
+        const map = window._mapInstance;
+        if (!map) return;
+        if (!pm25Ready) {
+          const pm25Val = parseFloat(document.querySelector('[id*="pm25"]')?.textContent) || 30;
+          const color = pm25Val < 25 ? '#22c55e' : pm25Val < 50 ? '#fbbf24' : pm25Val < 100 ? '#f97316' : '#ef4444';
+          if (!map.getSource('pm25-src')) {
+            map.addSource('pm25-src', { type: 'geojson', data: { type: 'Feature', geometry: { type: 'Point', coordinates: [102.8360, 16.4419] }, properties: {} } });
+            map.addLayer({ id: 'pm25-circle', type: 'circle', source: 'pm25-src', paint: {
+              'circle-radius': ['interpolate', ['linear'], ['zoom'], 8, 40, 13, 120, 16, 280],
+              'circle-color': color, 'circle-opacity': 0.18,
+              'circle-stroke-color': color, 'circle-stroke-width': 2, 'circle-stroke-opacity': 0.55
+            }});
+          }
+          pm25Ready = true;
+        }
+        ovState.pm25 = !ovState.pm25;
+        map.setLayoutProperty('pm25-circle', 'visibility', ovState.pm25 ? 'visible' : 'none');
+        setAllOvUI('pm25', ovState.pm25);
+      }
+      document.getElementById('fov-pm25')?.addEventListener('click', togglePm25);
+      document.getElementById('ov-pm25')?.addEventListener('click', togglePm25);
+
+      /* ── น้ำท่วม (link) ── */
+      function openFlood() { window.open('flood-live.html', '_blank'); }
+      document.getElementById('fov-flood')?.addEventListener('click', openFlood);
+      document.getElementById('ov-flood')?.addEventListener('click', openFlood);
+
     });
   </script>
+  <style>
+    /* ══ FLOATING OVERLAY PANEL ══════════════════════════════════════════ */
+    #float-ov-panel {
+      position: absolute;
+      top: 14px;
+      right: 56px; /* clear MapLibre nav controls */
+      z-index: 20;
+      background: rgba(10, 14, 26, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 10px;
+      min-width: 156px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.55);
+      pointer-events: auto;
+    }
+    #float-ov-header {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: rgba(255,255,255,0.4);
+      padding: 0 2px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 7px;
+    }
+    #float-ov-btns { display: flex; flex-direction: column; gap: 5px; }
+
+    .fov-btn {
+      display: flex; align-items: center; gap: 8px;
+      width: 100%; padding: 7px 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid rgba(255,255,255,0.08);
+      border-radius: 9px; cursor: pointer;
+      color: rgba(255,255,255,0.55);
+      font-family: inherit; font-size: 0.78rem; font-weight: 500;
+      text-align: left; transition: all 0.16s;
+      user-select: none;
+    }
+    .fov-btn:hover {
+      background: rgba(255,255,255,0.09);
+      border-color: rgba(255,255,255,0.22);
+      color: #f1f5f9;
+    }
+    .fov-btn--on {
+      background: rgba(249,115,22,0.14);
+      border-color: rgba(249,115,22,0.5);
+      color: #fde68a;
+    }
+    .fov-icon { font-size: 0.88rem; flex-shrink: 0; line-height: 1; }
+    .fov-label { flex: 1; }
+    .fov-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      flex-shrink: 0; transition: background 0.16s;
+    }
+    .fov-dot--on { background: #fb923c; box-shadow: 0 0 6px #fb923c; }
+
+    /* mobile: move to bottom-left so it doesn't overlap sidebar edge tab */
+    @media (max-width: 640px) {
+      #float-ov-panel {
+        top: auto;
+        bottom: 80px;
+        right: 12px;
+        left: auto;
+        min-width: 140px;
+      }
+    }
+
+    /* ── Sidebar overlay toggles (existing) ── */
+    .ov-list { display: flex; flex-direction: column; gap: 6px; }
+    .ov-btn {
+      display: flex; align-items: center; gap: 10px;
+      width: 100%; padding: 9px 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid rgba(255,255,255,0.09);
+      border-radius: 10px; cursor: pointer;
+      color: var(--text-muted, #94a3b8);
+      font-family: inherit; font-size: 0.8rem; font-weight: 500;
+      text-align: left; transition: all 0.18s;
+    }
+    .ov-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); color: #f1f5f9; }
+    .ov-btn--on { background: rgba(249,115,22,0.10); border-color: rgba(249,115,22,0.45); color: #f1f5f9; }
+    .ov-swatch { width: 20px; height: 10px; border-radius: 4px; flex-shrink: 0; }
+    .ov-name { flex: 1; }
+    .ov-state {
+      font-size: 0.68rem; font-weight: 700;
+      padding: 2px 7px; border-radius: 20px;
+      background: rgba(255,255,255,0.07); color: var(--text-muted, #94a3b8);
+      white-space: nowrap; flex-shrink: 0; transition: all 0.18s;
+    }
+    .ov-btn--on .ov-state { background: rgba(249,115,22,0.22); color: #fb923c; }
+
+    /* ext-map-link extras */
+    .ext-map-link--pm    { color: #a3e635; }
+    .ext-map-link--flood { color: #38bdf8; }
+    .ext-map-link--uhi   { color: #f97316; }
+    .ext-map-link--sim   { color: #818cf8; }
+  </style>
 </body>
 </html>

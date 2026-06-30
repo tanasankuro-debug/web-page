@@ -85,7 +85,7 @@ function initSatelliteMap() {
     };
   }
 
-  const map = new maplibregl.Map({
+  const map = window._mapInstance = new maplibregl.Map({
     container: 'satellite-map-el',
     style: {
       version: 8,
