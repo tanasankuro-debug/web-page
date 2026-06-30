@@ -31,6 +31,10 @@
     { "source": "/heat-analysis", "destination": "/html/heat-analysis.html" },
     { "source": "/heat-analysis.html", "destination": "/html/heat-analysis.html" },
     { "source": "/heat-gis", "destination": "/html/heat-gis.html" },
-    { "source": "/heat-gis.html", "destination": "/html/heat-gis.html" }
+    { "source": "/heat-gis.html", "destination": "/html/heat-gis.html" },
+    { "source": "/air-sim", "destination": "/html/air-sim.html" },
+    { "source": "/air-sim.html", "destination": "/html/air-sim.html" },
+    { "source": "/uhi-map", "destination": "/html/uhi-map.html" },
+    { "source": "/uhi-map.html", "destination": "/html/uhi-map.html" }
   ]
 }
