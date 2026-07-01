@@ -193,6 +193,27 @@ function renderLivePanel(weather, airQuality) {
   setCard('uv',       uv    != null ? uv.toFixed(1)            : null, '',      uvInfo.label,    uvInfo.color);
   setCard('pm25',     pm25  != null ? String(Math.round(pm25)) : null, 'µg/m³', pm25Info.label,  pm25Info.color);
 
+  /* ── Hero live temperature (heat.html) ───────────────────────────────── */
+  const heroVal  = document.getElementById('hero-temp-val');
+  const heroFeel = document.getElementById('hero-temp-feels');
+  const heroCard = document.getElementById('hero-live-temp');
+  if (heroVal && temp != null) {
+    const col = tempColor(temp);
+    if (!prefersReducedMotion) animateCountUp(heroVal, temp, 1, 900);
+    else heroVal.textContent = temp.toFixed(1);
+    heroVal.style.color = col;
+    if (heroCard) {
+      heroCard.style.borderColor = col + '55';
+      heroCard.style.boxShadow   = `0 4px 32px ${col}22, inset 0 1px 0 rgba(255,255,255,0.06)`;
+    }
+  }
+  if (heroFeel) {
+    heroFeel.textContent = feels != null
+      ? `รู้สึก ${feels.toFixed(1)}°C`
+      : '';
+    if (feels != null) heroFeel.style.color = tempColor(feels) + 'aa';
+  }
+
   if (hourly.time?.length && hourly.temperature_2m?.length) {
     if (!prefersReducedMotion) {
       renderSparkline(hourly.time, hourly.temperature_2m);

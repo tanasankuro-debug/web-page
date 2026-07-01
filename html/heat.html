@@ -107,6 +107,76 @@
       transform: translateX(5px);
     }
 
+    /* ── Hero live temperature card ─────────────────── */
+    .hero-live-temp {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      background: rgba(11,15,26,0.55);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(251,146,60,0.28);
+      border-radius: 18px;
+      padding: 1rem 1.5rem 1.1rem;
+      width: fit-content;
+      box-shadow: 0 4px 32px rgba(251,146,60,0.12), inset 0 1px 0 rgba(255,255,255,0.06);
+      transition: border-color .6s, box-shadow .6s;
+      opacity: 0;
+      animation: heroFadeUp .65s cubic-bezier(.22,.68,0,1.15) .50s both;
+    }
+    .htl-label {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 0.1rem;
+    }
+    .htl-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 6px #22c55e;
+      animation: htlPulse 2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes htlPulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: .5; transform: scale(0.7); }
+    }
+    .htl-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.15rem;
+      line-height: 1;
+    }
+    .htl-val {
+      font-size: clamp(3rem,8vw,4.5rem);
+      font-weight: 800;
+      color: #fb923c;
+      font-family: var(--font-display, 'Barlow Condensed', sans-serif);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+      transition: color .6s;
+    }
+    .htl-unit {
+      font-size: clamp(1.4rem,3.5vw,2rem);
+      font-weight: 700;
+      color: rgba(255,255,255,0.6);
+      align-self: flex-start;
+      margin-top: 0.4rem;
+    }
+    .htl-feels {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.4);
+      margin-top: 0.3rem;
+      min-height: 1.1em;
+      transition: color .6s;
+    }
+
     /* ── Reduced motion: kill everything ────────────── */
     @media (prefers-reduced-motion: reduce) {
       #hero.hero                             { animation: none; }
@@ -116,6 +186,8 @@
       .heat-particles                        { display: none; }
       .toc-link                              { transition: none; }
       .toc-link:hover, .toc-link:focus-visible { transform: none; }
+      .hero-live-temp { animation: none; opacity: 1; }
+      .htl-dot        { animation: none; }
     }
 
   </style>
@@ -183,6 +255,20 @@
           <span class="hero-title-accent">HEAT</span>
         </h1>
         <p class="hero-sub reveal">ความร้อนเมืองขอนแก่น</p>
+
+        <!-- Live temperature display — values injected by live.js -->
+        <div class="hero-live-temp" id="hero-live-temp" aria-live="polite" aria-atomic="true">
+          <div class="htl-label">
+            <span class="htl-dot" aria-hidden="true"></span>
+            ขอนแก่น &middot; ตอนนี้
+          </div>
+          <div class="htl-row">
+            <span class="htl-val" id="hero-temp-val">—</span>
+            <span class="htl-unit">°C</span>
+          </div>
+          <div class="htl-feels" id="hero-temp-feels">กำลังโหลด…</div>
+        </div>
+
         <div class="hero-actions reveal">
           <a href="heat-map-full.html" class="btn btn-primary">ดูแผนที่จริง &#x2192;</a>
         </div>
