@@ -177,6 +177,94 @@
       transition: color .6s;
     }
 
+    /* ── Dynamic hero atmosphere — set by live.js via data-temp-level ──── */
+    /* cool: <25°C */
+    #hero[data-temp-level="cool"] {
+      background: linear-gradient(-45deg, #06101B, #071C38, #082230, #071828, #06101B);
+    }
+    #hero[data-temp-level="cool"]::before {
+      background:
+        radial-gradient(ellipse 85% 48% at 50% 115%, rgba(34,211,238,.30) 0%, transparent 65%),
+        radial-gradient(ellipse 45% 32% at 15% 92%,  rgba(30,58,138,.18) 0%, transparent 52%),
+        radial-gradient(ellipse 45% 32% at 85% 92%,  rgba(30,58,138,.18) 0%, transparent 52%);
+    }
+    #hero[data-temp-level="cool"] .heat-particles span:nth-child(1){background:rgba(34,211,238,.80);}
+    #hero[data-temp-level="cool"] .heat-particles span:nth-child(2){background:rgba(30,58,138,.75);}
+    #hero[data-temp-level="cool"] .heat-particles span:nth-child(3){background:rgba(99,179,237,.65);}
+    #hero[data-temp-level="cool"] .heat-particles span:nth-child(4){background:rgba(34,211,238,.85);}
+    #hero[data-temp-level="cool"] .heat-particles span:nth-child(5){background:rgba(30,58,138,.70);}
+    #hero[data-temp-level="cool"] .heat-particles span:nth-child(6){background:rgba(99,179,237,.60);}
+    #hero[data-temp-level="cool"] .heat-particles span:nth-child(7){background:rgba(34,211,238,.75);}
+    #hero[data-temp-level="cool"] .heat-particles span:nth-child(8){background:rgba(30,58,138,.65);}
+
+    /* mild: 25-30°C */
+    #hero[data-temp-level="mild"] {
+      background: linear-gradient(-45deg, #06101B, #081A15, #0B1E12, #081A10, #06101B);
+    }
+    #hero[data-temp-level="mild"]::before {
+      background:
+        radial-gradient(ellipse 85% 48% at 50% 115%, rgba(34,197,94,.24) 0%, transparent 65%),
+        radial-gradient(ellipse 45% 32% at 15% 92%,  rgba(250,204,21,.10) 0%, transparent 52%),
+        radial-gradient(ellipse 45% 32% at 85% 92%,  rgba(250,204,21,.10) 0%, transparent 52%);
+    }
+    #hero[data-temp-level="mild"] .heat-particles span:nth-child(1){background:rgba(163,230,53,.80);}
+    #hero[data-temp-level="mild"] .heat-particles span:nth-child(2){background:rgba(250,204,21,.70);}
+    #hero[data-temp-level="mild"] .heat-particles span:nth-child(3){background:rgba(34,197,94,.65);}
+    #hero[data-temp-level="mild"] .heat-particles span:nth-child(4){background:rgba(250,204,21,.85);}
+    #hero[data-temp-level="mild"] .heat-particles span:nth-child(5){background:rgba(163,230,53,.75);}
+    #hero[data-temp-level="mild"] .heat-particles span:nth-child(6){background:rgba(250,204,21,.60);}
+    #hero[data-temp-level="mild"] .heat-particles span:nth-child(7){background:rgba(34,197,94,.70);}
+    #hero[data-temp-level="mild"] .heat-particles span:nth-child(8){background:rgba(250,204,21,.65);}
+
+    /* warm: 30-34°C */
+    #hero[data-temp-level="warm"] {
+      background: linear-gradient(-45deg, #06101B, #140F06, #1A1508, #120D06, #06101B);
+    }
+    #hero[data-temp-level="warm"]::before {
+      background:
+        radial-gradient(ellipse 85% 48% at 50% 115%, rgba(250,204,21,.28) 0%, transparent 65%),
+        radial-gradient(ellipse 45% 32% at 15% 92%,  rgba(251,146,60,.13) 0%, transparent 52%),
+        radial-gradient(ellipse 45% 32% at 85% 92%,  rgba(251,146,60,.13) 0%, transparent 52%);
+    }
+    #hero[data-temp-level="warm"] .heat-particles span:nth-child(1){background:rgba(250,204,21,.85);}
+    #hero[data-temp-level="warm"] .heat-particles span:nth-child(2){background:rgba(251,146,60,.75);}
+    #hero[data-temp-level="warm"] .heat-particles span:nth-child(3){background:rgba(250,204,21,.70);}
+    #hero[data-temp-level="warm"] .heat-particles span:nth-child(4){background:rgba(251,146,60,.90);}
+    #hero[data-temp-level="warm"] .heat-particles span:nth-child(5){background:rgba(250,204,21,.80);}
+    #hero[data-temp-level="warm"] .heat-particles span:nth-child(6){background:rgba(251,146,60,.65);}
+    #hero[data-temp-level="warm"] .heat-particles span:nth-child(7){background:rgba(250,204,21,.75);}
+    #hero[data-temp-level="warm"] .heat-particles span:nth-child(8){background:rgba(251,146,60,.70);}
+
+    /* hot: 34-37°C */
+    #hero[data-temp-level="hot"] {
+      background: linear-gradient(-45deg, #06101B, #1A0E06, #180A04, #1C0F06, #06101B);
+    }
+    #hero[data-temp-level="hot"]::before {
+      background:
+        radial-gradient(ellipse 85% 48% at 50% 115%, rgba(251,146,60,.33) 0%, transparent 65%),
+        radial-gradient(ellipse 45% 32% at 15% 92%,  rgba(251,146,60,.16) 0%, transparent 52%),
+        radial-gradient(ellipse 45% 32% at 85% 92%,  rgba(251,146,60,.16) 0%, transparent 52%);
+    }
+
+    /* fire: ≥37°C */
+    #hero[data-temp-level="fire"] {
+      background: linear-gradient(-45deg, #06101B, #200606, #1A0404, #1E0808, #06101B);
+    }
+    #hero[data-temp-level="fire"]::before {
+      background:
+        radial-gradient(ellipse 85% 48% at 50% 115%, rgba(220,38,38,.40) 0%, transparent 65%),
+        radial-gradient(ellipse 45% 32% at 15% 92%,  rgba(185,28,28,.22) 0%, transparent 52%),
+        radial-gradient(ellipse 45% 32% at 85% 92%,  rgba(185,28,28,.22) 0%, transparent 52%);
+    }
+    #hero[data-temp-level="fire"] .heat-particles span:nth-child(1){background:rgba(239,68,68,.90);}
+    #hero[data-temp-level="fire"] .heat-particles span:nth-child(2){background:rgba(185,28,28,.85);}
+    #hero[data-temp-level="fire"] .heat-particles span:nth-child(3){background:rgba(239,68,68,.75);}
+    #hero[data-temp-level="fire"] .heat-particles span:nth-child(4){background:rgba(220,38,38,.95);}
+    #hero[data-temp-level="fire"] .heat-particles span:nth-child(5){background:rgba(239,68,68,.80);}
+    #hero[data-temp-level="fire"] .heat-particles span:nth-child(6){background:rgba(185,28,28,.70);}
+    #hero[data-temp-level="fire"] .heat-particles span:nth-child(7){background:rgba(239,68,68,.85);}
+    #hero[data-temp-level="fire"] .heat-particles span:nth-child(8){background:rgba(220,38,38,.75);}
+
     /* ── Reduced motion: kill everything ────────────── */
     @media (prefers-reduced-motion: reduce) {
       #hero.hero                             { animation: none; }

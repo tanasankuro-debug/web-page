@@ -214,6 +214,14 @@ function renderLivePanel(weather, airQuality) {
     if (feels != null) heroFeel.style.color = tempColor(feels) + 'aa';
   }
 
+  /* ── Hero atmosphere: shift gradient/glow/particles to match live temp ── */
+  const heroEl = document.getElementById('hero');
+  if (heroEl && temp != null) {
+    heroEl.setAttribute('data-temp-level',
+      temp < 25 ? 'cool' : temp < 30 ? 'mild' : temp < 34 ? 'warm' : temp < 37 ? 'hot' : 'fire'
+    );
+  }
+
   if (hourly.time?.length && hourly.temperature_2m?.length) {
     if (!prefersReducedMotion) {
       renderSparkline(hourly.time, hourly.temperature_2m);

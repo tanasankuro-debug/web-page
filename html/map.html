@@ -332,24 +332,10 @@
                 <span class="ov-state">ปิด</span>
               </button>
 
-              <!-- เรดาร์ฝน -->
-              <button class="ov-btn" id="ov-rain" data-ov="rain" aria-pressed="false">
-                <span class="ov-swatch" style="background:linear-gradient(90deg,#06b6d4,#3b82f6,#7c3aed);"></span>
-                <span class="ov-name">🌧️ เรดาร์ฝน</span>
-                <span class="ov-state">ปิด</span>
-              </button>
-
               <!-- PM2.5 -->
               <button class="ov-btn" id="ov-pm25" data-ov="pm25" aria-pressed="false">
                 <span class="ov-swatch" style="background:linear-gradient(90deg,#a3e635,#fbbf24,#dc2626);"></span>
                 <span class="ov-name">💨 ฝุ่น PM2.5</span>
-                <span class="ov-state">ปิด</span>
-              </button>
-
-              <!-- น้ำท่วม -->
-              <button class="ov-btn" id="ov-flood" data-ov="flood" aria-pressed="false">
-                <span class="ov-swatch" style="background:linear-gradient(90deg,#0ea5e9,#0369a1,#164e63);"></span>
-                <span class="ov-name">🌊 น้ำท่วม</span>
                 <span class="ov-state">ปิด</span>
               </button>
 
@@ -459,21 +445,9 @@
             <span class="fov-dot"></span>
           </button>
 
-          <button class="fov-btn" id="fov-rain" data-fov="rain">
-            <span class="fov-icon">🌧️</span>
-            <span class="fov-label">เรดาร์ฝน</span>
-            <span class="fov-dot"></span>
-          </button>
-
           <button class="fov-btn" id="fov-pm25" data-fov="pm25">
             <span class="fov-icon">💨</span>
             <span class="fov-label">PM2.5</span>
-            <span class="fov-dot"></span>
-          </button>
-
-          <button class="fov-btn" id="fov-flood" data-fov="flood">
-            <span class="fov-icon">🌊</span>
-            <span class="fov-label">น้ำท่วม</span>
             <span class="fov-dot"></span>
           </button>
 
@@ -583,7 +557,7 @@
          Single source of truth per overlay. Both floating panel (fov-*)
          and sidebar (ov-*) call the same toggle function.             */
 
-      const ovState = { heat: false, rain: false, pm25: false };
+      const ovState = { heat: false, pm25: false };
 
       function setAllOvUI(key, on) {
         /* floating panel button */
@@ -614,63 +588,49 @@
       document.getElementById('fov-heat')?.addEventListener('click', toggleHeat);
       document.getElementById('ov-heat')?.addEventListener('click', toggleHeat);
 
-      /* ── เรดาร์ฝน ── */
-      let rainReady = false;
-      async function toggleRain() {
-        const map = window._mapInstance;
-        if (!map) return;
-        if (!map.isStyleLoaded()) await new Promise(r => map.once('load', r));
-        if (!rainReady) {
-          let tileUrl = 'https://tilecache.rainviewer.com/v2/radar/nowcast/256/{z}/{x}/{y}/2/1_0.png';
-          try {
-            const resp = await fetch('https://tilecache.rainviewer.com/api/public/weather-maps.json');
-            const json = await resp.json();
-            const ts = json.radar?.past?.slice(-1)[0]?.time;
-            if (ts) tileUrl = `https://tilecache.rainviewer.com/v2/radar/${ts}/256/{z}/{x}/{y}/2/1_0.png`;
-          } catch {}
-          if (!map.getSource('rainviewer')) {
-            map.addSource('rainviewer', { type: 'raster', tiles: [tileUrl], tileSize: 256, attribution: '© RainViewer' });
-            map.addLayer({ id: 'rainviewer-layer', type: 'raster', source: 'rainviewer', paint: { 'raster-opacity': 0.72 } });
-          }
-          rainReady = true;
-        }
-        ovState.rain = !ovState.rain;
-        map.setLayoutProperty('rainviewer-layer', 'visibility', ovState.rain ? 'visible' : 'none');
-        setAllOvUI('rain', ovState.rain);
-      }
-      document.getElementById('fov-rain')?.addEventListener('click', toggleRain);
-      document.getElementById('ov-rain')?.addEventListener('click', toggleRain);
+      /* ── PM2.5 — marker แสดงระดับความปลอดภัย ── */
+      let pm25Marker = null;
+      let pm25Ready  = false;
 
-      /* ── PM2.5 ── */
-      let pm25Ready = false;
-      async function togglePm25() {
+      function pm25Status(v) {
+        if (v <  15) return { label: 'ดี — ปลอดภัย',              emoji: '✅', bg: '#16a34a', text: '#fff' };
+        if (v <  25) return { label: 'ปานกลาง',                    emoji: '🟡', bg: '#ca8a04', text: '#fff' };
+        if (v <  37) return { label: 'ระวัง — ผู้ป่วย/เด็กเล็ก',  emoji: '⚠️', bg: '#ea580c', text: '#fff' };
+        if (v <  75) return { label: 'อันตราย — จำกัดกิจกรรม',    emoji: '🚨', bg: '#dc2626', text: '#fff' };
+        return             { label: 'อันตรายมาก — อยู่ในอาคาร',   emoji: '☠️', bg: '#7f1d1d', text: '#fca5a5' };
+      }
+
+      function togglePm25() {
         const map = window._mapInstance;
         if (!map) return;
-        if (!map.isStyleLoaded()) await new Promise(r => map.once('load', r));
+
         if (!pm25Ready) {
-          const pm25Val = parseFloat(document.querySelector('[id*="pm25"]')?.textContent) || 30;
-          const color = pm25Val < 25 ? '#22c55e' : pm25Val < 50 ? '#fbbf24' : pm25Val < 100 ? '#f97316' : '#ef4444';
-          if (!map.getSource('pm25-src')) {
-            map.addSource('pm25-src', { type: 'geojson', data: { type: 'Feature', geometry: { type: 'Point', coordinates: [102.8360, 16.4419] }, properties: {} } });
-            map.addLayer({ id: 'pm25-circle', type: 'circle', source: 'pm25-src', paint: {
-              'circle-radius': ['interpolate', ['linear'], ['zoom'], 8, 40, 13, 120, 16, 280],
-              'circle-color': color, 'circle-opacity': 0.18,
-              'circle-stroke-color': color, 'circle-stroke-width': 2, 'circle-stroke-opacity': 0.55
-            }});
-          }
+          const raw = parseFloat(document.getElementById('lc-pm25-val')?.textContent);
+          const val = isNaN(raw) ? 0 : raw;
+          const s   = pm25Status(val);
+
+          const el = document.createElement('div');
+          el.className = 'pm25-badge';
+          el.innerHTML = `
+            <div class="pm25-badge-box" style="background:${s.bg};">
+              <div class="pm25-badge-num" style="color:${s.text}">${val > 0 ? Math.round(val) : '—'}<span class="pm25-badge-unit">µg/m³</span></div>
+              <div class="pm25-badge-label" style="color:${s.text}">${s.emoji} ${s.label}</div>
+              <div class="pm25-badge-sub">PM2.5 ขอนแก่น</div>
+            </div>
+            <div class="pm25-badge-tail" style="border-top-color:${s.bg};"></div>`;
+
+          pm25Marker = new maplibregl.Marker({ element: el, anchor: 'bottom' })
+            .setLngLat([102.8360, 16.4419])
+            .addTo(map);
           pm25Ready = true;
         }
+
         ovState.pm25 = !ovState.pm25;
-        map.setLayoutProperty('pm25-circle', 'visibility', ovState.pm25 ? 'visible' : 'none');
+        if (pm25Marker) pm25Marker.getElement().style.display = ovState.pm25 ? '' : 'none';
         setAllOvUI('pm25', ovState.pm25);
       }
       document.getElementById('fov-pm25')?.addEventListener('click', togglePm25);
       document.getElementById('ov-pm25')?.addEventListener('click', togglePm25);
-
-      /* ── น้ำท่วม (link) ── */
-      function openFlood() { window.open('flood-live.html', '_blank'); }
-      document.getElementById('fov-flood')?.addEventListener('click', openFlood);
-      document.getElementById('ov-flood')?.addEventListener('click', openFlood);
 
     });
   </script>
@@ -771,6 +731,50 @@
     .ext-map-link--flood { color: #38bdf8; }
     .ext-map-link--uhi   { color: #f97316; }
     .ext-map-link--sim   { color: #818cf8; }
+
+    /* ── PM2.5 map marker badge ── */
+    .pm25-badge { display: flex; flex-direction: column; align-items: center; cursor: default; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5)); }
+    .pm25-badge-box {
+      border-radius: 12px;
+      padding: 10px 14px 8px;
+      min-width: 130px;
+      text-align: center;
+      border: 2px solid rgba(255,255,255,0.25);
+    }
+    .pm25-badge-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .pm25-badge-unit {
+      font-size: 0.65rem;
+      font-weight: 600;
+      opacity: 0.85;
+      margin-left: 2px;
+    }
+    .pm25-badge-label {
+      font-family: 'Noto Sans Thai', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      margin-top: 4px;
+      opacity: 0.95;
+    }
+    .pm25-badge-sub {
+      font-family: 'Noto Sans Thai', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.7);
+      margin-top: 3px;
+    }
+    .pm25-badge-tail {
+      width: 0; height: 0;
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      border-top: 10px solid transparent; /* color set inline */
+      margin-top: -1px;
+    }
   </style>
 </body>
 </html>
