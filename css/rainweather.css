@@ -347,6 +347,142 @@
   line-height: 1;
 }
 
+/* ══ VISUAL EFFECTS ══════════════════════════════════════════════════════ */
+
+/* Gradient title */
+.rf-title {
+  background: linear-gradient(115deg, #e2e8f0 0%, #93c5fd 55%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Panel: blue left accent + hover lift */
+.rw-panel {
+  border-left: 3px solid rgba(59,130,246,0.45);
+  box-shadow: 0 2px 18px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.03);
+  transition: box-shadow 0.28s, border-left-color 0.28s, transform 0.22s;
+}
+.rw-panel:hover {
+  border-left-color: #3b82f6;
+  box-shadow: 0 4px 36px rgba(59,130,246,0.16), 0 2px 12px rgba(0,0,0,0.3);
+  transform: translateY(-2px);
+}
+
+/* Panel title: live pulsing dot */
+.rw-panel-title {
+  display: flex;
+  align-items: center;
+}
+.rw-panel-title::before {
+  content: '';
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #3b82f6;
+  box-shadow: 0 0 8px #3b82f6, 0 0 18px rgba(59,130,246,0.4);
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+  animation: rwDotPulse 2s ease-in-out infinite;
+}
+@keyframes rwDotPulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.3; transform: scale(0.55); }
+}
+
+/* Current conditions: icon float */
+.rwc-icon { animation: rwIconFloat 3.5s ease-in-out infinite; }
+@keyframes rwIconFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+/* Temp + desc slide up on load */
+.rwc-temp { animation: rwFadeUp 0.65s ease both; }
+.rwc-desc { animation: rwFadeUp 0.65s 0.1s ease both; }
+.rwc-prob { animation: rwFadeUp 0.65s 0.18s ease both; }
+@keyframes rwFadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Stat cards: hover lift + glow */
+.rwc-stat {
+  transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+}
+.rwc-stat:hover {
+  transform: translateY(-4px);
+  border-color: rgba(59,130,246,0.5);
+  box-shadow: 0 6px 20px rgba(59,130,246,0.16);
+}
+
+/* Hourly bars: grow from bottom on render */
+.rh-bar-prob {
+  animation: rwBarGrow 0.6s cubic-bezier(.22,.68,0,1.1) both;
+  transform-origin: bottom;
+}
+.rh-bar-rain {
+  animation: rwBarGrow 0.6s 0.07s cubic-bezier(.22,.68,0,1.1) both;
+  transform-origin: bottom;
+  transition: background 0.18s, box-shadow 0.18s;
+}
+@keyframes rwBarGrow {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+
+/* Hourly col hover */
+.rh-col {
+  transition: transform 0.15s;
+  cursor: default;
+}
+.rh-col:hover { transform: translateY(-5px); }
+.rh-col:hover .rh-bar-rain {
+  background: #60a5fa;
+  box-shadow: 0 0 12px rgba(59,130,246,0.6);
+}
+.rh-col:hover .rh-prob { color: #93c5fd; }
+
+/* Daily cards: staggered slide-in */
+.rd-card {
+  animation: rwCardIn 0.45s ease both;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+@keyframes rwCardIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.rd-card:nth-child(1) { animation-delay: 0.04s; }
+.rd-card:nth-child(2) { animation-delay: 0.09s; }
+.rd-card:nth-child(3) { animation-delay: 0.14s; }
+.rd-card:nth-child(4) { animation-delay: 0.19s; }
+.rd-card:nth-child(5) { animation-delay: 0.24s; }
+.rd-card:nth-child(6) { animation-delay: 0.29s; }
+.rd-card:nth-child(7) { animation-delay: 0.34s; }
+
+.rd-card:hover {
+  transform: translateY(-6px) scale(1.025);
+  border-color: rgba(59,130,246,0.55);
+  box-shadow: 0 12px 32px rgba(59,130,246,0.15);
+}
+
+/* Today card: continuous glow pulse */
+.rd-today {
+  animation: rwCardIn 0.45s ease both, rwTodayGlow 3s 0.9s ease-in-out infinite;
+}
+@keyframes rwTodayGlow {
+  0%,100% { box-shadow: 0 0 14px rgba(59,130,246,0.10), 0 0 0 1px rgba(59,130,246,0.22); }
+  50%      { box-shadow: 0 0 30px rgba(59,130,246,0.32), 0 0 0 1px rgba(59,130,246,0.5); }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .rwc-icon, .rw-panel-title::before,
+  .rh-bar-prob, .rh-bar-rain,
+  .rd-card, .rd-today, .rwc-temp, .rwc-desc, .rwc-prob { animation: none; }
+  .rw-panel, .rwc-stat, .rh-col, .rd-card { transition: none; }
+}
+
 /* ── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 860px) {
   .rd-wrap {
