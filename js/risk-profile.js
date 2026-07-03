@@ -167,6 +167,28 @@
         'text-align:center;margin-top:0.75rem;line-height:1.5;',
       '}',
 
+      /* Toast */
+      '#hskk-rp-toast{',
+        'position:fixed;bottom:5rem;left:50%;transform:translateX(-50%) translateY(20px);',
+        'z-index:9500;',
+        'background:#1e2d45;',
+        'border:1px solid rgba(34,211,238,0.3);',
+        'border-radius:12px;',
+        'padding:0.75rem 1.1rem;',
+        'font-family:\'Noto Sans Thai\',system-ui,sans-serif;',
+        'font-size:0.78rem;color:#f5f5f4;',
+        'box-shadow:0 4px 24px rgba(0,0,0,0.5);',
+        'max-width:calc(100vw - 2rem);width:max-content;',
+        'opacity:0;pointer-events:none;',
+        'transition:opacity 0.22s,transform 0.22s;',
+      '}',
+      '#hskk-rp-toast.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}',
+      '.hskk-toast-row{display:flex;align-items:center;gap:0.5rem}',
+      '.hskk-toast-icon{font-size:1rem;flex-shrink:0}',
+      '.hskk-toast-msg{line-height:1.5}',
+      '.hskk-toast-title{font-weight:700;color:#22d3ee}',
+      '.hskk-toast-sub{font-size:0.7rem;color:rgba(255,255,255,0.5);margin-top:2px}',
+
       /* Desktop: center dialog */
       '@media(min-width:480px){',
         '#hskk-rp-modal{align-items:center;padding:1rem}',
@@ -241,6 +263,7 @@
       save(checked);
       updateBtn(checked);
       closeModal();
+      showToast(checked);
       if (typeof window.HSKK_refreshAlertBar === 'function') window.HSKK_refreshAlertBar();
       try { document.dispatchEvent(new CustomEvent('hskk:risk-profile-changed', { detail: checked })); } catch (e) {}
     });
@@ -275,6 +298,52 @@
           return found ? found.label : g;
         }).join(', ')
       : 'ตั้งค่าโปรไฟล์สุขภาพ');
+  }
+
+  /* ── Toast notification ─────────────────────────────────────────────── */
+  var _toastTimer = null;
+
+  function showToast(groups) {
+    var isVuln = ['elderly','child','respiratory','cardiac','pregnant']
+      .some(function (g) { return groups.indexOf(g) !== -1; });
+
+    /* Build label string */
+    var names = groups.map(function (g) {
+      var found = GROUPS.filter(function (x) { return x.id === g; })[0];
+      return found ? (found.emoji + ' ' + found.label) : g;
+    }).join('  ');
+
+    /* Threshold summary */
+    var thresholds = isVuln
+      ? 'แจ้งเตือนเร็วขึ้น: ความร้อน ≥32°C · PM2.5 ≥25 µg/m³'
+      : 'เกณฑ์มาตรฐาน: ความร้อน ≥37°C · PM2.5 ≥37 µg/m³';
+
+    /* Ensure toast element exists */
+    var toast = document.getElementById('hskk-rp-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'hskk-rp-toast';
+      toast.setAttribute('role', 'status');
+      toast.setAttribute('aria-live', 'polite');
+      document.body.appendChild(toast);
+    }
+
+    toast.innerHTML =
+      '<div class="hskk-toast-row">' +
+        '<span class="hskk-toast-icon">✅</span>' +
+        '<div class="hskk-toast-msg">' +
+          '<div class="hskk-toast-title">บันทึกโปรไฟล์แล้ว</div>' +
+          '<div class="hskk-toast-sub">' + names + '</div>' +
+          '<div class="hskk-toast-sub">' + thresholds + '</div>' +
+        '</div>' +
+      '</div>';
+
+    /* Show */
+    clearTimeout(_toastTimer);
+    toast.classList.add('show');
+    _toastTimer = setTimeout(function () {
+      toast.classList.remove('show');
+    }, 3200);
   }
 
   /* ── Inject UI ───────────────────────────────────────────────────────── */
