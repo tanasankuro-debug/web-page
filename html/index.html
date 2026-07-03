@@ -196,10 +196,58 @@
       flex-direction: column;
       align-items: center;
       gap: 0.15rem;
-      transition: border-color 0.25s, background 0.25s, transform 0.18s;
-      cursor: default;
+      transition: border-color 0.22s, background 0.22s, transform 0.18s, box-shadow 0.22s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      -webkit-tap-highlight-color: transparent;
+      outline-offset: 3px;
+      position: relative;
+      overflow: hidden;
     }
-    .lp-stat:hover { transform: translateY(-2px); background: rgba(255,255,255,0.07); }
+    /* ── Per-card hover: ยกตัว + glow สีตามธีม ── */
+    .lp-stat--heat:hover {
+      transform: translateY(-4px);
+      background: rgba(251,146,60,0.09);
+      border-color: rgba(251,146,60,0.55);
+      box-shadow: 0 8px 28px rgba(251,146,60,0.22), 0 0 0 1px rgba(251,146,60,0.18);
+    }
+    .lp-stat--pm:hover {
+      transform: translateY(-4px);
+      background: rgba(148,163,184,0.08);
+      border-color: rgba(148,163,184,0.45);
+      box-shadow: 0 8px 28px rgba(148,163,184,0.16), 0 0 0 1px rgba(148,163,184,0.16);
+    }
+    .lp-stat--rain:hover {
+      transform: translateY(-4px);
+      background: rgba(96,165,250,0.09);
+      border-color: rgba(96,165,250,0.55);
+      box-shadow: 0 8px 28px rgba(96,165,250,0.22), 0 0 0 1px rgba(96,165,250,0.18);
+    }
+    .lp-stat--flood:hover {
+      transform: translateY(-4px);
+      background: rgba(34,197,94,0.08);
+      border-color: rgba(34,197,94,0.50);
+      box-shadow: 0 8px 28px rgba(34,197,94,0.18), 0 0 0 1px rgba(34,197,94,0.16);
+    }
+    /* กด: ยุบลงเล็กน้อย */
+    .lp-stat:active { transform: translateY(-1px) scale(0.97); opacity: 0.82; transition-duration: 0.08s; }
+    /* ลูกศรชี้ที่ปรากฏตอน hover */
+    .lp-stat::after {
+      content: '→';
+      position: absolute;
+      bottom: 0.3rem; right: 0.45rem;
+      font-size: 0.55rem;
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: opacity 0.2s, transform 0.2s;
+      pointer-events: none;
+    }
+    .lp-stat--heat::after  { color: #fb923c; }
+    .lp-stat--pm::after    { color: #94a3b8; }
+    .lp-stat--rain::after  { color: #60a5fa; }
+    .lp-stat--flood::after { color: #22c55e; }
+    .lp-stat:hover::after  { opacity: 1; transform: translateX(0); }
     .lp-stat-icon { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; margin: 0 auto 0.15rem; }
     .lp-stat-val  {
       font-family: 'Barlow Condensed', sans-serif;
@@ -345,6 +393,25 @@
       .lp-stats { grid-template-columns: repeat(2, 1fr); }
       .lp-daily { grid-template-columns: repeat(2, 1fr); }
     }
+
+    /* ── คำแนะนำวันนี้ card ── */
+    .lp-adv-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:.45rem; }
+    .lp-adv-item { display:flex; align-items:flex-start; gap:.6rem; padding:.6rem .75rem; background:rgba(255,255,255,.05); border-radius:8px; border:1px solid rgba(255,255,255,.07); }
+    .lp-adv-ico  { flex-shrink:0; font-size:1rem; margin-top:.05rem; }
+    .lp-adv-text { font-size:.78rem; font-family:'Noto Sans Thai',sans-serif; color:rgba(255,255,255,.72); line-height:1.55; }
+    .lp-adv-text b { color:#fff; }
+
+    /* ── Notification button ── */
+    .lp-notif-btn {
+      width:100%; display:flex; align-items:center; justify-content:center; gap:.55rem;
+      margin-top:.65rem; padding:.65rem 1rem; border-radius:10px; cursor:pointer;
+      border:1px solid rgba(251,146,60,.3); background:rgba(251,146,60,.07);
+      color:#fb923c; font-family:'Noto Sans Thai',sans-serif; font-size:.8rem; font-weight:600;
+      transition:background .18s, border-color .18s;
+    }
+    .lp-notif-btn:hover  { background:rgba(251,146,60,.14); border-color:rgba(251,146,60,.5); }
+    .lp-notif-btn.granted{ border-color:rgba(34,197,94,.4); background:rgba(34,197,94,.08); color:#22c55e; }
+    .lp-notif-btn.denied { border-color:rgba(100,116,139,.25); background:transparent; color:rgba(255,255,255,.28); cursor:not-allowed; }
 
     /* video bg */
     .landing-video {
@@ -563,7 +630,6 @@
     .ln-map svg { flex-shrink: 0; }
 
     @media (max-width: 540px) {
-      html, body { overflow: hidden; }
 
       .landing {
         padding-bottom: clamp(1rem, 4vh, 2rem);
@@ -946,21 +1012,23 @@
         <p class="lp-advice" id="lp-advice">กำลังดึงข้อมูลสภาพอากาศ...</p>
 
         <div class="lp-stats">
-          <div class="lp-stat">
-            <!-- Temperature icon: thermometer -->
-          <div class="lp-stat-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 3a2 2 0 0 0-2 2v9.27A4 4 0 1 0 14 14.27V5a2 2 0 0 0-2-2z" stroke="#fb923c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="12" cy="17" r="2" fill="#fb923c"/>
-              <path d="M14.5 8h2.5M14.5 11h1.8" stroke="#fb923c" stroke-width="1.4" stroke-linecap="round" stroke-opacity="0.55"/>
-            </svg>
-          </div>
+
+          <!-- Card 1: ความร้อน → heat.html -->
+          <a href="heat.html" class="lp-stat lp-stat--heat" aria-label="ดูข้อมูลความร้อน">
+            <div class="lp-stat-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 3a2 2 0 0 0-2 2v9.27A4 4 0 1 0 14 14.27V5a2 2 0 0 0-2-2z" stroke="#fb923c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="17" r="2" fill="#fb923c"/>
+                <path d="M14.5 8h2.5M14.5 11h1.8" stroke="#fb923c" stroke-width="1.4" stroke-linecap="round" stroke-opacity="0.55"/>
+              </svg>
+            </div>
             <div class="lp-stat-val" id="lp-temp-val">—</div>
             <div class="lp-stat-sub" id="lp-feels-val">รู้สึก —°</div>
             <div class="lp-stat-name">อุณหภูมิ</div>
-          </div>
-          <div class="lp-stat">
-            <!-- PM2.5 icon: wind lines -->
+          </a>
+
+          <!-- Card 2: PM2.5 → dust.html -->
+          <a href="dust.html" class="lp-stat lp-stat--pm" aria-label="ดูข้อมูลฝุ่น PM2.5">
             <div class="lp-stat-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -971,9 +1039,10 @@
             <div class="lp-stat-val" id="lp-pm-val">—</div>
             <div class="lp-pm-bar"><div class="lp-pm-fill" id="lp-pm-fill"></div></div>
             <div class="lp-stat-name" id="lp-pm-name">PM2.5</div>
-          </div>
-          <div class="lp-stat">
-            <!-- Rain icon: cloud + drops -->
+          </a>
+
+          <!-- Card 3: ฝน/พายุ → rain.html -->
+          <a href="rain.html" class="lp-stat lp-stat--rain" aria-label="ดูข้อมูลฝนและพายุ">
             <div class="lp-stat-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25" stroke="#60a5fa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -982,10 +1051,11 @@
             </div>
             <div class="lp-stat-val" id="lp-rain-val">—%</div>
             <div class="lp-stat-sub" id="lp-rain-label">โอกาสฝน</div>
-            <div class="lp-stat-name">ฝน</div>
-          </div>
-          <div class="lp-stat">
-            <!-- Flood icon: house -->
+            <div class="lp-stat-name">ฝน/พายุ</div>
+          </a>
+
+          <!-- Card 4: น้ำท่วม → flood.html -->
+          <a href="flood.html" class="lp-stat lp-stat--flood" aria-label="ดูสถานะน้ำท่วม">
             <div class="lp-stat-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="#22c55e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -993,9 +1063,10 @@
               </svg>
             </div>
             <div class="lp-stat-val" style="font-size:0.85rem;color:#22c55e;line-height:1.2">ปกติ</div>
-            <div class="lp-stat-sub"><a href="flood.html" style="color:#60A5FA;font-size:0.55rem;text-decoration:none">ดูรายละเอียด →</a></div>
+            <div class="lp-stat-sub" style="color:rgba(255,255,255,0.35);font-size:0.55rem">ดูรายละเอียด</div>
             <div class="lp-stat-name">น้ำท่วม</div>
-          </div>
+          </a>
+
         </div>
 
         <div class="lp-share-row">
@@ -1039,6 +1110,24 @@
           <div class="lp-day-col" style="opacity:.25"><div class="lp-day-name">—</div><div class="lp-day-icon"><svg width="28" height="28" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,0.15)" stroke-width="2" fill="none"/></svg></div><div class="lp-day-hi">—°</div><div class="lp-day-lo">—°</div><div class="lp-day-rain">—%</div></div>
           <div class="lp-day-col" style="opacity:.25"><div class="lp-day-name">—</div><div class="lp-day-icon"><svg width="28" height="28" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,0.15)" stroke-width="2" fill="none"/></svg></div><div class="lp-day-hi">—°</div><div class="lp-day-lo">—°</div><div class="lp-day-rain">—%</div></div>
         </div>
+      </div>
+
+      <!-- คำแนะนำวันนี้ -->
+      <div class="lp-card">
+        <div class="lp-card-hd">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:.4rem" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          คำแนะนำสำหรับวันนี้
+        </div>
+        <ul class="lp-adv-list" id="lp-today-adv">
+          <li class="lp-adv-item" style="opacity:.28">
+            <span class="lp-adv-ico">⏳</span>
+            <span class="lp-adv-text">กำลังโหลดข้อมูลสภาพอากาศ...</span>
+          </li>
+        </ul>
+        <button class="lp-notif-btn" id="lp-notif-btn" type="button">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span id="lp-notif-txt">เปิดการแจ้งเตือนเมื่ออากาศอันตราย</span>
+        </button>
       </div>
 
     </div>
@@ -1292,6 +1381,12 @@
         renderHourly(d.hourly);
         renderDaily(d.daily);
 
+        /* advice card */
+        _advTemp  = temp != null ? Math.round(temp) : null;
+        _advRain  = rain || 0;
+        _notifTemp = _advTemp;
+        buildAdvice();
+
       }).catch(function () {
         var chip = document.getElementById('landing-wx');
         if (chip) chip.style.display = 'none';
@@ -1309,6 +1404,11 @@
         if (pv) pv.textContent = val + ' µg';
         if (pn) pn.textContent = 'PM2.5 — ' + pc.label;
         if (pf) { pf.style.width = Math.round(Math.min(pc.pct, 100)) + '%'; pf.style.background = pc.color; }
+
+        /* advice card update with PM2.5 */
+        _advPm    = val;
+        _notifPm  = val;
+        buildAdvice();
       }).catch(function(){});
 
       /* Geolocation */
@@ -1338,6 +1438,96 @@
           });
         }
       }
+
+      /* ── คำแนะนำวันนี้ ── */
+      var _advTemp = null, _advPm = null, _advRain = 0;
+
+      function buildAdvice() {
+        var temp = _advTemp, pm = _advPm, rain = _advRain;
+        var items = [];
+
+        /* Heat advice */
+        if (temp != null) {
+          if (temp < 30)
+            items.push({ ico: '😊', txt: '<b>อากาศสบาย</b> ออกกำลังกายกลางแจ้งได้ทั้งวัน ดื่มน้ำให้ครบ 8 แก้ว' });
+          else if (temp < 33)
+            items.push({ ico: '☀️', txt: '<b>อากาศอบอ้าว</b> ออกกำลังกายช่วงเช้า (ก่อน 09.00 น.) หรือเย็น (หลัง 17.00 น.) หลีกเลี่ยงช่วง 11.00–15.00 น.' });
+          else if (temp < 37)
+            items.push({ ico: '🌡️', txt: '<b>ร้อนมาก</b> สวมเสื้อแขนยาว พกร่ม ใช้ครีมกันแดด SPF 50+ งดออกกำลังกายกลางแจ้งช่วงกลางวัน' });
+          else if (temp < 40)
+            items.push({ ico: '🔥', txt: '<b>อันตราย</b> ห้ามทำกิจกรรมกลางแจ้งนานกว่า 20 นาที พักในร่ม ดื่มน้ำ 250 มล. ทุก 20 นาที' });
+          else
+            items.push({ ico: '🚨', txt: '<b>ฉุกเฉิน!</b> งดกิจกรรมกลางแจ้งทุกชนิด อยู่ในอาคารปรับอากาศ โทร 1669 หากมีอาการผิดปกติ' });
+        }
+
+        /* PM2.5 advice */
+        if (pm != null) {
+          if (pm < 15)
+            items.push({ ico: '💨', txt: '<b>อากาศดีเยี่ยม (PM2.5: ' + pm + ')</b> ไม่จำเป็นต้องสวมหน้ากาก' });
+          else if (pm < 37)
+            items.push({ ico: '😷', txt: '<b>ฝุ่นปานกลาง (PM2.5: ' + pm + ')</b> ใส่หน้ากากอนามัยเมื่ออยู่กลางแจ้งนานกว่า 30 นาที' });
+          else if (pm < 75)
+            items.push({ ico: '⚠️', txt: '<b>ฝุ่นสูง (PM2.5: ' + pm + ')</b> สวม N95/KN95 อยู่ในอาคาร ปิดประตูหน้าต่าง ใช้เครื่องฟอกอากาศ' });
+          else
+            items.push({ ico: '🚨', txt: '<b>ฝุ่นอันตราย (PM2.5: ' + pm + ')</b> ห้ามออกนอกบ้าน ปิดทุกช่องระบายอากาศ โทร 1669 หากมีอาการ' });
+        }
+
+        /* Rain advice */
+        if (rain >= 40)
+          items.push({ ico: rain >= 70 ? '⛈️' : '🌧️', txt: rain >= 70
+            ? '<b>มีฝนแน่นอน (' + rain + '%)</b> พกร่มและเสื้อกันฝน ระวังฟ้าผ่าในที่โล่ง งดใช้โทรศัพท์กลางแจ้ง'
+            : '<b>โอกาสฝน ' + rain + '%</b> ควรพกร่ม เผื่อเวลาเดินทางเพิ่ม'
+          });
+
+        if (!items.length) items.push({ ico: '✅', txt: 'สภาพอากาศปกติ ไม่มีคำเตือนพิเศษในขณะนี้' });
+
+        var el = document.getElementById('lp-today-adv');
+        if (!el) return;
+        el.innerHTML = items.map(function (i) {
+          return '<li class="lp-adv-item"><span class="lp-adv-ico">' + i.ico + '</span><span class="lp-adv-text">' + i.txt + '</span></li>';
+        }).join('');
+      }
+
+      /* ── Web Notification ── */
+      var _notifTemp = null, _notifPm = null;
+
+      function tryNotify() {
+        if (!_notifTemp && !_notifPm) return;
+        var msgs = [];
+        if (_notifTemp != null && _notifTemp >= 41) msgs.push('ดัชนีความร้อน ' + _notifTemp + '°C — เสี่ยงลมแดด');
+        if (_notifPm   != null && _notifPm   >= 37) msgs.push('PM2.5 ' + _notifPm + ' µg/m³ — อากาศมีผลต่อสุขภาพ');
+        if (!msgs.length) return;
+        new Notification('Heat Safe Khon Kaen — แจ้งเตือน', {
+          body: msgs.join('\n'),
+          icon: '../assets/favicon.svg'
+        });
+      }
+
+      (function initNotifBtn() {
+        var btn  = document.getElementById('lp-notif-btn');
+        var txt  = document.getElementById('lp-notif-txt');
+        if (!btn) return;
+        if (!('Notification' in window)) { btn.style.display = 'none'; return; }
+
+        function applyState(perm) {
+          if (perm === 'granted') {
+            btn.className = 'lp-notif-btn granted';
+            if (txt) txt.textContent = 'เปิดการแจ้งเตือนอยู่แล้ว ✓';
+            btn.disabled = true;
+            tryNotify();
+          } else if (perm === 'denied') {
+            btn.className = 'lp-notif-btn denied';
+            if (txt) txt.textContent = 'การแจ้งเตือนถูกปิดกั้น — เปิดในการตั้งค่าเบราว์เซอร์';
+            btn.disabled = true;
+          }
+        }
+
+        if (Notification.permission !== 'default') applyState(Notification.permission);
+
+        btn.addEventListener('click', function () {
+          Notification.requestPermission().then(function (perm) { applyState(perm); });
+        });
+      }());
 
       /* Share */
       var shareUrl  = window.location.href;

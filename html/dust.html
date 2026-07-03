@@ -957,6 +957,117 @@
 
 
     <!-- ─── CTA ──────────────────────────────────────────────────────────── -->
+    <!-- ─── ระดับ PM2.5 & คำแนะนำ ──────────────────────────────────────── -->
+    <section id="pm25-levels" class="section article-section" aria-labelledby="pm25-levels-heading">
+      <div class="article-container">
+
+        <p class="section-label reveal">ข้อมูลสุขภาพ</p>
+        <h2 id="pm25-levels-heading" class="section-heading reveal">ระดับ PM2.5 &amp; คำแนะนำ</h2>
+        <p class="section-intro reveal">มาตรฐานคุณภาพอากาศของกรมควบคุมมลพิษ (กรมคพ.) แบ่งระดับ PM2.5 เป็น 5 ระดับ — ยิ่งสูงยิ่งอันตรายต่อระบบทางเดินหายใจและหัวใจ</p>
+
+        <div class="table-scroll reveal" style="margin-top:1.5rem">
+          <table class="compare-table" style="min-width:700px">
+            <thead>
+              <tr>
+                <th scope="col">ค่า PM2.5<br/><small style="font-weight:400;opacity:.7">(µg/m³)</small></th>
+                <th scope="col">ระดับคุณภาพ</th>
+                <th scope="col">คำแนะนำทั่วไป</th>
+                <th scope="col">กลุ่มเสี่ยง<br/><small style="font-weight:400;opacity:.7">(เด็ก ผู้สูงอายุ ผู้มีโรคทางเดินหายใจ)</small></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row" style="white-space:nowrap">0–15</th>
+                <td><span style="color:#22c55e;font-weight:700">ดีมาก</span></td>
+                <td>คุณภาพอากาศยอดเยี่ยม ไม่จำเป็นต้องใส่หน้ากาก</td>
+                <td>ทุกกลุ่มปลอดภัย ออกกำลังกายกลางแจ้งได้ปกติ</td>
+              </tr>
+              <tr>
+                <th scope="row" style="white-space:nowrap">15–25</th>
+                <td><span style="color:#84cc16;font-weight:700">ดี</span></td>
+                <td>คุณภาพอากาศอยู่ในเกณฑ์ดี กลางแจ้งได้ปกติ</td>
+                <td>กลุ่มเสี่ยงควรพิจารณาใส่หน้ากากอนามัยหากอยู่กลางแจ้งนานกว่า 1 ชั่วโมง</td>
+              </tr>
+              <tr>
+                <th scope="row" style="white-space:nowrap">25–37</th>
+                <td><span style="color:#eab308;font-weight:700">ปานกลาง</span></td>
+                <td>ใส่หน้ากากอนามัยเมื่ออยู่กลางแจ้ง งดออกกำลังกายกลางแจ้งช่วงนาน</td>
+                <td>กลุ่มเสี่ยงสวม N95/KN95 งดกิจกรรมกลางแจ้งที่ใช้แรง</td>
+              </tr>
+              <tr>
+                <th scope="row" style="white-space:nowrap">37–75</th>
+                <td><span style="color:#f97316;font-weight:700">เริ่มมีผล</span></td>
+                <td>สวม N95/KN95 ตลอดเวลาที่อยู่กลางแจ้ง ลดเวลากลางแจ้ง ปิดหน้าต่าง ใช้เครื่องฟอกอากาศ</td>
+                <td>กลุ่มเสี่ยง<strong>อยู่ในอาคารเท่านั้น</strong> ปรึกษาแพทย์หากมีอาการระคายเคือง</td>
+              </tr>
+              <tr>
+                <th scope="row" style="white-space:nowrap">75–150</th>
+                <td><span style="color:#ef4444;font-weight:700">มีผลต่อสุขภาพ</span></td>
+                <td>อยู่ในอาคาร ปิดทุกช่องระบาย เปิดเครื่องฟอกอากาศ หลีกเลี่ยงออกนอกบ้าน</td>
+                <td>กลุ่มเสี่ยง<strong>ห้ามออกนอกบ้านโดยเด็ดขาด</strong> โทร 1669 หากมีอาการหายใจลำบาก</td>
+              </tr>
+              <tr>
+                <th scope="row" style="white-space:nowrap">&gt; 150</th>
+                <td><span style="color:#ff6b6b;font-weight:700">อันตราย</span></td>
+                <td>ภาวะฉุกเฉิน ห้ามออกนอกอาคาร ปิดระบบระบายอากาศ ใช้เครื่องฟอกอากาศประสิทธิภาพสูง</td>
+                <td>ทุกคนมีความเสี่ยง — แจ้งหน่วยงานสาธารณสุขท้องถิ่นทันที</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- คำแนะนำแยกกลุ่มเสี่ยง -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:2rem">
+
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem 1.2rem">
+            <div style="font-size:1.4rem;margin-bottom:0.4rem">👶</div>
+            <strong style="font-family:'Barlow Condensed',sans-serif;font-size:1rem;letter-spacing:.03em;color:#f97316">เด็กเล็ก (&lt; 12 ปี)</strong>
+            <p style="font-size:0.82rem;color:rgba(255,255,255,0.65);margin:.5rem 0 0;line-height:1.6">ปอดกำลังพัฒนา รับมลพิษสูงกว่าผู้ใหญ่ — งดเดินทางในพื้นที่ฝุ่นหนัก ปิดหน้าต่างรถ ใส่หน้ากากเด็กที่เหมาะขนาด ไม่ใช้หน้ากากผู้ใหญ่</p>
+          </div>
+
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem 1.2rem">
+            <div style="font-size:1.4rem;margin-bottom:0.4rem">🧓</div>
+            <strong style="font-family:'Barlow Condensed',sans-serif;font-size:1rem;letter-spacing:.03em;color:#f97316">ผู้สูงอายุ</strong>
+            <p style="font-size:0.82rem;color:rgba(255,255,255,0.65);margin:.5rem 0 0;line-height:1.6">ระบบภูมิคุ้มกันและปอดเสื่อมตามวัย — เช็คคุณภาพอากาศก่อนออกนอกบ้านทุกวัน หากจำเป็นต้องออก สวม N95 และอยู่กลางแจ้งสั้นที่สุด</p>
+          </div>
+
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem 1.2rem">
+            <div style="font-size:1.4rem;margin-bottom:0.4rem">🫁</div>
+            <strong style="font-family:'Barlow Condensed',sans-serif;font-size:1rem;letter-spacing:.03em;color:#f97316">โรคทางเดินหายใจ</strong>
+            <p style="font-size:0.82rem;color:rgba(255,255,255,0.65);margin:.5rem 0 0;line-height:1.6">หอบหืด ถุงลมโป่งพอง โรคปอด — พกยาพ่นฉุกเฉินติดตัวเสมอ เพิ่มขนาดยาตามคำแนะนำแพทย์ในช่วงฝุ่นสูง</p>
+          </div>
+
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.1rem 1.2rem">
+            <div style="font-size:1.4rem;margin-bottom:0.4rem">❤️</div>
+            <strong style="font-family:'Barlow Condensed',sans-serif;font-size:1rem;letter-spacing:.03em;color:#f97316">โรคหัวใจ/หลอดเลือด</strong>
+            <p style="font-size:0.82rem;color:rgba(255,255,255,0.65);margin:.5rem 0 0;line-height:1.6">PM2.5 เข้าสู่กระแสเลือดและเพิ่มความเสี่ยงกล้ามเนื้อหัวใจตาย — งดออกกำลังกายกลางแจ้งเมื่อ PM2.5 &gt; 37 ติดตามอาการแน่นหน้าอกผิดปกติ</p>
+          </div>
+
+        </div>
+
+        <!-- กล่องอาการเตือน -->
+        <aside class="callout callout-hot reveal" aria-label="อาการที่ต้องรีบพบแพทย์" style="margin-top:2rem">
+          <div class="callout-icon">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="callout-body">
+            <strong>อาการเตือนที่ต้องรีบพบแพทย์ — โทร <a href="tel:1669" style="color:inherit;text-decoration:underline">1669</a> ทันที</strong>
+            <p style="margin:.4rem 0 .7rem;opacity:.8">หากเกิดอาการเหล่านี้หลังสัมผัสฝุ่นสูง ให้เข้าอาคารและขอความช่วยเหลือทันที</p>
+            <ul style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.3rem .8rem;list-style:none;padding:0;margin:0">
+              <li style="font-size:.85rem;color:rgba(255,255,255,.75)">🔴 หายใจลำบากหรือแน่นหน้าอก</li>
+              <li style="font-size:.85rem;color:rgba(255,255,255,.75)">🔴 ไอต่อเนื่องหรือมีเสมหะผิดปกติ</li>
+              <li style="font-size:.85rem;color:rgba(255,255,255,.75)">🔴 หน้ามืด วิงเวียน หรือเป็นลม</li>
+              <li style="font-size:.85rem;color:rgba(255,255,255,.75)">🔴 ตาและจมูกระคายเคืองรุนแรง</li>
+              <li style="font-size:.85rem;color:rgba(255,255,255,.75)">🔴 ใจสั่น ชีพจรผิดปกติ</li>
+              <li style="font-size:.85rem;color:rgba(255,255,255,.75)">🔴 เด็กร้องไห้ผิดปกติ หายใจเร็ว</li>
+            </ul>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+
     <section id="conclusion" class="section section-cta" aria-labelledby="dust-cta-heading">
       <div class="container">
         <div class="cta-inner reveal">
