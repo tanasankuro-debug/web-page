@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ไม่พบหน้าที่คุณค้นหา — Heat Safe Khon Kaen" />
+  <title>404 — ไม่พบหน้านี้ · Heat Safe Khon Kaen</title>
+
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto Sans Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+
+  <style>
+    html, body { height: 100%; margin: 0; }
+    .notfound-wrap {
+      min-height: 100svh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      background: var(--bg, #0B0F1A);
+      font-family: var(--font-body, 'Noto Sans Thai', sans-serif);
+    }
+    .notfound-code {
+      font-family: var(--font-display, 'Barlow Condensed', sans-serif);
+      font-size: clamp(6rem, 20vw, 10rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #FB923C, #EF4444, #FB923C);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0;
+    }
+    .notfound-title {
+      font-family: var(--font-display, 'Barlow Condensed', sans-serif);
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      font-weight: 700;
+      color: var(--text, #F5F5F4);
+      margin: 0.5rem 0 0.75rem;
+    }
+    .notfound-sub {
+      font-size: 0.95rem;
+      color: var(--text-sec, #94A3B8);
+      max-width: 380px;
+      line-height: 1.7;
+      margin: 0 auto 2rem;
+    }
+    .notfound-links {
+      display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center;
+    }
+    .notfound-links a {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.65rem 1.3rem;
+      border-radius: 8px;
+      font-size: 0.875rem; font-weight: 600;
+      text-decoration: none;
+      transition: background 0.18s, border-color 0.18s;
+    }
+    .notfound-links .btn-home {
+      background: #FB923C; color: #0B0F1A;
+      border: none;
+    }
+    .notfound-links .btn-home:hover { background: #f97316; }
+    .notfound-links .btn-outline {
+      background: transparent; color: var(--cool, #22D3EE);
+      border: 1px solid rgba(34,211,238,0.4);
+    }
+    .notfound-links .btn-outline:hover { background: rgba(34,211,238,0.08); }
+    .notfound-icon { margin-bottom: 1rem; opacity: 0.35; }
+    .thermal-divider {
+      width: 100%; max-width: 320px;
+      height: 2px; border-radius: 2px;
+      background: linear-gradient(to right, #1E3A8A, #22D3EE, #FACC15, #FB923C, #EF4444);
+      margin: 0 auto 2rem;
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="skip-link">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <main id="main-content" class="notfound-wrap">
+
+    <div class="notfound-icon" aria-hidden="true">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#FB923C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        <line x1="11" y1="8" x2="11" y2="12"/>
+        <line x1="11" y1="15" x2="11.01" y2="15"/>
+      </svg>
+    </div>
+
+    <p class="notfound-code">404</p>
+    <h1 class="notfound-title">ไม่พบหน้าที่คุณค้นหา</h1>
+
+    <div class="thermal-divider" aria-hidden="true"></div>
+
+    <p class="notfound-sub">
+      หน้านี้อาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง
+      ลองกลับไปหน้าแรกหรือเลือกหัวข้อที่ต้องการด้านล่าง
+    </p>
+
+    <nav class="notfound-links" aria-label="ลิงก์หน้าหลัก">
+      <a href="index.html" class="btn-home">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12L12 4l9 8"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-5h4v5h4a1 1 0 0 0 1-1v-9"/></svg>
+        กลับหน้าแรก
+      </a>
+      <a href="heat.html" class="btn-outline">ความร้อน</a>
+      <a href="dust.html" class="btn-outline">ฝุ่น PM2.5</a>
+      <a href="map.html" class="btn-outline">แผนที่สด</a>
+    </nav>
+
+  </main>
+</body>
+</html>

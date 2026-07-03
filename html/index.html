@@ -802,6 +802,8 @@
 </head>
 <body>
 
+  <a href="#main-content" class="skip-link">ข้ามไปยังเนื้อหาหลัก</a>
+
   <!-- =====================================================================
        SPLASH SCREEN
   ====================================================================== -->
@@ -1390,6 +1392,13 @@
       }).catch(function () {
         var chip = document.getElementById('landing-wx');
         if (chip) chip.style.display = 'none';
+        var adv = document.getElementById('lp-today-adv');
+        if (adv) adv.innerHTML =
+          '<li class="lp-adv-item"><span class="lp-adv-ico">⚠️</span>' +
+          '<span class="lp-adv-text">โหลดข้อมูลไม่สำเร็จ — ' +
+          '<button onclick="location.reload()" style="background:none;border:none;' +
+          'color:#22d3ee;cursor:pointer;text-decoration:underline;font-family:inherit;font-size:inherit;padding:0">' +
+          'ลองใหม่</button></span></li>';
       });
 
       /* [API: Open-Meteo Air Quality — PM2.5] */
