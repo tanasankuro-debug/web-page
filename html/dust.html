@@ -29,6 +29,9 @@
     }
   </style>
   <script src="../js/utility-bar.js"></script>
+  <script src="../js/alert-bar.js"></script>
+  <script src="../js/risk-profile.js"></script>
+  <script src="../js/pwa.js"></script>
   <link rel="stylesheet" href="../css/skeleton.css" />
   <script src="../js/skeleton.js"></script>
 </head>
@@ -955,6 +958,184 @@
 
         </div>
       </div>
+    </section>
+
+
+    <!-- ─── แนวโน้ม 7 วัน ────────────────────────────────────────────────── -->
+    <section id="pm25-trend" class="section article-section" aria-labelledby="pm25-trend-h">
+      <div class="article-container">
+
+        <p class="section-label reveal">แนวโน้ม</p>
+        <h2 id="pm25-trend-h" class="section-heading reveal">PM2.5 เฉลี่ยรายวัน 7 วัน</h2>
+        <p class="section-intro reveal">ค่าเฉลี่ยฝุ่นละออง PM2.5 รายวัน — เปรียบเทียบวันนี้กับเมื่อวาน</p>
+
+        <div class="reveal" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:1.1rem 1.25rem 1rem;margin-top:1.5rem">
+
+          <div id="pm25-trend-delta" style="display:flex;align-items:baseline;gap:.55rem;margin-bottom:.75rem;font-family:'Noto Sans Thai',sans-serif">
+            <span style="font-size:.75rem;color:rgba(255,255,255,.4)">เมื่อวานเทียบวันนี้</span>
+            <span id="pm25-delta-val" style="font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:700;color:rgba(255,255,255,.25)">— กำลังโหลด</span>
+          </div>
+
+          <div style="position:relative;overflow:hidden;border-radius:8px">
+            <canvas id="pm25-spark" height="100" style="width:100%;display:block"></canvas>
+          </div>
+
+          <div id="pm25-spark-labels" style="display:flex;justify-content:space-between;margin-top:.4rem;font-size:.63rem;color:rgba(255,255,255,.28);font-family:'Noto Sans Thai',sans-serif"></div>
+
+          <p id="pm25-trend-err" style="display:none;font-size:.72rem;color:rgba(255,100,100,.55);margin-top:.5rem;font-family:'Noto Sans Thai',sans-serif">โหลดข้อมูลไม่ได้</p>
+
+        </div>
+
+      </div>
+
+      <script>
+      (function () {
+        'use strict';
+        var cfg = window.HSKK_CONFIG || {};
+        var lat = (cfg.loc && cfg.loc.lat) || 16.44;
+        var lng = (cfg.loc && cfg.loc.lng) || 102.82;
+        var url = 'https://air-quality-api.open-meteo.com/v1/air-quality?latitude=' + lat +
+          '&longitude=' + lng + '&hourly=pm2_5&past_days=7&forecast_hours=24&timezone=Asia%2FBangkok';
+
+        function drawSparkline(data, color) {
+          var canvas = document.getElementById('pm25-spark');
+          if (!canvas) return;
+          var W = canvas.parentElement.clientWidth || 560;
+          var H = 100;
+          canvas.width = W; canvas.height = H;
+          var ctx = canvas.getContext('2d');
+
+          var valid = data.filter(function (v) { return v != null; });
+          if (!valid.length) return;
+          var mn = Math.max(0, Math.min.apply(null, valid) - 2);
+          var mx = Math.max.apply(null, valid) + 2;
+          var rng = mx - mn || 1;
+          var padL = 8, padR = 8, padT = 12, padB = 8;
+          var cW = W - padL - padR;
+          var cH = H - padT - padB;
+          var n  = data.length;
+
+          function xp(i) { return padL + (i / (n - 1)) * cW; }
+          function yp(v) { return padT + (1 - (v - mn) / rng) * cH; }
+
+          var grad = ctx.createLinearGradient(0, padT, 0, H);
+          grad.addColorStop(0, color + '55');
+          grad.addColorStop(1, color + '05');
+          ctx.beginPath();
+          var started = false;
+          for (var i = 0; i < n; i++) {
+            if (data[i] == null) continue;
+            if (!started) { ctx.moveTo(xp(i), yp(data[i])); started = true; }
+            else ctx.lineTo(xp(i), yp(data[i]));
+          }
+          ctx.lineTo(xp(n - 1), H); ctx.lineTo(xp(0), H); ctx.closePath();
+          ctx.fillStyle = grad; ctx.fill();
+
+          ctx.beginPath();
+          ctx.strokeStyle = color; ctx.lineWidth = 2.2; ctx.lineJoin = 'round';
+          started = false;
+          for (var j = 0; j < n; j++) {
+            if (data[j] == null) continue;
+            if (!started) { ctx.moveTo(xp(j), yp(data[j])); started = true; }
+            else ctx.lineTo(xp(j), yp(data[j]));
+          }
+          ctx.stroke();
+
+          /* WHO guideline 15 µg/m³ — dashed line */
+          var guideY = yp(15);
+          if (guideY >= padT && guideY <= H - padB) {
+            ctx.setLineDash([4, 3]);
+            ctx.strokeStyle = 'rgba(74,222,128,0.4)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(padL, guideY); ctx.lineTo(W - padR, guideY); ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = 'rgba(74,222,128,0.55)';
+            ctx.font = '9px sans-serif'; ctx.textAlign = 'left';
+            ctx.fillText('WHO 15', padL + 2, guideY - 3);
+          }
+
+          ctx.fillStyle = 'rgba(255,255,255,0.42)';
+          ctx.font = '9px sans-serif'; ctx.textAlign = 'center';
+          for (var k = 0; k < n; k++) {
+            if (data[k] == null) continue;
+            ctx.fillText(Math.round(data[k]), xp(k), yp(data[k]) - 5);
+          }
+
+          var last = n - 1;
+          while (last > 0 && data[last] == null) last--;
+          ctx.beginPath();
+          ctx.arc(xp(last), yp(data[last]), 4.5, 0, Math.PI * 2);
+          ctx.fillStyle = color; ctx.fill();
+          ctx.strokeStyle = '#0b0f1a'; ctx.lineWidth = 2; ctx.stroke();
+        }
+
+        function shortDate(dateStr) {
+          var MONTHS = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+          var p = dateStr.split('-');
+          return parseInt(p[2], 10) + ' ' + MONTHS[parseInt(p[1], 10) - 1];
+        }
+
+        fetch(url)
+          .then(function (r) { return r.json(); })
+          .then(function (d) {
+            if (!d.hourly || !d.hourly.pm2_5) throw new Error('no data');
+            var hrs   = d.hourly.time;
+            var pm25h = d.hourly.pm2_5;
+
+            /* Compute daily averages */
+            var todayStr = (function () {
+              var now = new Date(Date.now() + 7 * 3600000);
+              return now.toISOString().slice(0, 10);
+            })();
+
+            var dayMap = {};
+            for (var i = 0; i < hrs.length; i++) {
+              var dateKey = hrs[i].slice(0, 10);
+              if (dateKey > todayStr) continue;
+              if (!dayMap[dateKey]) dayMap[dateKey] = [];
+              if (pm25h[i] != null) dayMap[dateKey].push(pm25h[i]);
+            }
+
+            var days = Object.keys(dayMap).sort().slice(-7);
+            if (days.length < 2) throw new Error('insufficient');
+
+            var dailyAvg = days.map(function (dk) {
+              var arr = dayMap[dk];
+              if (!arr.length) return null;
+              return Math.round(arr.reduce(function (a, b) { return a + b; }, 0) / arr.length * 10) / 10;
+            });
+
+            /* Delta */
+            var today = dailyAvg[dailyAvg.length - 1];
+            var yest  = dailyAvg[dailyAvg.length - 2];
+            var dv    = document.getElementById('pm25-delta-val');
+            if (dv && today != null && yest != null) {
+              var diff = Math.round((today - yest) * 10) / 10;
+              var sign = diff >= 0 ? '+' : '';
+              dv.textContent = sign + diff + ' µg/m³';
+              dv.style.color = diff > 0 ? '#fb923c' : (diff < 0 ? '#22d3ee' : 'rgba(255,255,255,.5)');
+            }
+
+            drawSparkline(dailyAvg, '#a78bfa');
+
+            var lbl = document.getElementById('pm25-spark-labels');
+            if (lbl) {
+              lbl.innerHTML = days.map(function (t, i) {
+                var mid = Math.floor((days.length - 1) / 2);
+                return i === 0 || i === mid || i === days.length - 1
+                  ? '<span>' + shortDate(t) + '</span>'
+                  : '<span></span>';
+              }).join('');
+            }
+          })
+          .catch(function () {
+            document.getElementById('pm25-trend-err').style.display = 'block';
+            document.getElementById('pm25-trend-delta').style.display = 'none';
+          });
+      }());
+      </script>
+
     </section>
 
 

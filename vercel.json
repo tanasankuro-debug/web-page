@@ -36,6 +36,12 @@
     { "source": "/air-sim.html", "destination": "/html/air-sim.html" },
     { "source": "/uhi-map", "destination": "/html/uhi-map.html" },
     { "source": "/uhi-map.html", "destination": "/html/uhi-map.html" },
+    { "source": "/offline", "destination": "/html/offline.html" },
+    { "source": "/offline.html", "destination": "/html/offline.html" },
+    { "source": "/shelter-map", "destination": "/html/shelter-map.html" },
+    { "source": "/shelter-map.html", "destination": "/html/shelter-map.html" },
+    { "source": "/manifest.json", "destination": "/manifest.json" },
+    { "source": "/sw.js", "destination": "/sw.js" },
     { "source": "/404", "destination": "/html/404.html" },
     { "source": "/(.*)", "destination": "/html/404.html" }
   ]

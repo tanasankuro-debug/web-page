@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ออฟไลน์ — Heat Safe Khon Kaen</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:       #0B0F1A;
+      --bg-card:  #141C2E;
+      --cool:     #22D3EE;
+      --hot:      #FB923C;
+      --text:     #F5F5F4;
+      --text-sec: #94A3B8;
+      --radius:   12px;
+      --font-body: 'Noto Sans Thai', system-ui, sans-serif;
+    }
+    html, body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100%; }
+
+    .wrap {
+      max-width: 480px; margin: 0 auto;
+      padding: 2rem 1.25rem calc(2rem + env(safe-area-inset-bottom, 0px));
+    }
+    .hd {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 1rem 0 1.5rem;
+    }
+    .hd-icon { font-size: 1.6rem; }
+    .hd-title { font-size: 1rem; font-weight: 700; color: var(--cool); }
+    .hd-sub   { font-size: 0.72rem; color: var(--text-sec); margin-top: 2px; }
+
+    .hero {
+      text-align: center; padding: 2rem 1rem 1.75rem;
+      background: var(--bg-card); border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.06); margin-bottom: 1.25rem;
+    }
+    .hero-icon { font-size: 3rem; margin-bottom: 0.75rem; }
+    .hero h1 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .hero p { font-size: 0.8rem; color: var(--text-sec); line-height: 1.65; }
+
+    .card {
+      background: var(--bg-card); border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 1rem 1.1rem; margin-bottom: 1rem;
+    }
+    .card-title {
+      font-size: 0.78rem; font-weight: 700; color: var(--cool);
+      text-transform: uppercase; letter-spacing: 0.07em;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Emergency contacts */
+    .tel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
+    .tel-btn {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 0.2rem; padding: 0.75rem 0.5rem;
+      background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25);
+      border-radius: 10px; text-decoration: none; color: var(--text);
+      font-size: 0.72rem; text-align: center;
+      transition: background 0.15s;
+    }
+    .tel-btn:hover { background: rgba(239,68,68,0.18); }
+    .tel-btn strong { font-size: 1rem; color: #fca5a5; }
+
+    /* Quick tips */
+    .tip-list { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+    .tip-item {
+      display: flex; gap: 0.55rem; align-items: flex-start;
+      font-size: 0.79rem; line-height: 1.55; color: rgba(255,255,255,0.78);
+      padding: 0.5rem 0.65rem;
+      background: rgba(255,255,255,0.03); border-radius: 8px;
+    }
+    .tip-ico { flex-shrink: 0; font-size: 1.05rem; }
+
+    /* Retry button */
+    .retry-btn {
+      display: block; width: 100%; padding: 0.8rem;
+      background: var(--cool); color: #0B0F1A;
+      border: none; border-radius: 10px;
+      font-family: var(--font-body); font-size: 0.875rem; font-weight: 700;
+      cursor: pointer; margin-top: 0.25rem;
+      transition: background 0.15s;
+    }
+    .retry-btn:hover { background: #06b6d4; }
+
+    .divider {
+      height: 2px; border-radius: 2px; margin: 1.25rem 0;
+      background: linear-gradient(to right, #1E3A8A, #22D3EE, #FACC15, #FB923C, #EF4444);
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link" style="
+    position:fixed;top:-100%;left:1rem;z-index:9999;
+    padding:0.5rem 1rem;background:var(--cool);color:var(--bg);
+    font-weight:700;border-radius:6px;
+  ">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <div class="wrap" id="main-content">
+
+    <header class="hd">
+      <span class="hd-icon" aria-hidden="true">🌡️</span>
+      <div>
+        <div class="hd-title">Heat Safe Khon Kaen</div>
+        <div class="hd-sub">ขอนแก่น รู้ทันภัยเมือง</div>
+      </div>
+    </header>
+
+    <div class="hero" role="status">
+      <div class="hero-icon" aria-hidden="true">📵</div>
+      <h1>ไม่มีอินเทอร์เน็ต</h1>
+      <p>ขณะนี้คุณออฟไลน์อยู่<br>ข้อมูลอากาศเรียลไทม์ไม่พร้อมใช้งาน<br>แต่คุณยังอ่านคำแนะนำฉุกเฉินด้านล่างได้</p>
+    </div>
+
+    <div class="divider" aria-hidden="true"></div>
+
+    <!-- Emergency contacts -->
+    <section class="card" aria-labelledby="ec-title">
+      <div class="card-title" id="ec-title">เบอร์ฉุกเฉิน</div>
+      <nav class="tel-grid" aria-label="เบอร์โทรฉุกเฉิน">
+        <a href="tel:1669" class="tel-btn"><strong>1669</strong>เจ็บป่วยฉุกเฉิน</a>
+        <a href="tel:1784" class="tel-btn"><strong>1784</strong>ปภ. ภัยพิบัติ</a>
+        <a href="tel:199"  class="tel-btn"><strong>199</strong>ดับเพลิง</a>
+        <a href="tel:191"  class="tel-btn"><strong>191</strong>ตำรวจ</a>
+        <a href="tel:0818608644" class="tel-btn"><strong>081-860-8644</strong>ปภ. ขอนแก่น</a>
+        <a href="tel:0430080001" class="tel-btn"><strong>043-008-0001</strong>เทศบาลนครขอนแก่น</a>
+      </nav>
+    </section>
+
+    <!-- Heat quick tips (offline) -->
+    <section class="card" aria-labelledby="heat-tips-title">
+      <div class="card-title" id="heat-tips-title">🌡️ ภัยความร้อน — คำแนะนำทั่วไป</div>
+      <ul class="tip-list">
+        <li class="tip-item"><span class="tip-ico" aria-hidden="true">💧</span>ดื่มน้ำอย่างน้อย 8 แก้วต่อวัน — อย่ารอจนกระหายน้ำค่อยดื่ม</li>
+        <li class="tip-item"><span class="tip-ico" aria-hidden="true">🏠</span>หลีกเลี่ยงออกแดดช่วง 11.00–15.00 น. อยู่ในอาคารที่มีพัดลม/แอร์</li>
+        <li class="tip-item"><span class="tip-ico" aria-hidden="true">👕</span>สวมเสื้อผ้าสีอ่อน น้ำหนักเบา ระบายอากาศดี</li>
+        <li class="tip-item"><span class="tip-ico" aria-hidden="true">🧓</span>ดูแลผู้สูงอายุ เด็กเล็ก และผู้ป่วยโรคเรื้อรังเป็นพิเศษ</li>
+        <li class="tip-item"><span class="tip-ico" aria-hidden="true">🚨</span>อาการลมแดด: ตัวร้อนจัด ไม่มีเหงื่อ สับสน — โทร 1669 ทันที</li>
+      </ul>
+    </section>
+
+    <!-- PM2.5 quick tips (offline) -->
+    <section class="card" aria-labelledby="pm-tips-title">
+      <div class="card-title" id="pm-tips-title">💨 ฝุ่น PM2.5 — คำแนะนำทั่วไป</div>
+      <ul class="tip-list">
+        <li class="tip-item"><span class="tip-ico" aria-hidden="true">😷</span>สวมหน้ากาก N95/KN95 เมื่อออกนอกอาคาร</li>
+        <li class="tip-item"><span class="tip-ico" aria-hidden="true">🪟</span>ปิดประตูหน้าต่าง ใช้เครื่องฟอกอากาศ HEPA หากมี</li>
+        <li class="tip-item"><span class="tip-ico" aria-hidden="true">🧒</span>เด็กเล็ก ผู้สูงอายุ และผู้ป่วยโรคปอด/หัวใจ ควรอยู่ในอาคาร</li>
+        <li class="tip-item"><span class="tip-ico" aria-hidden="true">🚫</span>งดออกกำลังกายกลางแจ้งเมื่อฝุ่นสูง</li>
+      </ul>
+    </section>
+
+    <!-- Flood quick tips (offline) -->
+    <section class="card" aria-labelledby="flood-tips-title">
+      <div class="card-title" id="flood-tips-title">🌊 น้ำท่วม — คำแนะนำเบื้องต้น</div>
+      <ul class="tip-list">
+        <li class="tip-item"><span class="tip-ico" aria-hidden="true">🔌</span>ตัดกระแสไฟฟ้าก่อนน้ำท่วมถึงระดับเต้ารับ</li>
+        <li class="tip-item"><span class="tip-ico" aria-hidden="true">🏔️</span>อย่าขับรถผ่านถนนที่ถูกน้ำท่วม ลึก 15 ซม. รถอาจดับได้</li>
+        <li class="tip-item"><span class="tip-ico" aria-hidden="true">📦</span>เตรียมน้ำดื่มสะอาด อาหารแห้ง ยาสำหรับ 3 วัน</li>
+        <li class="tip-item"><span class="tip-ico" aria-hidden="true">📱</span>ชาร์จแบตเตอรี่โทรศัพท์ไว้ให้เต็มตลอดเวลาเมื่อรู้ว่าจะมีฝน</li>
+      </ul>
+    </section>
+
+    <button class="retry-btn" onclick="window.location.reload()" type="button">
+      🔄 ลองเชื่อมต่ออีกครั้ง
+    </button>
+
+  </div><!-- /.wrap -->
+</body>
+</html>

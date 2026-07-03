@@ -359,6 +359,9 @@
     }
   </style>
   <script src="../js/utility-bar.js"></script>
+  <script src="../js/alert-bar.js"></script>
+  <script src="../js/risk-profile.js"></script>
+  <script src="../js/pwa.js"></script>
   <link rel="stylesheet" href="../css/skeleton.css" />
   <script src="../js/skeleton.js"></script>
 </head>
@@ -658,7 +661,32 @@
             </span>
           </a>
 
-          <!-- 7. Map Box (Geospatial) -->
+          <!-- 7. Shelter Map -->
+          <a href="shelter-map.html" class="map-card mc-main" role="listitem">
+            <div class="mc-preview" aria-hidden="true" style="background:rgba(34,197,94,0.06)">
+              <div class="mc-preview-center">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                  <circle cx="24" cy="19" r="10" stroke="#4ADE80" stroke-width="2" fill="rgba(74,222,128,.1)"/>
+                  <path d="M24 29c0 0-11 7-11 14h22c0-7-11-14-11-14z" fill="rgba(74,222,128,.08)" stroke="#4ADE80" stroke-width="1.6"/>
+                  <path d="M20 17h8M24 13v8" stroke="#4ADE80" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+                <div style="margin-top:.4rem;font-size:.65rem;color:#4ADE80;font-weight:700;letter-spacing:.06em">SHELTER MAP</div>
+              </div>
+            </div>
+            <span class="map-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+            </span>
+            <p class="map-card-title">จุดพักพิง &amp; ทรัพยากรฉุกเฉิน</p>
+            <p class="map-card-desc">แผนที่ศูนย์พักพิงความเย็น จุดอพยพน้ำท่วม และโรงพยาบาลในขอนแก่น พร้อมเส้นทางนำทางและเบอร์โทรฉุกเฉิน</p>
+            <span class="map-card-cta">
+              ดูแผนที่จุดพักพิง
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </span>
+          </a>
+
+          <!-- 8. Map Box (Geospatial) -->
           <a href="landcast.html" class="map-card mc-mapbox" role="listitem">
             <div class="mc-preview mc-preview--mapbox" aria-hidden="true">
               <div class="mc-preview-center">

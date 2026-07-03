@@ -797,6 +797,9 @@
     }
   </style>
   <script src="../js/utility-bar.js"></script>
+  <script src="../js/alert-bar.js"></script>
+  <script src="../js/risk-profile.js"></script>
+  <script src="../js/pwa.js"></script>
   <link rel="stylesheet" href="../css/skeleton.css" />
   <script src="../js/skeleton.js"></script>
 </head>
@@ -1455,6 +1458,23 @@
         var temp = _advTemp, pm = _advPm, rain = _advRain;
         var items = [];
 
+        /* Personalised tip if risk profile is set */
+        var _rg = (function () {
+          try { var v = localStorage.getItem('hskk-risk-groups'); return v ? JSON.parse(v) : ['general']; }
+          catch (e) { return ['general']; }
+        })();
+        var _RLABEL = { elderly:'ผู้สูงอายุ', child:'เด็กเล็ก', respiratory:'โรคทางเดินหายใจ',
+                        cardiac:'โรคหัวใจ/ความดัน', pregnant:'ตั้งครรภ์', outdoor:'ทำงานกลางแจ้ง' };
+        var _vuln = ['elderly','child','respiratory','cardiac','pregnant']
+          .some(function (g) { return _rg.indexOf(g) !== -1; });
+        if (_vuln && ((temp != null && temp >= 32) || (pm != null && pm >= 25))) {
+          var _names = _rg.filter(function (g) { return g !== 'general'; })
+            .map(function (g) { return _RLABEL[g] || g; }).join(', ');
+          items.push({ ico: '👤', txt: '<b>กลุ่มเสี่ยง (' + _names + '):</b> ควรระวังมากกว่าคนทั่วไป' +
+            (temp != null && temp >= 32 ? ' หลีกเลี่ยงแสงแดดแม้ระยะสั้น' : '') +
+            (pm != null && pm >= 25 ? ' สวม N95 เมื่อออกนอกบ้าน' : '') });
+        }
+
         /* Heat advice */
         if (temp != null) {
           if (temp < 30)
@@ -1496,6 +1516,9 @@
           return '<li class="lp-adv-item"><span class="lp-adv-ico">' + i.ico + '</span><span class="lp-adv-text">' + i.txt + '</span></li>';
         }).join('');
       }
+
+      /* Re-build advice when risk profile changes */
+      document.addEventListener('hskk:risk-profile-changed', function () { buildAdvice(); });
 
       /* ── Web Notification ── */
       var _notifTemp = null, _notifPm = null;

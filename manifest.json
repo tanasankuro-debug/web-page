@@ -1,0 +1,49 @@
+{
+  "name": "Heat Safe Khon Kaen",
+  "short_name": "HSKK",
+  "description": "ขอนแก่น รู้ทันภัยเมือง — ข้อมูลความร้อน ฝุ่น PM2.5 ฝน และน้ำท่วมแบบเรียลไทม์",
+  "lang": "th",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0B0F1A",
+  "theme_color": "#0B0F1A",
+  "categories": ["weather", "utilities"],
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "ความร้อน",
+      "short_name": "ความร้อน",
+      "description": "ดูดัชนีความร้อน",
+      "url": "/heat",
+      "icons": [{ "src": "assets/favicon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "ฝุ่น PM2.5",
+      "short_name": "ฝุ่น",
+      "description": "ดูคุณภาพอากาศ",
+      "url": "/dust",
+      "icons": [{ "src": "assets/favicon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "แผนที่สด",
+      "short_name": "แผนที่",
+      "description": "ดูแผนที่ภัยพิบัติ",
+      "url": "/smart-map",
+      "icons": [{ "src": "assets/favicon.svg", "sizes": "any" }]
+    }
+  ]
+}

@@ -281,6 +281,9 @@
   </style>
 
   <script src="../js/utility-bar.js"></script>
+  <script src="../js/alert-bar.js"></script>
+  <script src="../js/risk-profile.js"></script>
+  <script src="../js/pwa.js"></script>
   <link rel="stylesheet" href="../css/skeleton.css" />
   <script src="../js/skeleton.js"></script>
 </head>
@@ -2464,6 +2467,185 @@
     </section>
 
 
+    <!-- ─── แนวโน้ม 7 วัน ────────────────────────────────────────────────── -->
+    <section id="heat-trend" class="section article-section" aria-labelledby="heat-trend-h">
+      <div class="article-container">
+
+        <p class="section-label reveal">แนวโน้ม</p>
+        <h2 id="heat-trend-h" class="section-heading reveal">ดัชนีความร้อน 7 วันย้อนหลัง</h2>
+        <p class="section-intro reveal">อุณหภูมิ Feels Like สูงสุดรายวัน — เปรียบเทียบวันนี้กับเมื่อวาน</p>
+
+        <div class="reveal" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:1.1rem 1.25rem 1rem;margin-top:1.5rem">
+
+          <!-- Delta badge -->
+          <div id="heat-trend-delta" style="display:flex;align-items:baseline;gap:.55rem;margin-bottom:.75rem;font-family:'Noto Sans Thai',sans-serif">
+            <span style="font-size:.75rem;color:rgba(255,255,255,.4)">เมื่อวานเทียบวันนี้</span>
+            <span id="heat-delta-val" style="font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:700;color:rgba(255,255,255,.25)">— กำลังโหลด</span>
+          </div>
+
+          <!-- Sparkline canvas -->
+          <div style="position:relative;overflow:hidden;border-radius:8px">
+            <canvas id="heat-spark" height="100" style="width:100%;display:block"></canvas>
+          </div>
+
+          <!-- Date labels -->
+          <div id="heat-spark-labels" style="display:flex;justify-content:space-between;margin-top:.4rem;font-size:.63rem;color:rgba(255,255,255,.28);font-family:'Noto Sans Thai',sans-serif"></div>
+
+          <!-- Error/empty state -->
+          <p id="heat-trend-err" style="display:none;font-size:.72rem;color:rgba(255,100,100,.55);margin-top:.5rem;font-family:'Noto Sans Thai',sans-serif">โหลดข้อมูลไม่ได้</p>
+
+        </div>
+
+      </div>
+
+      <script>
+      (function () {
+        'use strict';
+        var cfg = window.HSKK_CONFIG || {};
+        var lat = (cfg.loc && cfg.loc.lat) || 16.44;
+        var lng = (cfg.loc && cfg.loc.lng) || 102.82;
+        var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lng +
+          '&daily=apparent_temperature_max&past_days=7&forecast_days=1&timezone=Asia%2FBangkok';
+
+        function drawSparkline(data, color) {
+          var canvas = document.getElementById('heat-spark');
+          if (!canvas) return;
+          var W = canvas.parentElement.clientWidth || 560;
+          var H = 100;
+          canvas.width  = W;
+          canvas.height = H;
+          var ctx = canvas.getContext('2d');
+
+          var valid = data.filter(function (v) { return v != null; });
+          if (!valid.length) return;
+          var mn = Math.min.apply(null, valid) - 1;
+          var mx = Math.max.apply(null, valid) + 1;
+          var rng = mx - mn || 1;
+          var padL = 8, padR = 8, padT = 12, padB = 8;
+          var cW = W - padL - padR;
+          var cH = H - padT - padB;
+          var n  = data.length;
+
+          function xp(i) { return padL + (i / (n - 1)) * cW; }
+          function yp(v) { return padT + (1 - (v - mn) / rng) * cH; }
+
+          /* Gradient fill */
+          var grad = ctx.createLinearGradient(0, padT, 0, H);
+          grad.addColorStop(0, color + '55');
+          grad.addColorStop(1, color + '05');
+          ctx.beginPath();
+          var started = false;
+          for (var i = 0; i < n; i++) {
+            if (data[i] == null) continue;
+            if (!started) { ctx.moveTo(xp(i), yp(data[i])); started = true; }
+            else ctx.lineTo(xp(i), yp(data[i]));
+          }
+          ctx.lineTo(xp(n - 1), H); ctx.lineTo(xp(0), H); ctx.closePath();
+          ctx.fillStyle = grad; ctx.fill();
+
+          /* Line */
+          ctx.beginPath();
+          ctx.strokeStyle = color; ctx.lineWidth = 2.2; ctx.lineJoin = 'round';
+          started = false;
+          for (var j = 0; j < n; j++) {
+            if (data[j] == null) continue;
+            if (!started) { ctx.moveTo(xp(j), yp(data[j])); started = true; }
+            else ctx.lineTo(xp(j), yp(data[j]));
+          }
+          ctx.stroke();
+
+          /* Grid lines */
+          ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+          ctx.lineWidth = 1;
+          var midY = yp((mn + mx) / 2);
+          ctx.beginPath(); ctx.moveTo(padL, midY); ctx.lineTo(W - padR, midY); ctx.stroke();
+
+          /* Value labels on line */
+          ctx.fillStyle = 'rgba(255,255,255,0.42)';
+          ctx.font = '9px sans-serif'; ctx.textAlign = 'center';
+          for (var k = 0; k < n; k++) {
+            if (data[k] == null) continue;
+            ctx.fillText(Math.round(data[k]) + '°', xp(k), yp(data[k]) - 5);
+          }
+
+          /* Today dot */
+          var last = n - 1;
+          while (last > 0 && data[last] == null) last--;
+          ctx.beginPath();
+          ctx.arc(xp(last), yp(data[last]), 4.5, 0, Math.PI * 2);
+          ctx.fillStyle = color; ctx.fill();
+          ctx.strokeStyle = '#0b0f1a'; ctx.lineWidth = 2; ctx.stroke();
+        }
+
+        function shortDate(dateStr) {
+          /* "2026-07-03" → "3 ก.ค." in Thai */
+          var MONTHS = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+          var parts = dateStr.split('-');
+          return parseInt(parts[2], 10) + ' ' + MONTHS[parseInt(parts[1], 10) - 1];
+        }
+
+        fetch(url)
+          .then(function (r) { return r.json(); })
+          .then(function (d) {
+            if (!d.daily || !d.daily.apparent_temperature_max) throw new Error('no data');
+            var vals  = d.daily.apparent_temperature_max;
+            var times = d.daily.time;
+
+            /* Keep only past 7 days (exclude today and future) */
+            var todayStr = (function () {
+              var now = new Date(Date.now() + 7 * 3600000);
+              return now.toISOString().slice(0, 10);
+            })();
+            var past7 = [], past7t = [];
+            for (var i = 0; i < times.length && past7.length < 7; i++) {
+              if (times[i] < todayStr) { past7.push(vals[i]); past7t.push(times[i]); }
+            }
+            /* Append today if available */
+            var todayIdx = times.indexOf(todayStr);
+            if (todayIdx >= 0 && vals[todayIdx] != null) {
+              past7.push(vals[todayIdx]); past7t.push(times[todayIdx]);
+            }
+            if (past7.length < 2) throw new Error('insufficient');
+
+            /* Delta: today vs yesterday */
+            var today = past7[past7.length - 1];
+            var yest  = past7[past7.length - 2];
+            var dv    = document.getElementById('heat-delta-val');
+            if (dv && today != null && yest != null) {
+              var diff = Math.round((today - yest) * 10) / 10;
+              var sign = diff >= 0 ? '+' : '';
+              dv.textContent = sign + diff + '°C';
+              dv.style.color = diff > 0 ? '#fb923c' : (diff < 0 ? '#22d3ee' : 'rgba(255,255,255,.5)');
+            }
+
+            drawSparkline(past7, '#fb923c');
+
+            /* Date labels — first and last */
+            var lbl = document.getElementById('heat-spark-labels');
+            if (lbl && past7t.length) {
+              var labels = past7t.map(function (t, i) {
+                return '<span>' + (i === 0 || i === past7t.length - 1 ? shortDate(t) : '') + '</span>';
+              });
+              /* Only show first, middle, last */
+              labels = past7t.map(function (t, i) {
+                var mid = Math.floor((past7t.length - 1) / 2);
+                return i === 0 || i === mid || i === past7t.length - 1
+                  ? '<span>' + shortDate(t) + '</span>'
+                  : '<span></span>';
+              });
+              lbl.innerHTML = labels.join('');
+            }
+          })
+          .catch(function () {
+            document.getElementById('heat-trend-err').style.display = 'block';
+            document.getElementById('heat-trend-delta').style.display = 'none';
+          });
+      }());
+      </script>
+
+    </section>
+
+
     <!-- ─── ระดับอันตรายความร้อน & คำแนะนำ ─────────────────────────────── -->
     <section id="heat-levels" class="section article-section" aria-labelledby="heat-levels-heading">
       <div class="article-container">
@@ -2564,6 +2746,11 @@
             </ul>
           </div>
         </aside>
+
+        <a href="shelter-map.html" class="reveal" style="display:inline-flex;align-items:center;gap:.55rem;padding:.65rem 1.2rem;background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.3);border-radius:10px;text-decoration:none;color:var(--cool,#22D3EE);font-size:.82rem;font-weight:600;font-family:'Noto Sans Thai',sans-serif;margin-top:1.25rem;transition:background .18s">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          ค้นหาศูนย์พักพิงความเย็นใกล้บ้าน
+        </a>
 
       </div>
     </section>
