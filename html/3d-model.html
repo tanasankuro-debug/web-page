@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>3D Model — Heat Safe Khon Kaen</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:       #010C1A;
+      --bg-card:  #0D1B2E;
+      --bg-card2: #111E32;
+      --hot:      #FB923C;
+      --cool:     #22D3EE;
+      --text:     #F1F5F9;
+      --text-sec: rgba(241,245,249,0.48);
+      --border:   rgba(255,255,255,0.07);
+      --font-d:   'Barlow Condensed', sans-serif;
+      --font-b:   'Noto Sans Thai', system-ui, sans-serif;
+    }
+
+    html, body {
+      height: 100%; background: var(--bg);
+      color: var(--text); font-family: var(--font-b);
+      overflow-x: hidden;
+    }
+
+    /* ── Top bar ─────────────────────────────────────────────────────── */
+    .top-bar {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.6rem 1rem;
+      background: rgba(1,12,26,0.92);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+      position: sticky; top: 0; z-index: 100;
+      flex-shrink: 0;
+    }
+    .top-back {
+      display: flex; align-items: center; gap: 0.35rem;
+      padding: 0.4rem 0.7rem; border-radius: 8px;
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+      color: var(--text-sec); text-decoration: none;
+      font-size: 0.75rem; font-weight: 600;
+      transition: background 0.15s, color 0.15s; flex-shrink: 0;
+    }
+    .top-back:hover { background: rgba(255,255,255,0.12); color: var(--text); }
+    .top-title {
+      flex: 1; display: flex; flex-direction: column;
+    }
+    .top-title-main {
+      font-family: var(--font-d); font-size: 1.05rem; font-weight: 700;
+      letter-spacing: 0.02em; color: var(--text);
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .top-title-sub { font-size: 0.65rem; color: var(--text-sec); margin-top: 1px; }
+    .top-close {
+      padding: 0.4rem 0.6rem; border-radius: 6px;
+      background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+      color: var(--text-sec); text-decoration: none; font-size: 0.85rem;
+      transition: background 0.15s;
+    }
+    .top-close:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+
+    /* ── Main layout ─────────────────────────────────────────────────── */
+    .picker-wrap {
+      min-height: calc(100svh - 54px);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 2rem 1.25rem;
+      gap: 1rem;
+    }
+    .picker-heading {
+      text-align: center; margin-bottom: 0.5rem;
+    }
+    .picker-heading h1 {
+      font-family: var(--font-d); font-size: clamp(1.6rem, 5vw, 2.4rem);
+      font-weight: 800; letter-spacing: 0.02em; color: var(--text);
+    }
+    .picker-heading p {
+      font-size: 0.8rem; color: var(--text-sec); margin-top: 0.3rem;
+    }
+
+    /* ── Cards grid ──────────────────────────────────────────────────── */
+    .picker-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem; width: 100%; max-width: 680px;
+    }
+
+    /* Base card */
+    .p-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem 1.4rem;
+      display: flex; flex-direction: column;
+      gap: 0.75rem;
+      transition: border-color 0.18s, background 0.18s;
+    }
+
+    /* ── Card A — แบบจำลองความร้อน (link card) ─────────────────────── */
+    .p-card-heat {
+      text-decoration: none; color: inherit;
+      cursor: pointer;
+    }
+    .p-card-heat:hover {
+      background: var(--bg-card2);
+      border-color: rgba(251,146,60,0.45);
+    }
+    .p-card-heat:hover .p-card-icon { background: rgba(251,146,60,0.18); }
+
+    /* ── Card B — DEM (static card with sub-buttons) ────────────────── */
+    .p-card-dem { cursor: default; }
+    .p-card-dem:hover {
+      background: var(--bg-card2);
+      border-color: rgba(34,211,238,0.35);
+    }
+
+    .p-card-icon {
+      width: 52px; height: 52px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.18s;
+    }
+    .p-card-icon--heat { background: rgba(251,146,60,0.12); }
+    .p-card-icon--dem  { background: rgba(34,211,238,0.1); }
+
+    .p-card-title {
+      font-family: var(--font-d); font-size: 1.25rem; font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .p-card-title--heat { color: var(--hot); }
+    .p-card-title--dem  { color: var(--cool); }
+
+    .p-card-desc {
+      font-size: 0.75rem; color: var(--text-sec); line-height: 1.6;
+      flex: 1;
+    }
+
+    /* Enter CTA (card A) */
+    .p-card-enter {
+      display: flex; align-items: center; gap: 0.45rem;
+      font-size: 0.78rem; font-weight: 700; color: var(--hot);
+      margin-top: auto;
+    }
+
+    /* DEM sub-buttons */
+    .dem-btns {
+      display: flex; flex-direction: column; gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+    .dem-btn {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.65rem 0.85rem;
+      border-radius: 10px;
+      border: 1px solid rgba(34,211,238,0.22);
+      background: rgba(34,211,238,0.05);
+      text-decoration: none; color: var(--text);
+      font-size: 0.8rem; font-weight: 600;
+      font-family: var(--font-b);
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .dem-btn:hover {
+      background: rgba(34,211,238,0.12);
+      border-color: rgba(34,211,238,0.45);
+    }
+    .dem-btn-icon {
+      font-size: 1.15rem; flex-shrink: 0;
+    }
+    .dem-btn-info { flex: 1; }
+    .dem-btn-name { display: block; font-size: 0.8rem; font-weight: 700; color: var(--cool); }
+    .dem-btn-sub  { display: block; font-size: 0.65rem; color: var(--text-sec); margin-top: 1px; }
+    .dem-btn-arr  { flex-shrink: 0; opacity: 0.45; }
+
+    /* ── Responsive ──────────────────────────────────────────────────── */
+    @media (max-width: 540px) {
+      .picker-grid { grid-template-columns: 1fr; }
+      .picker-wrap { justify-content: flex-start; padding-top: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <div class="top-bar">
+    <a href="javascript:history.back()" class="top-back" aria-label="กลับ">
+      <svg viewBox="0 0 20 20" fill="none" width="14" height="14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M13 10H7M10 13l-3-3 3-3"/><circle cx="10" cy="10" r="8"/>
+      </svg>
+      กลับ
+    </a>
+    <div class="top-title">
+      <span class="top-title-main">
+        <svg viewBox="0 0 16 16" fill="none" width="13" height="13" stroke="#FB923C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="1" y="8" width="3" height="6" rx=".4"/><rect x="5" y="6" width="3" height="8" rx=".4"/>
+          <rect x="9" y="3" width="3" height="11" rx=".4"/><rect x="13" y="7" width="3" height="7" rx=".4"/>
+          <path d="M1 14h14"/>
+        </svg>
+        3D Model
+      </span>
+      <span class="top-title-sub">เลือกประเภทแบบจำลอง</span>
+    </div>
+    <a href="index.html" class="top-close" aria-label="ปิด">✕</a>
+  </div>
+
+  <!-- Picker -->
+  <main class="picker-wrap" id="main-content">
+
+    <div class="picker-heading">
+      <h1>เลือกแบบจำลอง</h1>
+      <p>แบบจำลองเชิง 3D และแบบจำลองระดับความสูงภูมิประเทศ (DEM) ของขอนแก่น</p>
+    </div>
+
+    <div class="picker-grid" role="list">
+
+      <!-- Card A — แบบจำลองความร้อน -->
+      <a href="air-sim.html" class="p-card p-card-heat" role="listitem" aria-label="เปิดแบบจำลองความร้อน Urban Heat Island 3D">
+
+        <div class="p-card-icon p-card-icon--heat" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" width="26" height="26" stroke="#FB923C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="13" width="4" height="8" rx=".5"/>
+            <rect x="6.5" y="10" width="4" height="11" rx=".5"/>
+            <rect x="12" y="6" width="4" height="15" rx=".5"/>
+            <rect x="17.5" y="11" width="4" height="10" rx=".5"/>
+            <path d="M2 22h20"/>
+            <path d="M4 10c2-4 4-7 6-8s4 1 6 2 3-1 5-4" stroke-opacity=".5" stroke-width="1.4"/>
+          </svg>
+        </div>
+
+        <div>
+          <div class="p-card-title p-card-title--heat">แบบจำลองความร้อน</div>
+          <p class="p-card-desc">จำลองเกาะความร้อนเมือง (UHI) ในอ.เมืองขอนแก่น แสดงอาคารจริงจาก OpenStreetMap พร้อมเอฟเฟคความร้อน 3D</p>
+        </div>
+
+        <div class="p-card-enter" aria-hidden="true">
+          เปิดแบบจำลอง
+          <svg viewBox="0 0 16 16" fill="none" width="13" height="13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 8h10M9 4l4 4-4 4"/>
+          </svg>
+        </div>
+
+      </a>
+
+      <!-- Card B — DEM -->
+      <div class="p-card p-card-dem" role="listitem">
+
+        <div class="p-card-icon p-card-icon--dem" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" width="26" height="26" stroke="#22D3EE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 20l5-8 4 5 3-4 6 7H3z"/>
+            <circle cx="18" cy="5" r="2.5"/>
+            <path d="M3 12h2M19 12h2M12 3v2M12 19v2"/>
+          </svg>
+        </div>
+
+        <div>
+          <div class="p-card-title p-card-title--dem">DEM</div>
+          <p class="p-card-desc">แบบจำลองระดับความสูงภูมิประเทศ (Digital Elevation Model) ครอบคลุมพื้นที่มหาวิทยาลัยขอนแก่นและพื้นที่ลุ่มน้ำ</p>
+        </div>
+
+        <nav class="dem-btns" aria-label="เลือก DEM">
+          <a href="https://kku-university-dem.vercel.app/" target="_blank" rel="noopener noreferrer" class="dem-btn">
+            <span class="dem-btn-icon" aria-hidden="true">🎓</span>
+            <span class="dem-btn-info">
+              <span class="dem-btn-name">kku-university</span>
+              <span class="dem-btn-sub">มหาวิทยาลัยขอนแก่น</span>
+            </span>
+            <svg class="dem-btn-arr" viewBox="0 0 16 16" fill="none" width="12" height="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4"/>
+            </svg>
+          </a>
+          <a href="https://3swamp-dem.vercel.app/" target="_blank" rel="noopener noreferrer" class="dem-btn">
+            <span class="dem-btn-icon" aria-hidden="true">🌿</span>
+            <span class="dem-btn-info">
+              <span class="dem-btn-name">3swamp</span>
+              <span class="dem-btn-sub">พื้นที่ลุ่มน้ำ / บึง</span>
+            </span>
+            <svg class="dem-btn-arr" viewBox="0 0 16 16" fill="none" width="12" height="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4"/>
+            </svg>
+          </a>
+        </nav>
+
+      </div>
+
+    </div><!-- /.picker-grid -->
+
+  </main>
+
+</body>
+</html>
