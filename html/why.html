@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>รู้หรือเปล่า? — Heat Safe Khon Kaen</title>
   <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Noto+Sans+Thai:wght@600;700&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -28,81 +25,37 @@
       z-index: 0;
     }
 
-    /* ── Shade ── */
-    .why-shade {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 50%;
-      background: linear-gradient(to top, rgba(4,1,12,0.65) 0%, transparent 100%);
-      z-index: 1;
-      pointer-events: none;
-    }
-
     /* ── Entrance animation ── */
-    @keyframes btn-enter {
-      0%   { opacity: 0; transform: translateY(38px) scale(0.82); }
-      60%  { transform: translateY(-7px) scale(1.05); }
-      80%  { transform: translateY(3px) scale(0.97); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
     @keyframes fade-up {
       from { opacity: 0; transform: translateY(14px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── Buttons — ชิดล่างซ้าย ── */
-    .why-cta {
+    /* ── Invisible overlay links ── */
+    .why-link {
       position: fixed;
-      bottom: 16%;
-      left: 4%;
-      z-index: 2;
-      display: flex;
-      gap: 0.85rem;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .why-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.95rem 2.4rem;
-      font-family: 'Barlow Condensed', 'Noto Sans Thai', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 900;
-      letter-spacing: 0.04em;
-      border-radius: 100px;
-      text-decoration: none;
+      z-index: 3;
+      background: transparent;
       cursor: pointer;
-      white-space: nowrap;
-      transition: transform 0.18s ease, opacity 0.18s ease;
-    }
-    .why-btn:hover,
-    .why-btn:focus-visible {
-      outline: none;
-      transform: scale(1.06) translateY(-3px);
+      border-radius: 100px;
+      display: block;
+      /* debug: outline: 2px solid red; */
     }
 
-    /* 🔥 อยากรู้เลย! */
-    .why-btn-hot {
-      color: #fff;
-      background: linear-gradient(135deg, #FB923C 0%, #EF4444 100%);
-      animation: btn-enter 0.72s cubic-bezier(0.34,1.56,0.64,1) 0.4s both;
+    /* Desktop (landscape) — ปุ่มเรียงข้างกัน ซ้ายล่าง */
+    .why-link-know {
+      bottom: 20%;
+      left: 3%;
+      width: 24%;
+      height: 13%;
+      animation: fade-up 0.5s ease 0.4s both;
     }
-
-    /* 📊 ดูข้อมูลก่อน */
-    .why-btn-cool {
-      color: #22D3EE;
-      background: rgba(34,211,238,0.1);
-      border: 2px solid rgba(34,211,238,0.5);
-      animation: btn-enter 0.72s cubic-bezier(0.34,1.56,0.64,1) 0.6s both;
-    }
-    .why-btn-cool:hover {
-      background: rgba(34,211,238,0.2);
-      border-color: #22D3EE;
+    .why-link-data {
+      bottom: 20%;
+      left: 29%;
+      width: 27%;
+      height: 13%;
+      animation: fade-up 0.5s ease 0.6s both;
     }
 
     /* ── Navigation dots ── */
@@ -111,7 +64,7 @@
       bottom: 5%;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 2;
+      z-index: 4;
       display: flex;
       gap: 0.55rem;
       align-items: center;
@@ -135,7 +88,7 @@
       cursor: default;
     }
 
-    /* ── Purple bar — invisible clickable overlay ── */
+    /* ── Invisible purple bar link (desktop) ── */
     .why-url-link {
       position: fixed;
       bottom: 2%;
@@ -146,52 +99,77 @@
       cursor: pointer;
       background: transparent;
       display: block;
-      border-radius: 8px 0 0 8px;
     }
 
-    /* ── Mobile ── */
-    @media (max-width: 520px) {
-      .why-btn  { font-size: 1.15rem; padding: 0.8rem 1.8rem; }
-      .why-cta  { bottom: 14%; left: 3%; gap: 0.65rem; }
-      .why-dots { bottom: 3%; }
-      .why-url-link { left: 40%; height: 10%; }
+    /* ── Mobile overrides ── */
+    @media (max-width: 768px) {
+
+      /* ปุ่มเรียงซ้อนกันแนวตั้ง ตามตำแหน่งในคลิปมือถือ */
+      .why-link-know {
+        top: 54%;
+        bottom: auto;
+        left: 4%;
+        width: 54%;
+        height: 10%;
+        border-radius: 100px;
+      }
+      .why-link-data {
+        top: 66%;
+        bottom: auto;
+        left: 4%;
+        width: 54%;
+        height: 10%;
+        border-radius: 100px;
+      }
+
+      /* URL bar ล่างสุดบนมือถือ */
+      .why-url-link {
+        bottom: 1%;
+        left: 4%;
+        right: 4%;
+        height: 7%;
+      }
+
+      .why-dots { bottom: 9%; }
     }
   </style>
 </head>
 <body>
 
-  <video class="why-video"
-    src="../assets/why.mp4"
+  <video class="why-video" id="why-video"
     autoplay muted loop playsinline preload="auto">
   </video>
 
-  <div class="why-shade" aria-hidden="true"></div>
+  <script>
+    (function () {
+      var video = document.getElementById('why-video');
+      var mobile = window.innerWidth <= 768 || /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      video.src = mobile ? '../assets/why-mobile.mp4' : '../assets/why.mp4';
+    })();
+  </script>
 
-  <!-- Buttons — bottom left -->
-  <div class="why-cta">
-    <a href="index.html" class="why-btn why-btn-hot"
-       aria-label="อยากรู้ว่าทำไมขอนแก่นถึงร้อนขึ้น">
-      🔥 อยากรู้เลย!
-    </a>
-    <a href="smart-map.html" class="why-btn why-btn-cool"
-       aria-label="ดูข้อมูลเชิงพื้นที่ก่อน">
-      📊 ดูข้อมูลก่อน
-    </a>
-  </div>
+  <!-- Invisible overlay: ปุ่ม อยากรู้เลย! -->
+  <a class="why-link why-link-know"
+     href="index.html"
+     aria-label="อยากรู้เลย — เข้าสู่ข้อมูล"></a>
+
+  <!-- Invisible overlay: ปุ่ม ดูข้อมูลก่อน -->
+  <a class="why-link why-link-data"
+     href="smart-map.html"
+     aria-label="ดูข้อมูลก่อน — เข้าสู่แผนที่"></a>
+
+  <!-- Invisible overlay: URL bar ม่วงด้านล่าง -->
+  <a class="why-url-link"
+     href="https://heat-safe-khon-kaen.vercel.app/"
+     target="_blank"
+     rel="noopener noreferrer"
+     aria-label="เปิดเว็บ Heat Safe Khon Kaen"></a>
 
   <!-- Page dots -->
   <nav class="why-dots" aria-label="ขั้นตอน">
     <a href="intro.html" class="why-dot why-dot-inactive" aria-label="หน้าที่ 1"></a>
     <span class="why-dot why-dot-active" aria-current="page" aria-label="หน้าที่ 2"></span>
   </nav>
-
-  <!-- Invisible click zone over purple bar in video -->
-  <a class="why-url-link"
-     href="https://heat-safe-khon-kaen.vercel.app/"
-     target="_blank"
-     rel="noopener noreferrer"
-     aria-label="เปิดเว็บ Heat Safe Khon Kaen">
-  </a>
 
 </body>
 </html>
