@@ -3512,18 +3512,11 @@
   </script>
 
   <script>
-    /* ── Why splash ── */
+    /* ── Why splash — แสดงทุกครั้งที่เปิดหน้า ── */
     (function () {
       var splash = document.getElementById('why-splash');
       var btn    = document.getElementById('why-splash-btn');
       if (!splash || !btn) return;
-
-      /* ถ้าเคยดูในเซสชันนี้แล้ว ซ่อนทันที */
-      if (sessionStorage.getItem('whySplashSeen')) {
-        splash.querySelectorAll('video').forEach(function (v) { v.pause(); v.src = ''; });
-        splash.style.display = 'none';
-        return;
-      }
 
       /* เลือก video ตาม screen width */
       var isMobile = window.matchMedia('(max-width: 768px)').matches;
@@ -3533,7 +3526,6 @@
       document.body.style.overflow = 'hidden';
 
       function dismiss() {
-        sessionStorage.setItem('whySplashSeen', '1');
         splash.classList.add('splash--out');
         splash.addEventListener('animationend', function () {
           splash.querySelectorAll('video').forEach(function (v) { v.pause(); });
