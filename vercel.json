@@ -3,6 +3,8 @@
     { "source": "/", "destination": "/html/intro.html" },
     { "source": "/intro", "destination": "/html/intro.html" },
     { "source": "/intro.html", "destination": "/html/intro.html" },
+    { "source": "/why", "destination": "/html/why.html" },
+    { "source": "/why.html", "destination": "/html/why.html" },
     { "source": "/home", "destination": "/html/index.html" },
     { "source": "/index.html", "destination": "/html/index.html" },
     { "source": "/map", "destination": "/html/map.html" },
