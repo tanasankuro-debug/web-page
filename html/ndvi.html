@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ดัชนีพืชพรรณ NDVI — Heat Safe Khon Kaen</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/themes.css" />
+  <style>
+    html, body { background: #0B0F1A; color: #e2e8f0; }
+
+    /* ── Hero ── */
+    .ndvi-hero {
+      background:
+        linear-gradient(to bottom, rgba(11,15,26,.5) 0%, rgba(11,15,26,.85) 100%),
+        linear-gradient(135deg, rgba(34,197,94,.1) 0%, rgba(21,128,61,.06) 100%);
+      padding: 5rem 1.5rem 3.5rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .ndvi-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .72rem; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: #4ade80; margin-bottom: .6rem;
+    }
+    .ndvi-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 800; line-height: .95;
+      color: #fff; margin-bottom: .5rem;
+    }
+    .ndvi-title span { color: #4ade80; }
+    .ndvi-desc {
+      font-size: clamp(.85rem, 2vw, 1rem);
+      color: rgba(255,255,255,.55);
+      max-width: 560px; margin: .75rem auto 0;
+      line-height: 1.7;
+    }
+
+    /* ── Formula ── */
+    .ndvi-formula-wrap {
+      background: rgba(34,197,94,.06);
+      border: 1px solid rgba(34,197,94,.2);
+      border-radius: 16px; padding: 1.5rem 2rem;
+      display: inline-flex; flex-direction: column;
+      align-items: center; gap: .5rem;
+      margin: 2rem auto 0; max-width: 420px;
+    }
+    .formula-label {
+      font-size: .65rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(74,222,128,.7);
+    }
+    .formula-math {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem; font-weight: 700; color: #fff;
+      text-align: center; line-height: 1.3;
+    }
+    .formula-band {
+      font-size: .72rem; color: rgba(255,255,255,.38);
+      text-align: center; line-height: 1.65; margin: 0;
+    }
+
+    /* ── Content wrapper ── */
+    .ndvi-wrap { max-width: 900px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+
+    /* ── Info cards ── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem; margin-bottom: 3rem;
+    }
+    .info-card {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px; padding: 1.1rem 1.2rem;
+    }
+    .info-card-top {
+      display: flex; align-items: center; gap: .6rem;
+      margin-bottom: .6rem;
+    }
+    .info-dot {
+      width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+    }
+    .info-card-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .7rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: rgba(255,255,255,.5);
+    }
+    .info-card p { font-size: .8rem; color: rgba(255,255,255,.58); line-height: 1.65; margin: 0; }
+
+    /* ── Legend ── */
+    .legend-bar {
+      display: flex; align-items: center; gap: 1rem;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 12px; padding: 1rem 1.25rem;
+      margin-bottom: 3rem; flex-wrap: wrap;
+    }
+    .legend-gradient {
+      flex: 1; min-width: 160px; height: 14px; border-radius: 7px;
+      background: linear-gradient(to right, #92400e, #d97706, #fde68a, #86efac, #166534);
+    }
+    .legend-end { font-size: .72rem; font-weight: 600; flex-shrink: 0; }
+    .legend-end.brown { color: #d97706; }
+    .legend-end.green { color: #4ade80; }
+    .legend-note { font-size: .62rem; color: rgba(255,255,255,.3); width: 100%; margin-top: .3rem; }
+
+    /* ── Section title ── */
+    .section-heading {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.4rem; font-weight: 700; color: #fff; margin-bottom: .4rem;
+    }
+    .section-sub {
+      font-size: .78rem; color: rgba(255,255,255,.38);
+      margin-bottom: 1.75rem; line-height: 1.55;
+    }
+
+    /* ── Map cards ── */
+    .map-year-group { margin-bottom: 2.25rem; }
+    .map-year-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .72rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: rgba(74,222,128,.7);
+      margin-bottom: .75rem;
+      display: flex; align-items: center; gap: .55rem;
+    }
+    .map-year-label::after { content: ""; flex: 1; height: 1px; background: rgba(74,222,128,.15); }
+    .map-card {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px; overflow: hidden;
+    }
+    .map-card img { width: 100%; display: block; background: rgba(255,255,255,.04); }
+    .map-card-foot {
+      padding: .65rem 1rem;
+      border-top: 1px solid rgba(255,255,255,.05);
+      display: flex; align-items: center; gap: .65rem; flex-wrap: wrap;
+    }
+    .map-card-years {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .78rem; font-weight: 700; letter-spacing: .04em;
+      color: rgba(255,255,255,.65);
+    }
+    .map-card-be { font-size: .62rem; color: rgba(255,255,255,.3); margin-right: auto; }
+    .map-tag { font-size: .58rem; padding: .18rem .55rem; border-radius: 20px; font-weight: 600; }
+    .tag-green  { background: rgba(21,128,61,.3);  color: #86efac; border: 1px solid rgba(21,128,61,.4); }
+    .tag-yellow { background: rgba(234,179,8,.2);  color: #fde047; border: 1px solid rgba(234,179,8,.35); }
+
+    /* ── Placeholder notice ── */
+    .map-placeholder {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: .65rem; min-height: 180px;
+      background: rgba(34,197,94,.04);
+      border: 1px dashed rgba(34,197,94,.25);
+      border-radius: 14px; padding: 2rem 1.5rem; text-align: center;
+    }
+    .map-placeholder-icon { font-size: 2rem; opacity: .35; }
+    .map-placeholder-text {
+      font-size: .78rem; color: rgba(255,255,255,.3); line-height: 1.6;
+    }
+    .map-placeholder-file {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .7rem; font-weight: 700; color: rgba(74,222,128,.45);
+      letter-spacing: .06em;
+    }
+
+    /* ── Interpretation ── */
+    .interp-box {
+      background: rgba(34,197,94,.07);
+      border: 1px solid rgba(34,197,94,.2);
+      border-radius: 14px; padding: 1.4rem 1.5rem; margin-top: 3rem;
+    }
+    .interp-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem; font-weight: 700; color: #4ade80; margin-bottom: .75rem;
+    }
+    .interp-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .55rem; }
+    .interp-list li {
+      display: flex; gap: .65rem; align-items: flex-start;
+      font-size: .8rem; color: rgba(255,255,255,.62); line-height: 1.65;
+    }
+    .interp-list li::before { content: "▸"; color: #4ade80; flex-shrink: 0; margin-top: .05rem; }
+
+    /* ── Bottom nav ── */
+    .page-nav-row {
+      display: flex; flex-wrap: wrap; gap: .75rem;
+      justify-content: center; margin-top: 3rem;
+    }
+    .page-nav-btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .65rem 1.35rem; border-radius: 10px; text-decoration: none;
+      font-size: .8rem; font-family: 'Noto Sans Thai', sans-serif;
+      transition: background .2s, border-color .2s;
+    }
+    .pnb-back { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.13); color: rgba(255,255,255,.6); }
+    .pnb-ndbi { background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.25); color: #f87171; }
+
+    @media (max-width: 540px) {
+      .ndvi-formula-wrap { padding: 1.1rem 1.1rem; }
+      .formula-math { font-size: 1.1rem; }
+    }
+  </style>
+  <script src="../js/utility-bar.js"></script>
+  <script src="../js/alert-bar.js"></script>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <!-- ─── HEADER ─── -->
+  <header id="site-header" role="banner">
+    <div class="header-inner container">
+      <a href="index.html" class="site-logo" aria-label="Heat Safe Khon Kaen — หน้าแรก">
+        <span class="logo-heat">Heat Safe</span>
+        <span class="logo-city">Khon Kaen</span>
+      </a>
+      <nav id="main-nav" aria-label="เมนูหลัก">
+        <ul class="nav-links" role="list">
+          <li><a href="index.html"     class="nav-link">หน้าแรก</a></li>
+          <li><a href="heat.html"      class="nav-link">ความร้อน</a></li>
+          <li><a href="ndvi.html"      class="nav-link active" aria-current="page">NDVI</a></li>
+          <li><a href="ndbi.html"      class="nav-link">NDBI</a></li>
+          <li><a href="dust.html"      class="nav-link">ฝุ่น PM2.5</a></li>
+          <li><a href="smart-map.html" class="nav-link">แผนที่อัจฉริยะ</a></li>
+        </ul>
+        <a href="map.html" class="btn btn-primary btn-sm nav-cta">แผนที่เรียลไทม์</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="เปิด/ปิดเมนู" aria-expanded="false" aria-controls="main-nav">
+        <span class="ham-line"></span><span class="ham-line"></span><span class="ham-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ─── HERO ─── -->
+  <div class="ndvi-hero" id="main-content">
+    <p class="ndvi-eyebrow">GeoHeat Khon Kaen · ดาวเทียม Landsat 8–9 ผ่าน Google Earth Engine</p>
+    <h1 class="ndvi-title">ดัชนีพืชพรรณ<br><span>NDVI</span></h1>
+    <p class="ndvi-desc">
+      Normalized Difference Vegetation Index — วัดระดับความหนาแน่นของพืชพรรณและพื้นที่สีเขียวในเขตเมือง
+      จากข้อมูลดาวเทียมย้อนหลัง 10 ปี (พ.ศ. 2560–2569)
+    </p>
+
+    <div class="ndvi-formula-wrap">
+      <span class="formula-label">สูตรคำนวณ NDVI</span>
+      <div class="formula-math">NDVI = (NIR − Red) / (NIR + Red)</div>
+      <p class="formula-band">
+        NIR = Near-Infrared (Band 5) · คลื่นอินฟราเรดใกล้<br>
+        Red = Red Band (Band 4) · แสงสีแดงที่มองเห็นได้<br>
+        ค่าผลลัพธ์ระหว่าง −1 ถึง +1
+      </p>
+    </div>
+  </div>
+
+  <!-- ─── MAIN ─── -->
+  <main class="ndvi-wrap">
+
+    <!-- Legend -->
+    <div class="legend-bar">
+      <span class="legend-end brown">ดิน / สิ่งปลูกสร้าง</span>
+      <div class="legend-gradient"></div>
+      <span class="legend-end green">พืชพรรณหนาแน่น</span>
+      <span class="legend-note">สีน้ำตาล-เหลือง = NDVI ต่ำ (ดิน อาคาร น้ำ) &nbsp;·&nbsp; สีเขียวเข้ม = NDVI สูง (ป่า สวน พื้นที่เกษตร)</span>
+    </div>
+
+    <!-- Info cards -->
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-top">
+          <span class="info-dot" style="background:#4ade80;"></span>
+          <span class="info-card-label">สีเขียวเข้ม = NDVI สูง</span>
+        </div>
+        <p>พื้นที่มีพืชพรรณหนาแน่น ป่า หรือสวน ช่วยลดอุณหภูมิและดูดซับ CO₂ ได้ดี</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-top">
+          <span class="info-dot" style="background:#d97706;"></span>
+          <span class="info-card-label">สีน้ำตาล = NDVI ต่ำ</span>
+        </div>
+        <p>พื้นที่โล่ง ดินเปล่า อาคาร หรือถนน ไม่มีพืชพรรณปกคลุม อุณหภูมิพื้นผิวสูงกว่า</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-top">
+          <span class="info-dot" style="background:#38bdf8;"></span>
+          <span class="info-card-label">ความสัมพันธ์กับ LST</span>
+        </div>
+        <p>NDVI สูงขึ้น → LST ต่ำลง พืชพรรณช่วยระบายความร้อนผ่านการคายน้ำ (Evapotranspiration)</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-top">
+          <span class="info-dot" style="background:#fbbf24;"></span>
+          <span class="info-card-label">วิธีวิเคราะห์</span>
+        </div>
+        <p>ประมวลผลผ่าน Google Earth Engine · ภาพ Landsat 8–9 ช่วงฤดูแล้ง (ม.ค.–พ.ค.) ทุกปี</p>
+      </div>
+    </div>
+
+    <!-- Maps -->
+    <h2 class="section-heading">แผนที่ NDVI รายปี พ.ศ. 2560–2569</h2>
+    <p class="section-sub">แสดงการเปลี่ยนแปลงพื้นที่สีเขียวในเขตเทศบาลนครขอนแก่น ย้อนหลัง 10 ปี · สีเขียวลดลง = พืชพรรณถูกแทนที่ด้วยสิ่งปลูกสร้าง</p>
+
+    <div class="map-year-group">
+      <div class="map-year-label">พ.ศ. 2560–2561 &nbsp;(2017–2018)</div>
+      <div class="map-card">
+        <img src="../assets/ndvi-2017-18.png" alt="แผนที่ NDVI ขอนแก่น ปี 2017–2018 (พ.ศ. 2560–2561)" loading="lazy"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+        <div class="map-placeholder" style="display:none;">
+          <div class="map-placeholder-icon">🛰️</div>
+          <p class="map-placeholder-text">ยังไม่พบไฟล์รูปภาพ</p>
+          <span class="map-placeholder-file">กรุณาเพิ่มไฟล์: assets/ndvi-2017-18.png</span>
+        </div>
+        <div class="map-card-foot">
+          <span class="map-card-years">NDVI 2017–2018</span>
+          <span class="map-card-be">พ.ศ. 2560–2561</span>
+          <span class="map-tag tag-green">ฐานข้อมูล 10 ปี</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-year-group">
+      <div class="map-year-label">พ.ศ. 2562–2563 &nbsp;(2019–2020)</div>
+      <div class="map-card">
+        <img src="../assets/ndvi-2019-20.png" alt="แผนที่ NDVI ขอนแก่น ปี 2019–2020 (พ.ศ. 2562–2563)" loading="lazy"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+        <div class="map-placeholder" style="display:none;">
+          <div class="map-placeholder-icon">🛰️</div>
+          <p class="map-placeholder-text">ยังไม่พบไฟล์รูปภาพ</p>
+          <span class="map-placeholder-file">กรุณาเพิ่มไฟล์: assets/ndvi-2019-20.png</span>
+        </div>
+        <div class="map-card-foot">
+          <span class="map-card-years">NDVI 2019–2020</span>
+          <span class="map-card-be">พ.ศ. 2562–2563</span>
+          <span class="map-tag tag-yellow">พืชพรรณลดลง</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-year-group">
+      <div class="map-year-label">พ.ศ. 2564–2565 &nbsp;(2021–2022)</div>
+      <div class="map-card">
+        <img src="../assets/ndvi-2021-22.png" alt="แผนที่ NDVI ขอนแก่น ปี 2021–2022 (พ.ศ. 2564–2565)" loading="lazy"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+        <div class="map-placeholder" style="display:none;">
+          <div class="map-placeholder-icon">🛰️</div>
+          <p class="map-placeholder-text">ยังไม่พบไฟล์รูปภาพ</p>
+          <span class="map-placeholder-file">กรุณาเพิ่มไฟล์: assets/ndvi-2021-22.png</span>
+        </div>
+        <div class="map-card-foot">
+          <span class="map-card-years">NDVI 2021–2022</span>
+          <span class="map-card-be">พ.ศ. 2564–2565</span>
+          <span class="map-tag tag-yellow">พืชพรรณลดลง</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-year-group">
+      <div class="map-year-label">พ.ศ. 2566–2567 &nbsp;(2023–2024)</div>
+      <div class="map-card">
+        <img src="../assets/ndvi-2023-24.png" alt="แผนที่ NDVI ขอนแก่น ปี 2023–2024 (พ.ศ. 2566–2567)" loading="lazy"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+        <div class="map-placeholder" style="display:none;">
+          <div class="map-placeholder-icon">🛰️</div>
+          <p class="map-placeholder-text">ยังไม่พบไฟล์รูปภาพ</p>
+          <span class="map-placeholder-file">กรุณาเพิ่มไฟล์: assets/ndvi-2023-24.png</span>
+        </div>
+        <div class="map-card-foot">
+          <span class="map-card-years">NDVI 2023–2024</span>
+          <span class="map-card-be">พ.ศ. 2566–2567</span>
+          <span class="map-tag tag-yellow">ต่ำสุด — ร้อนสุด 48.18°C</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-year-group">
+      <div class="map-year-label">พ.ศ. 2568–2569 &nbsp;(2025–2026)</div>
+      <div class="map-card">
+        <img src="../assets/ndvi-2025-26.png" alt="แผนที่ NDVI ขอนแก่น ปี 2025–2026 (พ.ศ. 2568–2569)" loading="lazy"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+        <div class="map-placeholder" style="display:none;">
+          <div class="map-placeholder-icon">🛰️</div>
+          <p class="map-placeholder-text">ยังไม่พบไฟล์รูปภาพ</p>
+          <span class="map-placeholder-file">กรุณาเพิ่มไฟล์: assets/ndvi-2025-26.png</span>
+        </div>
+        <div class="map-card-foot">
+          <span class="map-card-years">NDVI 2025–2026</span>
+          <span class="map-card-be">พ.ศ. 2568–2569</span>
+          <span class="map-tag tag-green">ล่าสุด</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interpretation -->
+    <div class="interp-box">
+      <div class="interp-title">สรุปการเปลี่ยนแปลง NDVI ขอนแก่น พ.ศ. 2560–2569</div>
+      <ul class="interp-list">
+        <li>พื้นที่สีเขียว (NDVI สูง) มีแนวโน้มลดลงอย่างต่อเนื่อง สอดคล้องกับการขยายตัวของเมืองที่เพิ่มขึ้น</li>
+        <li>พ.ศ. 2567 (2024) ที่ LST สูงสุด 48.18°C มีความสัมพันธ์กับ NDVI ที่ต่ำลงในพื้นที่ใจกลางเมือง</li>
+        <li>NDVI มีความสัมพันธ์เชิงลบกับ LST — ยิ่งพืชพรรณน้อย อุณหภูมิพื้นผิวยิ่งสูง</li>
+        <li>พื้นที่สีเขียวรอบนอกเมืองยังคงมี NDVI สูง แต่มีแนวโน้มถูกแปลงเป็นพื้นที่พัฒนา</li>
+        <li>การเพิ่มต้นไม้ในเมืองและพื้นที่สีเขียวสาธารณะช่วยลด UHI ได้อย่างมีประสิทธิภาพ ดูข้อมูล <a href="ndbi.html" style="color:#f87171;">NDBI ที่นี่</a></li>
+      </ul>
+    </div>
+
+    <div class="page-nav-row">
+      <a href="heat.html#research" class="page-nav-btn pnb-back">← กลับหน้าความร้อน</a>
+      <a href="ndbi.html" class="page-nav-btn pnb-ndbi">ดู NDBI →</a>
+    </div>
+
+  </main>
+
+  <script src="../js/nav.js"></script>
+</body>
+</html>

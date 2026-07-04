@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ดัชนีสิ่งปลูกสร้าง NDBI — Heat Safe Khon Kaen</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/themes.css" />
+  <style>
+    html, body { background: #0B0F1A; color: #e2e8f0; }
+
+    /* ── Hero ── */
+    .ndbi-hero {
+      background:
+        linear-gradient(to bottom, rgba(11,15,26,.5), rgba(11,15,26,.85)),
+        linear-gradient(135deg, rgba(239,68,68,.12), rgba(99,102,241,.08));
+      padding: 5rem 1.5rem 3.5rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .ndbi-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .72rem; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: #f87171; margin-bottom: .6rem;
+    }
+    .ndbi-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 800; line-height: .95; color: #fff;
+    }
+    .ndbi-title span { color: #f87171; }
+    .ndbi-desc {
+      font-size: clamp(.85rem, 2vw, 1rem);
+      color: rgba(255,255,255,.55);
+      max-width: 560px; margin: .75rem auto 0; line-height: 1.7;
+    }
+
+    /* ── Formula ── */
+    .formula-wrap {
+      background: rgba(239,68,68,.06);
+      border: 1px solid rgba(239,68,68,.2);
+      border-radius: 16px; padding: 1.4rem 2rem;
+      display: inline-flex; flex-direction: column;
+      align-items: center; gap: .45rem;
+      margin: 2rem auto 0; max-width: 440px;
+    }
+    .formula-label {
+      font-size: .65rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(248,113,113,.7);
+    }
+    .formula-math {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.4rem; font-weight: 700; color: #fff;
+    }
+    .formula-band {
+      font-size: .7rem; color: rgba(255,255,255,.38);
+      text-align: center; line-height: 1.65; margin: 0;
+    }
+
+    /* ── Wrapper ── */
+    .ndbi-wrap { max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+
+    /* ── Info cards ── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem; margin-bottom: 3rem;
+    }
+    .info-card {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px; padding: 1rem 1.15rem;
+    }
+    .info-card-top { display: flex; align-items: center; gap: .55rem; margin-bottom: .55rem; }
+    .info-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+    .info-card-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .68rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: rgba(255,255,255,.45);
+    }
+    .info-card p { font-size: .78rem; color: rgba(255,255,255,.55); line-height: 1.65; margin: 0; }
+
+    /* ── Legend ── */
+    .legend-bar {
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 12px; padding: .9rem 1.2rem; margin-bottom: 2.5rem;
+    }
+    .legend-grad {
+      flex: 1; min-width: 150px; height: 13px; border-radius: 6px;
+      background: linear-gradient(to right, #1d4ed8, #93c5fd, rgba(255,255,255,.4), #fca5a5, #ef4444);
+    }
+    .leg-end { font-size: .72rem; font-weight: 600; flex-shrink: 0; }
+    .leg-end.red  { color: #f87171; }
+    .leg-end.blue { color: #60a5fa; }
+    .legend-note { font-size: .6rem; color: rgba(255,255,255,.28); width: 100%; margin-top: .2rem; }
+
+    /* ── Section heading ── */
+    .section-heading {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.35rem; font-weight: 700; color: #fff; margin-bottom: .35rem;
+    }
+    .section-sub { font-size: .76rem; color: rgba(255,255,255,.36); margin-bottom: 1.5rem; line-height: 1.55; }
+
+    /* ── Pair map cards ── */
+    .map-pair-group { margin-bottom: 1.5rem; }
+
+    .map-pair-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .7rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: rgba(248,113,113,.65);
+      display: flex; align-items: center; gap: .55rem;
+      margin-bottom: .65rem;
+    }
+    .map-pair-label::after {
+      content: ""; flex: 1; height: 1px; background: rgba(248,113,113,.15);
+    }
+
+    .map-card {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px; overflow: hidden;
+    }
+    .map-card img { width: 100%; display: block; background: #111827; }
+    .map-card-foot {
+      padding: .6rem 1rem;
+      border-top: 1px solid rgba(255,255,255,.05);
+      display: flex; align-items: center; gap: .65rem; flex-wrap: wrap;
+    }
+    .map-card-years {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .8rem; font-weight: 700; letter-spacing: .04em;
+      color: rgba(255,255,255,.65); margin-right: auto;
+    }
+    .map-card-be { font-size: .62rem; color: rgba(255,255,255,.28); }
+    .map-tag { font-size: .58rem; padding: .17rem .55rem; border-radius: 20px; font-weight: 600; }
+    .tag-blue { background: rgba(29,78,216,.25); color: #93c5fd; border: 1px solid rgba(29,78,216,.35); }
+    .tag-red  { background: rgba(239,68,68,.18);  color: #fca5a5; border: 1px solid rgba(239,68,68,.28); }
+    .tag-gold { background: rgba(234,179,8,.2);   color: #fde047; border: 1px solid rgba(234,179,8,.35); }
+
+    /* ── Graph box ── */
+    .graph-box {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px; overflow: hidden; margin-bottom: 3rem;
+    }
+    .graph-box-head {
+      padding: .75rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .8rem; font-weight: 700; color: rgba(255,255,255,.5);
+      letter-spacing: .05em; text-transform: uppercase;
+    }
+    .graph-box img { width: 100%; display: block; background: #fff; }
+
+    /* ── Interpretation ── */
+    .interp-box {
+      background: rgba(248,113,113,.07);
+      border: 1px solid rgba(248,113,113,.18);
+      border-radius: 14px; padding: 1.4rem 1.5rem; margin-top: 3rem;
+    }
+    .interp-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem; font-weight: 700; color: #f87171; margin-bottom: .7rem;
+    }
+    .interp-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .5rem; }
+    .interp-list li {
+      display: flex; gap: .6rem; align-items: flex-start;
+      font-size: .79rem; color: rgba(255,255,255,.6); line-height: 1.65;
+    }
+    .interp-list li::before { content: "▸"; color: #f87171; flex-shrink: 0; margin-top: .05rem; }
+
+    /* ── Bottom nav ── */
+    .page-nav-row {
+      display: flex; flex-wrap: wrap; gap: .75rem;
+      justify-content: center; margin-top: 3rem;
+    }
+    .page-nav-btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .65rem 1.35rem; border-radius: 10px; text-decoration: none;
+      font-size: .8rem; font-family: 'Noto Sans Thai', sans-serif;
+      transition: background .2s;
+    }
+    .pnb-back { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.13); color: rgba(255,255,255,.6); }
+    .pnb-ndvi { background: rgba(34,197,94,.1);  border: 1px solid rgba(34,197,94,.25); color: #4ade80; }
+
+    @media (max-width: 540px) {
+      .formula-math { font-size: 1rem; }
+      .formula-wrap { padding: 1.1rem 1rem; }
+    }
+  </style>
+  <script src="../js/utility-bar.js"></script>
+  <script src="../js/alert-bar.js"></script>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <!-- ─── HEADER ─── -->
+  <header id="site-header" role="banner">
+    <div class="header-inner container">
+      <a href="index.html" class="site-logo" aria-label="Heat Safe Khon Kaen — หน้าแรก">
+        <span class="logo-heat">Heat Safe</span>
+        <span class="logo-city">Khon Kaen</span>
+      </a>
+      <nav id="main-nav" aria-label="เมนูหลัก">
+        <ul class="nav-links" role="list">
+          <li><a href="index.html"     class="nav-link">หน้าแรก</a></li>
+          <li><a href="heat.html"      class="nav-link">ความร้อน</a></li>
+          <li><a href="ndvi.html"      class="nav-link">NDVI</a></li>
+          <li><a href="ndbi.html"      class="nav-link active" aria-current="page">NDBI</a></li>
+          <li><a href="dust.html"      class="nav-link">ฝุ่น PM2.5</a></li>
+          <li><a href="smart-map.html" class="nav-link">แผนที่อัจฉริยะ</a></li>
+        </ul>
+        <a href="map.html" class="btn btn-primary btn-sm nav-cta">แผนที่เรียลไทม์</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="เปิด/ปิดเมนู" aria-expanded="false" aria-controls="main-nav">
+        <span class="ham-line"></span><span class="ham-line"></span><span class="ham-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ─── HERO ─── -->
+  <div class="ndbi-hero" id="main-content">
+    <p class="ndbi-eyebrow">GeoHeat Khon Kaen · ดาวเทียม Landsat 8–9 ผ่าน Google Earth Engine</p>
+    <h1 class="ndbi-title">ดัชนีสิ่งปลูกสร้าง<br><span>NDBI</span></h1>
+    <p class="ndbi-desc">
+      Normalized Difference Built-up Index — วัดระดับความหนาแน่นของอาคาร ถนน และพื้นคอนกรีตในเขตเมือง
+      จากข้อมูลดาวเทียมย้อนหลัง 10 ปี (พ.ศ. 2560–2569)
+    </p>
+    <div class="formula-wrap">
+      <span class="formula-label">สูตรคำนวณ NDBI</span>
+      <div class="formula-math">NDBI = (SWIR − NIR) / (SWIR + NIR)</div>
+      <p class="formula-band">
+        SWIR = Short-wave Infrared (Band 6) · คลื่นอินฟราเรดคลื่นสั้น<br>
+        NIR = Near-Infrared (Band 5) · คลื่นอินฟราเรดใกล้ · ค่าระหว่าง −1 ถึง +1
+      </p>
+    </div>
+  </div>
+
+  <!-- ─── MAIN ─── -->
+  <main class="ndbi-wrap">
+
+    <!-- Legend -->
+    <div class="legend-bar">
+      <span class="leg-end blue">พืชพรรณ / น้ำ</span>
+      <div class="legend-grad"></div>
+      <span class="leg-end red">สิ่งปลูกสร้าง</span>
+      <span class="legend-note">สีน้ำเงิน = NDBI ต่ำ (พืชพรรณ น้ำ พื้นที่ชุ่มน้ำ) &nbsp;·&nbsp; สีแดง = NDBI สูง (อาคาร ถนน คอนกรีต)</span>
+    </div>
+
+    <!-- Info cards -->
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-top">
+          <span class="info-dot" style="background:#f87171;"></span>
+          <span class="info-card-label">สีแดง = NDBI สูง</span>
+        </div>
+        <p>อาคาร ถนน หรือคอนกรีตหนาแน่น ดูดซับความร้อนได้ดี ทำให้อุณหภูมิพื้นผิวสูงขึ้น</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-top">
+          <span class="info-dot" style="background:#60a5fa;"></span>
+          <span class="info-card-label">สีน้ำเงิน = NDBI ต่ำ</span>
+        </div>
+        <p>พื้นที่พืชพรรณ แหล่งน้ำ หรือพื้นที่ชุ่มน้ำ ดูดซับความร้อนน้อยกว่า ช่วยลดอุณหภูมิ</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-top">
+          <span class="info-dot" style="background:#a78bfa;"></span>
+          <span class="info-card-label">ความสัมพันธ์กับ LST</span>
+        </div>
+        <p>NDBI สูงขึ้น → LST สูงขึ้น เป็นตัวชี้วัดหลักของปรากฏการณ์เกาะความร้อนเมือง (UHI)</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-top">
+          <span class="info-dot" style="background:#fbbf24;"></span>
+          <span class="info-card-label">วิธีวิเคราะห์</span>
+        </div>
+        <p>ประมวลผลผ่าน Google Earth Engine · ภาพ Landsat 8–9 ช่วงฤดูแล้ง (ม.ค.–พ.ค.) ทุกปี</p>
+      </div>
+    </div>
+
+    <!-- Graph -->
+    <!-- ── Inline Chart ── -->
+    <div class="graph-box" style="margin-bottom:2.5rem;">
+      <div class="graph-box-head">ค่า NDBI เฉลี่ยฤดูร้อน (มี.ค.–พ.ค.) รายปี พ.ศ. 2560–2569</div>
+      <div id="ndbiChartWrap" style="padding:1.5rem 1.25rem 1rem; background:#0d1320;">
+        <canvas id="ndbiChart" style="width:100%;display:block;"></canvas>
+      </div>
+    </div>
+
+    <script>
+    (function(){
+      var canvas = document.getElementById('ndbiChart');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+
+      var years  = [2017,2018,2019,2020,2021,2022,2023,2024,2025,2026];
+      var values = [-0.045,-0.082,-0.025,-0.047,-0.113,-0.091,-0.062,-0.052,-0.080,-0.068];
+      var CSS_H  = 360;
+      var padL=76, padR=28, padT=40, padB=68;
+      var minV=-0.13, maxV=-0.01, range=maxV-minV;
+
+      function draw(){
+        var dpr = window.devicePixelRatio || 1;
+        var cssW = canvas.parentElement.clientWidth || 760;
+        /* set physical pixels */
+        canvas.width  = cssW * dpr;
+        canvas.height = CSS_H * dpr;
+        /* set CSS display size */
+        canvas.style.width  = cssW + 'px';
+        canvas.style.height = CSS_H + 'px';
+        /* scale all drawing ops */
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        var W=cssW, H=CSS_H;
+        var cW=W-padL-padR, cH=H-padT-padB;
+
+        function xP(i){ return padL+(i/(years.length-1))*cW; }
+        function yP(v){ return padT+((maxV-v)/range)*cH; }
+
+        ctx.clearRect(0,0,W,H);
+
+        /* ── horizontal grid + y-labels ── */
+        var grids=[-0.02,-0.04,-0.06,-0.08,-0.10,-0.12];
+        grids.forEach(function(g){
+          var y=yP(g);
+          ctx.strokeStyle='rgba(255,255,255,.1)';
+          ctx.lineWidth=1; ctx.setLineDash([4,6]);
+          ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(W-padR,y); ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.fillStyle='rgba(255,255,255,.6)';
+          ctx.font='bold 13px monospace';
+          ctx.textAlign='right';
+          ctx.fillText(g.toFixed(2), padL-12, y+5);
+        });
+
+        /* ── area fill ── */
+        ctx.beginPath();
+        ctx.moveTo(xP(0),yP(values[0]));
+        values.forEach(function(v,i){ if(i) ctx.lineTo(xP(i),yP(v)); });
+        ctx.lineTo(xP(9),yP(minV)); ctx.lineTo(xP(0),yP(minV)); ctx.closePath();
+        var grad=ctx.createLinearGradient(0,padT,0,padT+cH);
+        grad.addColorStop(0,'rgba(248,113,113,.3)');
+        grad.addColorStop(1,'rgba(248,113,113,.02)');
+        ctx.fillStyle=grad; ctx.fill();
+
+        /* ── line ── */
+        ctx.beginPath();
+        ctx.moveTo(xP(0),yP(values[0]));
+        values.forEach(function(v,i){ if(i) ctx.lineTo(xP(i),yP(v)); });
+        ctx.strokeStyle='#f87171'; ctx.lineWidth=3;
+        ctx.lineJoin='round'; ctx.lineCap='round'; ctx.stroke();
+
+        /* ── dots + value labels ── */
+        values.forEach(function(v,i){
+          var x=xP(i), y=yP(v);
+          var isLow=(i===4), isHigh=(i===2);
+          var dotColor = isLow ? '#fde047' : isHigh ? '#4ade80' : '#f87171';
+
+          /* glow ring */
+          ctx.beginPath(); ctx.arc(x,y,11,0,Math.PI*2);
+          ctx.fillStyle='rgba(248,113,113,.12)'; ctx.fill();
+          /* dot */
+          ctx.beginPath(); ctx.arc(x,y,6,0,Math.PI*2);
+          ctx.fillStyle=dotColor; ctx.fill();
+          ctx.strokeStyle='#0d1320'; ctx.lineWidth=2.5; ctx.stroke();
+
+          /* value label pill */
+          var lbl=v.toFixed(3);
+          ctx.font='bold 13px "Courier New",monospace';
+          var tw=ctx.measureText(lbl).width;
+          var lx=x, ly=(v<-0.095)?y+26:y-18;
+          /* pill bg */
+          var pr=5, pw=tw+14, ph=20;
+          ctx.fillStyle=isLow?'rgba(253,224,71,.15)':isHigh?'rgba(74,222,128,.12)':'rgba(13,19,32,.85)';
+          ctx.strokeStyle=isLow?'rgba(253,224,71,.5)':isHigh?'rgba(74,222,128,.4)':'rgba(255,255,255,.15)';
+          ctx.lineWidth=1;
+          ctx.beginPath();
+          ctx.roundRect(lx-pw/2, ly-ph+4, pw, ph, pr);
+          ctx.fill(); ctx.stroke();
+          /* label text */
+          ctx.fillStyle=isLow?'#fde047':isHigh?'#4ade80':'#fff';
+          ctx.textAlign='center';
+          ctx.fillText(lbl, lx, ly);
+        });
+
+        /* ── x-axis: year CE ── */
+        ctx.textAlign='center';
+        ctx.fillStyle='rgba(255,255,255,.85)';
+        ctx.font='bold 15px "Barlow Condensed",sans-serif';
+        years.forEach(function(yr,i){ ctx.fillText(yr, xP(i), H-padB+22); });
+
+        /* ── x-axis: year BE ── */
+        ctx.fillStyle='rgba(255,255,255,.38)';
+        ctx.font='12px sans-serif';
+        years.forEach(function(yr,i){ ctx.fillText('พ.ศ.'+(yr+543), xP(i), H-padB+42); });
+
+        /* ── y-axis label ── */
+        ctx.save();
+        ctx.translate(16,padT+cH/2);
+        ctx.rotate(-Math.PI/2);
+        ctx.fillStyle='rgba(255,255,255,.45)';
+        ctx.font='bold 13px sans-serif'; ctx.textAlign='center';
+        ctx.fillText('ค่า NDBI',0,0);
+        ctx.restore();
+
+        /* ── legend chips ── */
+        var chips=[
+          {color:'#fde047',label:'ต่ำสุด 2021'},
+          {color:'#4ade80',label:'สูงสุด 2019'}
+        ];
+        var cx=padL;
+        chips.forEach(function(c){
+          ctx.beginPath(); ctx.arc(cx+6, padT-18, 5, 0, Math.PI*2);
+          ctx.fillStyle=c.color; ctx.fill();
+          ctx.fillStyle='rgba(255,255,255,.55)';
+          ctx.font='12px sans-serif'; ctx.textAlign='left';
+          ctx.fillText(c.label, cx+15, padT-14);
+          cx += ctx.measureText(c.label).width + 36;
+        });
+      }
+
+      draw();
+      var ro=new ResizeObserver(draw);
+      ro.observe(canvas.parentElement);
+    })();
+    </script>
+
+    <!-- Maps year by year (pair format) -->
+    <h2 class="section-heading">แผนที่ NDBI รายปี พ.ศ. 2560–2569</h2>
+    <p class="section-sub">แสดงการเปลี่ยนแปลงพื้นที่สิ่งปลูกสร้างในเขตเทศบาลนครขอนแก่น ทีละ 2 ปี เรียงจาก 2017 → 2026 · สีน้ำเงินเพิ่ม = เมืองขยาย</p>
+
+    <!-- 2017–2018 -->
+    <div class="map-pair-group">
+      <div class="map-pair-label">2017 – 2018 &nbsp;(พ.ศ. 2560–2561)</div>
+      <div class="map-card">
+        <img src="../assets/ndbi-2017-18.png" alt="แผนที่ NDBI ขอนแก่น 2017–2018" loading="lazy" />
+        <div class="map-card-foot">
+          <span class="map-card-years">NDBI 2017 &amp; 2018</span>
+          <span class="map-card-be">พ.ศ. 2560–2561</span>
+          <span class="map-tag tag-blue">ฐานข้อมูล 10 ปี</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2019–2020 -->
+    <div class="map-pair-group">
+      <div class="map-pair-label">2019 – 2020 &nbsp;(พ.ศ. 2562–2563)</div>
+      <div class="map-card">
+        <img src="../assets/ndbi-2019-20.png" alt="แผนที่ NDBI ขอนแก่น 2019–2020" loading="lazy" />
+        <div class="map-card-foot">
+          <span class="map-card-years">NDBI 2019 &amp; 2020</span>
+          <span class="map-card-be">พ.ศ. 2562–2563</span>
+          <span class="map-tag tag-red">เมืองขยายตัว</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2021–2022 -->
+    <div class="map-pair-group">
+      <div class="map-pair-label">2021 – 2022 &nbsp;(พ.ศ. 2564–2565)</div>
+      <div class="map-card">
+        <img src="../assets/ndbi-2021-22.png" alt="แผนที่ NDBI ขอนแก่น 2021–2022" loading="lazy" />
+        <div class="map-card-foot">
+          <span class="map-card-years">NDBI 2021 &amp; 2022</span>
+          <span class="map-card-be">พ.ศ. 2564–2565</span>
+          <span class="map-tag tag-red">เมืองขยายตัว</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2023–2024 -->
+    <div class="map-pair-group">
+      <div class="map-pair-label">2023 – 2024 &nbsp;(พ.ศ. 2566–2567)</div>
+      <div class="map-card">
+        <img src="../assets/ndbi-2023-24.png" alt="แผนที่ NDBI ขอนแก่น 2023–2024" loading="lazy" />
+        <div class="map-card-foot">
+          <span class="map-card-years">NDBI 2023 &amp; 2024</span>
+          <span class="map-card-be">พ.ศ. 2566–2567</span>
+          <span class="map-tag tag-gold">สูงสุด — LST 48.18°C</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2025–2026 -->
+    <div class="map-pair-group">
+      <div class="map-pair-label">2025 – 2026 &nbsp;(พ.ศ. 2568–2569)</div>
+      <div class="map-card">
+        <img src="../assets/ndbi-2025-26.png" alt="แผนที่ NDBI ขอนแก่น 2025–2026" loading="lazy" />
+        <div class="map-card-foot">
+          <span class="map-card-years">NDBI 2025 &amp; 2026</span>
+          <span class="map-card-be">พ.ศ. 2568–2569</span>
+          <span class="map-tag tag-red">ล่าสุด</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interpretation -->
+    <div class="interp-box">
+      <div class="interp-title">สรุปการเปลี่ยนแปลง NDBI ขอนแก่น พ.ศ. 2560–2569</div>
+      <ul class="interp-list">
+        <li>พื้นที่สิ่งปลูกสร้าง (NDBI สูง · สีแดง) เพิ่มขึ้นอย่างต่อเนื่องในเขตใจกลางเมืองและพื้นที่ขยายตัวทางทิศตะวันออกและทิศใต้</li>
+        <li>ปี พ.ศ. 2567 (2024) มีค่า LST สูงสุดในรอบ 10 ปีที่ 48.18°C สอดคล้องกับ NDBI ที่เพิ่มสูงขึ้นต่อเนื่อง</li>
+        <li>พื้นที่สีน้ำเงิน (NDBI ต่ำ) ที่ลดลงสะท้อนพื้นที่เกษตรกรรมและพืชพรรณที่ถูกแทนที่ด้วยสิ่งปลูกสร้าง</li>
+        <li>NDBI มีความสัมพันธ์เชิงบวกกับ LST — ยิ่งสิ่งปลูกสร้างหนาแน่น อุณหภูมิพื้นผิวยิ่งสูง (เกาะความร้อนเมือง UHI)</li>
+        <li>การเพิ่มพื้นที่สีเขียว ช่วยลดผลกระทบจาก NDBI สูง ดูข้อมูล <a href="ndvi.html" style="color:#4ade80;">NDVI ที่นี่</a></li>
+      </ul>
+    </div>
+
+    <div class="page-nav-row">
+      <a href="heat.html#research" class="page-nav-btn pnb-back">← กลับหน้าความร้อน</a>
+      <a href="ndvi.html" class="page-nav-btn pnb-ndvi">ดู NDVI →</a>
+    </div>
+
+  </main>
+
+  <script src="../js/nav.js"></script>
+</body>
+</html>

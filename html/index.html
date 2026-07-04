@@ -491,7 +491,7 @@
     /* ── NAV BUTTONS ───────────────────────────────────────── */
     .landing-nav {
       width: 100%;
-      max-width: 640px;
+      max-width: 720px;
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
@@ -795,6 +795,109 @@
       .ln-wx-icon svg { width: 24px; height: 24px; }
       .ln-wx-temp { font-size: 0.9rem; }
     }
+
+    /* ── NEWS Ticker ── */
+    .news-ticker {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 2;
+      background: rgba(249,115,22,.09);
+      border-bottom: 1px solid rgba(249,115,22,.2);
+      display: flex;
+      align-items: center;
+      height: 28px;
+      overflow: hidden;
+    }
+    .news-badge {
+      flex-shrink: 0;
+      background: #f97316;
+      color: #fff;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .6rem; font-weight: 900;
+      letter-spacing: .14em; text-transform: uppercase;
+      padding: 0 .65rem; height: 100%;
+      display: flex; align-items: center;
+      animation: news-blink 1.3s ease-in-out infinite;
+    }
+    @keyframes news-blink { 0%,100%{opacity:1;} 50%{opacity:.4;} }
+    .news-track { flex: 1; overflow: hidden; }
+    .news-text {
+      display: inline-block; white-space: nowrap;
+      font-size: .68rem; font-family: 'Noto Sans Thai', sans-serif;
+      color: rgba(249,115,22,.85); padding-left: .75rem;
+      animation: news-scroll 28s linear infinite;
+    }
+    @keyframes news-scroll { 0%{transform:translateX(100vw);} 100%{transform:translateX(-100%);} }
+
+    /* ── New 8-button grid ── */
+    .ng-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: .625rem; width: 100%;
+    }
+    .ng-btn {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: .42rem; padding: .9rem .6rem;
+      background: rgba(21,128,61,.18);
+      border: 1px solid rgba(34,197,94,.28);
+      border-radius: 14px; color: #fff;
+      text-decoration: none;
+      font-family: 'Noto Sans Thai', sans-serif;
+      font-size: .78rem; font-weight: 600;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      transition: background .2s, border-color .2s, transform .15s, box-shadow .2s;
+      position: relative; overflow: hidden;
+      text-align: center; line-height: 1.35;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .ng-btn::before {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(34,197,94,.1) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .ng-btn:hover {
+      background: rgba(21,128,61,.3);
+      border-color: rgba(34,197,94,.6);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 22px rgba(34,197,94,.18);
+    }
+    .ng-btn:active { transform: translateY(-1px); }
+    .ng-icon { color: #4ade80; display: flex; align-items: center; justify-content: center; margin-bottom: .05rem; }
+    .ng-sub { font-size: .57rem; color: rgba(34,197,94,.58); display: block; }
+
+    /* ── Bottom CTA row ── */
+    .ng-cta-row { display: grid; grid-template-columns: 3fr 2fr; gap: .625rem; width: 100%; }
+    .ng-cta-smart {
+      background: linear-gradient(135deg,#f97316,#ea580c);
+      border: none; border-radius: 14px; padding: .9rem 1.1rem;
+      color: #fff; font-family: 'Barlow Condensed', sans-serif;
+      font-size: .9rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;
+      cursor: pointer; display: flex; align-items: center; gap: .5rem;
+      text-decoration: none; transition: transform .2s, box-shadow .2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .ng-cta-smart:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(249,115,22,.35); }
+    .ng-cta-future {
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.16);
+      border-radius: 14px; padding: .9rem 1rem;
+      color: rgba(255,255,255,.68); font-family: 'Noto Sans Thai', sans-serif;
+      font-size: .78rem; font-weight: 600;
+      display: flex; align-items: center; gap: .5rem;
+      text-decoration: none; transition: transform .2s, border-color .2s, background .2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .ng-cta-future:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.32); background: rgba(255,255,255,.1); }
+
+    @media (max-width: 540px) {
+      .ng-grid { grid-template-columns: repeat(2,1fr); gap: .5rem; }
+      .ng-btn { padding: .8rem .5rem; border-radius: 12px; font-size: .72rem; }
+      .ng-sub { display: none; }
+      .ng-cta-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 380px) {
+      .ng-btn { font-size: .65rem; padding: .7rem .4rem; }
+    }
   </style>
   <script src="../js/utility-bar.js"></script>
   <script src="../js/alert-bar.js"></script>
@@ -879,6 +982,18 @@
     </video>
     <div class="landing-overlay" aria-hidden="true"></div>
 
+    <!-- NEWS Ticker -->
+    <div class="news-ticker" role="marquee" aria-label="ข่าวอัพเดท">
+      <div class="news-badge" aria-hidden="true">NEWS</div>
+      <div class="news-track">
+        <span class="news-text">
+          🔴 อุณหภูมิพื้นผิว LST สูงสุด 48.18°C ในเขตเทศบาลนครขอนแก่น (พ.ศ. 2567) &nbsp;·&nbsp;
+          ⚠️ PM2.5 เกินมาตรฐาน — ลดกิจกรรมกลางแจ้ง &nbsp;·&nbsp;
+          🗺️ แผนที่ความเสี่ยงความร้อนอัพเดทใหม่ — กด Smart Map เพื่อดูข้อมูลล่าสุด
+        </span>
+      </div>
+    </div>
+
     <!-- Title -->
     <div class="landing-text">
       <div class="landing-meta reveal">
@@ -895,90 +1010,72 @@
         HEAT SAFE<br>
         <span class="landing-title-accent">KHON KAEN</span>
       </h1>
-      <p class="landing-sub reveal" style="transition-delay:.24s">เข้าใจภัยพิบัติสิ่งแวดล้อม 4 ประเภทที่ส่งผลต่อชีวิตคนขอนแก่น</p>
+      <p class="landing-sub reveal" style="transition-delay:.24s">ที่มาของโครงงานและคณะผู้จัดทำ · GeoHeat Khon Kaen</p>
     </div>
 
     <!-- Navigation buttons -->
     <nav class="landing-nav reveal" style="transition-delay:.38s" aria-label="เลือกหัวข้อ">
 
-      <!-- 4 topic cards -->
-      <div class="landing-topics" role="list">
+      <!-- 8-topic grid -->
+      <div class="ng-grid" role="list">
 
-        <a href="heat.html" class="ln-btn ln-heat" role="listitem">
-          <span class="ln-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="17" r="7"/><path d="M24 7V4M24 27V30M37 17H34M11 17H14M31 10L33 8M17 10L15 8M31 24L33 26M17 24L15 26"/><path d="M8 37c3-4 5-4 8 0s5 4 8 0 5-4 8 0 5 4 8 0"/></svg>
-          </span>
-          ความร้อน
+        <a href="team.html" class="ng-btn" role="listitem">
+          <span class="ng-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20V9l9-7 9 7v11"/><path d="M9 20V14h6v6"/></svg></span>
+          ประวัติ<br>เมืองขอนแก่น
         </a>
 
-        <a href="dust.html" class="ln-btn ln-dust" role="listitem">
-          <span class="ln-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20h18a5.5 5.5 0 1 0-5-7.5"/><path d="M5 29h24a6 6 0 0 0 0-12h-2"/><path d="M5 37h20"/><path d="M5 44h13"/><circle cx="35" cy="37" r="2" fill="currentColor" stroke="none"/><circle cx="30" cy="44" r="2" fill="currentColor" stroke="none"/><circle cx="42" cy="43" r="2" fill="currentColor" stroke="none"/></svg>
-          </span>
-          ฝุ่น PM2.5
-        </a>
-        
-
-        <a href="rain.html" class="ln-btn ln-rain" role="listitem">
-          <span class="ln-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 31A13 13 0 1 1 31 18.5h3a8 8 0 0 1 5 14"/><path d="M11 39l-2 7"/><path d="M22 38l-2 8"/><path d="M38 27l-5 8h6l-5 8"/></svg>
-          </span>
-          ฝน/พายุ
+        <a href="heat.html" class="ng-btn" role="listitem">
+          <span class="ng-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg></span>
+          ค่าความร้อน<br>LST
+          <span class="ng-sub">Landsat 8–9</span>
         </a>
 
-        <a href="flood.html" class="ln-btn ln-flood" role="listitem">
-          <span class="ln-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 24l16-12 16 12"/><path d="M14 23v9"/><path d="M34 23v9"/><path d="M20 32h8"/><path d="M5 35c3-4 5.5-4 8 0s5 4 8 0 5.5-4 8 0 5 4 8 0"/><path d="M5 43c3-4 5.5-4 8 0s5 4 8 0 5.5-4 8 0 5 4 8 0"/></svg>
-          </span>
-          น้ำท่วม
+        <a href="ndvi.html" class="ng-btn" role="listitem">
+          <span class="ng-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" fill="rgba(74,222,128,.15)"/><path d="M8.56 2.75c-2.1 1.06-3.8 2.87-4.76 5.06M4.93 8.66A10 10 0 0 0 12 22"/></svg></span>
+          ดัชนีพืชพรรณ<br>NDVI
+          <span class="ng-sub">พื้นที่สีเขียว</span>
         </a>
 
-        <!-- Map Box GIS -->
-        <a href="landcast.html" class="ln-btn ln-gis" role="listitem">
-          <span class="ln-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M24 8L6 17l18 9 18-9-18-9z"/>
-              <path d="M6 26l18 9 18-9"/>
-              <path d="M6 35l18 9 18-9"/>
-            </svg>
-          </span>
-          <span class="ln-gis-label">
-            Map Box
-            <span class="ln-gis-sub">แผนที่ GIS เชิงลึก · LandCast</span>
-          </span>
-          <span class="ln-gis-arrow" aria-hidden="true">→</span>
+        <a href="ndbi.html" class="ng-btn" role="listitem">
+          <span class="ng-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="5" height="14"/><rect x="9.5" y="2" width="5" height="19"/><rect x="17" y="11" width="5" height="10"/></svg></span>
+          ดัชนีสิ่งปลูกสร้าง<br>NDBI
+          <span class="ng-sub">พื้นที่คอนกรีต</span>
         </a>
 
-        <!-- UHI Map 3D -->
-        <a href="3d-model.html" class="ln-btn ln-gis ln-airsim" role="listitem">
-          <span class="ln-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="4" y="28" width="8" height="14" rx="1"/>
-              <rect x="14" y="20" width="8" height="22" rx="1"/>
-              <rect x="24" y="12" width="8" height="30" rx="1"/>
-              <rect x="34" y="22" width="8" height="20" rx="1"/>
-              <path d="M4 44h40"/>
-              <path d="M8 20c4-8 8-14 12-16s8 2 12 4 6-2 10-8" stroke-opacity=".5" stroke-width="1.8"/>
-            </svg>
-          </span>
-          <span class="ln-gis-label">
-            3D Model
-            <span class="ln-gis-sub">แบบจำลองความร้อน / DEM<br>เลือกประเภทแบบจำลอง</span>
-          </span>
-          <span class="ln-gis-arrow" aria-hidden="true">→</span>
+        <a href="#" class="ng-btn" role="listitem">
+          <span class="ng-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+          หน้าแจ้งเหตุ<br>Smart Crowd.
+        </a>
+
+        <a href="#" class="ng-btn" role="listitem">
+          <span class="ng-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+          เตรียมรับมือ<br>ป้องกันภัย
+        </a>
+
+        <a href="heat-analysis.html" class="ng-btn" role="listitem">
+          <span class="ng-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/></svg></span>
+          สภาพอากาศ
+        </a>
+
+        <a href="3d-model.html" class="ng-btn" role="listitem">
+          <span class="ng-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
+          3D MODEL
+          <span class="ng-sub">DEM · LandCast</span>
         </a>
 
       </div>
 
-      <!-- แผนที่อัจฉริยะ — CTA หลัก รวมทุกแผนที่ -->
-      <a href="smart-map.html" class="ln-map ln-map--smart">
-        <svg viewBox="0 0 20 20" fill="none" width="20" height="20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M12.5 2.5L7.5 4.375 2.5 2.5v12.5l5 1.875 5-1.875 5 1.875V4.375L12.5 2.5z"/><path d="M7.5 4.375v12.5M12.5 2.5v12.5"/></svg>
-        <span class="ln-map-smart-text">
-          แผนที่อัจฉริยะ
-          <span class="ln-map-smart-sub">รวมทุกแผนที่ในที่เดียว &middot; ความร้อน &middot; ฝุ่น PM2.5 &middot; ฝน &middot; น้ำท่วม</span>
-        </span>
-        <span aria-hidden="true" style="margin-left:auto;">&#x2192;</span>
-      </a>
+      <!-- Bottom CTAs -->
+      <div class="ng-cta-row">
+        <a href="smart-map.html" class="ng-cta-smart">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+          Smart Map
+        </a>
+        <a href="#" class="ng-cta-future">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          ขอนแก่นในอนาคต
+        </a>
+      </div>
 
     </nav>
 
