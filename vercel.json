@@ -1,6 +1,9 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/html/index.html" },
+    { "source": "/", "destination": "/html/intro.html" },
+    { "source": "/intro", "destination": "/html/intro.html" },
+    { "source": "/intro.html", "destination": "/html/intro.html" },
+    { "source": "/home", "destination": "/html/index.html" },
     { "source": "/index.html", "destination": "/html/index.html" },
     { "source": "/map", "destination": "/html/map.html" },
     { "source": "/map.html", "destination": "/html/map.html" },
