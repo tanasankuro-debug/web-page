@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="ขอนแก่น รู้ทันภัยเมือง — ข้อมูลความปลอดภัยด้านสิ่งแวดล้อม ความร้อน ฝุ่น PM2.5 ฝน/พายุ และน้ำท่วม" />
+  <title>ขอนแก่น รู้ทันภัยเมือง — Heat Safe Khon Kaen</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/hero.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/themes.css" />
+  <link rel="stylesheet" href="../css/weather-icons.css" />
+  <style>
+    /* ── Reveal ── */
+    .landing .reveal { transform: translateY(32px); transition: opacity 0.65s cubic-bezier(.22,.68,0,1.2), transform 0.65s cubic-bezier(.22,.68,0,1.2); }
+    .landing .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    html { scroll-behavior: smooth; }
+    html, body { height: auto; overflow-x: hidden; }
+
+    /* ── Landing hero ── */
+    .landing {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: clamp(2rem, 6vh, 4rem);
+      padding-inline: 1.25rem;
+      text-align: center;
+      z-index: 0;
+      background-color: var(--bg);
+    }
+
+    /* ── Scroll hint ── */
+    .lp-scroll-hint {
+      position: absolute; bottom: 1.1rem; left: 50%; transform: translateX(-50%);
+      z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 4px;
+      animation: lpScrollBounce 2.2s ease-in-out infinite; pointer-events: none;
+    }
+    .lp-scroll-hint span { font-size: 0.6rem; font-family: 'Noto Sans Thai', sans-serif; color: rgba(255,255,255,0.35); letter-spacing: 0.08em; text-transform: uppercase; }
+    .lp-chevron { width: 20px; height: 20px; border-right: 2px solid rgba(255,255,255,0.35); border-bottom: 2px solid rgba(255,255,255,0.35); transform: rotate(45deg); }
+    @keyframes lpScrollBounce {
+      0%,100% { opacity: 0.5; transform: translateX(-50%) translateY(0); }
+      50%      { opacity: 1;   transform: translateX(-50%) translateY(7px); }
+    }
+
+    /* ── Dashboard section ── */
+    .lp-dashboard { background: #010C1A; padding: 1.5rem 1.25rem 3rem; width: 100%; }
+    .lp-dash-inner { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
+
+    /* ── Hero Alert Card ── */
+    .lp-hero-card { background: rgba(12,20,40,0.92); border: 1px solid rgba(255,255,255,0.10); border-radius: 20px; padding: 1.25rem 1.375rem; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); transition: border-color 0.5s; }
+    .lp-loc-row { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.875rem; }
+    .lp-loc-name { font-size: 0.72rem; font-family: 'Noto Sans Thai', sans-serif; color: rgba(255,255,255,0.45); flex: 1; }
+    .lp-geo-btn { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; color: rgba(255,255,255,0.55); padding: 0.28rem 0.55rem; font-size: 0.65rem; font-family: 'Noto Sans Thai', sans-serif; cursor: pointer; display: flex; align-items: center; gap: 0.3rem; transition: background 0.18s, color 0.18s; white-space: nowrap; }
+    .lp-geo-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .lp-geo-btn svg { flex-shrink: 0; }
+
+    .lp-alert-badge { display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.3rem 0.85rem 0.3rem 0.55rem; border-radius: 999px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.06); font-size: 0.75rem; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; margin-bottom: 0.75rem; transition: background 0.5s, border-color 0.5s; }
+    .lp-alert-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; animation: lpDotPulse 2s ease-in-out infinite; }
+    @keyframes lpDotPulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(0.6); } }
+    .lp-advice { font-family: 'Noto Sans Thai', sans-serif; font-size: 0.88rem; color: rgba(255,255,255,0.75); line-height: 1.65; margin: 0 0 1.1rem; min-height: 2.8em; transition: color 0.4s; }
+
+    /* Stats grid */
+    .lp-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-bottom: 1rem; }
+    .lp-stat { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 0.7rem 0.4rem 0.6rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.15rem; transition: border-color 0.22s, background 0.22s, transform 0.18s, box-shadow 0.22s; cursor: pointer; text-decoration: none; color: inherit; -webkit-tap-highlight-color: transparent; outline-offset: 3px; position: relative; overflow: hidden; }
+    .lp-stat--heat:hover  { transform: translateY(-4px); background: rgba(251,146,60,0.09); border-color: rgba(251,146,60,0.55); box-shadow: 0 8px 28px rgba(251,146,60,0.22), 0 0 0 1px rgba(251,146,60,0.18); }
+    .lp-stat--pm:hover    { transform: translateY(-4px); background: rgba(148,163,184,0.08); border-color: rgba(148,163,184,0.45); box-shadow: 0 8px 28px rgba(148,163,184,0.16), 0 0 0 1px rgba(148,163,184,0.16); }
+    .lp-stat--rain:hover  { transform: translateY(-4px); background: rgba(96,165,250,0.09); border-color: rgba(96,165,250,0.55); box-shadow: 0 8px 28px rgba(96,165,250,0.22), 0 0 0 1px rgba(96,165,250,0.18); }
+    .lp-stat--flood:hover { transform: translateY(-4px); background: rgba(34,197,94,0.08); border-color: rgba(34,197,94,0.50); box-shadow: 0 8px 28px rgba(34,197,94,0.18), 0 0 0 1px rgba(34,197,94,0.16); }
+    .lp-stat:active { transform: translateY(-1px) scale(0.97); opacity: 0.82; transition-duration: 0.08s; }
+    .lp-stat::after { content: '→'; position: absolute; bottom: 0.3rem; right: 0.45rem; font-size: 0.55rem; opacity: 0; transform: translateX(-4px); transition: opacity 0.2s, transform 0.2s; pointer-events: none; }
+    .lp-stat--heat::after  { color: #fb923c; } .lp-stat--pm::after { color: #94a3b8; } .lp-stat--rain::after { color: #60a5fa; } .lp-stat--flood::after { color: #22c55e; }
+    .lp-stat:hover::after  { opacity: 1; transform: translateX(0); }
+    .lp-stat-icon { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; margin: 0 auto 0.15rem; }
+    .lp-stat-val  { font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem; font-weight: 800; line-height: 1; color: #fff; transition: color 0.4s; }
+    .lp-stat-sub  { font-size: 0.58rem; color: rgba(255,255,255,0.4); line-height: 1.3; }
+    .lp-stat-name { font-size: 0.6rem; font-family: 'Noto Sans Thai', sans-serif; color: rgba(255,255,255,0.35); margin-top: 0.15rem; }
+    .lp-pm-bar { width: 100%; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-top: 2px; overflow: hidden; }
+    .lp-pm-fill { height: 100%; border-radius: 2px; width: 0; transition: width 0.8s, background 0.4s; }
+    .lp-share-row { display: flex; gap: 0.5rem; }
+    .lp-share-btn { flex: 1; padding: 0.55rem 0.75rem; border: none; border-radius: 10px; font-family: 'Noto Sans Thai', sans-serif; font-size: 0.78rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.4rem; transition: opacity 0.18s, transform 0.18s; }
+    .lp-share-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .lp-share-line { background: #06C755; color: #fff; } .lp-share-fb { background: #1877F2; color: #fff; }
+
+    /* Generic card */
+    .lp-card { background: rgba(12,20,40,0.88); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 1rem 1.125rem 1.125rem; overflow: hidden; }
+    .lp-card-hd { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.38); margin-bottom: 0.875rem; padding-bottom: 0.6rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+
+    /* Hourly forecast */
+    .lp-hourly { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.25rem; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.12) transparent; }
+    .lp-hr-col { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; min-width: 54px; padding: 0.6rem 0.25rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; flex-shrink: 0; transition: background 0.18s, border-color 0.18s; }
+    .lp-hr-col:hover { background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.18); }
+    .lp-hr-col.lp-hr-now { border-color: rgba(251,146,60,0.55); background: rgba(251,146,60,0.08); }
+    .lp-hr-time { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700; color: rgba(255,255,255,0.45); }
+    .lp-hr-col.lp-hr-now .lp-hr-time { color: #FB923C; }
+    .lp-hr-icon { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; }
+    .lp-hr-temp { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 800; color: #fff; }
+    .lp-hr-rain { font-size: 0.58rem; color: #60A5FA; font-weight: 600; }
+
+    /* Daily forecast */
+    .lp-daily { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
+    .lp-day-col { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; padding: 0.7rem 0.25rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; text-align: center; transition: background 0.18s; }
+    .lp-day-col:hover { background: rgba(255,255,255,0.08); }
+    .lp-day-col.lp-day-today { border-color: rgba(251,146,60,0.4); background: rgba(251,146,60,0.06); }
+    .lp-day-name { font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700; color: rgba(255,255,255,0.45); letter-spacing: 0.04em; }
+    .lp-day-col.lp-day-today .lp-day-name { color: #FB923C; }
+    .lp-day-icon { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; }
+    .lp-day-hi { font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 800; color: #fff; }
+    .lp-day-lo { font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; color: rgba(255,255,255,0.4); }
+    .lp-day-rain { font-size: 0.55rem; color: #60A5FA; font-weight: 600; }
+
+    /* Alert tokens */
+    .lp-alert--safe    { --alert-c: #22c55e; } .lp-alert--warm { --alert-c: #facc15; } .lp-alert--hot { --alert-c: #fb923c; } .lp-alert--danger { --alert-c: #ef4444; } .lp-alert--extreme { --alert-c: #dc2626; }
+    .lp-hero-card.lp-alert--safe    { border-color: rgba(34,197,94,0.35); }
+    .lp-hero-card.lp-alert--warm    { border-color: rgba(250,204,21,0.35); }
+    .lp-hero-card.lp-alert--hot     { border-color: rgba(251,146,60,0.45); }
+    .lp-hero-card.lp-alert--danger  { border-color: rgba(239,68,68,0.45); }
+    .lp-hero-card.lp-alert--extreme { border-color: rgba(220,38,38,0.55); }
+    .lp-alert-badge.lp-alert--safe    { background: rgba(34,197,94,0.12); border-color: rgba(34,197,94,0.3); }
+    .lp-alert-badge.lp-alert--warm    { background: rgba(250,204,21,0.12); border-color: rgba(250,204,21,0.3); }
+    .lp-alert-badge.lp-alert--hot     { background: rgba(251,146,60,0.14); border-color: rgba(251,146,60,0.4); }
+    .lp-alert-badge.lp-alert--danger  { background: rgba(239,68,68,0.14); border-color: rgba(239,68,68,0.4); }
+    .lp-alert-badge.lp-alert--extreme { background: rgba(220,38,38,0.18); border-color: rgba(220,38,38,0.5); }
+    .lp-alert-dot.lp-alert--safe    { background: #22c55e; box-shadow: 0 0 8px #22c55e; }
+    .lp-alert-dot.lp-alert--warm    { background: #facc15; box-shadow: 0 0 8px #facc15; }
+    .lp-alert-dot.lp-alert--hot     { background: #fb923c; box-shadow: 0 0 8px #fb923c; }
+    .lp-alert-dot.lp-alert--danger  { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
+    .lp-alert-dot.lp-alert--extreme { background: #dc2626; box-shadow: 0 0 10px #dc2626; }
+
+    /* ฝนหนัก */
+    .lp-hero-card.lp-alert--warn   { border-color: rgba(59,130,246,0.45); }
+    .lp-alert-badge.lp-alert--warn { background: rgba(59,130,246,0.14); border-color: rgba(59,130,246,0.4); }
+    .lp-alert-dot.lp-alert--warn   { background: #3B82F6; box-shadow: 0 0 8px #3B82F6; }
+
+    @media (max-width: 480px) { .lp-stats { grid-template-columns: repeat(2, 1fr); } .lp-daily { grid-template-columns: repeat(2, 1fr); } }
+
+    /* Advice card */
+    .lp-adv-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .45rem; }
+    .lp-adv-item { display: flex; align-items: flex-start; gap: .6rem; padding: .6rem .75rem; background: rgba(255,255,255,.05); border-radius: 8px; border: 1px solid rgba(255,255,255,.07); }
+    .lp-adv-ico  { flex-shrink: 0; font-size: 1rem; margin-top: .05rem; }
+    .lp-adv-text { font-size: .78rem; font-family: 'Noto Sans Thai', sans-serif; color: rgba(255,255,255,.72); line-height: 1.55; }
+    .lp-adv-text b { color: #fff; }
+    .lp-notif-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: .55rem; margin-top: .65rem; padding: .65rem 1rem; border-radius: 10px; cursor: pointer; border: 1px solid rgba(251,146,60,.3); background: rgba(251,146,60,.07); color: #fb923c; font-family: 'Noto Sans Thai', sans-serif; font-size: .8rem; font-weight: 600; transition: background .18s, border-color .18s; }
+    .lp-notif-btn:hover { background: rgba(251,146,60,.14); border-color: rgba(251,146,60,.5); }
+    .lp-notif-btn.granted { border-color: rgba(34,197,94,.4); background: rgba(34,197,94,.08); color: #22c55e; }
+    .lp-notif-btn.denied  { border-color: rgba(100,116,139,.25); background: transparent; color: rgba(255,255,255,.28); cursor: not-allowed; }
+
+    /* ── video bg + overlay ── */
+    .landing-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: -1; }
+    .landing-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(1,8,20,0.94) 0%, rgba(1,8,20,0.72) 38%, rgba(1,8,20,0.22) 68%, transparent 85%), linear-gradient(to bottom, rgba(1,8,20,0.55) 0%, transparent 20%); z-index: -1; pointer-events: none; }
+
+    /* ── Text block ── */
+    .landing-text { margin-bottom: clamp(1.5rem, 4vh, 2.5rem); }
+    .landing-meta { display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .landing-badge { display: inline-flex; align-items: center; font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; padding: 0.25rem 0.875rem; }
+    .landing-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(3rem, 10vw, 7rem); font-weight: 800; line-height: 0.92; letter-spacing: -0.01em; color: #fff; margin: 0 0 0.35rem; }
+    .landing-title-hs {
+      display: block;
+      color: rgba(255,255,255,0.88);
+    }
+    .landing-title-accent {
+      display: block;
+      background: linear-gradient(90deg, #3B82F6 0%, #22C55E 25%, #EAB308 50%, #F97316 75%, #EF4444 100%);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .landing-sub { font-size: clamp(0.9rem, 2vw, 1.05rem); color: rgba(255,255,255,0.65); margin: 0.75rem 0 0; line-height: 1.6; }
+
+    /* ── Weather chip ── */
+    .ln-wx-chip { display: flex; align-items: center; gap: 0.6rem; padding: 0.55rem 1.1rem 0.55rem 0.8rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; color: rgba(255,255,255,0.92); text-decoration: none; font-family: 'Noto Sans Thai', sans-serif; font-size: 0.82rem; font-weight: 500; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); transition: background 0.4s, border-color 0.4s, box-shadow 0.4s; align-self: center; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.35); }
+    .ln-wx-chip:hover { filter: brightness(1.12); }
+    .ln-wx-icon { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .ln-wx-icon svg { width: 28px; height: 28px; }
+    .ln-wx-temp { font-weight: 800; font-size: 1rem; font-variant-numeric: tabular-nums; transition: color 0.4s; }
+    .ln-wx-divider { width: 1px; height: 14px; background: rgba(255,255,255,0.2); border-radius: 1px; }
+    .ln-wx-desc { color: rgba(255,255,255,0.65); font-size: 0.8rem; }
+    .ln-wx-more { opacity: 0.38; font-size: 0.7rem; margin-left: 0.15rem; white-space: nowrap; }
+    #landing-wx[data-wx="clear-day"]     { background: rgba(250,200,20,0.13); border-color: rgba(250,190,0,0.45); animation: wxSunGlow 3s ease-in-out infinite; }
+    #landing-wx[data-wx="clear-day"] .ln-wx-temp { color: #FCD34D; }
+    @keyframes wxSunGlow { 0%,100% { box-shadow: 0 0 14px rgba(251,191,36,0.30), 0 2px 8px rgba(0,0,0,0.35); } 50% { box-shadow: 0 0 28px rgba(251,191,36,0.55), 0 2px 8px rgba(0,0,0,0.35); } }
+    #landing-wx[data-wx="partly-cloudy"] { background: rgba(255,210,40,0.09); border-color: rgba(255,210,40,0.30); box-shadow: 0 0 10px rgba(251,191,36,0.15), 0 2px 8px rgba(0,0,0,0.35); }
+    #landing-wx[data-wx="partly-cloudy"] .ln-wx-temp { color: #FCD34D; }
+    #landing-wx[data-wx="cloudy"]        { background: rgba(148,163,184,0.12); border-color: rgba(148,163,184,0.32); }
+    #landing-wx[data-wx="cloudy"] .ln-wx-temp { color: #CBD5E1; }
+    #landing-wx[data-wx="fog"]           { background: rgba(148,163,184,0.10); border-color: rgba(148,163,184,0.25); }
+    #landing-wx[data-wx="fog"] .ln-wx-temp { color: #94A3B8; }
+    #landing-wx[data-wx="drizzle"]       { background: rgba(96,165,250,0.11); border-color: rgba(96,165,250,0.32); }
+    #landing-wx[data-wx="drizzle"] .ln-wx-temp { color: #93C5FD; }
+    #landing-wx[data-wx="rain"]          { background: rgba(59,130,246,0.14); border-color: rgba(59,130,246,0.42); animation: wxRainPulse 2.4s ease-in-out infinite; }
+    #landing-wx[data-wx="rain"] .ln-wx-temp { color: #60A5FA; }
+    @keyframes wxRainPulse { 0%,100% { box-shadow: 0 0 12px rgba(59,130,246,0.25), 0 2px 8px rgba(0,0,0,0.4); } 50% { box-shadow: 0 0 22px rgba(59,130,246,0.50), 0 2px 8px rgba(0,0,0,0.4); } }
+    #landing-wx[data-wx="storm"]         { background: rgba(30,20,5,0.22); border-color: rgba(253,224,71,0.50); animation: wxLightning 5s ease-in-out infinite; }
+    #landing-wx[data-wx="storm"] .ln-wx-temp { color: #FDE047; }
+    @keyframes wxLightning { 0%,88%,100% { box-shadow: 0 0 10px rgba(253,224,71,0.15), 0 2px 8px rgba(0,0,0,0.5); } 90% { box-shadow: 0 0 36px rgba(253,224,71,0.70), 0 2px 8px rgba(0,0,0,0.5); } 92% { box-shadow: 0 0 10px rgba(253,224,71,0.15), 0 2px 8px rgba(0,0,0,0.5); } 94% { box-shadow: 0 0 28px rgba(253,224,71,0.55), 0 2px 8px rgba(0,0,0,0.5); } }
+    #landing-wx[data-wx="clear-night"]   { background: rgba(30,41,80,0.20); border-color: rgba(148,163,184,0.35); }
+    #landing-wx[data-wx="clear-night"] .ln-wx-temp { color: #E2E8F0; }
+
+    @media (max-width: 540px) {
+      .ln-wx-desc { display: none; } .ln-wx-more { display: none; }
+      .ln-wx-chip { padding: 0.48rem 0.85rem; gap: 0.45rem; }
+      .ln-wx-icon { width: 24px; height: 24px; } .ln-wx-icon svg { width: 24px; height: 24px; }
+      .ln-wx-temp { font-size: 0.9rem; }
+    }
+
+    /* ═══════════════════════════════════
+       8-FEATURE GRID
+    ═══════════════════════════════════ */
+    .landing-nav { width: 100%; max-width: 640px; display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.625rem;
+    }
+
+    .feat-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.9rem 0.5rem 0.8rem;
+      background: rgba(15,22,33,0.85);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Noto Sans Thai', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: background 0.2s, border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+      cursor: pointer;
+      text-align: center;
+      line-height: 1.3;
+    }
+    .feat-card:hover  { background: rgba(30,42,60,0.92); transform: translateY(-3px); }
+    .feat-card:active { transform: translateY(0); }
+
+    .feat-icon {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .feat-icon svg { width: 18px; height: 18px; }
+
+    .feat-sub {
+      font-size: 0.58rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.45);
+      display: block;
+      line-height: 1.3;
+    }
+
+    /* Color themes per feature */
+    .fc-heat  { border-top: 2px solid #C47848; }
+    .fc-heat  .feat-icon { background: rgba(196,120,72,0.22); color: #FB923C; }
+    .fc-heat:hover  { border-color: rgba(196,120,72,0.6); box-shadow: 0 6px 20px rgba(251,146,60,0.18); }
+
+    .fc-stats { border-top: 2px solid #B45309; }
+    .fc-stats .feat-icon { background: rgba(245,158,11,0.20); color: #FBBF24; }
+    .fc-stats:hover { border-color: rgba(245,158,11,0.55); box-shadow: 0 6px 20px rgba(245,158,11,0.15); }
+
+    .fc-risk  { border-top: 2px solid #B91C1C; }
+    .fc-risk  .feat-icon { background: rgba(239,68,68,0.18); color: #F87171; }
+    .fc-risk:hover  { border-color: rgba(239,68,68,0.55); box-shadow: 0 6px 20px rgba(239,68,68,0.16); }
+
+    .fc-gis   { border-top: 2px solid #5B21B6; }
+    .fc-gis   .feat-icon { background: rgba(139,92,246,0.18); color: #A78BFA; }
+    .fc-gis:hover   { border-color: rgba(139,92,246,0.55); box-shadow: 0 6px 20px rgba(139,92,246,0.16); }
+
+    .fc-smart { border-top: 2px solid #047857; }
+    .fc-smart .feat-icon { background: rgba(16,185,129,0.18); color: #34D399; }
+    .fc-smart:hover { border-color: rgba(16,185,129,0.55); box-shadow: 0 6px 20px rgba(16,185,129,0.16); }
+
+    .fc-shelter { border-top: 2px solid #0E7490; }
+    .fc-shelter .feat-icon { background: rgba(6,182,212,0.18); color: #22D3EE; }
+    .fc-shelter:hover { border-color: rgba(6,182,212,0.55); box-shadow: 0 6px 20px rgba(6,182,212,0.16); }
+
+    .fc-3d    { border-top: 2px solid #1D4ED8; }
+    .fc-3d    .feat-icon { background: rgba(59,130,246,0.18); color: #60A5FA; }
+    .fc-3d:hover    { border-color: rgba(59,130,246,0.55); box-shadow: 0 6px 20px rgba(59,130,246,0.16); }
+
+    .fc-future { border-top: 2px solid #065F46; }
+    .fc-future .feat-icon { background: rgba(5,150,105,0.18); color: #6EE7B7; }
+    .fc-future:hover { border-color: rgba(5,150,105,0.55); box-shadow: 0 6px 20px rgba(5,150,105,0.16); }
+
+    @media (max-width: 540px) {
+      .landing { padding-bottom: clamp(1rem, 4vh, 2rem); }
+      .feat-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+      .feat-card { padding: 0.8rem 0.4rem; font-size: 0.75rem; border-radius: 12px; }
+      .feat-icon { width: 28px; height: 28px; }
+      .feat-icon svg { width: 15px; height: 15px; }
+      .feat-sub { display: none; }
+    }
+    @media (max-width: 380px) {
+      .landing-title { font-size: 2.4rem; }
+    }
+  </style>
+  <script src="../js/utility-bar.js"></script>
+  <script src="../js/alert-bar.js"></script>
+  <script src="../js/risk-profile.js"></script>
+  <script src="../js/pwa.js"></script>
+  <link rel="stylesheet" href="../css/skeleton.css" />
+  <script src="../js/skeleton.js"></script>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <!-- ═══════════════════════════════════════
+       STICKY HEADER
+  ═══════════════════════════════════════ -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="main.html" class="site-logo" aria-label="Heat Safe Khon Kaen — หน้าแรก">
+        <span class="logo-heat">Heat Safe</span>
+        <span class="logo-city">Khon Kaen</span>
+      </a>
+      <nav id="main-nav" aria-label="เมนูหลัก">
+        <ul class="nav-links" role="list">
+          <li><a href="main.html"    class="nav-link active">หน้าแรก</a></li>
+          <li><a href="heat.html"    class="nav-link">ความร้อน</a></li>
+          <li><a href="smart-map.html" class="nav-link">แผนที่อัจฉริยะ</a></li>
+          <li><a href="heat-analysis.html" class="nav-link">สถิติ</a></li>
+          <li><a href="team.html"    class="nav-link">คณะผู้จัดทำ</a></li>
+        </ul>
+        <a href="map.html" class="btn btn-primary btn-sm nav-cta" aria-label="เปิดแผนที่เรียลไทม์">
+          <svg viewBox="0 0 16 16" fill="none" width="13" height="13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-1px;margin-right:3px"><path d="M10 2L6 3.5L2 2v10l4 1.5L10 12l4 1.5V3.5L10 2z"/><path d="M6 3.5v10M10 2v10"/></svg>
+          แผนที่เรียลไทม์
+        </a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="เปิด/ปิดเมนูนำทาง" aria-expanded="false" aria-controls="main-nav">
+        <span class="ham-line"></span><span class="ham-line"></span><span class="ham-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════
+       HERO — Full-screen landing
+  ═══════════════════════════════════════ -->
+  <main id="main-content" class="landing" aria-label="Heat Safe Khon Kaen">
+
+    <video class="landing-video" autoplay loop muted playsinline aria-hidden="true">
+      <source src="../assets/khonkean.mp4" type="video/mp4" />
+    </video>
+    <div class="landing-overlay" aria-hidden="true"></div>
+
+    <!-- Badge + weather chip + title -->
+    <div class="landing-text">
+      <div class="landing-meta reveal">
+        <span class="landing-badge">ข้อมูลสาธารณะ &middot; ขอนแก่น &middot; 2569</span>
+        <a href="#lp-dashboard" id="landing-wx" class="ln-wx-chip" aria-label="พยากรณ์อากาศขอนแก่นตอนนี้">
+          <span id="landing-wx-icon" class="ln-wx-icon" aria-hidden="true"></span>
+          <span id="landing-wx-temp" class="ln-wx-temp">—°C</span>
+          <span class="ln-wx-divider" aria-hidden="true"></span>
+          <span id="landing-wx-desc" class="ln-wx-desc">—</span>
+          <span class="ln-wx-more" aria-hidden="true">พยากรณ์ →</span>
+        </a>
+      </div>
+      <h1 class="landing-title reveal" style="transition-delay:.12s">
+        <span class="landing-title-hs">HEAT SAFE</span>
+        <span class="landing-title-accent">KHON KAEN</span>
+      </h1>
+      <p class="landing-sub reveal" style="transition-delay:.24s">ข้อมูลเชิงพื้นที่เกาะความร้อนเมือง เพื่อจัดการพื้นที่เสี่ยงในขอนแก่น</p>
+    </div>
+
+    <!-- 8 Feature cards -->
+    <nav class="landing-nav reveal" style="transition-delay:.38s" aria-label="เลือกฟีเจอร์">
+      <div class="feat-grid">
+
+        <!-- 1: ข้อมูลขอนแก่น -->
+        <a href="heat.html" class="feat-card fc-heat">
+          <span class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a2 2 0 0 0-2 2v7.27A4 4 0 1 0 14 12.27V5a2 2 0 0 0-2-2z"/><circle cx="12" cy="17" r="2" fill="currentColor" stroke="none"/></svg>
+          </span>
+          ข้อมูลขอนแก่น
+          <span class="feat-sub">ความร้อนเมือง UHI</span>
+        </a>
+
+        <!-- 2: สถิติ 10 ปี -->
+        <a href="heat-analysis.html" class="feat-card fc-stats">
+          <span class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </span>
+          สถิติ 10 ปี
+          <span class="feat-sub">อุณหภูมิ 2015–2026</span>
+        </a>
+
+        <!-- 3: แผนที่จุดเสี่ยง -->
+        <a href="heat-map-full.html" class="feat-card fc-risk">
+          <span class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </span>
+          แผนที่จุดเสี่ยง
+          <span class="feat-sub">ความร้อนรายอำเภอ</span>
+        </a>
+
+        <!-- 4: กราฟคาดการณ์ -->
+        <a href="heat-gis.html" class="feat-card fc-gis">
+          <span class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </span>
+          กราฟคาดการณ์
+          <span class="feat-sub">GIS 2000–2026</span>
+        </a>
+
+        <!-- 5: Smart Map -->
+        <a href="smart-map.html" class="feat-card fc-smart">
+          <span class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3l-6 2.25L3 3v15l6 2.25L15 18l6 2.25V5.25L15 3z"/><path d="M9 5.25v15M15 3v15"/></svg>
+          </span>
+          Smart Map
+          <span class="feat-sub">รวมทุกแผนที่</span>
+        </a>
+
+        <!-- 6: วิธีรับมือภัยพิบัต -->
+        <a href="shelter-map.html" class="feat-card fc-shelter">
+          <span class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </span>
+          วิธีรับมือภัยพิบัต
+          <span class="feat-sub">จุดพักพิงปลอดภัย</span>
+        </a>
+
+        <!-- 7: แบบจำลอง 3D -->
+        <a href="air-sim.html" class="feat-card fc-3d">
+          <span class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="14" width="4" height="7" rx="1"/><rect x="7" y="10" width="4" height="11" rx="1"/><rect x="12" y="6" width="4" height="15" rx="1"/><rect x="17" y="11" width="4" height="10" rx="1"/><line x1="2" y1="21" x2="22" y2="21"/></svg>
+          </span>
+          แบบจำลอง 3D
+          <span class="feat-sub">Urban Heat Island</span>
+        </a>
+
+        <!-- 8: ขอนแก่นในอนาคต -->
+        <a href="pocket-park.html" class="feat-card fc-future">
+          <span class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12"/><path d="M5 12C5 8.134 8.134 5 12 5s7 3.134 7 7"/><path d="M2 17c0-2.76 4.477-5 10-5s10 2.24 10 5"/></svg>
+          </span>
+          ขอนแก่นในอนาคต
+          <span class="feat-sub">สวนกระเป๋าลดความร้อน</span>
+        </a>
+
+      </div>
+    </nav>
+
+    <div class="lp-scroll-hint" aria-hidden="true">
+      <span>เลื่อนดูข้อมูล</span>
+      <div class="lp-chevron"></div>
+    </div>
+
+  </main>
+
+
+  <!-- ═══════════════════════════════════════
+       DASHBOARD — Live weather
+  ═══════════════════════════════════════ -->
+  <section id="lp-dashboard" class="lp-dashboard" aria-label="แดชบอร์ดสภาพอากาศสด ขอนแก่น">
+    <div class="lp-dash-inner">
+
+      <!-- Alert + Stats -->
+      <div class="lp-hero-card" id="lp-hero-card">
+        <div class="lp-loc-row">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span class="lp-loc-name" id="lp-loc-name">ขอนแก่น, ประเทศไทย</span>
+          <button class="lp-geo-btn" id="lp-geo-btn" title="ระบุตำแหน่งปัจจุบัน">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+            GPS
+          </button>
+        </div>
+        <div class="lp-alert-badge" id="lp-alert-badge">
+          <span class="lp-alert-dot" id="lp-alert-dot"></span>
+          <span id="lp-alert-level-text">กำลังโหลด...</span>
+        </div>
+        <p class="lp-advice" id="lp-advice">กำลังดึงข้อมูลสภาพอากาศ...</p>
+        <div class="lp-stats">
+          <a href="heat.html" class="lp-stat lp-stat--heat" aria-label="ดูข้อมูลความร้อน">
+            <div class="lp-stat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3a2 2 0 0 0-2 2v9.27A4 4 0 1 0 14 14.27V5a2 2 0 0 0-2-2z" stroke="#fb923c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="17" r="2" fill="#fb923c"/></svg></div>
+            <div class="lp-stat-val" id="lp-temp-val">—</div>
+            <div class="lp-stat-sub" id="lp-feels-val">รู้สึก —°</div>
+            <div class="lp-stat-name">อุณหภูมิ</div>
+          </a>
+          <a href="dust.html" class="lp-stat lp-stat--pm" aria-label="ดูข้อมูลฝุ่น PM2.5">
+            <div class="lp-stat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="lp-stat-val" id="lp-pm-val">—</div>
+            <div class="lp-pm-bar"><div class="lp-pm-fill" id="lp-pm-fill"></div></div>
+            <div class="lp-stat-name" id="lp-pm-name">PM2.5</div>
+          </a>
+          <a href="rain.html" class="lp-stat lp-stat--rain" aria-label="ดูข้อมูลฝนและพายุ">
+            <div class="lp-stat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25" stroke="#60a5fa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 19v2M12 17v2M16 19v2" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/></svg></div>
+            <div class="lp-stat-val" id="lp-rain-val">—%</div>
+            <div class="lp-stat-sub" id="lp-rain-label">โอกาสฝน</div>
+            <div class="lp-stat-name">ฝน/พายุ</div>
+          </a>
+          <a href="flood.html" class="lp-stat lp-stat--flood" aria-label="ดูสถานะน้ำท่วม">
+            <div class="lp-stat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="#22c55e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><polyline points="9 22 9 12 15 12 15 22" stroke="#22c55e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="lp-stat-val" style="font-size:0.85rem;color:#22c55e;line-height:1.2">ปกติ</div>
+            <div class="lp-stat-sub" style="color:rgba(255,255,255,0.35);font-size:0.55rem">ดูรายละเอียด</div>
+            <div class="lp-stat-name">น้ำท่วม</div>
+          </a>
+        </div>
+        <div class="lp-share-row">
+          <button class="lp-share-btn lp-share-line" id="lp-share-line">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.24 2 11.5c0 3.13 1.54 5.92 3.96 7.76L5.1 22l3.43-1.79C9.53 20.72 10.74 21 12 21c5.52 0 10-4.24 10-9.5S17.52 2 12 2z"/></svg>
+            แชร์ LINE
+          </button>
+          <button class="lp-share-btn lp-share-fb" id="lp-share-fb">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            แชร์ Facebook
+          </button>
+        </div>
+      </div>
+
+      <!-- Hourly Forecast -->
+      <div class="lp-card">
+        <div class="lp-card-hd">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:0.4rem" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          พยากรณ์รายชั่วโมงวันนี้
+        </div>
+        <div class="lp-hourly" id="lp-hourly">
+          <div class="lp-hr-col" style="opacity:.25"><div class="lp-hr-time">—</div><div class="lp-hr-icon"><svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,0.15)" stroke-width="2" fill="none"/></svg></div><div class="lp-hr-temp">—°</div><div class="lp-hr-rain">—%</div></div>
+          <div class="lp-hr-col" style="opacity:.25"><div class="lp-hr-time">—</div><div class="lp-hr-icon"><svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,0.15)" stroke-width="2" fill="none"/></svg></div><div class="lp-hr-temp">—°</div><div class="lp-hr-rain">—%</div></div>
+          <div class="lp-hr-col" style="opacity:.25"><div class="lp-hr-time">—</div><div class="lp-hr-icon"><svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,0.15)" stroke-width="2" fill="none"/></svg></div><div class="lp-hr-temp">—°</div><div class="lp-hr-rain">—%</div></div>
+          <div class="lp-hr-col" style="opacity:.25"><div class="lp-hr-time">—</div><div class="lp-hr-icon"><svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,0.15)" stroke-width="2" fill="none"/></svg></div><div class="lp-hr-temp">—°</div><div class="lp-hr-rain">—%</div></div>
+          <div class="lp-hr-col" style="opacity:.25"><div class="lp-hr-time">—</div><div class="lp-hr-icon"><svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,0.15)" stroke-width="2" fill="none"/></svg></div><div class="lp-hr-temp">—°</div><div class="lp-hr-rain">—%</div></div>
+          <div class="lp-hr-col" style="opacity:.25"><div class="lp-hr-time">—</div><div class="lp-hr-icon"><svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,0.15)" stroke-width="2" fill="none"/></svg></div><div class="lp-hr-temp">—°</div><div class="lp-hr-rain">—%</div></div>
+        </div>
+      </div>
+
+      <!-- Daily Forecast -->
+      <div class="lp-card">
+        <div class="lp-card-hd">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:0.4rem" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          พยากรณ์ 4 วันข้างหน้า
+        </div>
+        <div class="lp-daily" id="lp-daily">
+          <div class="lp-day-col" style="opacity:.25"><div class="lp-day-name">—</div><div class="lp-day-icon"><svg width="28" height="28" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,0.15)" stroke-width="2" fill="none"/></svg></div><div class="lp-day-hi">—°</div><div class="lp-day-lo">—°</div><div class="lp-day-rain">—%</div></div>
+          <div class="lp-day-col" style="opacity:.25"><div class="lp-day-name">—</div><div class="lp-day-icon"><svg width="28" height="28" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,0.15)" stroke-width="2" fill="none"/></svg></div><div class="lp-day-hi">—°</div><div class="lp-day-lo">—°</div><div class="lp-day-rain">—%</div></div>
+          <div class="lp-day-col" style="opacity:.25"><div class="lp-day-name">—</div><div class="lp-day-icon"><svg width="28" height="28" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,0.15)" stroke-width="2" fill="none"/></svg></div><div class="lp-day-hi">—°</div><div class="lp-day-lo">—°</div><div class="lp-day-rain">—%</div></div>
+          <div class="lp-day-col" style="opacity:.25"><div class="lp-day-name">—</div><div class="lp-day-icon"><svg width="28" height="28" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,0.15)" stroke-width="2" fill="none"/></svg></div><div class="lp-day-hi">—°</div><div class="lp-day-lo">—°</div><div class="lp-day-rain">—%</div></div>
+        </div>
+      </div>
+
+      <!-- คำแนะนำวันนี้ -->
+      <div class="lp-card">
+        <div class="lp-card-hd">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:.4rem" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          คำแนะนำสำหรับวันนี้
+        </div>
+        <ul class="lp-adv-list" id="lp-today-adv">
+          <li class="lp-adv-item" style="opacity:.28">
+            <span class="lp-adv-ico">⏳</span>
+            <span class="lp-adv-text">กำลังโหลดข้อมูลสภาพอากาศ...</span>
+          </li>
+        </ul>
+        <button class="lp-notif-btn" id="lp-notif-btn" type="button">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span id="lp-notif-txt">เปิดการแจ้งเตือนเมื่ออากาศอันตราย</span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+
+  <script src="../js/config.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/nav.js"></script>
+  <script src="../js/weather-icons.js"></script>
+  <script src="../js/widgets.js"></script>
+  <script src="../js/live.js"></script>
+  <script src="../js/map.js"></script>
+  <script src="../js/main.js"></script>
+
+  <script>
+    /* ── Weather data ── */
+    (function () {
+      var BASE =
+        'https://api.open-meteo.com/v1/forecast' +
+        '?latitude=16.44&longitude=102.82' +
+        '&current=temperature_2m,apparent_temperature,weather_code,is_day,' +
+              'precipitation_probability,relative_humidity_2m' +
+        '&hourly=temperature_2m,weather_code,precipitation_probability' +
+        '&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_probability_max' +
+        '&forecast_days=4' +
+        '&timezone=Asia%2FBangkok';
+
+      var AQ_URL =
+        'https://air-quality-api.open-meteo.com/v1/air-quality' +
+        '?latitude=16.44&longitude=102.82' +
+        '&current=pm2_5&timezone=Asia%2FBangkok';
+
+      var DAYS_TH = ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'];
+
+      function wxKey(code, day) {
+        if (code === 0)                         return day ? 'clear-day' : 'clear-night';
+        if (code <= 2)                          return 'partly-cloudy';
+        if (code === 3)                         return 'cloudy';
+        if (code >= 45 && code <= 48)           return 'fog';
+        if (code >= 51 && code <= 57)           return 'drizzle';
+        if (code >= 61 && code <= 67)           return 'rain';
+        if (code >= 71 && code <= 77)           return 'snow';
+        if (code >= 80 && code <= 82)           return 'rain';
+        if (code >= 95)                         return 'storm';
+        return 'cloudy';
+      }
+
+      function wxDesc(code) {
+        if (code === 0)              return 'ท้องฟ้าแจ่มใส';
+        if (code <= 2)               return 'มีเมฆบางส่วน';
+        if (code === 3)              return 'เมฆมาก';
+        if (code >= 45 && code <= 48) return 'มีหมอก';
+        if (code >= 51 && code <= 57) return 'ฝนปรอย';
+        if (code >= 61 && code <= 67) return 'ฝนตก';
+        if (code >= 80 && code <= 82) return 'ฝนตก';
+        if (code >= 95)              return 'พายุฝนฟ้าคะนอง';
+        return 'มีเมฆ';
+      }
+
+      function wxSvgSimple(key, size) {
+        var S = size || 28;
+        var icons = {
+          'clear-day':     '<svg width="' + S + '" height="' + S + '" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4.5" fill="#fbbf24"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M5.04 5.04l1.77 1.77M17.19 17.19l1.77 1.77M18.96 5.04l-1.77 1.77M7.81 17.19l-1.77 1.77" stroke="#fcd34d" stroke-width="2" stroke-linecap="round"/></svg>',
+          'clear-night':   '<svg width="' + S + '" height="' + S + '" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="#c4b5fd" stroke="#a78bfa" stroke-width="0.6"/></svg>',
+          'partly-cloudy': '<svg width="' + S + '" height="' + S + '" viewBox="0 0 24 24" fill="none"><circle cx="10" cy="10" r="3.5" fill="#fbbf24"/><path d="M10 4v1M10 15v1M4 10h1M15 10h1" stroke="#fcd34d" stroke-width="1.8" stroke-linecap="round"/><path d="M18 18H7a5 5 0 1 1 4.9-6h1.1a3 3 0 1 1 0 6z" fill="rgba(226,232,240,0.9)"/></svg>',
+          'cloudy':        '<svg width="' + S + '" height="' + S + '" viewBox="0 0 24 24" fill="none"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z" fill="rgba(226,232,240,0.85)"/></svg>',
+          'fog':           '<svg width="' + S + '" height="' + S + '" viewBox="0 0 24 24" fill="none" stroke="rgba(148,163,184,0.8)" stroke-width="2" stroke-linecap="round"><path d="M5 8h14M3 12h18M5 16h14"/></svg>',
+          'drizzle':       '<svg width="' + S + '" height="' + S + '" viewBox="0 0 24 24" fill="none"><path d="M17.5 17H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z" fill="rgba(186,210,240,0.85)"/><path d="M8 20v2M12 19v2M16 20v2" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/></svg>',
+          'rain':          '<svg width="' + S + '" height="' + S + '" viewBox="0 0 24 24" fill="none"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25" stroke="rgba(148,163,184,0.8)" stroke-width="1.5" stroke-linecap="round"/><path d="M8 19v2M12 17v2M16 19v2" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/></svg>',
+          'storm':         '<svg width="' + S + '" height="' + S + '" viewBox="0 0 24 24" fill="none"><path d="M19 16.9A5 5 0 0 0 18 7h-1.26a8 8 0 1 0-11.62 9" stroke="rgba(100,116,139,0.9)" stroke-width="1.5" stroke-linecap="round"/><polyline points="13 11 9 17 15 17 11 23" stroke="#fde047" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        };
+        return icons[key] || icons['cloudy'];
+      }
+
+      function alertLevel(temp, rain) {
+        if (temp >= 40)         return { cls: 'lp-alert--extreme', txt: '🔴 อันตรายมาก — ระดับวิกฤต' };
+        if (temp >= 37)         return { cls: 'lp-alert--danger',  txt: '🟠 อันตราย — หลีกเลี่ยงกลางแจ้ง' };
+        if (temp >= 34)         return { cls: 'lp-alert--hot',     txt: '🟡 ร้อน — ระวังโรคลมแดด' };
+        if (rain >= 60)         return { cls: 'lp-alert--warn',    txt: '🔵 มีฝนหนัก — ระวังน้ำท่วมฉับพลัน' };
+        if (temp >= 30)         return { cls: 'lp-alert--warm',    txt: '🟡 ค่อนข้างร้อน — ดื่มน้ำบ่อยๆ' };
+        return                         { cls: 'lp-alert--safe',    txt: '🟢 สภาพอากาศปกติ — ปลอดภัย' };
+      }
+
+      function advice(temp, rain) {
+        var lines = [];
+        if (temp >= 37)  lines.push({ i: '🚫', t: '<b>หลีกเลี่ยงออกกลางแจ้ง</b> ระหว่าง 10.00–16.00 น.' });
+        else if (temp >= 34) lines.push({ i: '☀️', t: '<b>สวมหมวก ร่ม ครีมกันแดด</b> และดื่มน้ำทุก 30 นาที' });
+        else             lines.push({ i: '✅', t: 'สภาพอากาศเหมาะสม — <b>ออกกำลังกายกลางแจ้งได้</b>' });
+        if (rain >= 60)  lines.push({ i: '🌧', t: '<b>ฝนตกหนัก</b> เตรียมร่มและหลีกเลี่ยงพื้นที่ลุ่มต่ำ' });
+        else if (rain >= 30) lines.push({ i: '⛅', t: 'โอกาสมีฝน — พกร่มสำรองไว้' });
+        return lines;
+      }
+
+      var wxEl      = document.getElementById('landing-wx');
+      var wxIconEl  = document.getElementById('landing-wx-icon');
+      var wxTempEl  = document.getElementById('landing-wx-temp');
+      var wxDescEl  = document.getElementById('landing-wx-desc');
+      var alertBadge = document.getElementById('lp-alert-badge');
+      var alertDot   = document.getElementById('lp-alert-dot');
+      var alertTxt   = document.getElementById('lp-alert-level-text');
+      var adviceEl   = document.getElementById('lp-advice');
+      var heroCard   = document.getElementById('lp-hero-card');
+      var tempVal    = document.getElementById('lp-temp-val');
+      var feelsVal   = document.getElementById('lp-feels-val');
+      var rainVal    = document.getElementById('lp-rain-val');
+      var rainLabel  = document.getElementById('lp-rain-label');
+      var pmVal      = document.getElementById('lp-pm-val');
+      var pmFill     = document.getElementById('lp-pm-fill');
+      var pmName     = document.getElementById('lp-pm-name');
+      var hourlyEl   = document.getElementById('lp-hourly');
+      var dailyEl    = document.getElementById('lp-daily');
+      var advList    = document.getElementById('lp-today-adv');
+
+      fetch(BASE).then(function(r){ return r.json(); }).then(function(d) {
+        var cur  = d.current;
+        var temp = Math.round(cur.temperature_2m);
+        var feels = Math.round(cur.apparent_temperature);
+        var rain  = cur.precipitation_probability || 0;
+        var code  = cur.weather_code;
+        var isDay = cur.is_day;
+        var key   = wxKey(code, isDay);
+        var desc  = wxDesc(code);
+
+        wxEl.setAttribute('data-wx', key);
+        wxIconEl.innerHTML = wxSvgSimple(key, 28);
+        wxTempEl.textContent = temp + '°C';
+        wxDescEl.textContent = desc;
+
+        tempVal.textContent  = temp + '°';
+        feelsVal.textContent = 'รู้สึก ' + feels + '°';
+        rainVal.textContent  = rain + '%';
+
+        var lv = alertLevel(temp, rain);
+        [alertBadge, alertDot].forEach(function(el){ el.className = el.className.replace(/lp-alert--\w+/g,'').trim(); el.classList.add(lv.cls); });
+        heroCard.className = heroCard.className.replace(/lp-alert--\w+/g,'').trim(); heroCard.classList.add(lv.cls);
+        alertTxt.textContent = lv.txt;
+
+        var adv = advice(temp, rain);
+        adviceEl.textContent = desc + ' — ' + temp + '°C รู้สึก ' + feels + '°C';
+        if (advList) {
+          advList.innerHTML = adv.map(function(a){ return '<li class="lp-adv-item"><span class="lp-adv-ico">' + a.i + '</span><span class="lp-adv-text">' + a.t + '</span></li>'; }).join('');
+        }
+
+        /* Hourly */
+        var now = new Date();
+        var hTemps = d.hourly.temperature_2m;
+        var hCodes = d.hourly.weather_code;
+        var hRains = d.hourly.precipitation_probability;
+        var hTimes = d.hourly.time;
+        var slots = [];
+        for (var i = 0; i < hTimes.length && slots.length < 8; i++) {
+          if (new Date(hTimes[i]) >= now) { slots.push(i); }
+        }
+        if (hourlyEl) {
+          hourlyEl.innerHTML = slots.map(function(idx, si) {
+            var hh = new Date(hTimes[idx]).getHours();
+            var isNow = si === 0;
+            var k = wxKey(hCodes[idx], hh >= 6 && hh < 18);
+            return '<div class="lp-hr-col' + (isNow ? ' lp-hr-now' : '') + '">' +
+              '<div class="lp-hr-time">' + (isNow ? 'ตอนนี้' : hh + ':00') + '</div>' +
+              '<div class="lp-hr-icon">' + wxSvgSimple(k, 24) + '</div>' +
+              '<div class="lp-hr-temp">' + Math.round(hTemps[idx]) + '°</div>' +
+              '<div class="lp-hr-rain">' + (hRains[idx] || 0) + '%</div></div>';
+          }).join('');
+        }
+
+        /* Daily */
+        if (dailyEl) {
+          var dTempsHi = d.daily.temperature_2m_max;
+          var dTempsLo = d.daily.temperature_2m_min;
+          var dCodes   = d.daily.weather_code;
+          var dRains   = d.daily.precipitation_probability_max;
+          var dTimes   = d.daily.time;
+          dailyEl.innerHTML = dTimes.map(function(dt, i) {
+            var dayObj = new Date(dt + 'T00:00:00');
+            var dn = DAYS_TH[dayObj.getDay()];
+            var isToday = i === 0;
+            var k = wxKey(dCodes[i], true);
+            return '<div class="lp-day-col' + (isToday ? ' lp-day-today' : '') + '">' +
+              '<div class="lp-day-name">' + (isToday ? 'วันนี้' : dn) + '</div>' +
+              '<div class="lp-day-icon">' + wxSvgSimple(k, 28) + '</div>' +
+              '<div class="lp-day-hi">' + Math.round(dTempsHi[i]) + '°</div>' +
+              '<div class="lp-day-lo">' + Math.round(dTempsLo[i]) + '°</div>' +
+              '<div class="lp-day-rain">' + (dRains[i] || 0) + '%</div></div>';
+          }).join('');
+        }
+      }).catch(function(){ adviceEl.textContent = 'ไม่สามารถโหลดข้อมูลอากาศได้'; });
+
+      /* Air quality */
+      fetch(AQ_URL).then(function(r){ return r.json(); }).then(function(d) {
+        var pm = d.current && d.current.pm2_5 !== undefined ? Math.round(d.current.pm2_5) : null;
+        if (pm === null) return;
+        pmVal.textContent = pm;
+        var pct, color;
+        if (pm <= 12)       { pct = pm/12*25;    color = '#22c55e'; pmName.textContent = 'PM2.5 ดีมาก'; }
+        else if (pm <= 35)  { pct = 25+(pm-12)/(35-12)*25; color = '#facc15'; pmName.textContent = 'PM2.5 ดี'; }
+        else if (pm <= 55)  { pct = 50+(pm-35)/20*25; color = '#fb923c'; pmName.textContent = 'PM2.5 ปานกลาง'; }
+        else                { pct = Math.min(75+(pm-55)/45*25, 100); color = '#ef4444'; pmName.textContent = 'PM2.5 สูง'; }
+        pmFill.style.width = pct + '%'; pmFill.style.background = color;
+      }).catch(function(){});
+
+      /* Share */
+      var shareUrl = location.href;
+      var shareTxt = 'ดูข้อมูลสภาพอากาศและความร้อนขอนแก่น — Heat Safe Khon Kaen';
+      var lineBtn = document.getElementById('lp-share-line');
+      var fbBtn   = document.getElementById('lp-share-fb');
+      if (lineBtn) lineBtn.addEventListener('click', function(){ window.open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(shareUrl) + '&text=' + encodeURIComponent(shareTxt), '_blank', 'noopener,noreferrer'); });
+      if (fbBtn)   fbBtn.addEventListener('click', function(){ window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl), '_blank', 'noopener,noreferrer'); });
+
+      /* Notification */
+      var notifBtn = document.getElementById('lp-notif-btn');
+      var notifTxt = document.getElementById('lp-notif-txt');
+      if (notifBtn && 'Notification' in window) {
+        if (Notification.permission === 'granted') { notifBtn.classList.add('granted'); notifTxt.textContent = 'เปิดการแจ้งเตือนแล้ว ✓'; }
+        else if (Notification.permission === 'denied') { notifBtn.classList.add('denied'); notifTxt.textContent = 'การแจ้งเตือนถูกบล็อก'; }
+        notifBtn.addEventListener('click', function() {
+          if (Notification.permission === 'default') {
+            Notification.requestPermission().then(function(p) {
+              if (p === 'granted') { notifBtn.classList.add('granted'); notifTxt.textContent = 'เปิดการแจ้งเตือนแล้ว ✓'; }
+              else { notifBtn.classList.add('denied'); notifTxt.textContent = 'การแจ้งเตือนถูกบล็อก'; }
+            });
+          }
+        });
+      } else if (notifBtn) { notifBtn.classList.add('denied'); notifTxt.textContent = 'เบราว์เซอร์ไม่รองรับการแจ้งเตือน'; }
+
+      /* Reveal on scroll */
+      var revEls = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        var obs = new IntersectionObserver(function(entries) {
+          entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+        }, { threshold: 0.1 });
+        revEls.forEach(function(el) { obs.observe(el); });
+      } else {
+        revEls.forEach(function(el) { el.classList.add('visible'); });
+      }
+
+    }());
+  </script>
+
+</body>
+</html>
