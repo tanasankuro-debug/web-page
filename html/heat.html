@@ -308,27 +308,43 @@
       .gh-hotspot-lbl { min-width: 80px; font-size: 0.7rem; }
     }
 
-    /* ── Why video section ───────────────────────────── */
-    .why-video-section { padding-block: 2.5rem 0; }
-    .why-video-wrap {
-      position: relative;
-      width: 100%;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.55);
+    /* ── Why splash overlay ──────────────────────────── */
+    #why-splash {
+      position: fixed; inset: 0; z-index: 9999;
       background: #000;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-end;
+      padding-bottom: clamp(1.5rem, 5vh, 3rem);
     }
-    .why-video {
-      display: block;
-      width: 100%;
-      height: auto;
-      border-radius: 16px;
+    #why-splash.splash--out {
+      animation: whySplashFade 0.55s ease forwards;
     }
-    .why-video--mobile { display: none; }
-    @media (max-width: 640px) {
-      .why-video--desktop { display: none; }
-      .why-video--mobile  { display: block; }
+    @keyframes whySplashFade {
+      to { opacity: 0; pointer-events: none; }
     }
+    .why-splash-video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+    }
+    .why-splash-video--mobile { display: none; }
+    @media (max-width: 768px) {
+      .why-splash-video--desktop { display: none; }
+      .why-splash-video--mobile  { display: block; }
+    }
+    .why-splash-btn {
+      position: relative; z-index: 2;
+      background: #f97316; color: #fff;
+      border: none; border-radius: 50px;
+      padding: 0.85rem 2.4rem;
+      font-size: 1.05rem; font-weight: 700;
+      font-family: 'Noto Sans Thai', sans-serif;
+      cursor: pointer; letter-spacing: 0.02em;
+      box-shadow: 0 4px 24px rgba(249,115,22,0.5);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .why-splash-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 32px rgba(249,115,22,0.65); }
+    .why-splash-btn:active { transform: translateY(0); }
 
     /* ── Reduced motion: kill everything ────────────── */
     @media (prefers-reduced-motion: reduce) {
@@ -353,6 +369,17 @@
   <script src="../js/skeleton.js"></script>
 </head>
 <body data-theme="heat">
+
+  <!-- ── Why splash ──────────────────────────────────────────────────── -->
+  <div id="why-splash" role="dialog" aria-modal="true" aria-label="วิดีโอแนะนำ — ทำไมขอนแก่นถึงร้อน">
+    <video class="why-splash-video why-splash-video--desktop" autoplay muted playsinline>
+      <source src="../assets/why.mp4" type="video/mp4" />
+    </video>
+    <video class="why-splash-video why-splash-video--mobile" autoplay muted playsinline>
+      <source src="../assets/why%20mobile.mp4" type="video/mp4" />
+    </video>
+    <button id="why-splash-btn" class="why-splash-btn">🔥 เข้าชมเลย</button>
+  </div>
 
   <a href="#main-content" class="skip-link">ข้ามไปยังเนื้อหาหลัก</a>
 
@@ -507,21 +534,6 @@
       </div>
     </section>
 
-
-    <!-- ─── VIDEO: WHY KHON KAEN IS HOT ─────────────────────────────────── -->
-    <section class="section why-video-section" aria-label="วิดีโอ — ทำไมขอนแก่นถึงร้อน">
-      <div class="container">
-        <p class="section-label reveal">วิดีโอแนะนำ</p>
-        <div class="why-video-wrap reveal">
-          <video class="why-video why-video--desktop" autoplay muted loop playsinline>
-            <source src="../assets/why.mp4" type="video/mp4" />
-          </video>
-          <video class="why-video why-video--mobile" autoplay muted loop playsinline>
-            <source src="../assets/why%20mobile.mp4" type="video/mp4" />
-          </video>
-        </div>
-      </div>
-    </section>
 
     <!-- ─── 3. INTRODUCTION ──────────────────────────────────────────────── -->
     <section id="intro" class="section article-section content-section" aria-labelledby="intro-heading">
@@ -3493,6 +3505,44 @@
       }, { threshold: 0.22 });
 
       figs.forEach(function (f) { io.observe(f); });
+    }());
+  </script>
+
+  <script>
+    /* ── Why splash ── */
+    (function () {
+      var splash = document.getElementById('why-splash');
+      var btn    = document.getElementById('why-splash-btn');
+      if (!splash || !btn) return;
+
+      /* ถ้าเคยดูในเซสชันนี้แล้ว ซ่อนทันที */
+      if (sessionStorage.getItem('whySplashSeen')) {
+        splash.querySelectorAll('video').forEach(function (v) { v.pause(); v.src = ''; });
+        splash.style.display = 'none';
+        return;
+      }
+
+      /* เลือก video ตาม screen width */
+      var isMobile = window.matchMedia('(max-width: 768px)').matches;
+      var hide = splash.querySelector(isMobile ? '.why-splash-video--desktop' : '.why-splash-video--mobile');
+      if (hide) { hide.pause(); hide.removeAttribute('src'); hide.load(); }
+
+      document.body.style.overflow = 'hidden';
+
+      function dismiss() {
+        sessionStorage.setItem('whySplashSeen', '1');
+        splash.classList.add('splash--out');
+        splash.addEventListener('animationend', function () {
+          splash.querySelectorAll('video').forEach(function (v) { v.pause(); });
+          splash.style.display = 'none';
+          document.body.style.overflow = '';
+        }, { once: true });
+      }
+
+      btn.addEventListener('click', dismiss);
+      btn.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') dismiss();
+      });
     }());
   </script>
 </body>
