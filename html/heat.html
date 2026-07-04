@@ -312,9 +312,6 @@
     #why-splash {
       position: fixed; inset: 0; z-index: 9999;
       background: #000;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: flex-end;
-      padding-bottom: clamp(1.5rem, 5vh, 3rem);
     }
     #why-splash.splash--out {
       animation: whySplashFade 0.55s ease forwards;
@@ -332,19 +329,25 @@
       .why-splash-video--desktop { display: none; }
       .why-splash-video--mobile  { display: block; }
     }
+    /* ปุ่มล่องหน — วางทับตรง "อยากรู้เลย!" ในวิดีโอ (PC) */
     .why-splash-btn {
-      position: relative; z-index: 2;
-      background: #f97316; color: #fff;
-      border: none; border-radius: 50px;
-      padding: 0.85rem 2.4rem;
-      font-size: 1.05rem; font-weight: 700;
-      font-family: 'Noto Sans Thai', sans-serif;
-      cursor: pointer; letter-spacing: 0.02em;
-      box-shadow: 0 4px 24px rgba(249,115,22,0.5);
-      transition: transform .15s, box-shadow .15s;
+      position: absolute;
+      left: 22%;   top: 70%;
+      width: 22%;  height: 10%;
+      min-width: 140px; min-height: 48px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      opacity: 0;
+      z-index: 10;
     }
-    .why-splash-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 32px rgba(249,115,22,0.65); }
-    .why-splash-btn:active { transform: translateY(0); }
+    @media (max-width: 768px) {
+      /* ตำแหน่ง "อยากรู้เลย!" ในวิดีโอมือถือ */
+      .why-splash-btn {
+        left: 50%; transform: translateX(-50%);
+        top: 72%; width: 55%; height: 9%;
+      }
+    }
 
     /* ── Reduced motion: kill everything ────────────── */
     @media (prefers-reduced-motion: reduce) {
@@ -378,7 +381,7 @@
     <video class="why-splash-video why-splash-video--mobile" autoplay muted playsinline>
       <source src="../assets/why%20mobile.mp4" type="video/mp4" />
     </video>
-    <button id="why-splash-btn" class="why-splash-btn">🔥 เข้าชมเลย</button>
+    <button id="why-splash-btn" class="why-splash-btn" aria-label="เข้าชมเนื้อหา"></button>
   </div>
 
   <a href="#main-content" class="skip-link">ข้ามไปยังเนื้อหาหลัก</a>
