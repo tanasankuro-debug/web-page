@@ -1577,35 +1577,9 @@
 
     (function () {
       var splash = document.getElementById('splash');
-      var btn    = document.getElementById('splash-enter');
-      if (!splash || !btn) return;
-
-      if (sessionStorage.getItem('splashSeen')) {
-        splash.querySelectorAll('video').forEach(function(v){ v.pause(); v.src = ''; });
-        splash.style.display = 'none';
-        return;
-      }
-
-      var isMobile = window.matchMedia('(max-width: 768px)').matches;
-      var hide = splash.querySelector(isMobile ? '.splash-desktop' : '.splash-mobile');
-      if (hide) { hide.pause(); hide.src = ''; }
-
-      document.body.style.overflow = 'hidden';
-
-      function dismiss() {
-        sessionStorage.setItem('splashSeen', '1');
-        splash.classList.add('splash--out');
-        splash.addEventListener('animationend', function () {
-          splash.querySelectorAll('video').forEach(function(v){ v.pause(); });
-          splash.style.display = 'none';
-          document.body.style.overflow = '';
-        }, { once: true });
-      }
-
-      btn.addEventListener('click', dismiss);
-      btn.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') dismiss();
-      });
+      if (!splash) return;
+      splash.querySelectorAll('video').forEach(function(v){ v.pause(); v.src = ''; });
+      splash.style.display = 'none';
     }());
   </script>
 </body>
