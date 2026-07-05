@@ -145,20 +145,13 @@
     .tag-red  { background: rgba(239,68,68,.18);  color: #fca5a5; border: 1px solid rgba(239,68,68,.28); }
     .tag-gold { background: rgba(234,179,8,.2);   color: #fde047; border: 1px solid rgba(234,179,8,.35); }
 
-    /* ── Graph box ── */
-    .graph-box {
-      background: rgba(255,255,255,.03);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 14px; overflow: hidden; margin-bottom: 3rem;
+    /* ── NDBI map grid ── */
+    .ndbi-map-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 1rem;
     }
-    .graph-box-head {
-      padding: .75rem 1rem;
-      border-bottom: 1px solid rgba(255,255,255,.05);
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: .8rem; font-weight: 700; color: rgba(255,255,255,.5);
-      letter-spacing: .05em; text-transform: uppercase;
-    }
-    .graph-box img { width: 100%; display: block; background: #fff; }
 
     /* ── Interpretation ── */
     .interp-box {
@@ -194,6 +187,7 @@
     @media (max-width: 540px) {
       .formula-math { font-size: 1rem; }
       .formula-wrap { padding: 1.1rem 1rem; }
+      .ndbi-map-grid { grid-template-columns: 1fr; }
     }
   </style>
   <script src="../js/utility-bar.js"></script>
@@ -288,219 +282,120 @@
       </div>
     </div>
 
-    <!-- Graph -->
-    <!-- ── Inline Chart ── -->
-    <div class="graph-box" style="margin-bottom:2.5rem;">
-      <div class="graph-box-head">ค่า NDBI เฉลี่ยฤดูร้อน (มี.ค.–พ.ค.) รายปี พ.ศ. 2560–2569</div>
-      <div id="ndbiChartWrap" style="padding:1.5rem 1.25rem 1rem; background:#0d1320;">
-        <canvas id="ndbiChart" style="width:100%;display:block;"></canvas>
-      </div>
-    </div>
+    <!-- Maps year by year (individual) -->
+    <h2 class="section-heading">แผนที่ NDBI รายปี พ.ศ. 2559–2569</h2>
+    <p class="section-sub">แสดงการเปลี่ยนแปลงพื้นที่สิ่งปลูกสร้างในเขตเทศบาลนครขอนแก่น ทีละปี เรียงจาก 2016 → 2026 · สีน้ำเงินเพิ่ม = เมืองขยาย</p>
 
-    <script>
-    (function(){
-      var canvas = document.getElementById('ndbiChart');
-      if (!canvas) return;
-      var ctx = canvas.getContext('2d');
+    <div class="ndbi-map-grid">
 
-      var years  = [2017,2018,2019,2020,2021,2022,2023,2024,2025,2026];
-      var values = [-0.045,-0.082,-0.025,-0.047,-0.113,-0.091,-0.062,-0.052,-0.080,-0.068];
-      var CSS_H  = 360;
-      var padL=76, padR=28, padT=40, padB=68;
-      var minV=-0.13, maxV=-0.01, range=maxV-minV;
-
-      function draw(){
-        var dpr = window.devicePixelRatio || 1;
-        var cssW = canvas.parentElement.clientWidth || 760;
-        /* set physical pixels */
-        canvas.width  = cssW * dpr;
-        canvas.height = CSS_H * dpr;
-        /* set CSS display size */
-        canvas.style.width  = cssW + 'px';
-        canvas.style.height = CSS_H + 'px';
-        /* scale all drawing ops */
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-        var W=cssW, H=CSS_H;
-        var cW=W-padL-padR, cH=H-padT-padB;
-
-        function xP(i){ return padL+(i/(years.length-1))*cW; }
-        function yP(v){ return padT+((maxV-v)/range)*cH; }
-
-        ctx.clearRect(0,0,W,H);
-
-        /* ── horizontal grid + y-labels ── */
-        var grids=[-0.02,-0.04,-0.06,-0.08,-0.10,-0.12];
-        grids.forEach(function(g){
-          var y=yP(g);
-          ctx.strokeStyle='rgba(255,255,255,.1)';
-          ctx.lineWidth=1; ctx.setLineDash([4,6]);
-          ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(W-padR,y); ctx.stroke();
-          ctx.setLineDash([]);
-          ctx.fillStyle='rgba(255,255,255,.6)';
-          ctx.font='bold 13px monospace';
-          ctx.textAlign='right';
-          ctx.fillText(g.toFixed(2), padL-12, y+5);
-        });
-
-        /* ── area fill ── */
-        ctx.beginPath();
-        ctx.moveTo(xP(0),yP(values[0]));
-        values.forEach(function(v,i){ if(i) ctx.lineTo(xP(i),yP(v)); });
-        ctx.lineTo(xP(9),yP(minV)); ctx.lineTo(xP(0),yP(minV)); ctx.closePath();
-        var grad=ctx.createLinearGradient(0,padT,0,padT+cH);
-        grad.addColorStop(0,'rgba(248,113,113,.3)');
-        grad.addColorStop(1,'rgba(248,113,113,.02)');
-        ctx.fillStyle=grad; ctx.fill();
-
-        /* ── line ── */
-        ctx.beginPath();
-        ctx.moveTo(xP(0),yP(values[0]));
-        values.forEach(function(v,i){ if(i) ctx.lineTo(xP(i),yP(v)); });
-        ctx.strokeStyle='#f87171'; ctx.lineWidth=3;
-        ctx.lineJoin='round'; ctx.lineCap='round'; ctx.stroke();
-
-        /* ── dots + value labels ── */
-        values.forEach(function(v,i){
-          var x=xP(i), y=yP(v);
-          var isLow=(i===4), isHigh=(i===2);
-          var dotColor = isLow ? '#fde047' : isHigh ? '#4ade80' : '#f87171';
-
-          /* glow ring */
-          ctx.beginPath(); ctx.arc(x,y,11,0,Math.PI*2);
-          ctx.fillStyle='rgba(248,113,113,.12)'; ctx.fill();
-          /* dot */
-          ctx.beginPath(); ctx.arc(x,y,6,0,Math.PI*2);
-          ctx.fillStyle=dotColor; ctx.fill();
-          ctx.strokeStyle='#0d1320'; ctx.lineWidth=2.5; ctx.stroke();
-
-          /* value label pill */
-          var lbl=v.toFixed(3);
-          ctx.font='bold 13px "Courier New",monospace';
-          var tw=ctx.measureText(lbl).width;
-          var lx=x, ly=(v<-0.095)?y+26:y-18;
-          /* pill bg */
-          var pr=5, pw=tw+14, ph=20;
-          ctx.fillStyle=isLow?'rgba(253,224,71,.15)':isHigh?'rgba(74,222,128,.12)':'rgba(13,19,32,.85)';
-          ctx.strokeStyle=isLow?'rgba(253,224,71,.5)':isHigh?'rgba(74,222,128,.4)':'rgba(255,255,255,.15)';
-          ctx.lineWidth=1;
-          ctx.beginPath();
-          ctx.roundRect(lx-pw/2, ly-ph+4, pw, ph, pr);
-          ctx.fill(); ctx.stroke();
-          /* label text */
-          ctx.fillStyle=isLow?'#fde047':isHigh?'#4ade80':'#fff';
-          ctx.textAlign='center';
-          ctx.fillText(lbl, lx, ly);
-        });
-
-        /* ── x-axis: year CE ── */
-        ctx.textAlign='center';
-        ctx.fillStyle='rgba(255,255,255,.85)';
-        ctx.font='bold 15px "Barlow Condensed",sans-serif';
-        years.forEach(function(yr,i){ ctx.fillText(yr, xP(i), H-padB+22); });
-
-        /* ── x-axis: year BE ── */
-        ctx.fillStyle='rgba(255,255,255,.38)';
-        ctx.font='12px sans-serif';
-        years.forEach(function(yr,i){ ctx.fillText('พ.ศ.'+(yr+543), xP(i), H-padB+42); });
-
-        /* ── y-axis label ── */
-        ctx.save();
-        ctx.translate(16,padT+cH/2);
-        ctx.rotate(-Math.PI/2);
-        ctx.fillStyle='rgba(255,255,255,.45)';
-        ctx.font='bold 13px sans-serif'; ctx.textAlign='center';
-        ctx.fillText('ค่า NDBI',0,0);
-        ctx.restore();
-
-        /* ── legend chips ── */
-        var chips=[
-          {color:'#fde047',label:'ต่ำสุด 2021'},
-          {color:'#4ade80',label:'สูงสุด 2019'}
-        ];
-        var cx=padL;
-        chips.forEach(function(c){
-          ctx.beginPath(); ctx.arc(cx+6, padT-18, 5, 0, Math.PI*2);
-          ctx.fillStyle=c.color; ctx.fill();
-          ctx.fillStyle='rgba(255,255,255,.55)';
-          ctx.font='12px sans-serif'; ctx.textAlign='left';
-          ctx.fillText(c.label, cx+15, padT-14);
-          cx += ctx.measureText(c.label).width + 36;
-        });
-      }
-
-      draw();
-      var ro=new ResizeObserver(draw);
-      ro.observe(canvas.parentElement);
-    })();
-    </script>
-
-    <!-- Maps year by year (pair format) -->
-    <h2 class="section-heading">แผนที่ NDBI รายปี พ.ศ. 2560–2569</h2>
-    <p class="section-sub">แสดงการเปลี่ยนแปลงพื้นที่สิ่งปลูกสร้างในเขตเทศบาลนครขอนแก่น ทีละ 2 ปี เรียงจาก 2017 → 2026 · สีน้ำเงินเพิ่ม = เมืองขยาย</p>
-
-    <!-- 2017–2018 -->
-    <div class="map-pair-group">
-      <div class="map-pair-label">2017 – 2018 &nbsp;(พ.ศ. 2560–2561)</div>
       <div class="map-card">
-        <img src="../assets/ndbi-2017-18.png" alt="แผนที่ NDBI ขอนแก่น 2017–2018" loading="lazy" />
+        <img src="../assets/icons/NDBI/NDBI%201.png" alt="แผนที่ NDBI ขอนแก่น พ.ศ. 2559 (2016)" loading="lazy" />
         <div class="map-card-foot">
-          <span class="map-card-years">NDBI 2017 &amp; 2018</span>
-          <span class="map-card-be">พ.ศ. 2560–2561</span>
-          <span class="map-tag tag-blue">ฐานข้อมูล 10 ปี</span>
+          <span class="map-card-years">NDBI 1 &nbsp;·&nbsp; 2016</span>
+          <span class="map-card-be">พ.ศ. 2559</span>
+          <span class="map-tag tag-blue">เฉลี่ย 0.13</span>
         </div>
       </div>
-    </div>
 
-    <!-- 2019–2020 -->
-    <div class="map-pair-group">
-      <div class="map-pair-label">2019 – 2020 &nbsp;(พ.ศ. 2562–2563)</div>
       <div class="map-card">
-        <img src="../assets/ndbi-2019-20.png" alt="แผนที่ NDBI ขอนแก่น 2019–2020" loading="lazy" />
+        <img src="../assets/icons/NDBI/NDBI%202.png" alt="แผนที่ NDBI ขอนแก่น พ.ศ. 2560 (2017)" loading="lazy" />
         <div class="map-card-foot">
-          <span class="map-card-years">NDBI 2019 &amp; 2020</span>
-          <span class="map-card-be">พ.ศ. 2562–2563</span>
-          <span class="map-tag tag-red">เมืองขยายตัว</span>
+          <span class="map-card-years">NDBI 2 &nbsp;·&nbsp; 2017</span>
+          <span class="map-card-be">พ.ศ. 2560</span>
+          <span class="map-tag tag-blue">เฉลี่ย 0.15</span>
         </div>
       </div>
-    </div>
 
-    <!-- 2021–2022 -->
-    <div class="map-pair-group">
-      <div class="map-pair-label">2021 – 2022 &nbsp;(พ.ศ. 2564–2565)</div>
       <div class="map-card">
-        <img src="../assets/ndbi-2021-22.png" alt="แผนที่ NDBI ขอนแก่น 2021–2022" loading="lazy" />
+        <img src="../assets/icons/NDBI/NDBI%203.png" alt="แผนที่ NDBI ขอนแก่น พ.ศ. 2561 (2018)" loading="lazy" />
         <div class="map-card-foot">
-          <span class="map-card-years">NDBI 2021 &amp; 2022</span>
-          <span class="map-card-be">พ.ศ. 2564–2565</span>
-          <span class="map-tag tag-red">เมืองขยายตัว</span>
+          <span class="map-card-years">NDBI 3 &nbsp;·&nbsp; 2018</span>
+          <span class="map-card-be">พ.ศ. 2561</span>
+          <span class="map-tag tag-blue">เฉลี่ย 0.08</span>
         </div>
       </div>
-    </div>
 
-    <!-- 2023–2024 -->
-    <div class="map-pair-group">
-      <div class="map-pair-label">2023 – 2024 &nbsp;(พ.ศ. 2566–2567)</div>
       <div class="map-card">
-        <img src="../assets/ndbi-2023-24.png" alt="แผนที่ NDBI ขอนแก่น 2023–2024" loading="lazy" />
+        <img src="../assets/icons/NDBI/NDBI%204.png" alt="แผนที่ NDBI ขอนแก่น พ.ศ. 2562 (2019)" loading="lazy" />
         <div class="map-card-foot">
-          <span class="map-card-years">NDBI 2023 &amp; 2024</span>
-          <span class="map-card-be">พ.ศ. 2566–2567</span>
-          <span class="map-tag tag-gold">สูงสุด — LST 48.18°C</span>
+          <span class="map-card-years">NDBI 4 &nbsp;·&nbsp; 2019</span>
+          <span class="map-card-be">พ.ศ. 2562</span>
+          <span class="map-tag tag-blue">เฉลี่ย 0.12</span>
         </div>
       </div>
+
+      <div class="map-card">
+        <img src="../assets/icons/NDBI/NDBI%205.png" alt="แผนที่ NDBI ขอนแก่น พ.ศ. 2563 (2020)" loading="lazy" />
+        <div class="map-card-foot">
+          <span class="map-card-years">NDBI 5 &nbsp;·&nbsp; 2020</span>
+          <span class="map-card-be">พ.ศ. 2563</span>
+          <span class="map-tag tag-gold">เฉลี่ย 0.21 — สูง</span>
+        </div>
+      </div>
+
+      <div class="map-card">
+        <img src="../assets/icons/NDBI/NDBI%206.png" alt="แผนที่ NDBI ขอนแก่น พ.ศ. 2564 (2021)" loading="lazy" />
+        <div class="map-card-foot">
+          <span class="map-card-years">NDBI 6 &nbsp;·&nbsp; 2021</span>
+          <span class="map-card-be">พ.ศ. 2564</span>
+          <span class="map-tag tag-blue">เฉลี่ย 0.10</span>
+        </div>
+      </div>
+
+      <div class="map-card">
+        <img src="../assets/icons/NDBI/NDBI%207.png" alt="แผนที่ NDBI ขอนแก่น พ.ศ. 2565 (2022)" loading="lazy" />
+        <div class="map-card-foot">
+          <span class="map-card-years">NDBI 7 &nbsp;·&nbsp; 2022</span>
+          <span class="map-card-be">พ.ศ. 2565</span>
+          <span class="map-tag tag-blue">เฉลี่ย 0.11</span>
+        </div>
+      </div>
+
+      <div class="map-card">
+        <img src="../assets/icons/NDBI/NDBI%208.png" alt="แผนที่ NDBI ขอนแก่น พ.ศ. 2566 (2023)" loading="lazy" />
+        <div class="map-card-foot">
+          <span class="map-card-years">NDBI 8 &nbsp;·&nbsp; 2023</span>
+          <span class="map-card-be">พ.ศ. 2566</span>
+          <span class="map-tag tag-blue">เฉลี่ย 0.14</span>
+        </div>
+      </div>
+
+      <div class="map-card">
+        <img src="../assets/icons/NDBI/NDBI%209.png" alt="แผนที่ NDBI ขอนแก่น พ.ศ. 2567 (2024)" loading="lazy" />
+        <div class="map-card-foot">
+          <span class="map-card-years">NDBI 9 &nbsp;·&nbsp; 2024</span>
+          <span class="map-card-be">พ.ศ. 2567</span>
+          <span class="map-tag tag-red">เฉลี่ย 0.24 — สูงสุด</span>
+        </div>
+      </div>
+
+      <div class="map-card">
+        <img src="../assets/icons/NDBI/NDBI%2010.png" alt="แผนที่ NDBI ขอนแก่น พ.ศ. 2568 (2025)" loading="lazy" />
+        <div class="map-card-foot">
+          <span class="map-card-years">NDBI 10 &nbsp;·&nbsp; 2025</span>
+          <span class="map-card-be">พ.ศ. 2568</span>
+          <span class="map-tag tag-gold">เฉลี่ย 0.18</span>
+        </div>
+      </div>
+
+      <div class="map-card">
+        <img src="../assets/icons/NDBI/NDBI%2011.png" alt="แผนที่ NDBI ขอนแก่น พ.ศ. 2569 (2026)" loading="lazy" />
+        <div class="map-card-foot">
+          <span class="map-card-years">NDBI 11 &nbsp;·&nbsp; 2026</span>
+          <span class="map-card-be">พ.ศ. 2569</span>
+          <span class="map-tag tag-red">ล่าสุด · เฉลี่ย 0.15</span>
+        </div>
+      </div>
+
     </div>
 
-    <!-- 2025–2026 -->
-    <div class="map-pair-group">
-      <div class="map-pair-label">2025 – 2026 &nbsp;(พ.ศ. 2568–2569)</div>
-      <div class="map-card">
-        <img src="../assets/ndbi-2025-26.png" alt="แผนที่ NDBI ขอนแก่น 2025–2026" loading="lazy" />
-        <div class="map-card-foot">
-          <span class="map-card-years">NDBI 2025 &amp; 2026</span>
-          <span class="map-card-be">พ.ศ. 2568–2569</span>
-          <span class="map-tag tag-red">ล่าสุด</span>
-        </div>
+    <!-- NDBI 12 — ตารางสรุป -->
+    <div class="map-card" style="margin-bottom: 1.5rem;">
+      <img src="../assets/icons/NDBI/NDBI%2012.png" alt="ตารางสรุปผลการวิเคราะห์ค่า NDBI เขตเทศบาลนครขอนแก่น พ.ศ. 2559–2569" loading="lazy" />
+      <div class="map-card-foot">
+        <span class="map-card-years">NDBI 12 — ตารางสรุปรวม</span>
+        <span class="map-card-be">พ.ศ. 2559–2569</span>
+        <span class="map-tag tag-gold">ข้อมูลครบ 11 ปี</span>
       </div>
     </div>
 
