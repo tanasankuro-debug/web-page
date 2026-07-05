@@ -9,6 +9,8 @@
     { "source": "/main", "destination": "/html/index.html" },
     { "source": "/main.html", "destination": "/html/index.html" },
     { "source": "/index.html", "destination": "/html/index.html" },
+    { "source": "/about-city", "destination": "/html/about-city.html" },
+    { "source": "/about-city.html", "destination": "/html/about-city.html" },
     { "source": "/map", "destination": "/html/map.html" },
     { "source": "/map.html", "destination": "/html/map.html" },
     { "source": "/heat", "destination": "/html/heat.html" },
