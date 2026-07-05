@@ -177,6 +177,103 @@
       text-decoration: none; transition: background .2s;
     }
     .pp-btn-detail:hover { background: rgba(251,191,36,.18); }
+
+    /* ── Live traffic tabs ───────────────────── */
+    .traf-tabs {
+      display: flex; gap: .5rem; margin-bottom: .85rem;
+    }
+    .traf-tab {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: .5rem;
+      padding: .75rem 1rem; border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.5);
+      font-family: var(--font-body); font-size: .82rem; font-weight: 600;
+      cursor: pointer; transition: background .2s, color .2s, border-color .2s;
+    }
+    .traf-tab:hover { background: rgba(255,255,255,.08); color: rgba(255,255,255,.8); }
+    .traf-tab--active {
+      background: rgba(251,191,36,.12);
+      border-color: rgba(251,191,36,.38);
+      color: #FCD34D;
+    }
+    .traf-panel { display: none; }
+    .traf-panel--active { display: block; }
+
+    /* CCTV iframe */
+    .traf-cam-frame {
+      width: 100%; height: 540px;
+      border-radius: 14px; overflow: hidden;
+      border: 1px solid rgba(251,191,36,.2);
+      background: #000;
+    }
+    .traf-cam-frame iframe { width: 100%; height: 100%; border: none; display: block; }
+    @media (max-width: 600px) { .traf-cam-frame { height: 420px; } }
+
+    /* Map iframe */
+    .traf-map-frame {
+      width: 100%; height: 440px;
+      border-radius: 14px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,.1);
+    }
+    .traf-map-frame iframe { width: 100%; height: 100%; border: none; display: block; }
+    @media (max-width: 600px) { .traf-map-frame { height: 300px; } }
+
+    /* Full-screen link below each frame */
+    .traf-fullscreen-link {
+      display: inline-flex; align-items: center; gap: .35rem;
+      margin-top: .7rem; font-size: .78rem; color: rgba(255,255,255,.38);
+      text-decoration: none; transition: color .2s;
+    }
+    .traf-fullscreen-link:hover { color: rgba(255,255,255,.7); }
+
+    /* Floating back button */
+    .traf-float-back {
+      position: fixed;
+      top: calc(var(--header-h, 100px) + .75rem);
+      left: 1rem; z-index: 200;
+      display: inline-flex; align-items: center; gap: .38rem;
+      padding: .45rem .85rem .45rem .6rem;
+      background: rgba(14,20,36,.88); backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,.13); border-radius: 99px;
+      color: rgba(255,255,255,.72); font-family: var(--font-body);
+      font-size: .78rem; font-weight: 600;
+      text-decoration: none;
+      transition: background .2s, color .2s, border-color .2s;
+    }
+    .traf-float-back:hover { background: rgba(20,28,46,.98); color: #fff; border-color: rgba(255,255,255,.28); }
+
+    /* ── Tips grid ──────────────────────────── */
+    .traf-tip-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: .85rem;
+    }
+    @media (max-width: 700px) { .traf-tip-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 440px) { .traf-tip-grid { grid-template-columns: 1fr; } }
+    .traf-tip-card {
+      padding: 1.1rem 1.15rem; border-radius: 12px;
+      background: rgba(255,255,255,.035); border: 1px solid rgba(255,255,255,.07);
+      display: flex; flex-direction: column; gap: .3rem;
+    }
+    .traf-tip-num {
+      font-family: var(--font-display); font-size: 1.55rem; font-weight: 800;
+      color: var(--ac); line-height: 1; display: block;
+    }
+    .traf-tip-title { font-size: .9rem; font-weight: 700; color: #fff; margin: 0; }
+    .traf-tip-desc  { font-size: .8rem; line-height: 1.7; color: rgba(255,255,255,.5); margin: 0; flex: 1; }
+    .traf-tip-stat  {
+      display: inline-block; margin-top: .4rem;
+      font-family: var(--font-display); font-size: .72rem; font-weight: 700;
+      color: var(--ac); letter-spacing: .03em;
+    }
+
+    /* ── Context note ───────────────────────── */
+    .traf-context-note {
+      margin-bottom: 1.6rem; padding: 1rem 1.25rem;
+      border-radius: 12px;
+      background: rgba(251,191,36,.07); border: 1px solid rgba(251,191,36,.18);
+      font-size: .87rem; line-height: 1.75; color: rgba(255,255,255,.65);
+    }
+    .traf-context-note strong { color: #FCD34D; }
   </style>
 </head>
 <body>
@@ -209,6 +306,12 @@
     </div>
   </header>
 
+  <!-- Floating back button -->
+  <a href="prepare.html" class="traf-float-back" aria-label="กลับหน้าเตรียมรับมือป้องกันภัย">
+    <svg viewBox="0 0 14 14" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 7H3M6 3L2 7l4 4"/></svg>
+    กลับ
+  </a>
+
   <main id="main-content">
     <section class="pp-hero" aria-label="รับมือจราจรและอุบัติเหตุ">
       <div class="pp-hero-inner">
@@ -234,9 +337,70 @@
 
     <div class="pp-main">
 
-      <!-- 01 สาเหตุ -->
+      <!-- 01 ดูจราจรสด -->
+      <section class="pp-section" aria-labelledby="traf-live">
+        <span class="pp-sec-num">01 · ดูจราจรสด</span>
+        <h2 class="pp-sec-title" id="traf-live">กล้อง CCTV &amp; แผนที่จราจร</h2>
+        <div class="pp-divider" aria-hidden="true"></div>
+
+        <!-- Tab buttons -->
+        <div class="traf-tabs" role="tablist" aria-label="เลือกมุมมองจราจร">
+          <button class="traf-tab traf-tab--active" data-panel="cctv"
+                  role="tab" id="tab-cctv" aria-controls="panel-cctv" aria-selected="true">
+            <svg viewBox="0 0 18 18" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="1" y="5" width="11" height="8" rx="2"/>
+              <path d="M12 8l5-2v6l-5-2"/>
+              <circle cx="6" cy="9" r="1.8"/>
+            </svg>
+            CCTV กล้องจราจร
+          </button>
+          <button class="traf-tab" data-panel="map"
+                  role="tab" id="tab-map" aria-controls="panel-map" aria-selected="false">
+            <svg viewBox="0 0 18 18" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M11 2.5L7 4 3 2.5v11L7 15l4-1.5 4 1.5v-11L11 2.5z"/>
+              <path d="M7 4v11M11 2.5v11"/>
+            </svg>
+            แผนที่จราจรสด
+          </button>
+        </div>
+
+        <!-- CCTV Panel -->
+        <div class="traf-panel traf-panel--active" id="panel-cctv" role="tabpanel" aria-labelledby="tab-cctv">
+          <div class="traf-cam-frame">
+            <iframe
+              src="https://khonkaenlink.info/cctv/"
+              title="CCTV กล้องจราจรขอนแก่น — khonkaenlink.info"
+              loading="lazy"
+              allow="fullscreen"
+              sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox">
+            </iframe>
+          </div>
+          <a href="https://khonkaenlink.info/cctv/" target="_blank" rel="noopener noreferrer" class="traf-fullscreen-link">
+            <svg viewBox="0 0 14 14" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 1h5v5M9 9l4-8M1 9h5v5"/></svg>
+            เปิดเต็มจอ / ต้องล็อกอินก่อนใช้งาน
+          </a>
+        </div>
+
+        <!-- Map Panel -->
+        <div class="traf-panel" id="panel-map" role="tabpanel" aria-labelledby="tab-map" hidden>
+          <div class="traf-map-frame">
+            <iframe
+              src="https://map.longdo.com/embed/?lat=16.4419&lon=102.836&zoom=14&traffic=true"
+              title="แผนที่จราจรสดอำเภอเมืองขอนแก่น — Longdo Map"
+              loading="lazy"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <a href="https://map.longdo.com/?lat=16.4419&lon=102.836&zoom=14&traffic=true" target="_blank" rel="noopener noreferrer" class="traf-fullscreen-link">
+            <svg viewBox="0 0 14 14" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 1h5v5M9 9l4-8M1 9h5v5"/></svg>
+            ขยายแผนที่เต็มจอใน Longdo Map
+          </a>
+        </div>
+      </section>
+
+      <!-- 02 สาเหตุ -->
       <section class="pp-section" aria-labelledby="traf-causes">
-        <span class="pp-sec-num">01 · สาเหตุ</span>
+        <span class="pp-sec-num">02 · สาเหตุ</span>
         <h2 class="pp-sec-title" id="traf-causes">อะไรทำให้ถนนอันตรายขึ้น?</h2>
         <div class="pp-divider" aria-hidden="true"></div>
         <div class="pp-cause-grid">
@@ -273,9 +437,9 @@
         </div>
       </section>
 
-      <!-- 02 ช่วงเวลาเสี่ยง -->
+      <!-- 03 ช่วงเวลาเสี่ยง -->
       <section class="pp-section" aria-labelledby="traf-time">
-        <span class="pp-sec-num">02 · ช่วงเวลาเสี่ยง</span>
+        <span class="pp-sec-num">03 · ช่วงเวลาเสี่ยง</span>
         <h2 class="pp-sec-title" id="traf-time">เมื่อไหรอันตรายที่สุด?</h2>
         <div class="pp-divider" aria-hidden="true"></div>
 
@@ -315,49 +479,88 @@
         </div>
       </section>
 
-      <!-- 03 ป้องกัน -->
-      <section class="pp-section" aria-labelledby="traf-prevent">
-        <span class="pp-sec-num">03 · กฎขับขี่ปลอดภัย</span>
-        <h2 class="pp-sec-title" id="traf-prevent">ทำตามเสมอ — ไม่มีข้อยกเว้น</h2>
+      <!-- 04 ลดความร้อนจากรถ -->
+      <section class="pp-section" aria-labelledby="traf-heat">
+        <span class="pp-sec-num">04 · ลดความร้อนจากรถ</span>
+        <h2 class="pp-sec-title" id="traf-heat">ขับดีขึ้น — เมืองเย็นลง</h2>
         <div class="pp-divider" aria-hidden="true"></div>
 
-        <div class="pp-rule-grid">
-          <div class="pp-rule-card">
-            <span class="pp-rule-num">−30%</span>
-            <p class="pp-rule-title">ลดความเร็วทันทีเมื่อฝนตก</p>
-            <p class="pp-rule-desc">ถ้าปกติขับ 60 กม./ชม. ลดเหลือ 40–50 ในฝน ระยะเบรกบนถนนเปียกยาวกว่าถนนแห้ง 2 เท่า</p>
+        <p class="traf-context-note">
+          รถยนต์เป็นหนึ่งในแหล่งความร้อนและก๊าซ CO หลักในเมือง — ไอเสียและความร้อนทิ้งจากเครื่องยนต์สะสมอยู่ในพื้นที่อำเภอเมืองและเพิ่มอุณหภูมิสภาพแวดล้อม (Urban Heat Island) <strong>พฤติกรรมขับขี่ที่ดีขึ้น = ลดแหล่งความร้อน = เมืองเย็นลง</strong>
+        </p>
+
+        <div class="traf-tip-grid">
+          <div class="traf-tip-card">
+            <span class="traf-tip-num">01</span>
+            <p class="traf-tip-title">อย่าอุ่นเครื่องนาน</p>
+            <p class="traf-tip-desc">รถยุคใหม่ใช้ EFI ไม่ต้องอุ่นเครื่อง — ขับช้าๆ 1–2 กม. แรกแทน เครื่องยนต์อุ่นเร็วกว่าและประหยัดกว่า</p>
           </div>
-          <div class="pp-rule-card">
-            <span class="pp-rule-num">×2</span>
-            <p class="pp-rule-title">เพิ่มระยะห่างคันหน้า</p>
-            <p class="pp-rule-desc">ปกติถือ 3 วินาที ฝนตกใช้ 6 วินาที หมอก/PM สูงใช้ 8–10 วินาทีขึ้นไป</p>
+          <div class="traf-tip-card">
+            <span class="traf-tip-num">02</span>
+            <p class="traf-tip-title">ตรวจลมยางสม่ำเสมอ</p>
+            <p class="traf-tip-desc">ยางอ่อนกว่ามาตรฐาน 6 ปอนด์ เพิ่มการใช้น้ำมันถึง 3% — ตรวจทุกเดือนขณะยางเย็น</p>
+            <span class="traf-tip-stat">ประหยัด 3%</span>
           </div>
-          <div class="pp-rule-card">
-            <span class="pp-rule-num">1.6<small style="font-size:1rem;">mm</small></span>
-            <p class="pp-rule-title">ตรวจดอกยางทุก 3 เดือน</p>
-            <p class="pp-rule-desc">ใช้เหรียญ 1 บาทสอดในดอกยาง ถ้าเห็นขอบเหรียญชัดเจน ดอกยางเหลือน้อยเกินไปแล้ว</p>
+          <div class="traf-tip-card">
+            <span class="traf-tip-num">03</span>
+            <p class="traf-tip-title">ขับสม่ำเสมอ ≤ 90 กม./ชม.</p>
+            <p class="traf-tip-desc">ทุก 10 กม./ชม. ที่เกิน 90 เพิ่มการใช้น้ำมัน 6–7% — ขับ 90 แทน 120 ลดน้ำมัน 20% และลด CO มหาศาล</p>
+            <span class="traf-tip-stat">ลดน้ำมัน 20%</span>
           </div>
-          <div class="pp-rule-card">
-            <span class="pp-rule-num">0</span>
-            <p class="pp-rule-title">ศูนย์ถ้าง่วง — หยุดพัก</p>
-            <p class="pp-rule-desc">หาที่จอดปลอดภัย นอนหลับ 15–20 นาที หรือดื่มกาแฟแล้วรอ 30 นาที ไม่มีทางลัดสำหรับง่วง</p>
+          <div class="traf-tip-card">
+            <span class="traf-tip-num">04</span>
+            <p class="traf-tip-title">ไม่เหยียบคันเร่งเฉยๆ</p>
+            <p class="traf-tip-desc">การเร่งเครื่องโดยไม่จำเป็น 10 ครั้ง เผาน้ำมันฟรีประมาณ 50 cc และปล่อยความร้อนสู่อากาศโดยตรง</p>
+            <span class="traf-tip-stat">10 ครั้ง = 50 cc สูญเปล่า</span>
           </div>
-          <div class="pp-rule-card">
-            <span class="pp-rule-num">🔦</span>
-            <p class="pp-rule-title">เปิดไฟหน้าทันทีทัศนวิสัยต่ำ</p>
-            <p class="pp-rule-desc">แม้กลางวันที่ฝนตกหนัก ให้เปิดไฟหน้า Low beam ไม่ใช้ High beam เพราะสะท้อนหมอกทำให้บอดมากขึ้น</p>
+          <div class="traf-tip-card">
+            <span class="traf-tip-num">05</span>
+            <p class="traf-tip-title">ดับเครื่องเมื่อจอดนิ่ง</p>
+            <p class="traf-tip-desc">จอดรอเกิน 60 วินาที ให้ดับเครื่อง — จอดติดเครื่อง 10 นาที เผาน้ำมันสูญเปล่าประมาณ 200 cc พร้อมปล่อยความร้อน</p>
+            <span class="traf-tip-stat">10 นาที = 200 cc</span>
           </div>
-          <div class="pp-rule-card">
-            <span class="pp-rule-num">📵</span>
-            <p class="pp-rule-title">วางโทรศัพท์ลงก่อนขับ</p>
-            <p class="pp-rule-desc">ตั้ง Do Not Disturb ขณะขับ หรือใส่โทรศัพท์ในกระเป๋า ถ้าจำเป็นต้องใช้ จอดรถในที่ปลอดภัยก่อนทุกครั้ง</p>
+          <div class="traf-tip-card">
+            <span class="traf-tip-num">06</span>
+            <p class="traf-tip-title">บำรุงรักษาตามระยะ</p>
+            <p class="traf-tip-desc">เปลี่ยนไส้กรองอากาศ หัวเทียน น้ำมันเครื่องตามกำหนด — รถที่ดูแลดีใช้น้ำมันน้อยกว่ารถทิ้งบาน 10%</p>
+            <span class="traf-tip-stat">ลดน้ำมัน 10%</span>
+          </div>
+          <div class="traf-tip-card">
+            <span class="traf-tip-num">07</span>
+            <p class="traf-tip-title">ขับแบบ Eco — คาดการณ์ล่วงหน้า</p>
+            <p class="traf-tip-desc">ลดเท้าคันเร่งก่อนถึงจุดหยุดแทนเบรกกะทันหัน ทำให้เครื่องยนต์เผาไหม้น้อยลงและเบรกสึกช้าลง</p>
+          </div>
+          <div class="traf-tip-card">
+            <span class="traf-tip-num">08</span>
+            <p class="traf-tip-title">ลดน้ำหนักในรถ</p>
+            <p class="traf-tip-desc">ของหนักในรถที่ไม่จำเป็นทุก 50 กก. เพิ่มการใช้น้ำมัน ~1–2% — ขนของในรถแต่ละวันสำคัญกว่าที่คิด</p>
+          </div>
+          <div class="traf-tip-card">
+            <span class="traf-tip-num">09</span>
+            <p class="traf-tip-title">เปิด AC อย่างมีประสิทธิภาพ</p>
+            <p class="traf-tip-desc">ระบาย AC ด้วยการเปิดกระจกก่อน 1–2 นาที อย่าตั้งเย็นสุด — ทุก 1°C ที่ลดได้ ประหยัดน้ำมัน AC ~3%</p>
+          </div>
+          <div class="traf-tip-card">
+            <span class="traf-tip-num">10</span>
+            <p class="traf-tip-title">ใช้เกียร์ให้ถูกต้อง</p>
+            <p class="traf-tip-desc">เกียร์อัตโนมัติ: ใช้ D ปกติ หลีกเลี่ยง L/2/1 บนทางราบ เกียร์ธรรมดา: ขึ้นเกียร์สูงทันทีที่ทำได้ ลดรอบต่ำ-เครื่องเบา</p>
+          </div>
+          <div class="traf-tip-card">
+            <span class="traf-tip-num">11</span>
+            <p class="traf-tip-title">จอดรถในร่ม</p>
+            <p class="traf-tip-desc">รถที่ตากแดดต้องใช้ AC เย็นภายในนานขึ้น ซึ่งเพิ่มภาระเครื่องยนต์ช่วงแรก — ร่มไม้หรือหลังคาช่วยได้มาก</p>
+          </div>
+          <div class="traf-tip-card">
+            <span class="traf-tip-num">12</span>
+            <p class="traf-tip-title">วางแผนเส้นทาง</p>
+            <p class="traf-tip-desc">หลีกเลี่ยงชั่วโมงเร่งด่วนลดการติดเครื่องยนต์โดยไม่จำเป็น — ดูแผนที่จราจรสดด้านบนก่อนออกเดินทาง</p>
           </div>
         </div>
       </section>
 
-      <!-- 04 เมื่อเกิดอุบัติเหตุ -->
+      <!-- 05 เมื่อเกิดอุบัติเหตุ -->
       <section class="pp-section" aria-labelledby="traf-emer">
-        <span class="pp-sec-num">04 · เมื่อเกิดอุบัติเหตุ</span>
+        <span class="pp-sec-num">05 · เมื่อเกิดอุบัติเหตุ</span>
         <h2 class="pp-sec-title" id="traf-emer">ทำตามลำดับนี้</h2>
         <div class="pp-divider" aria-hidden="true"></div>
         <div class="pp-steps">
@@ -414,5 +617,26 @@
   <script src="../js/config.js"></script>
   <script src="../js/utils.js"></script>
   <script src="../js/nav.js"></script>
+  <script>
+    (function () {
+      var tabs = document.querySelectorAll('.traf-tab');
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          tabs.forEach(function (t) {
+            t.classList.remove('traf-tab--active');
+            t.setAttribute('aria-selected', 'false');
+          });
+          document.querySelectorAll('.traf-panel').forEach(function (p) {
+            p.classList.remove('traf-panel--active');
+            p.hidden = true;
+          });
+          tab.classList.add('traf-tab--active');
+          tab.setAttribute('aria-selected', 'true');
+          var panel = document.getElementById('panel-' + tab.dataset.panel);
+          if (panel) { panel.classList.add('traf-panel--active'); panel.hidden = false; }
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
