@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>รับมือภัยความร้อน — Heat Safe Khon Kaen</title>
+  <meta name="description" content="คู่มือเตรียมรับมือและป้องกันภัยความร้อน — เกาะความร้อนเมือง ลมแดด และ Heat Stroke สำหรับขอนแก่น" />
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/themes.css" />
+  <script src="../js/utility-bar.js"></script>
+  <script src="../js/alert-bar.js"></script>
+  <script src="../js/pwa.js"></script>
+  <style>
+    :root {
+      --ac: #FB923C;
+      --ac2: #EF4444;
+      --ac-dim: rgba(251,146,60,.12);
+      --ac-border: rgba(251,146,60,.25);
+    }
+    html, body { background: var(--bg); }
+
+    /* ── Hero ─────────────────────────────── */
+    .pp-hero {
+      position: relative;
+      padding: calc(var(--header-h) + 3rem) 1.5rem 4rem;
+      text-align: center; overflow: hidden;
+      background: linear-gradient(180deg, #120A04 0%, #0B0F1A 100%);
+    }
+    .pp-hero::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 55% at 50% 100%, rgba(239,68,68,.2) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 30% at 20% 70%, rgba(251,146,60,.12) 0%, transparent 55%);
+    }
+    .pp-back {
+      position: relative; z-index: 2;
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-family: var(--font-display); font-size: .72rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(255,255,255,.38); text-decoration: none;
+      transition: color .2s;
+      margin-bottom: 1.6rem;
+    }
+    .pp-back:hover { color: rgba(255,255,255,.7); }
+    .pp-hero-inner { position: relative; z-index: 2; max-width: 560px; margin: 0 auto; }
+    .pp-hero-icon {
+      width: 80px; height: 80px; color: var(--ac);
+      margin: 0 auto 1.4rem; display: block;
+    }
+    .pp-eyebrow {
+      font-family: var(--font-display); font-size: .72rem; font-weight: 700;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--ac); margin-bottom: .6rem; display: block;
+    }
+    .pp-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 8vw, 4rem);
+      font-weight: 800; line-height: .95; color: #fff; margin-bottom: 1rem;
+      text-wrap: balance;
+    }
+    .pp-sub {
+      font-size: .96rem; line-height: 1.8;
+      color: rgba(255,255,255,.55); max-width: 440px; margin: 0 auto;
+    }
+
+    /* ── Main content ────────────────────── */
+    .pp-main {
+      max-width: 860px; margin: 0 auto;
+      padding: 0 1.25rem 5rem;
+    }
+
+    /* Section block */
+    .pp-section { padding: 3.2rem 0 .5rem; }
+    .pp-sec-num {
+      font-family: var(--font-display); font-size: .68rem; font-weight: 700;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--ac); margin-bottom: .45rem; display: block;
+    }
+    .pp-sec-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 4.5vw, 2.1rem); font-weight: 800;
+      color: #fff; line-height: 1.1; margin: 0 0 1.6rem;
+    }
+    .pp-divider {
+      height: 3px; border-radius: 2px; margin-bottom: 2rem;
+      background: linear-gradient(to right, var(--ac2), var(--ac), transparent);
+    }
+
+    /* Cause cards */
+    .pp-cause-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+    }
+    @media (max-width: 640px) { .pp-cause-grid { grid-template-columns: 1fr; } }
+    @media (min-width: 641px) and (max-width: 800px) { .pp-cause-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .pp-cause-card {
+      background: var(--ac-dim);
+      border: 1px solid var(--ac-border);
+      border-radius: 14px; padding: 1.3rem 1.2rem;
+    }
+    .pp-cause-icon {
+      width: 36px; height: 36px; color: var(--ac);
+      margin-bottom: .75rem; display: block;
+    }
+    .pp-cause-title {
+      font-family: var(--font-display); font-size: 1rem; font-weight: 700;
+      color: #fff; margin: 0 0 .4rem;
+    }
+    .pp-cause-desc {
+      font-size: .82rem; line-height: 1.7;
+      color: rgba(255,255,255,.52); margin: 0;
+    }
+
+    /* Hotspot bar */
+    .pp-hotspot-wrap { margin-top: 1.5rem; }
+    .pp-hotspot-label {
+      font-family: var(--font-display); font-size: .68rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(255,255,255,.35); margin-bottom: .75rem; display: block;
+    }
+    .pp-hotspots {
+      display: flex; flex-wrap: wrap; gap: .5rem;
+    }
+    .pp-hotspot-pill {
+      display: inline-flex; align-items: center; gap: .35rem;
+      padding: .3rem .8rem; border-radius: 99px;
+      background: rgba(239,68,68,.1);
+      border: 1px solid rgba(239,68,68,.22);
+      font-size: .8rem; color: #fca5a5;
+    }
+    .pp-hotspot-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #EF4444; flex-shrink: 0;
+    }
+
+    /* Warning levels */
+    .pp-warn-grid {
+      display: grid; gap: .75rem;
+    }
+    .pp-warn-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center; gap: 1rem;
+      padding: 1rem 1.25rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.07);
+      background: rgba(255,255,255,.03);
+    }
+    .pp-warn-temp {
+      font-family: var(--font-display); font-size: 1.4rem; font-weight: 800;
+      min-width: 80px;
+    }
+    .pp-warn-desc { font-size: .87rem; line-height: 1.6; color: rgba(255,255,255,.65); }
+    .pp-warn-badge {
+      font-family: var(--font-display); font-size: .7rem; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      padding: .28rem .7rem; border-radius: 99px; white-space: nowrap;
+    }
+    .pp-warn--yellow  { border-color: rgba(250,204,21,.2); }
+    .pp-warn--yellow .pp-warn-temp { color: #FDE047; }
+    .pp-warn--yellow .pp-warn-badge { background: rgba(250,204,21,.15); color: #FDE047; }
+    .pp-warn--orange  { border-color: rgba(251,146,60,.2); }
+    .pp-warn--orange .pp-warn-temp { color: #FB923C; }
+    .pp-warn--orange .pp-warn-badge { background: rgba(251,146,60,.15); color: #FB923C; }
+    .pp-warn--red     { border-color: rgba(239,68,68,.3); }
+    .pp-warn--red .pp-warn-temp { color: #F87171; }
+    .pp-warn--red .pp-warn-badge { background: rgba(239,68,68,.15); color: #F87171; }
+
+    /* Prevention checklist */
+    .pp-check-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: .85rem;
+    }
+    @media (max-width: 560px) { .pp-check-grid { grid-template-columns: 1fr; } }
+    .pp-check-item {
+      display: flex; align-items: flex-start; gap: .8rem;
+      padding: 1rem 1.1rem;
+      border-radius: 12px;
+      background: rgba(255,255,255,.035);
+      border: 1px solid rgba(255,255,255,.07);
+    }
+    .pp-check-ico {
+      width: 32px; height: 32px; flex-shrink: 0;
+      background: var(--ac-dim); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--ac);
+    }
+    .pp-check-ico svg { width: 17px; height: 17px; }
+    .pp-check-text { font-size: .87rem; line-height: 1.7; color: rgba(255,255,255,.75); }
+    .pp-check-text strong { color: #fff; display: block; font-size: .9rem; margin-bottom: .15rem; }
+
+    /* Emergency steps */
+    .pp-steps { display: flex; flex-direction: column; gap: .85rem; }
+    .pp-step {
+      display: grid; grid-template-columns: 44px 1fr;
+      align-items: flex-start; gap: 1rem;
+      padding: 1.1rem 1.25rem;
+      border-radius: 14px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.07);
+    }
+    .pp-step-num {
+      font-family: var(--font-display); font-size: 1.5rem; font-weight: 800;
+      color: var(--ac); line-height: 1; padding-top: .1rem;
+    }
+    .pp-step-body {}
+    .pp-step-title {
+      font-size: .96rem; font-weight: 700; color: #fff; margin: 0 0 .25rem;
+    }
+    .pp-step-desc {
+      font-size: .85rem; line-height: 1.7; color: rgba(255,255,255,.55); margin: 0;
+    }
+    .pp-step-sos {
+      grid-column: 1 / -1;
+      display: flex; align-items: center; gap: .55rem;
+      padding: .9rem 1.25rem;
+      border-radius: 12px;
+      background: rgba(239,68,68,.1);
+      border: 1px solid rgba(239,68,68,.28);
+      font-size: .9rem; color: #fca5a5; font-weight: 600;
+    }
+    .pp-step-sos svg { flex-shrink: 0; }
+
+    /* Bottom nav */
+    .pp-bottom-nav {
+      display: flex; flex-wrap: wrap; align-items: center;
+      justify-content: space-between; gap: 1rem;
+      margin-top: 3.5rem; padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .pp-btn-back {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .65rem 1.25rem; border-radius: 10px;
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
+      color: rgba(255,255,255,.7); font-size: .87rem; font-weight: 600;
+      text-decoration: none; transition: background .2s, color .2s;
+    }
+    .pp-btn-back:hover { background: rgba(255,255,255,.12); color: #fff; }
+    .pp-btn-detail {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .65rem 1.4rem; border-radius: 10px;
+      background: var(--ac-dim); border: 1px solid var(--ac-border);
+      color: var(--ac); font-size: .87rem; font-weight: 700;
+      text-decoration: none; transition: background .2s;
+    }
+    .pp-btn-detail:hover { background: rgba(251,146,60,.2); }
+  </style>
+</head>
+<body data-theme="heat">
+  <a href="#main-content" class="skip-link">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <header id="site-header" role="banner">
+    <div class="header-inner container">
+      <a href="index.html" class="site-logo" aria-label="Heat Safe Khon Kaen — กลับหน้าแรก">
+        <span class="logo-heat">Heat Safe</span>
+        <span class="logo-city">Khon Kaen</span>
+      </a>
+      <nav id="main-nav" aria-label="เมนูหลัก">
+        <ul class="nav-links" role="list">
+          <li><a href="index.html" class="nav-link">หน้าแรก</a></li>
+          <li><a href="heat.html" class="nav-link active"><span class="nav-icon nav-icon--heat"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="17" r="7"/><path d="M24 7V4M24 27V30M37 17H34M11 17H14M31 10L33 8M17 10L15 8M31 24L33 26M17 24L15 26"/><path d="M8 37c3-4 5-4 8 0s5 4 8 0 5-4 8 0 5 4 8 0"/><path d="M8 44c3-4 5-4 8 0s5 4 8 0 5-4 8 0 5 4 8 0"/></svg></span> ความร้อน</a></li>
+          <li><a href="dust.html" class="nav-link"><span class="nav-icon nav-icon--pm25"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20h18a5.5 5.5 0 1 0-5-7.5"/><path d="M5 29h24a6 6 0 0 0 0-12h-2"/><path d="M5 37h20"/><path d="M5 44h13"/><circle cx="35" cy="37" r="2" fill="currentColor" stroke="none"/><circle cx="30" cy="44" r="2" fill="currentColor" stroke="none"/><circle cx="42" cy="43" r="2" fill="currentColor" stroke="none"/><circle cx="43" cy="33" r="2" fill="currentColor" stroke="none"/></svg></span> ฝุ่น PM2.5</a></li>
+          <li><a href="rain.html" class="nav-link"><span class="nav-icon nav-icon--storm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 31A13 13 0 1 1 31 18.5h3a8 8 0 0 1 5 14"/><path d="M11 39l-2 7"/><path d="M22 38l-2 8"/><path d="M38 27l-5 8h6l-5 8"/></svg></span> ฝน/พายุ</a></li>
+          <li><a href="flood.html" class="nav-link"><span class="nav-icon nav-icon--flood"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 24l16-12 16 12"/><path d="M14 23v9"/><path d="M34 23v9"/><path d="M20 32h8"/><path d="M5 35c3-4 5.5-4 8 0s5 4 8 0 5.5-4 8 0 5 4 8 0"/><path d="M5 43c3-4 5.5-4 8 0s5 4 8 0 5.5-4 8 0 5 4 8 0"/></svg></span> น้ำท่วม</a></li>
+          <li><a href="team.html" class="nav-link"><span class="nav-icon nav-icon--team"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="14" r="7"/><path d="M6 42c0-9.9 8.1-18 18-18s18 8.1 18 18"/><circle cx="9" cy="18" r="5" opacity="0.6"/><path d="M1 40c0-6.5 3.6-11 8-11" opacity="0.6"/><circle cx="39" cy="18" r="5" opacity="0.6"/><path d="M47 40c0-6.5-3.6-11-8-11" opacity="0.6"/></svg></span> คณะผู้จัดทำ</a></li>
+          <li><a href="smart-map.html" class="nav-link"><span class="nav-icon nav-icon--smartmap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 6L18 10.5 6 6v30l12 4.5 12-4.5 12 4.5V10.5L30 6z"/><path d="M18 10.5v30M30 6v30"/></svg></span> แผนที่อัจฉริยะ</a></li>
+        </ul>
+        <a href="map.html" class="btn btn-primary btn-sm nav-cta" aria-label="เปิดแผนที่เรียลไทม์">
+          <svg viewBox="0 0 16 16" fill="none" width="13" height="13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-1px;margin-right:3px"><path d="M10 2L6 3.5L2 2v10l4 1.5L10 12l4 1.5V3.5L10 2z"/><path d="M6 3.5v10M10 2v10"/></svg>
+          แผนที่เรียลไทม์
+        </a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="เปิด/ปิดเมนูนำทาง" aria-expanded="false" aria-controls="main-nav">
+        <span class="ham-line"></span><span class="ham-line"></span><span class="ham-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- HERO -->
+    <section class="pp-hero" aria-label="รับมือภัยความร้อน">
+      <div class="pp-hero-inner">
+        <a href="prepare.html" class="pp-back" aria-label="กลับหน้าเตรียมรับมือ">
+          <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8H3M7 4l-4 4 4 4"/></svg>
+          เตรียมรับมือป้องกันภัย
+        </a>
+        <svg class="pp-hero-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M28 38V18a4 4 0 0 1 8 0v20"/>
+          <circle cx="32" cy="46" r="8"/>
+          <line x1="32" y1="38" x2="32" y2="46" stroke-width="3.5"/>
+          <line x1="28.5" y1="22" x2="35.5" y2="22" stroke-opacity=".35"/>
+          <line x1="28.5" y1="28" x2="35.5" y2="28" stroke-opacity=".35"/>
+          <line x1="28.5" y1="34" x2="35.5" y2="34" stroke-opacity=".35"/>
+          <path d="M43 24 Q47 21 51 24"/>
+          <path d="M43 30 Q47 27 51 30"/>
+          <path d="M43 36 Q47 33 51 36"/>
+          <circle cx="16" cy="14" r="5"/>
+          <line x1="16" y1="5" x2="16" y2="3"/>
+          <line x1="24" y1="14" x2="26" y2="14"/>
+          <line x1="21" y1="9" x2="22" y2="7"/>
+          <line x1="21" y1="19" x2="22" y2="21"/>
+          <line x1="11" y1="9" x2="10" y2="7"/>
+          <line x1="8" y1="14" x2="6" y2="14"/>
+          <line x1="11" y1="19" x2="10" y2="21"/>
+        </svg>
+        <span class="pp-eyebrow">ภัยความร้อน · ขอนแก่น</span>
+        <h1 class="pp-title">รับมือ<br/>ภัยความร้อน</h1>
+        <p class="pp-sub">รู้สาเหตุ สังเกตสัญญาณ ป้องกันก่อน รับมือได้เมื่อเกิดเหตุ</p>
+      </div>
+    </section>
+
+    <div class="pp-main">
+
+      <!-- 01 สาเหตุ -->
+      <section class="pp-section" aria-labelledby="heat-causes">
+        <span class="pp-sec-num">01 · สาเหตุ</span>
+        <h2 class="pp-sec-title" id="heat-causes">ทำไมขอนแก่นถึงร้อนขึ้น?</h2>
+        <div class="pp-divider" aria-hidden="true"></div>
+
+        <div class="pp-cause-grid">
+          <div class="pp-cause-card">
+            <svg class="pp-cause-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="20" width="30" height="12" rx="2"/><rect x="7" y="13" width="5" height="9" rx="1"/><rect x="15" y="10" width="6" height="12" rx="1"/><rect x="24" y="15" width="5" height="7" rx="1"/><path d="M1 20h34"/></svg>
+            <p class="pp-cause-title">เกาะความร้อนเมือง (UHI)</p>
+            <p class="pp-cause-desc">ตึก ถนน และหลังคาคอนกรีตดูดซับความร้อนในตอนกลางวันและคายออกช้าในกลางคืน ทำให้เมืองร้อนกว่าพื้นที่ชนบทโดยรอบ 2–5°C</p>
+          </div>
+          <div class="pp-cause-card">
+            <svg class="pp-cause-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6C12 6 8 10 8 16C8 20 10 23 13 25V29H23V25C26 23 28 20 28 16C28 10 24 6 18 6Z"/><line x1="14" y1="32" x2="22" y2="32"/><line x1="15" y1="35" x2="21" y2="35"/></svg>
+            <p class="pp-cause-title">ขาดพื้นที่สีเขียว</p>
+            <p class="pp-cause-desc">ค่า NDVI ของขอนแก่นเฉลี่ยอยู่ที่ 0.25 ซึ่งต่ำกว่าค่าปกติ ต้นไม้น้อยลง = ร่มเงาน้อยลง + อุณหภูมิที่พื้นผิวสูงขึ้น</p>
+          </div>
+          <div class="pp-cause-card">
+            <svg class="pp-cause-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 28L12 20L20 24L28 12"/><path d="M24 8h8v8"/><circle cx="6" cy="30" r="2"/><circle cx="14" cy="22" r="2"/><circle cx="22" cy="26" r="2"/></svg>
+            <p class="pp-cause-title">เอลนีโญ่ (ENSO)</p>
+            <p class="pp-cause-desc">ปรากฏการณ์เอลนีโญ่สัมพันธ์กับอุณหภูมิพื้นผิว (LST) ของขอนแก่นในระดับสูง (r = 0.73) — ปีที่เอลนีโญ่แรง อุณหภูมิพุ่งชัดเจน</p>
+          </div>
+          <div class="pp-cause-card">
+            <svg class="pp-cause-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 28L6 16L12 10L18 16L24 10L30 16L30 28"/><path d="M14 28v-8h8v8"/></svg>
+            <p class="pp-cause-title">พื้นผิวดาดแข็ง (NDBI สูง)</p>
+            <p class="pp-cause-desc">ค่า NDBI ที่เพิ่มขึ้น 12% ในทศวรรษที่ผ่านมา สะท้อนการขยายตัวของพื้นที่สิ่งปลูกสร้าง ลดการระเหยของน้ำตามธรรมชาติ</p>
+          </div>
+          <div class="pp-cause-card">
+            <svg class="pp-cause-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 26 Q8 22 12 26 Q16 30 20 26 Q24 22 28 26 Q30 28 32 26"/><path d="M8 26V20"/><path d="M16 26V18"/><path d="M24 26V22"/></svg>
+            <p class="pp-cause-title">การจราจรและกิจกรรมเมือง</p>
+            <p class="pp-cause-desc">เครื่องยนต์และเครื่องปรับอากาศปล่อยความร้อนสู่อากาศโดยตรง ทำให้พื้นที่จราจรหนาแน่นร้อนกว่าบริเวณอื่น</p>
+          </div>
+          <div class="pp-cause-card">
+            <svg class="pp-cause-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="12" r="7"/><path d="M4 8c3-4 5-4 8 0s5 4 8 0 5-4 8 0"/><path d="M4 14c3-4 5-4 8 0s5 4 8 0 5-4 8 0"/><path d="M18 19v3M18 26v3"/></svg>
+            <p class="pp-cause-title">แนวโน้มเพิ่มต่อเนื่อง</p>
+            <p class="pp-cause-desc">LST เฉลี่ย 43.98°C (2559–2569) สูงสุด 48.18°C ปี 2567 แนวโน้มเชิงเส้น y = 43.30 + 0.11x — ปี 2575 คาดที่ 45.17°C</p>
+          </div>
+        </div>
+
+        <div class="pp-hotspot-wrap">
+          <span class="pp-hotspot-label">5 พื้นที่เสี่ยงความร้อนสูงสุดในขอนแก่น</span>
+          <div class="pp-hotspots">
+            <span class="pp-hotspot-pill"><span class="pp-hotspot-dot"></span>ย่านถนนมิตรภาพ</span>
+            <span class="pp-hotspot-pill"><span class="pp-hotspot-dot"></span>ย่านตลาดสด</span>
+            <span class="pp-hotspot-pill"><span class="pp-hotspot-dot"></span>ย่านถนนศรีจันทร์</span>
+            <span class="pp-hotspot-pill"><span class="pp-hotspot-dot"></span>ย่านสถานีขนส่ง</span>
+            <span class="pp-hotspot-pill"><span class="pp-hotspot-dot"></span>ย่านชุมชนหนาแน่น</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 สัญญาณเตือน -->
+      <section class="pp-section" aria-labelledby="heat-warn">
+        <span class="pp-sec-num">02 · สัญญาณเตือน</span>
+        <h2 class="pp-sec-title" id="heat-warn">รู้ว่าอันตรายแค่ไหน</h2>
+        <div class="pp-divider" aria-hidden="true"></div>
+
+        <div class="pp-warn-grid">
+          <div class="pp-warn-row pp-warn--yellow">
+            <div>
+              <div class="pp-warn-temp">35–37°C</div>
+              <div style="font-size:.7rem;color:rgba(255,255,255,.35);font-family:var(--font-display);letter-spacing:.06em;text-transform:uppercase;">อุณหภูมิอากาศ</div>
+            </div>
+            <p class="pp-warn-desc">ระวัง — กลุ่มเสี่ยง (เด็กเล็ก ผู้สูงอายุ ผู้ป่วยเรื้อรัง) ควรลดกิจกรรมกลางแจ้ง</p>
+            <span class="pp-warn-badge">เฝ้าระวัง</span>
+          </div>
+          <div class="pp-warn-row pp-warn--orange">
+            <div>
+              <div class="pp-warn-temp">38–40°C</div>
+              <div style="font-size:.7rem;color:rgba(255,255,255,.35);font-family:var(--font-display);letter-spacing:.06em;text-transform:uppercase;">อุณหภูมิอากาศ</div>
+            </div>
+            <p class="pp-warn-desc">อันตราย — หลีกเลี่ยงกิจกรรมกลางแจ้งเกิน 30 นาที ดื่มน้ำบ่อยขึ้น</p>
+            <span class="pp-warn-badge">ระวังสูง</span>
+          </div>
+          <div class="pp-warn-row pp-warn--red">
+            <div>
+              <div class="pp-warn-temp">&gt;41°C</div>
+              <div style="font-size:.7rem;color:rgba(255,255,255,.35);font-family:var(--font-display);letter-spacing:.06em;text-transform:uppercase;">Heat Index</div>
+            </div>
+            <p class="pp-warn-desc">อันตรายมาก — เสี่ยง Heat Stroke ต้องอยู่ในที่มีเครื่องปรับอากาศ โทรฉุกเฉินทันทีหากมีอาการ</p>
+            <span class="pp-warn-badge">อันตราย</span>
+          </div>
+        </div>
+
+        <p style="margin-top:1rem;font-size:.83rem;color:rgba(255,255,255,.38);line-height:1.7;">
+          สัญญาณร่างกายที่ต้องระวัง: เหงื่อออกมากแล้วหยุดกะทันหัน, ผิวร้อนแดงและแห้ง, วิงเวียนหรือสับสน, หัวใจเต้นแรงและเร็ว — หากพบอาการเหล่านี้ให้โทร 1669 ทันที
+        </p>
+      </section>
+
+      <!-- 03 ป้องกัน -->
+      <section class="pp-section" aria-labelledby="heat-prevent">
+        <span class="pp-sec-num">03 · ป้องกัน</span>
+        <h2 class="pp-sec-title" id="heat-prevent">เตรียมตัวก่อนเกิดภัย</h2>
+        <div class="pp-divider" aria-hidden="true"></div>
+
+        <div class="pp-check-grid">
+          <div class="pp-check-item">
+            <div class="pp-check-ico">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M10 3a7 7 0 1 0 0 14A7 7 0 0 0 10 3Z"/><line x1="10" y1="10" x2="10" y2="13"/><line x1="10" y1="7" x2="10" y2="7.5"/></svg>
+            </div>
+            <div class="pp-check-text">
+              <strong>ดื่มน้ำ 2–3 ลิตรต่อวัน</strong>
+              ไม่รอให้กระหายก่อน ดื่มน้ำเย็นทีละน้อยบ่อยๆ หลีกเลี่ยงเครื่องดื่มแอลกอฮอล์และคาเฟอีนที่ทำให้ขับปัสสาวะมาก
+            </div>
+          </div>
+          <div class="pp-check-item">
+            <div class="pp-check-ico">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="10" cy="8" r="4"/><path d="M4 17c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
+            </div>
+            <div class="pp-check-text">
+              <strong>หลีกเลี่ยงกลางแจ้ง 10.00–15.00 น.</strong>
+              ช่วงที่ดวงอาทิตย์ตั้งฉากที่สุด ถ้าจำเป็นให้เดินในที่ร่มหรือซอกตึก
+            </div>
+          </div>
+          <div class="pp-check-item">
+            <div class="pp-check-ico">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M7 3h6v4l3 4H4l3-4V3Z"/><line x1="8" y1="17" x2="12" y2="17"/><line x1="7" y1="14" x2="13" y2="14"/></svg>
+            </div>
+            <div class="pp-check-text">
+              <strong>เสื้อผ้าสีอ่อน น้ำหนักเบา</strong>
+              ผ้าฝ้ายหรือ linen ระบายอากาศได้ดี สีขาวหรือสีอ่อนสะท้อนรังสีได้ดีกว่าสีเข้ม
+            </div>
+          </div>
+          <div class="pp-check-item">
+            <div class="pp-check-ico">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="10" cy="8" r="5"/><path d="M10 13v4M7 16h6"/><line x1="10" y1="5" x2="10" y2="3"/><line x1="14" y1="8" x2="16" y2="8"/><line x1="6" y1="8" x2="4" y2="8"/></svg>
+            </div>
+            <div class="pp-check-text">
+              <strong>ครีมกันแดด SPF50+ ทุก 2 ชั่วโมง</strong>
+              ทาทุกส่วนที่โดนแสง รวมถึงหู ต้นคอ และหลังมือ
+            </div>
+          </div>
+          <div class="pp-check-item">
+            <div class="pp-check-ico">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="3" y="4" width="14" height="10" rx="2"/><path d="M7 17h6"/><line x1="10" y1="14" x2="10" y2="17"/></svg>
+            </div>
+            <div class="pp-check-text">
+              <strong>ตรวจอากาศก่อนออกจากบ้าน</strong>
+              ดูอุณหภูมิ Heat Index และคำเตือนจากกรมอุตุนิยมวิทยาทุกเช้า
+            </div>
+          </div>
+          <div class="pp-check-item">
+            <div class="pp-check-ico">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M5 10a5 5 0 0 1 10 0"/><path d="M10 10v6"/><path d="M7 13h6"/></svg>
+            </div>
+            <div class="pp-check-text">
+              <strong>พกผ้าเย็นหรือสเปรย์น้ำ</strong>
+              เช็ดต้นคอ ข้อมือ และหน้าผากเพื่อลดความร้อนร่างกายได้อย่างรวดเร็ว
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 เมื่อเกิดภัย -->
+      <section class="pp-section" aria-labelledby="heat-emer">
+        <span class="pp-sec-num">04 · เมื่อเกิดภัย</span>
+        <h2 class="pp-sec-title" id="heat-emer">ทำอะไรเมื่อร่างกายร้อนเกิน</h2>
+        <div class="pp-divider" aria-hidden="true"></div>
+
+        <div class="pp-steps">
+          <div class="pp-step">
+            <div class="pp-step-num">01</div>
+            <div class="pp-step-body">
+              <p class="pp-step-title">ย้ายเข้าที่ร่มหรือห้องแอร์ทันที</p>
+              <p class="pp-step-desc">ศูนย์การค้า ห้างสรรพสินค้า สถานีบริการน้ำมัน หรืออาคารสาธารณะใดก็ได้ที่มีเครื่องปรับอากาศ</p>
+            </div>
+          </div>
+          <div class="pp-step">
+            <div class="pp-step-num">02</div>
+            <div class="pp-step-body">
+              <p class="pp-step-title">ดื่มน้ำเย็น — ทีละน้อย</p>
+              <p class="pp-step-desc">ดื่มน้ำเย็น 150–200 มล. ทุก 15–20 นาที อย่าดื่มทีละมากเพราะอาจทำให้คลื่นไส้ หลีกเลี่ยงน้ำแข็งจัด</p>
+            </div>
+          </div>
+          <div class="pp-step">
+            <div class="pp-step-num">03</div>
+            <div class="pp-step-body">
+              <p class="pp-step-title">เช็ดตัวด้วยผ้าเปียก</p>
+              <p class="pp-step-desc">เน้นที่ต้นคอ รักแร้ และขาหนีบ — บริเวณที่มีเส้นเลือดใหญ่ผ่าน ช่วยลดอุณหภูมิร่างกายได้เร็ว</p>
+            </div>
+          </div>
+          <div class="pp-step">
+            <div class="pp-step-num">04</div>
+            <div class="pp-step-body">
+              <p class="pp-step-title">ตรวจผู้สูงอายุและเด็กเล็กรอบข้าง</p>
+              <p class="pp-step-desc">กลุ่มนี้ร่างกายควบคุมอุณหภูมิได้แย่กว่า อาจไม่รู้สึกว่าตัวเองร้อนเกินจนอาการหนัก</p>
+            </div>
+          </div>
+          <div class="pp-step pp-step-sos">
+            <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 2a8 8 0 1 0 0 16A8 8 0 0 0 10 2Z"/><line x1="10" y1="6" x2="10" y2="10"/><circle cx="10" cy="13" r=".7" fill="currentColor" stroke="none"/></svg>
+            <div>
+              <strong>โทร 1669 ทันที</strong> หากพบอาการ: เหงื่อหยุดออกกะทันหัน ผิวร้อนแดงและแห้ง สับสน ชัก หรือหมดสติ — นั่นคือ Heat Stroke ซึ่งเป็นอันตรายถึงชีวิต
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom nav -->
+      <div class="pp-bottom-nav">
+        <a href="prepare.html" class="pp-btn-back">
+          <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8H3M7 4l-4 4 4 4"/></svg>
+          กลับหน้ารับมือป้องกันภัย
+        </a>
+        <a href="heat.html" class="pp-btn-detail">
+          ดูข้อมูลความร้อนเชิงลึก
+          <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/nav.js"></script>
+</body>
+</html>
