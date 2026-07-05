@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>อุณหภูมิพื้นผิว LST — Heat Safe Khon Kaen</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/themes.css" />
+  <style>
+    html, body { background: #0B0F1A; color: #e2e8f0; }
+
+    /* ── Hero ── */
+    .lst-hero {
+      background:
+        linear-gradient(to bottom, rgba(11,15,26,.5), rgba(11,15,26,.9)),
+        linear-gradient(135deg, rgba(251,146,60,.14), rgba(239,68,68,.08));
+      padding: calc(var(--header-h) + 2.5rem) 1.5rem 3.5rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .lst-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .72rem; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: #fb923c; margin-bottom: .6rem;
+      overflow-wrap: break-word;
+    }
+    .lst-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 800; line-height: .95; color: #fff;
+    }
+    .lst-title span { color: #fb923c; }
+    .lst-desc {
+      font-size: clamp(.85rem, 2vw, 1rem);
+      color: rgba(255,255,255,.55);
+      max-width: 580px; margin: .75rem auto 0; line-height: 1.7;
+      overflow-wrap: break-word;
+    }
+
+    /* ── Formula ── */
+    .formula-wrap {
+      background: rgba(251,146,60,.06);
+      border: 1px solid rgba(251,146,60,.22);
+      border-radius: 16px; padding: 1.4rem 2rem;
+      display: flex; flex-direction: column;
+      align-items: center; gap: .45rem;
+      margin: 2rem auto 0; max-width: 500px; width: 100%;
+      box-sizing: border-box;
+    }
+    .formula-label {
+      font-size: .65rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(251,146,60,.75);
+    }
+    .formula-math {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.25rem; font-weight: 700; color: #fff;
+      text-align: center; line-height: 1.4; overflow-wrap: break-word;
+    }
+    .formula-band {
+      font-size: .7rem; color: rgba(255,255,255,.38);
+      text-align: center; line-height: 1.7; margin: 0;
+      overflow-wrap: break-word;
+    }
+
+    /* ── Wrapper ── */
+    .lst-wrap { max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem 5rem; overflow-wrap: break-word; }
+
+    /* ── Stats grid ── */
+    .lst-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem; margin-bottom: 2.5rem;
+    }
+    .lst-stat {
+      background: rgba(251,146,60,.06);
+      border: 1px solid rgba(251,146,60,.18);
+      border-radius: 14px; padding: 1.1rem 1rem; text-align: center;
+    }
+    .lst-stat-label { font-size: .7rem; color: rgba(255,255,255,.45); margin-bottom: .35rem; }
+    .lst-stat-big {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 2.4rem);
+      font-weight: 800; color: #fb923c; line-height: 1;
+    }
+    .lst-stat-sub { font-size: .65rem; color: rgba(255,255,255,.32); margin-top: .3rem; }
+
+    /* ── Section heading ── */
+    .section-heading {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.35rem; font-weight: 700; color: #fff; margin-bottom: .35rem;
+    }
+    .section-sub { font-size: .76rem; color: rgba(255,255,255,.36); margin-bottom: 1.5rem; line-height: 1.55; overflow-wrap: break-word; }
+
+    /* ── Yearly table ── */
+    .lst-table-wrap { overflow-x: auto; margin-bottom: .4rem; border-radius: 12px; }
+    .lst-table {
+      width: 100%; min-width: 640px; border-collapse: collapse;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .88rem;
+    }
+    .lst-table th, .lst-table td {
+      padding: .55rem .75rem; text-align: center;
+      border: 1px solid rgba(255,255,255,.07);
+    }
+    .lst-table thead th {
+      background: rgba(251,146,60,.1); color: rgba(255,255,255,.7);
+      font-size: .75rem; letter-spacing: .06em;
+    }
+    .lst-table tbody tr { background: rgba(255,255,255,.02); }
+    .lst-table tbody td { color: #e2e8f0; font-weight: 600; }
+    .lst-table .col-peak { background: rgba(251,146,60,.18); color: #fb923c !important; }
+    .lst-table .row-label { text-align: left; color: rgba(255,255,255,.45); background: rgba(255,255,255,.03); }
+    .lst-source { font-size: .62rem; color: rgba(255,255,255,.28); margin-top: .4rem; overflow-wrap: break-word; }
+
+    /* ── Correlation cards ── */
+    .corr-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .85rem; margin-bottom: 1.5rem;
+    }
+    .corr-card { border-radius: 10px; padding: .9rem; }
+    .corr-card--ndvi { background: rgba(34,197,94,.08); border: 1px solid rgba(34,197,94,.25); }
+    .corr-card--ndbi { background: rgba(239,68,68,.08);  border: 1px solid rgba(239,68,68,.25); }
+    .corr-card--enso { background: rgba(99,102,241,.08); border: 1px solid rgba(99,102,241,.25); }
+    .corr-eyebrow { font-size: .65rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 600; margin-bottom: .3rem; }
+    .corr-eyebrow--ndvi { color: rgba(74,222,128,.75); }
+    .corr-eyebrow--ndbi { color: rgba(248,113,113,.75); }
+    .corr-eyebrow--enso { color: rgba(165,180,252,.75); }
+    .corr-val {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem; font-weight: 800; letter-spacing: -.02em; line-height: 1.1;
+    }
+    .corr-val--ndvi { color: #4ade80; }
+    .corr-val--ndbi { color: #f87171; }
+    .corr-val--enso { color: #a5b4fc; }
+    .corr-desc { font-size: .72rem; color: rgba(255,255,255,.45); margin-top: .3rem; overflow-wrap: break-word; }
+
+    /* ── Trend list ── */
+    .trend-list { list-style: none; padding: 0; margin: 0 0 1.5rem; display: flex; flex-direction: column; gap: .55rem; }
+    .trend-list li {
+      font-size: .82rem; color: rgba(255,255,255,.6); line-height: 1.65;
+      padding: .7rem .9rem; background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.07); border-radius: 10px;
+      overflow-wrap: break-word;
+    }
+    .trend-list li b { color: rgba(255,255,255,.85); }
+
+    /* ── Hotspot bars ── */
+    .hotspot-list { display: flex; flex-direction: column; gap: .55rem; margin-bottom: 1.25rem; }
+    .hotspot-row  { display: flex; align-items: center; gap: .7rem; }
+    .hotspot-lbl  { min-width: 120px; font-size: .78rem; color: rgba(255,255,255,.62); text-align: right; flex-shrink: 0; }
+    .hotspot-track { flex: 1; min-width: 0; background: rgba(255,255,255,.07); border-radius: 4px; height: 26px; overflow: hidden; }
+    .hotspot-fill  { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; }
+    .hotspot-val   { font-size: .78rem; font-weight: 700; font-family: 'Barlow Condensed', sans-serif; white-space: nowrap; }
+
+    /* ── Compound risk ── */
+    .risk-list { display: flex; flex-direction: column; gap: .55rem; margin-bottom: 1.5rem; }
+    .risk-item {
+      display: flex; align-items: flex-start; gap: .75rem;
+      padding: .65rem .9rem; border-radius: 8px;
+      overflow-wrap: break-word;
+    }
+    .risk-icon { font-size: 1rem; flex-shrink: 0; margin-top: .05rem; }
+    .risk-body { min-width: 0; overflow-wrap: break-word; }
+    .risk-title { font-size: .82rem; font-weight: 600; color: rgba(255,255,255,.85); display: block; margin-bottom: .15rem; }
+    .risk-desc  { font-size: .75rem; color: rgba(255,255,255,.45); }
+    .risk-link  { font-size: .72rem; color: #22d3ee; text-decoration: none; display: inline-block; margin-top: .2rem; }
+
+    /* ── Highlight box ── */
+    .highlight-box {
+      background: rgba(251,146,60,.07);
+      border-left: 3px solid #fb923c;
+      border-radius: 0 10px 10px 0;
+      padding: .9rem 1.1rem; margin-bottom: 1.5rem;
+      font-size: .85rem; color: rgba(255,255,255,.65); line-height: 1.65;
+      overflow-wrap: break-word;
+    }
+
+    /* ── Bottom nav ── */
+    .page-nav-row {
+      display: flex; flex-wrap: wrap; gap: .75rem;
+      justify-content: center; margin-top: 3rem;
+    }
+    .page-nav-btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .65rem 1.35rem; border-radius: 10px; text-decoration: none;
+      font-size: .8rem; font-family: 'Noto Sans Thai', sans-serif;
+      transition: background .2s;
+    }
+    .pnb-back { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.13); color: rgba(255,255,255,.6); }
+    .pnb-ndvi { background: rgba(34,197,94,.1);  border: 1px solid rgba(34,197,94,.25); color: #4ade80; }
+    .pnb-ndbi { background: rgba(239,68,68,.1);  border: 1px solid rgba(239,68,68,.25); color: #f87171; }
+
+    /* ── Map image grid ── */
+    .lst-map-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem; margin-bottom: 1rem;
+    }
+    .lst-img-card {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px; overflow: hidden;
+    }
+    .lst-img-card img {
+      width: 100%; height: auto; display: block;
+    }
+    .lst-img-caption {
+      padding: .55rem .85rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: .2rem;
+    }
+    .lst-img-year {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem; font-weight: 700; color: #fff;
+    }
+    .lst-img-val {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .88rem; font-weight: 600; color: #fb923c;
+    }
+    .lst-img-card--peak { border-color: rgba(251,146,60,.4); }
+    .lst-img-card--peak .lst-img-year { color: #fb923c; }
+    .lst-img-card--full { grid-column: 1 / -1; }
+    /* full-width images (table/chart): scrollable on mobile */
+    .lst-img-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .lst-img-scroll img { min-width: 560px; width: 100%; height: auto; display: block; background: #fff; }
+
+    @media (max-width: 600px) {
+      .lst-stats      { grid-template-columns: 1fr; }
+      .corr-grid      { grid-template-columns: 1fr; }
+      .hotspot-lbl    { min-width: 80px; font-size: .7rem; }
+      .formula-math   { font-size: 1rem; }
+      .formula-wrap   { padding: 1.1rem 1rem; }
+      .lst-map-grid   { grid-template-columns: 1fr; }
+      .lst-wrap       { padding: 2rem 1rem 4rem; }
+      .lst-eyebrow    { font-size: .65rem; letter-spacing: .08em; }
+      .corr-val       { font-size: 1.6rem; }
+      .page-nav-btn   { font-size: .75rem; padding: .55rem 1rem; }
+    }
+  </style>
+  <script src="../js/utility-bar.js"></script>
+  <script src="../js/alert-bar.js"></script>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <!-- ─── HEADER ─── -->
+  <header id="site-header" role="banner">
+    <div class="header-inner container">
+      <a href="index.html" class="site-logo" aria-label="Heat Safe Khon Kaen — หน้าแรก">
+        <span class="logo-heat">Heat Safe</span>
+        <span class="logo-city">Khon Kaen</span>
+      </a>
+      <nav id="main-nav" aria-label="เมนูหลัก">
+        <ul class="nav-links" role="list">
+          <li><a href="index.html"     class="nav-link">หน้าแรก</a></li>
+          <li><a href="heat.html"      class="nav-link">ความร้อน</a></li>
+          <li><a href="lst.html"       class="nav-link active" aria-current="page">LST</a></li>
+          <li><a href="ndvi.html"      class="nav-link">NDVI</a></li>
+          <li><a href="ndbi.html"      class="nav-link">NDBI</a></li>
+          <li><a href="dust.html"      class="nav-link">ฝุ่น PM2.5</a></li>
+          <li><a href="smart-map.html" class="nav-link">แผนที่อัจฉริยะ</a></li>
+        </ul>
+        <a href="map.html" class="btn btn-primary btn-sm nav-cta">แผนที่เรียลไทม์</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="เปิด/ปิดเมนู" aria-expanded="false" aria-controls="main-nav">
+        <span class="ham-line"></span><span class="ham-line"></span><span class="ham-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ─── HERO ─── -->
+  <div class="lst-hero" id="main-content">
+    <p class="lst-eyebrow">GeoHeat Khon Kaen · ดาวเทียม Landsat 8–9 (USGS/NASA) · Google Earth Engine</p>
+    <h1 class="lst-title">อุณหภูมิพื้นผิว<br><span>LST</span></h1>
+    <p class="lst-desc">
+      Land Surface Temperature — วัดอุณหภูมิพื้นผิวดินจากดาวเทียมในเขตเทศบาลนครขอนแก่น
+      ย้อนหลัง 11 ปี (พ.ศ. 2559–2569) ช่วงฤดูแล้ง (มี.ค.–พ.ค.)
+    </p>
+    <div class="formula-wrap">
+      <span class="formula-label">วิธีคำนวณ LST</span>
+      <div class="formula-math">Radiance → Brightness Temp (K) → LST (°C)</div>
+      <p class="formula-band">
+        คลื่น Thermal Infrared (Band 10) · สมการ Planck + Emissivity Correction<br>
+        LST = Tb / (1 + λ·Tb/c₂ · ln ε) − 273.15 · หน่วย: °C
+      </p>
+    </div>
+  </div>
+
+  <!-- ─── MAIN ─── -->
+  <main class="lst-wrap">
+
+    <!-- Stats -->
+    <div class="lst-stats">
+      <div class="lst-stat">
+        <div class="lst-stat-label">LST เฉลี่ย 11 ปี</div>
+        <div class="lst-stat-big">43.98°C</div>
+        <div class="lst-stat-sub">พ.ศ. 2559–2569</div>
+      </div>
+      <div class="lst-stat">
+        <div class="lst-stat-label">อัตราเพิ่มต่อปี</div>
+        <div class="lst-stat-big">+0.11°C</div>
+        <div class="lst-stat-sub">แนวโน้มร้อนขึ้นต่อเนื่อง</div>
+      </div>
+      <div class="lst-stat">
+        <div class="lst-stat-label">ปีร้อนสุด — 2567</div>
+        <div class="lst-stat-big">48.18°C</div>
+        <div class="lst-stat-sub">สูงสุดในรอบ 11 ปี</div>
+      </div>
+    </div>
+
+    <!-- Yearly table -->
+    <h2 class="section-heading">อุณหภูมิพื้นผิว (LST) รายปี จากดาวเทียม Landsat</h2>
+    <p class="section-sub">ค่า LST เฉลี่ยช่วงฤดูแล้ว (มี.ค.–พ.ค.) ในเขตเทศบาลนครขอนแก่น · หน่วย: °C · กรอบสีส้ม = ปีร้อนสุด</p>
+    <div class="lst-table-wrap">
+      <table class="lst-table" aria-label="ตารางอุณหภูมิพื้นผิวดาวเทียมรายปีขอนแก่น">
+        <thead>
+          <tr>
+            <th class="row-label">ปี (พ.ศ.)</th>
+            <th>2559</th><th>2560</th><th>2561</th><th>2562</th>
+            <th>2563</th><th>2564</th><th>2565</th><th>2566</th>
+            <th class="col-peak">2567</th><th>2568</th><th>2569</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="row-label">LST (°C)</th>
+            <td>45.93</td><td>44.94</td><td>38.39</td><td>43.73</td>
+            <td>47.99</td><td>41.56</td><td>41.29</td><td>42.10</td>
+            <td class="col-peak"><b>48.18</b></td><td>45.82</td><td>43.84</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lst-source">ที่มา: โครงการ GeoHeat ขอนแก่น · Landsat 8–9 (USGS/NASA) · วิเคราะห์ด้วย Google Earth Engine</p>
+
+    <!-- Map images per year -->
+    <h2 class="section-heading" style="margin-top:2.5rem;">แผนที่อุณหภูมิพื้นผิว LST รายปี</h2>
+    <p class="section-sub">แผนที่ LST ช่วงฤดูแล้ง (มี.ค.–พ.ค.) แต่ละปี — สีแดงเข้ม = ร้อนจัด (&gt;43°C) · สีเขียว = เย็น (31–34°C) · จาก Google Earth Engine</p>
+    <div class="lst-map-grid">
+
+      <div class="lst-img-card">
+        <img src="../assets/icons/LST/LST%201.png" alt="แผนที่ LST ปี พ.ศ. 2559" loading="lazy" />
+        <div class="lst-img-caption">
+          <span class="lst-img-year">พ.ศ. 2559</span>
+          <span class="lst-img-val">เฉลี่ย 45.93°C</span>
+        </div>
+      </div>
+
+      <div class="lst-img-card">
+        <img src="../assets/icons/LST/LST%202.png" alt="แผนที่ LST ปี พ.ศ. 2560" loading="lazy" />
+        <div class="lst-img-caption">
+          <span class="lst-img-year">พ.ศ. 2560</span>
+          <span class="lst-img-val">เฉลี่ย 44.94°C</span>
+        </div>
+      </div>
+
+      <div class="lst-img-card">
+        <img src="../assets/icons/LST/LST%203.png" alt="แผนที่ LST ปี พ.ศ. 2561" loading="lazy" />
+        <div class="lst-img-caption">
+          <span class="lst-img-year">พ.ศ. 2561</span>
+          <span class="lst-img-val">เฉลี่ย 38.39°C · ปีเย็นสุด</span>
+        </div>
+      </div>
+
+      <div class="lst-img-card">
+        <img src="../assets/icons/LST/LST%204.png" alt="แผนที่ LST ปี พ.ศ. 2562" loading="lazy" />
+        <div class="lst-img-caption">
+          <span class="lst-img-year">พ.ศ. 2562</span>
+          <span class="lst-img-val">เฉลี่ย 43.73°C</span>
+        </div>
+      </div>
+
+      <div class="lst-img-card">
+        <img src="../assets/icons/LST/LST%205.png" alt="แผนที่ LST ปี พ.ศ. 2563" loading="lazy" />
+        <div class="lst-img-caption">
+          <span class="lst-img-year">พ.ศ. 2563</span>
+          <span class="lst-img-val">เฉลี่ย 47.99°C</span>
+        </div>
+      </div>
+
+      <div class="lst-img-card">
+        <img src="../assets/icons/LST/LST%206.png" alt="แผนที่ LST ปี พ.ศ. 2564" loading="lazy" />
+        <div class="lst-img-caption">
+          <span class="lst-img-year">พ.ศ. 2564</span>
+          <span class="lst-img-val">เฉลี่ย 41.56°C</span>
+        </div>
+      </div>
+
+      <div class="lst-img-card">
+        <img src="../assets/icons/LST/LST%207.png" alt="แผนที่ LST ปี พ.ศ. 2565" loading="lazy" />
+        <div class="lst-img-caption">
+          <span class="lst-img-year">พ.ศ. 2565</span>
+          <span class="lst-img-val">เฉลี่ย 41.29°C</span>
+        </div>
+      </div>
+
+      <div class="lst-img-card">
+        <img src="../assets/icons/LST/LST%208.png" alt="แผนที่ LST ปี พ.ศ. 2566" loading="lazy" />
+        <div class="lst-img-caption">
+          <span class="lst-img-year">พ.ศ. 2566</span>
+          <span class="lst-img-val">เฉลี่ย 42.10°C</span>
+        </div>
+      </div>
+
+      <div class="lst-img-card lst-img-card--peak">
+        <img src="../assets/icons/LST/LST%209.png" alt="แผนที่ LST ปี พ.ศ. 2567 ปีร้อนสุด" loading="lazy" />
+        <div class="lst-img-caption">
+          <span class="lst-img-year">พ.ศ. 2567 🔥 ร้อนสุด</span>
+          <span class="lst-img-val">เฉลี่ย 48.18°C</span>
+        </div>
+      </div>
+
+      <div class="lst-img-card">
+        <img src="../assets/icons/LST/LST%2010.png" alt="แผนที่ LST ปี พ.ศ. 2568" loading="lazy" />
+        <div class="lst-img-caption">
+          <span class="lst-img-year">พ.ศ. 2568</span>
+          <span class="lst-img-val">เฉลี่ย 45.82°C</span>
+        </div>
+      </div>
+
+      <div class="lst-img-card lst-img-card--full">
+        <img src="../assets/icons/LST/LST%2011.png" alt="แผนที่ LST ปี พ.ศ. 2569" loading="lazy" />
+        <div class="lst-img-caption">
+          <span class="lst-img-year">พ.ศ. 2569</span>
+          <span class="lst-img-val">เฉลี่ย 43.84°C</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Summary table image (LST 12) -->
+    <h2 class="section-heading" style="margin-top:1rem;">ตารางสรุปผลการวิเคราะห์ LST ทั้ง 11 ปี</h2>
+    <p class="section-sub">ค่า LST ต่ำสุด สูงสุด เฉลี่ย และแนวโน้มเทียบค่าเฉลี่ยรวม 43.98°C · เลื่อนซ้าย–ขวาบนมือถือเพื่อดูครบ</p>
+    <div class="lst-img-card lst-img-card--full" style="margin-bottom:1rem;">
+      <div class="lst-img-scroll">
+        <img src="../assets/icons/LST/LST%2012.png" alt="ตารางสรุปผลการวิเคราะห์อุณหภูมิพื้นผิว LST ขอนแก่น 2559–2569" loading="lazy" />
+      </div>
+    </div>
+
+    <!-- Trend chart image (LST 13) -->
+    <h2 class="section-heading">กราฟแนวโน้ม LST และการคาดการณ์</h2>
+    <p class="section-sub">Bar chart รายปี · Line chart ค่าเฉลี่ย · แนวโน้มเชิงเส้น +0.11°C/ปี · คาดการณ์ปี 2575 ≈ 45.17°C · เลื่อนซ้าย–ขวาบนมือถือเพื่อดูครบ</p>
+    <div class="lst-img-card lst-img-card--full" style="margin-bottom:2.5rem;">
+      <div class="lst-img-scroll">
+        <img src="../assets/icons/LST/LST%2013.png" alt="กราฟแนวโน้มอุณหภูมิพื้นผิว LST ขอนแก่น 2559–2569 และการคาดการณ์" loading="lazy" />
+      </div>
+    </div>
+
+    <!-- Correlation -->
+    <h2 class="section-heading" style="margin-top:2.5rem;">ความสัมพันธ์ LST กับดัชนีอื่น</h2>
+    <p class="section-sub">ยิ่ง NDVI ลดลง และ NDBI เพิ่มขึ้น LST ยิ่งสูงตาม — ยืนยันด้วย r ในช่วง ±0.89–0.91</p>
+    <div class="corr-grid">
+      <div class="corr-card corr-card--ndvi">
+        <div class="corr-eyebrow corr-eyebrow--ndvi">NDVI · พืชพรรณ (ต้นไม้ / พื้นที่สีเขียว)</div>
+        <div class="corr-val corr-val--ndvi">r = −0.91</div>
+        <div class="corr-desc">
+          พื้นที่สีเขียวมาก → ความร้อนน้อยลง<br>
+          ความสัมพันธ์เชิงลบสูงมาก<br>
+          <span style="opacity:.65;">สีเขียวเขตเมือง: 8.40 ตร.กม. (2562) → 7.90 ตร.กม. (2569)</span>
+        </div>
+      </div>
+      <div class="corr-card corr-card--ndbi">
+        <div class="corr-eyebrow corr-eyebrow--ndbi">NDBI · สิ่งปลูกสร้าง (คอนกรีต / ยางมะตอย)</div>
+        <div class="corr-val corr-val--ndbi">r = +0.89</div>
+        <div class="corr-desc">
+          พื้นที่สิ่งปลูกสร้างมาก → ความร้อนสูงขึ้น<br>
+          ความสัมพันธ์เชิงบวกสูงมาก
+        </div>
+      </div>
+      <div class="corr-card corr-card--enso">
+        <div class="corr-eyebrow corr-eyebrow--enso">ENSO · ปรากฏการณ์เอลนีโญ (ONI)</div>
+        <div class="corr-val corr-val--enso">r = 0.73</div>
+        <div class="corr-desc">
+          ปีเอลนีโญ → LST สูงกว่าปกติ<br>
+          คำนวณจาก 10 ปีที่มีข้อมูล ONI ครบ (2559–2568)
+        </div>
+      </div>
+      <div class="corr-card" style="background:rgba(251,146,60,.06);border:1px solid rgba(251,146,60,.2);">
+        <div class="corr-eyebrow" style="color:rgba(251,146,60,.75);">แนวโน้มเชิงเส้น (Linear Trend)</div>
+        <div class="corr-val" style="color:#fb923c;">+0.11°C/ปี</div>
+        <div class="corr-desc">
+          y = 43.30 + 0.11x (R² = 0.02)<br>
+          แนวโน้มเพิ่มเล็กน้อย ยังไม่ชัดเจนทางสถิติ<br>
+          <span style="opacity:.65;">หากดำเนินต่อ ขอนแก่นอาจร้อนขึ้น &gt;1°C ใน 10 ปีข้างหน้า</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Causes -->
+    <h2 class="section-heading" style="margin-top:.5rem;">ทำไมขอนแก่นถึงร้อนขึ้น?</h2>
+    <p class="section-sub">หลักฐานจากดาวเทียม 11 ปี — 4 สาเหตุหลักที่ทำให้ LST เพิ่มขึ้น</p>
+    <ul class="trend-list">
+      <li><b>พื้นที่สีเขียวลดลง</b> — ต้นไม้และพื้นที่เปิดโล่งในเขตเมืองถูกแทนที่ด้วยอาคาร ทำให้ร่มเงาและการระเหยน้ำลดลง อุณหภูมิพื้นผิวจึงสูงขึ้น <em style="color:rgba(74,222,128,.7);">(NDVI ↓ ≈ LST ↑)</em></li>
+      <li><b>พื้นที่สิ่งปลูกสร้างเพิ่มขึ้น</b> — คอนกรีตและยางมะตอยดูดซับและกักเก็บความร้อนได้ดี คายความร้อนกลับแม้ในเวลากลางคืน ทำให้เมืองไม่มีโอกาสเย็นลง <em style="color:rgba(248,113,113,.7);">(NDBI ↑ ≈ LST ↑)</em></li>
+      <li><b>ความสัมพันธ์กับ ENSO</b> — ปีเอลนีโญส่งผลให้ LST สูงขึ้นชัดเจน เช่น 2559 (ONI +1.71) → 45.93°C · 2563 (ONI +0.53) → 47.99°C · 2567 (ONI +1.26) → 48.18°C ปีร้อนสุด</li>
+      <li><b>แนวโน้ม +0.11°C ต่อปี</b> — สมการ y = 43.30 + 0.11x (R² = 0.02) แนวโน้มเพิ่มขึ้นเล็กน้อย แต่ยังผันผวนสูงตาม ENSO — หากดำเนินต่อ ขอนแก่นอาจร้อนขึ้นกว่า 1°C ในอีก 10 ปีข้างหน้า</li>
+    </ul>
+
+    <!-- Hotspots -->
+    <h2 class="section-heading">5 จุดร้อนที่สุดในเขตเมืองขอนแก่น</h2>
+    <p class="section-sub">บริเวณที่มีความหนาแน่นสูงและพื้นที่สีเขียวน้อยที่สุด · หน่วย: °C · ข้อมูลจากดาวเทียม</p>
+    <div class="hotspot-list">
+      <div class="hotspot-row">
+        <span class="hotspot-lbl">ถนนมิตรภาพ</span>
+        <div class="hotspot-track">
+          <div class="hotspot-fill" style="width:97%;background:linear-gradient(90deg,#ef4444,#dc2626);">
+            <span class="hotspot-val" style="color:#fff;">56.80°C</span>
+          </div>
+        </div>
+      </div>
+      <div class="hotspot-row">
+        <span class="hotspot-lbl">ย่านตลาดสด</span>
+        <div class="hotspot-track">
+          <div class="hotspot-fill" style="width:80%;background:linear-gradient(90deg,#f97316,#ef4444);">
+            <span class="hotspot-val" style="color:#fff;">55.60°C</span>
+          </div>
+        </div>
+      </div>
+      <div class="hotspot-row">
+        <span class="hotspot-lbl">ถนนศรีจันทร์</span>
+        <div class="hotspot-track">
+          <div class="hotspot-fill" style="width:70%;background:linear-gradient(90deg,#fb923c,#f97316);">
+            <span class="hotspot-val" style="color:#fff;">54.90°C</span>
+          </div>
+        </div>
+      </div>
+      <div class="hotspot-row">
+        <span class="hotspot-lbl">สถานีขนส่ง</span>
+        <div class="hotspot-track">
+          <div class="hotspot-fill" style="width:60%;background:linear-gradient(90deg,#fbbf24,#fb923c);">
+            <span class="hotspot-val" style="color:#fff;">54.20°C</span>
+          </div>
+        </div>
+      </div>
+      <div class="hotspot-row">
+        <span class="hotspot-lbl">ชุมชนหนาแน่น</span>
+        <div class="hotspot-track">
+          <div class="hotspot-fill" style="width:49%;background:linear-gradient(90deg,#facc15,#fbbf24);">
+            <span class="hotspot-val" style="color:rgba(0,0,0,.75);">53.40°C</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="highlight-box">
+      ถนนมิตรภาพและย่านตลาดสดมี LST สูงสุดเนื่องจากพื้นที่ยางมะตอยขนาดใหญ่ ความหนาแน่นยานพาหนะสูง และพื้นที่สีเขียวน้อยมาก — บริเวณเหล่านี้คือเป้าหมายหลักที่ต้องเร่งแก้ไข เช่น การปลูกต้นไม้ริมถนน Pocket Park และหลังคาสะท้อนแสง
+    </div>
+
+    <!-- Compound risk -->
+    <h2 class="section-heading">พื้นที่เสี่ยงซ้ำซ้อน</h2>
+    <p class="section-sub">ฮอตสปอตส่วนใหญ่อยู่ในระดับ <strong style="color:#f87171;">ความเสี่ยงซ้ำซ้อนสูงมาก</strong> เมื่อพิจารณาร่วมกับปัญหาอื่นในพื้นที่เดียวกัน</p>
+    <div class="risk-list">
+      <div class="risk-item" style="background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);">
+        <span class="risk-icon" aria-hidden="true">🌡️+🌫️</span>
+        <div class="risk-body">
+          <span class="risk-title">ร้อน + ฝุ่น PM2.5</span>
+          <span class="risk-desc">ช่วงมี.ค.–พ.ค. ถนนมิตรภาพและสถานีขนส่งมีทั้งอุณหภูมิพื้นผิวและฝุ่นสูงพร้อมกัน</span>
+          <a href="dust.html" class="risk-link" aria-label="ดูข้อมูลฝุ่น PM2.5">ดูข้อมูลฝุ่น →</a>
+        </div>
+      </div>
+      <div class="risk-item" style="background:rgba(251,146,60,.07);border:1px solid rgba(251,146,60,.2);">
+        <span class="risk-icon" aria-hidden="true">🌡️+🚗</span>
+        <div class="risk-body">
+          <span class="risk-title">ร้อน + จราจรติดขัด</span>
+          <span class="risk-desc">ความร้อนจากเครื่องยนต์รถยนต์เสริมให้ LST ย่านถนนมิตรภาพและถนนศรีจันทร์สูงยิ่งขึ้น</span>
+          <a href="smart-map.html" class="risk-link" aria-label="ดู Smart Map">ดูแผนที่อัจฉริยะ →</a>
+        </div>
+      </div>
+      <div class="risk-item" style="background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.2);">
+        <span class="risk-icon" aria-hidden="true">🌡️+🌊</span>
+        <div class="risk-body">
+          <span class="risk-title">ร้อน + น้ำท่วมขัง</span>
+          <span class="risk-desc">หลังฝนตกหนัก พื้นที่ถนนมิตรภาพและชุมชนหนาแน่นมีน้ำขังที่อุณหภูมิสูง เสี่ยงต่อเชื้อโรค</span>
+          <a href="flood.html" class="risk-link" aria-label="ดูข้อมูลน้ำท่วม">ดูข้อมูลน้ำท่วม →</a>
+        </div>
+      </div>
+      <div class="risk-item" style="background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);">
+        <span class="risk-icon" aria-hidden="true">🌡️+🌳</span>
+        <div class="risk-body">
+          <span class="risk-title">ร้อน + ไม่มีร่มเงา</span>
+          <span class="risk-desc">NDVI ต่ำในทุกจุดเสี่ยง ผู้คนต้องเผชิญความร้อนโดยตรงโดยไม่มีร่มเงาต้นไม้</span>
+          <a href="heat-map-full.html" class="risk-link" aria-label="ดูแผนที่ความร้อน">ดูแผนที่ความร้อน →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Citation -->
+    <div style="background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-left:3px solid #fb923c;border-radius:8px;padding:.9rem 1.1rem;margin-top:1rem;">
+      <p style="font-size:.68rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.38);margin:0 0 .55rem;">ที่มาข้อมูล</p>
+      <p style="font-size:.82rem;color:rgba(255,255,255,.7);margin:0 0 .2rem;font-weight:600;">โครงการ GeoHeat ขอนแก่น (2569)</p>
+      <p style="font-size:.78rem;color:rgba(255,255,255,.5);margin:0 0 .35rem;">การวิเคราะห์เกาะความร้อนเมืองขอนแก่นด้วยข้อมูลดาวเทียมเชิงพื้นที่ พ.ศ. 2559–2569</p>
+      <p style="font-size:.7rem;color:rgba(255,255,255,.32);margin:0;overflow-wrap:break-word;">Landsat 8–9 (USGS/NASA) · Google Earth Engine · 11 ปีข้อมูล (2559–2569) · ช่วงฤดูแล้ง มี.ค.–พ.ค.</p>
+    </div>
+
+    <!-- Bottom nav -->
+    <div class="page-nav-row">
+      <a href="heat.html#research" class="page-nav-btn pnb-back">← กลับหน้าความร้อน</a>
+      <a href="ndvi.html" class="page-nav-btn pnb-ndvi">ดู NDVI →</a>
+      <a href="ndbi.html" class="page-nav-btn pnb-ndbi">ดู NDBI →</a>
+    </div>
+
+  </main>
+
+  <script src="../js/nav.js"></script>
+</body>
+</html>

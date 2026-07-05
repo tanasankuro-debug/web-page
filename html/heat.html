@@ -392,6 +392,7 @@
         <ul class="nav-links" role="list">
           <li><a href="index.html"  class="nav-link">หน้าแรก</a></li>
           <li><a href="heat.html"   class="nav-link active"><span class="nav-icon nav-icon--heat"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="17" r="7"/><path d="M24 7V4M24 27V30M37 17H34M11 17H14M31 10L33 8M17 10L15 8M31 24L33 26M17 24L15 26"/><path d="M8 37c3-4 5-4 8 0s5 4 8 0 5-4 8 0 5 4 8 0"/><path d="M8 44c3-4 5-4 8 0s5 4 8 0 5-4 8 0 5 4 8 0"/></svg></span> ความร้อน</a></li>
+          <li><a href="lst.html"    class="nav-link">LST</a></li>
           <li><a href="dust.html"   class="nav-link"><span class="nav-icon nav-icon--pm25"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20h18a5.5 5.5 0 1 0-5-7.5"/><path d="M5 29h24a6 6 0 0 0 0-12h-2"/><path d="M5 37h20"/><path d="M5 44h13"/><circle cx="35" cy="37" r="2" fill="currentColor" stroke="none"/><circle cx="30" cy="44" r="2" fill="currentColor" stroke="none"/><circle cx="42" cy="43" r="2" fill="currentColor" stroke="none"/><circle cx="43" cy="33" r="2" fill="currentColor" stroke="none"/></svg></span> ฝุ่น PM2.5</a></li>
           <li><a href="rain.html"   class="nav-link"><span class="nav-icon nav-icon--storm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 31A13 13 0 1 1 31 18.5h3a8 8 0 0 1 5 14"/><path d="M11 39l-2 7"/><path d="M22 38l-2 8"/><path d="M38 27l-5 8h6l-5 8"/></svg></span> ฝน/พายุ</a></li>
           <li><a href="flood.html"  class="nav-link"><span class="nav-icon nav-icon--flood"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 24l16-12 16 12"/><path d="M14 23v9"/><path d="M34 23v9"/><path d="M20 32h8"/><path d="M5 35c3-4 5.5-4 8 0s5 4 8 0 5.5-4 8 0 5 4 8 0"/><path d="M5 43c3-4 5.5-4 8 0s5 4 8 0 5.5-4 8 0 5 4 8 0"/></svg></span> น้ำท่วม</a></li>
@@ -1847,7 +1848,7 @@
           </div>
         </div>
 
-        <!-- ─── GeoHeat KKN: Satellite LST 2559–2569 ──────────────────── -->
+        <!-- ─── GeoHeat KKN: LST Summary ──────────────────────────────── -->
         <div class="research-card reveal" style="margin-top:2.5rem;">
           <div class="research-card-header">
             <span class="research-badge">GeoHeat ขอนแก่น</span>
@@ -1856,17 +1857,12 @@
 
           <div class="research-body" style="grid-template-columns:1fr;">
             <div class="research-text">
-
-              <h3>ขอนแก่น: เมืองที่เติบโตเร็วที่สุดในภาคอีสาน</h3>
+              <h3>อุณหภูมิพื้นผิว (LST) — ขอนแก่นร้อนขึ้นทุกปี</h3>
               <p>
-                ขอนแก่นเป็นศูนย์กลางด้านการค้า การศึกษา และการบริการของภาคตะวันออกเฉียงเหนือ ตั้งอยู่บนที่ราบสูงโคราชที่มีสภาพอากาศร้อนชื้น ในช่วงสามทศวรรษที่ผ่านมา พื้นที่สิ่งปลูกสร้าง ถนน และพื้นผิวคอนกรีตขยายตัวอย่างรวดเร็ว ขณะที่พื้นที่สีเขียวและพื้นที่เกษตรกรรมรอบเมืองลดลง ผิวคอนกรีตและยางมะตอยดูดซับความร้อนแสงอาทิตย์ได้มากกว่าดินและใบไม้ถึง 3–5 เท่า และคายความร้อนออกมาช้ากว่า ทำให้เมืองร้อนกว่าชนบทโดยรอบตลอดเวลา
-              </p>
-              <p>
-                โครงการ GeoHeat ขอนแก่นวิเคราะห์อุณหภูมิพื้นผิวดิน (Land Surface Temperature — LST) จากดาวเทียม Landsat 8–9 ของ USGS/NASA ช่วงปี พ.ศ. 2559–2569 รวม 11 ปี ด้วยเทคนิค Remote Sensing ร่วมกับดัชนี NDVI (พืชพรรณ) และ NDBI (สิ่งปลูกสร้าง) เพื่อหาสาเหตุและแนวโน้มความร้อนของเมืองขอนแก่น
+                โครงการ GeoHeat ขอนแก่นวิเคราะห์ LST จากดาวเทียม Landsat 8–9 รวม 11 ปี พบว่าพื้นที่สิ่งปลูกสร้างขยายตัวต่อเนื่อง ขณะที่พื้นที่สีเขียวลดลง ส่งผลให้ค่าอุณหภูมิพื้นผิวเฉลี่ยเพิ่มขึ้น +0.11°C ต่อปี และปี 2567 ร้อนสุดในรอบ 11 ปีที่ 48.18°C
               </p>
 
-              <!-- Key stats -->
-              <div class="temp-stats-grid" style="margin-top:1.5rem;margin-bottom:1.75rem;">
+              <div class="temp-stats-grid" style="margin-top:1.25rem;margin-bottom:1.5rem;">
                 <div class="temp-stat-box">
                   <div class="temp-stat-label">LST เฉลี่ย 11 ปี</div>
                   <div class="temp-stat-big">43.98°C</div>
@@ -1884,157 +1880,10 @@
                 </div>
               </div>
 
-              <!-- Yearly LST table -->
-              <h4 class="gh-h4">อุณหภูมิพื้นผิว (LST) รายปี จากดาวเทียม Landsat</h4>
-              <p class="gh-hint">ค่า LST เฉลี่ยรายปีในเขตเทศบาลนครขอนแก่น &middot; หน่วย: °C &middot; กรอบสีส้ม = ปีร้อนสุด</p>
-              <div class="monthly-scroll" style="margin-bottom:0.4rem;">
-                <table class="temp-monthly-table" aria-label="ตารางอุณหภูมิพื้นผิวดาวเทียมรายปีขอนแก่น" style="min-width:640px;">
-                  <thead>
-                    <tr>
-                      <th class="row-label">ปี (พ.ศ.)</th>
-                      <th>2559</th><th>2560</th><th>2561</th><th>2562</th>
-                      <th>2563</th><th>2564</th><th>2565</th><th>2566</th>
-                      <th class="col-peak">2567</th><th>2568</th><th>2569</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th class="row-label">LST (°C)</th>
-                      <td>45.93</td><td>44.94</td><td>38.39</td><td>43.73</td>
-                      <td>47.99</td><td>41.56</td><td>41.29</td><td>42.10</td>
-                      <td class="col-peak"><b>48.18</b></td><td>45.82</td><td>43.84</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <p class="temp-monthly-source">ที่มา: โครงการ GeoHeat ขอนแก่น &middot; Landsat 8–9 (USGS/NASA) &middot; วิเคราะห์ด้วย Google Earth Engine</p>
-
-              <!-- NDVI / NDBI correlation cards -->
-              <h4 class="gh-h4 gh-h4-gap">ทำไมขอนแก่นถึงร้อนขึ้น? — หลักฐานจากดาวเทียม</h4>
-              <div class="gh-index-grid">
-                <div class="gh-index-card gh-index-card--ndvi">
-                  <div class="gh-index-eyebrow gh-index-eyebrow--ndvi">NDVI &middot; พืชพรรณ (ต้นไม้ / พื้นที่สีเขียว)</div>
-                  <div class="gh-index-val gh-index-val--ndvi">r = −0.91</div>
-                  <div class="gh-index-desc">พื้นที่สีเขียวมาก &rarr; ความร้อนน้อยลง<br>ความสัมพันธ์เชิงลบสูงมาก<br><span style="opacity:0.65;">พื้นที่สีเขียวเขตเมือง: 8.40 ตร.กม. (2562) &rarr; 7.90 ตร.กม. (2569)</span></div>
-                </div>
-                <div class="gh-index-card gh-index-card--ndbi">
-                  <div class="gh-index-eyebrow gh-index-eyebrow--ndbi">NDBI &middot; สิ่งปลูกสร้าง (คอนกรีต / ยางมะตอย)</div>
-                  <div class="gh-index-val gh-index-val--ndbi">r = +0.89</div>
-                  <div class="gh-index-desc">พื้นที่สิ่งปลูกสร้างมาก &rarr; ความร้อนสูงขึ้น<br>ความสัมพันธ์เชิงบวกสูงมาก</div>
-                </div>
-              </div>
-
-              <ul class="temp-trend-list">
-                <li><b>พื้นที่สีเขียวลดลง</b> ต้นไม้และพื้นที่เปิดโล่งในเขตเมืองถูกแทนที่ด้วยอาคาร ทำให้ร่มเงาและการระเหยน้ำลดลง อุณหภูมิพื้นผิวจึงสูงขึ้น <em>(NDVI ↓ ≈ LST ↑)</em></li>
-                <li><b>พื้นที่สิ่งปลูกสร้างเพิ่มขึ้น</b> คอนกรีตและยางมะตอยดูดซับและกักเก็บความร้อนได้ดี คายความร้อนกลับแม้ในเวลากลางคืน ทำให้เมืองไม่มีโอกาสเย็นลง <em>(NDBI ↑ ≈ LST ↑)</em></li>
-                <li><b>ความสัมพันธ์กับ ENSO</b> ปีเอลนีโญส่งผลให้ LST สูงขึ้นชัดเจน เช่น 2559 เอลนีโญกำลังแรงมาก (ONI +1.71) LST 45.93°C · 2563 เอลนีโญอ่อน (ONI +0.53) LST 47.99°C · 2567 เอลนีโญกำลังแรง (ONI +1.26) LST 48.18°C ปีร้อนสุด — ความสัมพันธ์กับ ENSO r&nbsp;=&nbsp;0.73 (คำนวณจาก 10 ปีที่มีข้อมูล ONI ครบ 2559–2568)</li>
-                <li><b>แนวโน้ม +0.11°C ต่อปี</b> สมการ y = 43.30 + 0.11x (R²&nbsp;=&nbsp;0.02) — แนวโน้มเพิ่มขึ้นเล็กน้อย แต่ยังไม่ชัดเจนทางสถิติ เนื่องจากค่า LST รายปีผันผวนสูงตามปรากฏการณ์ ENSO หากแนวโน้มนี้ดำเนินต่อ ประเมินเบื้องต้นว่าขอนแก่นอาจร้อนขึ้นอีกกว่า 1°C ในอีก 10 ปีข้างหน้า</li>
-              </ul>
-
-              <!-- Top 5 hotspot bar chart -->
-              <h4 class="gh-h4 gh-h4-gap">5 จุดร้อนที่สุดในเขตเมืองขอนแก่น (LST จากดาวเทียม)</h4>
-              <p class="gh-hint">บริเวณที่มีความหนาแน่นสูงและพื้นที่สีเขียวน้อยที่สุด &middot; หน่วย: °C</p>
-              <div class="gh-hotspot-list">
-                <div class="gh-hotspot-row">
-                  <span class="gh-hotspot-lbl">ถนนมิตรภาพ</span>
-                  <div class="gh-hotspot-track">
-                    <div class="gh-hotspot-fill" style="width:97%;background:linear-gradient(90deg,#ef4444,#dc2626);">
-                      <span class="gh-hotspot-val-txt" style="color:#fff;">56.80°C</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="gh-hotspot-row">
-                  <span class="gh-hotspot-lbl">ย่านตลาดสด</span>
-                  <div class="gh-hotspot-track">
-                    <div class="gh-hotspot-fill" style="width:80%;background:linear-gradient(90deg,#f97316,#ef4444);">
-                      <span class="gh-hotspot-val-txt" style="color:#fff;">55.60°C</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="gh-hotspot-row">
-                  <span class="gh-hotspot-lbl">ถนนศรีจันทร์</span>
-                  <div class="gh-hotspot-track">
-                    <div class="gh-hotspot-fill" style="width:70%;background:linear-gradient(90deg,#fb923c,#f97316);">
-                      <span class="gh-hotspot-val-txt" style="color:#fff;">54.90°C</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="gh-hotspot-row">
-                  <span class="gh-hotspot-lbl">สถานีขนส่ง</span>
-                  <div class="gh-hotspot-track">
-                    <div class="gh-hotspot-fill" style="width:60%;background:linear-gradient(90deg,#fbbf24,#fb923c);">
-                      <span class="gh-hotspot-val-txt" style="color:#fff;">54.20°C</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="gh-hotspot-row">
-                  <span class="gh-hotspot-lbl">ชุมชนหนาแน่น</span>
-                  <div class="gh-hotspot-track">
-                    <div class="gh-hotspot-fill" style="width:49%;background:linear-gradient(90deg,#facc15,#fbbf24);">
-                      <span class="gh-hotspot-val-txt" style="color:rgba(0,0,0,0.7);">53.40°C</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="research-highlight">
-                <p>
-                  ถนนมิตรภาพและย่านตลาดสดมี LST สูงสุดเนื่องจากมีพื้นที่ยางมะตอยขนาดใหญ่ ความหนาแน่นของยานพาหนะสูง และพื้นที่สีเขียวน้อยมาก — บริเวณเหล่านี้คือเป้าหมายหลักที่ต้องเร่งแก้ไข เช่น การปลูกต้นไม้ริมถนน Pocket Park และหลังคาสะท้อนแสง
-                </p>
-              </div>
-
-              <!-- ─── พื้นที่เสี่ยงซ้ำซ้อน ─── -->
-              <h4 class="gh-h4 gh-h4-gap">พื้นที่เสี่ยงซ้ำซ้อน — ร้อนจัดร่วมกับปัญหาอื่น</h4>
-              <p class="gh-hint">ฮอตสปอตส่วนใหญ่อยู่ในระดับ <strong style="color:#f87171;">ความเสี่ยงซ้ำซ้อนสูงมาก</strong> เมื่อพิจารณาร่วมกับปัญหาอื่นในพื้นที่เดียวกัน</p>
-              <div style="display:flex;flex-direction:column;gap:0.55rem;margin-bottom:1.25rem;">
-                <div style="display:flex;align-items:center;gap:0.75rem;padding:0.65rem 0.9rem;background:rgba(239,68,68,0.07);border:1px solid rgba(239,68,68,0.2);border-radius:8px;">
-                  <span style="font-size:1rem;flex-shrink:0;" aria-hidden="true">🌡️+🌫️</span>
-                  <div>
-                    <strong style="font-size:0.82rem;color:rgba(255,255,255,0.85);">ร้อน + ฝุ่น PM2.5</strong>
-                    <span style="font-size:0.75rem;color:rgba(255,255,255,0.45);margin-left:0.5rem;">— ช่วงมี.ค.–พ.ค. ถนนมิตรภาพและสถานีขนส่งมีทั้งอุณหภูมิพื้นผิวและฝุ่นสูงพร้อมกัน</span>
-                    <a href="dust.html" style="display:inline-block;margin-left:0.5rem;font-size:0.72rem;color:#22d3ee;text-decoration:none;" aria-label="ดูข้อมูลฝุ่น PM2.5">ดูข้อมูลฝุ่น &rarr;</a>
-                  </div>
-                </div>
-                <div style="display:flex;align-items:center;gap:0.75rem;padding:0.65rem 0.9rem;background:rgba(251,146,60,0.07);border:1px solid rgba(251,146,60,0.2);border-radius:8px;">
-                  <span style="font-size:1rem;flex-shrink:0;" aria-hidden="true">🌡️+🚗</span>
-                  <div>
-                    <strong style="font-size:0.82rem;color:rgba(255,255,255,0.85);">ร้อน + จราจรติดขัด</strong>
-                    <span style="font-size:0.75rem;color:rgba(255,255,255,0.45);margin-left:0.5rem;">— ความร้อนจากเครื่องยนต์รถยนต์เสริมให้ LST ย่านถนนมิตรภาพและถนนศรีจันทร์สูงยิ่งขึ้น</span>
-                    <a href="smart-map.html" style="display:inline-block;margin-left:0.5rem;font-size:0.72rem;color:#22d3ee;text-decoration:none;" aria-label="ดู Smart Map">ดูแผนที่อัจฉริยะ &rarr;</a>
-                  </div>
-                </div>
-                <div style="display:flex;align-items:center;gap:0.75rem;padding:0.65rem 0.9rem;background:rgba(59,130,246,0.07);border:1px solid rgba(59,130,246,0.2);border-radius:8px;">
-                  <span style="font-size:1rem;flex-shrink:0;" aria-hidden="true">🌡️+🌊</span>
-                  <div>
-                    <strong style="font-size:0.82rem;color:rgba(255,255,255,0.85);">ร้อน + น้ำท่วมขัง</strong>
-                    <span style="font-size:0.75rem;color:rgba(255,255,255,0.45);margin-left:0.5rem;">— หลังฝนตกหนัก พื้นที่ถนนมิตรภาพและชุมชนหนาแน่นมีน้ำขังที่อุณหภูมิสูง เสี่ยงต่อเชื้อโรค</span>
-                    <a href="flood.html" style="display:inline-block;margin-left:0.5rem;font-size:0.72rem;color:#22d3ee;text-decoration:none;" aria-label="ดูข้อมูลน้ำท่วม">ดูข้อมูลน้ำท่วม &rarr;</a>
-                  </div>
-                </div>
-                <div style="display:flex;align-items:center;gap:0.75rem;padding:0.65rem 0.9rem;background:rgba(34,197,94,0.07);border:1px solid rgba(34,197,94,0.2);border-radius:8px;">
-                  <span style="font-size:1rem;flex-shrink:0;" aria-hidden="true">🌡️+🌳</span>
-                  <div>
-                    <strong style="font-size:0.82rem;color:rgba(255,255,255,0.85);">ร้อน + ไม่มีร่มเงา</strong>
-                    <span style="font-size:0.75rem;color:rgba(255,255,255,0.45);margin-left:0.5rem;">— NDVI ต่ำในทุกจุดเสี่ยง หมายความว่าผู้คนต้องเผชิญความร้อนโดยตรงโดยไม่มีร่มเงาต้นไม้</span>
-                    <a href="heat-map-full.html" style="display:inline-block;margin-left:0.5rem;font-size:0.72rem;color:#22d3ee;text-decoration:none;" aria-label="ดูแผนที่ความร้อน">ดูแผนที่ความร้อน &rarr;</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="research-cite" style="margin-top:1.25rem;">
-                <p class="research-cite-label">ที่มาข้อมูล</p>
-                <div class="research-cite-entry">
-                  <div class="research-cite-authors">โครงการ GeoHeat ขอนแก่น (2569)</div>
-                  <div class="research-cite-title">การวิเคราะห์เกาะความร้อนเมืองขอนแก่นด้วยข้อมูลดาวเทียมเชิงพื้นที่ พ.ศ. 2559–2569</div>
-                  <div class="research-cite-meta">
-                    <span class="research-cite-data">
-                      <svg viewBox="0 0 14 14" fill="none" width="12" height="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" style="vertical-align:-1px;margin-right:3px"><circle cx="7" cy="7" r="5.5"/><path d="M7 2.5v4.8l3 1.7"/></svg>
-                      Landsat 8–9 (USGS/NASA) &middot; Google Earth Engine &middot; 11 ปีข้อมูล (2559–2569)
-                    </span>
-                  </div>
-                </div>
-              </div>
-
+              <a href="lst.html" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.88rem;">
+                ดูข้อมูล LST เพิ่มเติม
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
             </div>
           </div>
         </div>
