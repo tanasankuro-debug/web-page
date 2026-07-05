@@ -1704,7 +1704,7 @@
         </p>
 
         <div class="section-summary reveal">
-          งานวิจัย <em>Remote Sensing</em> 2018 วิเคราะห์อุณหภูมิพื้นผิว (LST) จากดาวเทียม MODIS ของ 6 เมืองใหญ่ในไทย รวมถึงขอนแก่น พบเกาะความร้อนเมืองที่มีนัยสำคัญ ครอบคลุมการวิเคราะห์รายวัน ตามฤดูกาล และหลายปีพร้อมกัน
+          งานวิจัย <em>Remote Sensing</em> 2018 วิเคราะห์ <strong>อุณหภูมิพื้นผิว (LST — Land Surface Temperature)</strong> ซึ่งคือความร้อนของผิวพื้นจริง เช่น ถนน หลังคา และดิน ที่ดาวเทียมวัดจากอวกาศ — จากดาวเทียม MODIS ของ 6 เมืองใหญ่ในไทย รวมถึงขอนแก่น พบเกาะความร้อนเมืองที่มีนัยสำคัญ ครอบคลุมการวิเคราะห์รายวัน ตามฤดูกาล และหลายปีพร้อมกัน
         </div>
 
         <div class="research-card reveal">
@@ -1848,8 +1848,29 @@
           </div>
         </div>
 
+        <!-- ─── LST Info Box ──────────────────────────────────────────── -->
+        <aside class="callout reveal" aria-label="คำอธิบาย LST คืออะไร"
+               style="margin-top:2.5rem;border-left:4px solid var(--cool);background:rgba(56,189,248,0.06);">
+          <div class="callout-icon" aria-hidden="true">🌡️</div>
+          <div class="callout-body">
+            <strong style="color:var(--cool);">LST คืออะไร และต่างจากอุณหภูมิอากาศอย่างไร?</strong>
+            <p>
+              <strong>LST (Land Surface Temperature)</strong> คืออุณหภูมิของ<em>ผิวพื้น</em>จริง เช่น ถนนยางมะตอย หลังคาอาคาร และผิวดิน ที่ดาวเทียมวัดจากอวกาศผ่านคลื่นอินฟราเรดความร้อน
+            </p>
+            <p>
+              <strong>ต่างจากอุณหภูมิอากาศ</strong> ที่สถานีตรวจอากาศวัดในร่มเงาที่ความสูง ~2 เมตร ซึ่งเป็นค่าที่คนรู้สึกและใช้ในพยากรณ์อากาศทั่วไป — <strong>LST มักสูงกว่าอุณหภูมิอากาศมากในตอนกลางวัน</strong> ถนนแอสฟัลต์กลางแดดร้อนเพิ่มขึ้น 10–20°C เหนืออากาศรอบข้างได้
+            </p>
+            <p>
+              จึง<strong>ไม่ขัดกัน</strong>ที่ค่า LST ของขอนแก่นสูงถึง 48.18°C ทั้งที่สถิติอุณหภูมิอากาศสูงสุดคือ 43.1°C — ทั้งสองวัดคนละสิ่ง
+            </p>
+            <p>
+              เหตุที่ใช้ LST ในการศึกษาเกาะความร้อน: ดาวเทียมวัดได้ทั่วทั้งเมืองพร้อมกัน ทำให้เห็นได้ชัดว่าย่านไหนร้อนกว่าย่านไหน และระบุจุด Hotspot ได้แม่นยำ
+            </p>
+          </div>
+        </aside>
+
         <!-- ─── GeoHeat KKN: LST Summary ──────────────────────────────── -->
-        <div class="research-card reveal" style="margin-top:2.5rem;">
+        <div class="research-card reveal" style="margin-top:2rem;">
           <div class="research-card-header">
             <span class="research-badge">GeoHeat ขอนแก่น</span>
             <span class="research-institution">ดาวเทียม Landsat 8–9 (USGS/NASA) &middot; พ.ศ. 2559–2569 &middot; 11 ปีข้อมูล</span>
@@ -1862,7 +1883,7 @@
                 โครงการ GeoHeat ขอนแก่นวิเคราะห์ LST จากดาวเทียม Landsat 8–9 รวม 11 ปี พบว่าพื้นที่สิ่งปลูกสร้างขยายตัวต่อเนื่อง ขณะที่พื้นที่สีเขียวลดลง ส่งผลให้ค่าอุณหภูมิพื้นผิวเฉลี่ยเพิ่มขึ้น +0.11°C ต่อปี และปี 2567 ร้อนสุดในรอบ 11 ปีที่ 48.18°C
               </p>
 
-              <div class="temp-stats-grid" style="margin-top:1.25rem;margin-bottom:1.5rem;">
+              <div class="temp-stats-grid" style="margin-top:1.25rem;margin-bottom:0.5rem;">
                 <div class="temp-stat-box">
                   <div class="temp-stat-label">LST เฉลี่ย 11 ปี</div>
                   <div class="temp-stat-big">43.98°C</div>
@@ -1879,6 +1900,9 @@
                   <div class="temp-stat-sub">สูงสุดในรอบ 11 ปี</div>
                 </div>
               </div>
+              <p style="font-size:0.72rem;color:rgba(255,255,255,0.32);margin:0 0 1.25rem;font-style:italic;">
+                * ทั้งสามค่าคืออุณหภูมิพื้นผิว (LST) จากดาวเทียม — ไม่ใช่อุณหภูมิอากาศ
+              </p>
 
               <a href="lst.html" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.88rem;">
                 ดูข้อมูล LST เพิ่มเติม
@@ -1908,7 +1932,7 @@
             <div class="temp-stat-box">
               <div class="temp-stat-label">สถิติสูงสุดที่เคยวัดได้</div>
               <div class="temp-stat-big">43.1°C</div>
-              <div class="temp-stat-sub">เดือน เม.ย. (สถิติ 1951–ปัจจุบัน)</div>
+              <div class="temp-stat-sub">เม.ย. (1951–ปัจจุบัน) · <em>อุณหภูมิอากาศ</em></div>
             </div>
           </div>
 
@@ -3071,13 +3095,9 @@
     </section>
 
 
-    <!-- ─── TOOLS ─────────────────────────────────────────────────────────── -->
-    <section class="section" aria-labelledby="tools-heading" style="border-top:1px solid var(--border)">
+    <!-- ─── TOOLS (removed) ─── -->
+    <section class="section" aria-labelledby="tools-heading" style="display:none">
       <div class="container">
-        <p class="section-label reveal">เครื่องมือเชิงลึก</p>
-        <h2 id="tools-heading" class="section-heading reveal">สำรวจข้อมูลความร้อน</h2>
-        <p class="section-intro reveal">เครื่องมือเชิงวิชาการสำหรับวิเคราะห์และจำลองปัญหาความร้อนในขอนแก่น</p>
-
         <div class="reveal" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;margin-top:1.5rem">
 
           <!-- GIS Heatmap -->

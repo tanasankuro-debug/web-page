@@ -37,11 +37,13 @@
 
     .landing {
       position: relative;        /* เปลี่ยนจาก fixed → relative เพื่อให้ scroll ลงดู dashboard ได้ */
+      min-height: 100vh;         /* fallback สำหรับ browser ที่ไม่รู้จัก svh */
       min-height: 100svh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-end;
+      padding-top: calc(var(--header-h, 100px) + env(safe-area-inset-top, 0px) + 1rem); /* กันหัวข้อโดนทับจาก fixed header + notch */
       padding-bottom: clamp(2rem, 6vh, 4rem);
       padding-inline: 1.25rem;
       text-align: center;
@@ -632,6 +634,7 @@
     @media (max-width: 540px) {
 
       .landing {
+        padding-top: calc(var(--header-h, 100px) + env(safe-area-inset-top, 0px) + 0.5rem);
         padding-bottom: clamp(1rem, 4vh, 2rem);
       }
 
@@ -1245,6 +1248,79 @@
           <span id="lp-notif-txt">เปิดการแจ้งเตือนเมื่ออากาศอันตราย</span>
         </button>
       </div>
+
+    </div>
+  </section>
+
+
+  <!-- =====================================================================
+       VIDEO — GeoHeat เกาะความร้อนเมือง
+  ====================================================================== -->
+  <section id="geoheat-video-section" style="
+    background:#080c18;
+    border-top:1px solid rgba(255,255,255,.07);
+    padding:3.5rem 0 4rem;
+  ">
+    <div style="max-width:880px;margin:0 auto;padding:0 1.25rem;">
+
+      <p style="
+        font-family:'Barlow Condensed',var(--font-display),sans-serif;
+        font-size:.72rem;font-weight:700;letter-spacing:.14em;
+        text-transform:uppercase;color:#fb923c;margin:0 0 .5rem;
+      ">GeoHeat Khon Kaen · โครงงานวิจัย</p>
+
+      <h2 style="
+        font-family:'Barlow Condensed',var(--font-display),sans-serif;
+        font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;
+        color:#fff;line-height:1;margin:0 0 .75rem;
+      ">เกาะความร้อนเมือง<br><span style="color:#fb923c;">ขอนแก่น</span></h2>
+
+      <p style="font-size:.9rem;color:rgba(255,255,255,.45);margin:0 0 1.5rem;line-height:1.65;max-width:560px;">
+        วิดีโอแนะนำโครงการ GeoHeat — ทำไมขอนแก่นถึงร้อน เกาะความร้อนเมืองคืออะไร และเราวิเคราะห์มันด้วยดาวเทียมอย่างไร
+      </p>
+
+      <!-- Video wrapper -->
+      <div id="ghv-wrap" style="position:relative;border-radius:16px;overflow:hidden;background:#000;box-shadow:0 8px 40px rgba(0,0,0,.6);">
+
+        <video
+          id="ghv"
+          src="../assets/video/GeoHeat__%E0%B9%80%E0%B8%81%E0%B8%B2%E0%B8%B0%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%A3%E0%B9%89%E0%B8%AD%E0%B8%99%E0%B9%80%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%87.mp4"
+          autoplay muted playsinline loop
+          style="width:100%;display:block;max-height:500px;object-fit:contain;"
+          aria-label="วิดีโอ GeoHeat เกาะความร้อนเมืองขอนแก่น">
+        </video>
+
+        <!-- Unmute button overlay -->
+        <button id="ghv-unmute" onclick="
+          var v=document.getElementById('ghv');
+          var b=document.getElementById('ghv-unmute');
+          if(v.muted){
+            v.muted=false;
+            v.volume=1;
+            b.innerHTML='<svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot;><polygon points=&quot;11 5 6 9 2 9 2 15 6 15 11 19 11 5&quot;/><path d=&quot;M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07&quot;/></svg> ปิดเสียง';
+          } else {
+            v.muted=true;
+            b.innerHTML='<svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot;><polygon points=&quot;11 5 6 9 2 9 2 15 6 15 11 19 11 5&quot;/><line x1=&quot;23&quot; y1=&quot;9&quot; x2=&quot;17&quot; y2=&quot;15&quot;/><line x1=&quot;17&quot; y1=&quot;9&quot; x2=&quot;23&quot; y2=&quot;15&quot;/></svg> เปิดเสียง';
+          }
+        " style="
+          position:absolute;bottom:14px;right:14px;
+          display:inline-flex;align-items:center;gap:6px;
+          background:rgba(0,0,0,.72);backdrop-filter:blur(8px);
+          border:1px solid rgba(255,255,255,.2);border-radius:8px;
+          color:#fff;font-size:.78rem;font-family:var(--font-body,'Noto Sans Thai',sans-serif);
+          padding:7px 14px;cursor:pointer;transition:background .18s;
+          font-weight:600;letter-spacing:.02em;
+        " aria-label="เปิด/ปิดเสียงวิดีโอ">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+          เปิดเสียง
+        </button>
+
+      </div>
+
+      <!-- Note about autoplay -->
+      <p style="font-size:.68rem;color:rgba(255,255,255,.25);margin:.65rem 0 0;text-align:right;">
+        วิดีโอเล่นอัตโนมัติแบบไม่มีเสียง · กด "เปิดเสียง" เพื่อฟัง
+      </p>
 
     </div>
   </section>
