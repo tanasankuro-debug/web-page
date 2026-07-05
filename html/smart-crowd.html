@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>แจ้งเหตุ Smart Crowd — Heat Safe Khon Kaen</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      background: #0B0F1A;
+      font-family: 'Noto Sans Thai', sans-serif;
+      overflow: hidden;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 52px;
+      background: rgba(11,15,26,0.97);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0 1.25rem;
+      z-index: 100;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.45rem 1rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 0.82rem;
+      white-space: nowrap;
+      transition: background 0.18s, color 0.18s;
+    }
+    .back-btn:hover {
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+    }
+    .back-btn svg { flex-shrink: 0; }
+
+    .topbar-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.65);
+      letter-spacing: 0.03em;
+    }
+    .topbar-title span { color: #f87171; }
+
+    /* ── iframe ── */
+    .crowd-frame {
+      position: fixed;
+      top: 52px;
+      left: 0; right: 0; bottom: 0;
+      width: 100%;
+      height: calc(100% - 52px);
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <a href="index.html" class="back-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2.2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      กลับหน้าแรก
+    </a>
+    <span class="topbar-title">แจ้งเหตุ <span>Smart Crowd</span></span>
+  </div>
+
+  <iframe
+    class="crowd-frame"
+    src="https://heat-safe-cyan.vercel.app/?report"
+    title="แจ้งเหตุ Smart Crowd — Heat Safe Khon Kaen"
+    allow="geolocation; camera"
+    loading="eager">
+  </iframe>
+
+</body>
+</html>

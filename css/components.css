@@ -421,10 +421,12 @@
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
+  min-width: 0;
 }
 
-.research-text h3 { font-size: clamp(1.1rem, 2vw, 1.4rem); color: var(--text); }
-.research-text p { font-size: 0.9rem; color: var(--text-sec); line-height: 1.7; }
+.research-text h3 { font-size: clamp(1.1rem, 2vw, 1.4rem); color: var(--text); overflow-wrap: break-word; }
+.research-text p  { font-size: 0.9rem; color: var(--text-sec); line-height: 1.7; overflow-wrap: break-word; }
+.research-text div { overflow-wrap: break-word; }
 
 .research-highlight {
   background: rgba(34,211,238,0.07);
