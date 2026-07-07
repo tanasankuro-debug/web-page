@@ -799,39 +799,6 @@
       .ln-wx-temp { font-size: 0.9rem; }
     }
 
-    /* ── NEWS Ticker ── */
-    .news-ticker {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      z-index: 2;
-      background: rgba(249,115,22,.09);
-      border-bottom: 1px solid rgba(249,115,22,.2);
-      display: flex;
-      align-items: center;
-      height: 28px;
-      overflow: hidden;
-    }
-    .news-badge {
-      flex-shrink: 0;
-      background: #f97316;
-      color: #fff;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: .6rem; font-weight: 900;
-      letter-spacing: .14em; text-transform: uppercase;
-      padding: 0 .65rem; height: 100%;
-      display: flex; align-items: center;
-      animation: news-blink 1.3s ease-in-out infinite;
-    }
-    @keyframes news-blink { 0%,100%{opacity:1;} 50%{opacity:.4;} }
-    .news-track { flex: 1; overflow: hidden; }
-    .news-text {
-      display: inline-block; white-space: nowrap;
-      font-size: .68rem; font-family: 'Noto Sans Thai', sans-serif;
-      color: rgba(249,115,22,.85); padding-left: .75rem;
-      animation: news-scroll 28s linear infinite;
-    }
-    @keyframes news-scroll { 0%{transform:translateX(100vw);} 100%{transform:translateX(-100%);} }
-
     /* ── New 8-button grid ── */
     .ng-grid {
       display: grid;
@@ -918,7 +885,6 @@
     }
   </style>
   <script src="../js/utility-bar.js"></script>
-  <script src="../js/news-ticker.js"></script>
   <script src="../js/alert-bar.js"></script>
   <script src="../js/risk-profile.js"></script>
   <script src="../js/pwa.js"></script>
@@ -998,18 +964,6 @@
       <source src="../assets/khonkean.mp4" type="video/mp4" />
     </video>
     <div class="landing-overlay" aria-hidden="true"></div>
-
-    <!-- NEWS Ticker -->
-    <div class="news-ticker" role="marquee" aria-label="ข่าวอัพเดท">
-      <div class="news-badge" aria-hidden="true">NEWS</div>
-      <div class="news-track">
-        <span class="news-text">
-          🔴 อุณหภูมิพื้นผิว LST สูงสุด 48.18°C ในเขตเทศบาลนครขอนแก่น (พ.ศ. 2567) &nbsp;·&nbsp;
-          ⚠️ PM2.5 เกินมาตรฐาน — ลดกิจกรรมกลางแจ้ง &nbsp;·&nbsp;
-          🗺️ แผนที่ความเสี่ยงความร้อนอัพเดทใหม่ — กด Smart Map เพื่อดูข้อมูลล่าสุด
-        </span>
-      </div>
-    </div>
 
     <!-- Title -->
     <div class="landing-text">

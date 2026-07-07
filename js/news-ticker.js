@@ -1,8 +1,9 @@
 /* ==========================================================================
-   Heat Safe Khon Kaen — weather-advisory (news-ticker.js)
-   แสดงสภาพอากาศวันนี้ + เตือนความร้อน
-   – render ทันทีที่ DOM พร้อม (ไม่รอ API)
-   – อัปเดตข้อมูลอุณหภูมิ/สภาพอากาศหลัง fetch เสร็จ
+   Heat Safe Khon Kaen — news-ticker.js  (index.html only)
+
+   Ticker lives INSIDE #site-header as position:absolute; top:100%
+   → follows the header automatically, zero gap, no JS top-calculation.
+   Content: apparent temperature + PM2.5 + rain probability only.
    ========================================================================== */
 'use strict';
 
@@ -13,230 +14,252 @@
   var lat    = (cfg.loc && cfg.loc.lat) || 16.44;
   var lng    = (cfg.loc && cfg.loc.lng) || 102.82;
 
-  /* ── สภาพอากาศ (WMO code) ─────────────────────────────────────────────── */
-  var WX_MAP = [
-    [0,  '☀️',  'แจ่มใส'],
-    [1,  '🌤️', 'แจ่มใสเป็นส่วนใหญ่'],
-    [2,  '⛅',  'มีเมฆบางส่วน'],
-    [3,  '☁️',  'ครึ้ม'],
-    [45, '🌫️', 'หมอก'],
-    [51, '🌦️', 'ฝนปรอย'],
-    [61, '🌧️', 'มีฝน'],
-    [80, '⛈️',  'ฝนฟ้าคะนอง'],
-    [95, '⛈️',  'พายุฝน'],
-  ];
-  function wxInfo(code) {
-    var r = { icon: '🌤️', text: '' };
-    if (code == null) return r;
-    for (var i = 0; i < WX_MAP.length; i++) {
-      if (code >= WX_MAP[i][0]) r = { icon: WX_MAP[i][1], text: WX_MAP[i][2] };
+  /* ── Guard: index page only ───────────────────────────────────────────── */
+  function isHomePage() {
+    var p = location.pathname;
+    return p === '/' || p === '/home' || p === '/main' ||
+           /\/index\.html$/.test(p) || /\/html\/?$/.test(p);
+  }
+
+  /* ── Severity ─────────────────────────────────────────────────────────── */
+  var SEV_CLR = ['rgba(148,163,184,0.85)', '#fde68a', '#fdba74', '#fca5a5'];
+  var SEV_PFX = ['', '⚠️ ', '🟠 ', '🔴 '];
+
+  /* ── Build items: temp + PM2.5 + rain ONLY ────────────────────────────── */
+  function buildItems(temp, pm25, rain) {
+    var items = [];
+
+    /* — Temperature — */
+    if (temp != null) {
+      if (temp >= 41) {
+        items.push({ s:3, t:'อุณหภูมิ '+Math.round(temp)+'°C อันตราย — ห้ามออกแดดโดยเด็ดขาด อยู่ในที่แอร์', href:'/heat' });
+      } else if (temp >= 33) {
+        items.push({ s:2, t:'อากาศร้อนจัด '+Math.round(temp)+'°C — ดื่มน้ำทุก 20 นาที หลีกเลี่ยงแดดช่วง 11–15 น.', href:'/heat' });
+      } else if (temp >= 27) {
+        items.push({ s:1, t:'อากาศร้อน '+Math.round(temp)+'°C — แนะนำดื่มน้ำบ่อยๆ สวมหมวกเมื่อออกแดด', href:'/heat' });
+      } else {
+        items.push({ s:0, t:'อุณหภูมิ '+Math.round(temp)+'°C อากาศสบาย เหมาะสำหรับกิจกรรมกลางแจ้ง', href:'/heat' });
+      }
     }
-    return r;
+
+    /* — PM2.5 — */
+    if (pm25 != null) {
+      if (pm25 >= 75) {
+        items.push({ s:3, t:'ฝุ่น PM2.5 อันตราย '+Math.round(pm25)+' µg/m³ — สวม N95 หลีกเลี่ยงออกนอกบ้าน', href:'/dust' });
+      } else if (pm25 >= 37) {
+        items.push({ s:2, t:'ฝุ่น PM2.5 '+Math.round(pm25)+' µg/m³ — กลุ่มเสี่ยงควรสวม N95 กลางแจ้ง', href:'/dust' });
+      } else if (pm25 >= 25) {
+        items.push({ s:1, t:'ฝุ่น PM2.5 '+Math.round(pm25)+' µg/m³ ปานกลาง — กลุ่มเสี่ยง (เด็ก/ผู้สูงอายุ) ระวัง', href:'/dust' });
+      } else {
+        items.push({ s:0, t:'ฝุ่น PM2.5 '+Math.round(pm25)+' µg/m³ อยู่ในเกณฑ์ดี', href:'/dust' });
+      }
+    }
+
+    /* — Rain — */
+    if (rain != null) {
+      if (rain >= 70) {
+        items.push({ s:2, t:'โอกาสฝน '+Math.round(rain)+'% สูง — พกร่ม ระวังน้ำท่วมขัง', href:'/rain' });
+      } else if (rain >= 40) {
+        items.push({ s:1, t:'โอกาสฝน '+Math.round(rain)+'% — แนะนำพกร่มติดตัว', href:'/rain' });
+      } else {
+        items.push({ s:0, t:'โอกาสฝน '+Math.round(rain)+'% ท้องฟ้าโดยรวมแจ่มใส', href:'/rain' });
+      }
+    }
+
+    return items;
   }
 
-  /* ── ระดับความร้อน ────────────────────────────────────────────────────── */
-  var LEVELS = [
-    { id:0, maxTemp:27,       maxPM:25,       label:'อากาศปกติ', badgeBg:'#15803d', barBg:'rgba(4,28,14,0.97)',
-      advice:'วันนี้อากาศสบาย เหมาะสำหรับกิจกรรมกลางแจ้ง ดื่มน้ำให้เพียงพอ' },
-    { id:1, maxTemp:33,       maxPM:37,       label:'อากาศร้อน', badgeBg:'#a16207', barBg:'rgba(26,14,0,0.97)',
-      advice:'วันนี้อากาศร้อน ควรดื่มน้ำมากๆ สวมหมวกและเสื้อสีอ่อนเมื่อออกแดด' },
-    { id:2, maxTemp:41,       maxPM:75,       label:'ร้อนจัด',   badgeBg:'#b45309', barBg:'rgba(34,10,0,0.98)',
-      advice:'วันนี้ร้อนจัด ลดกิจกรรมกลางแจ้ง ดื่มน้ำทุก 20 นาที หลีกเลี่ยงแดดช่วง 11.00–15.00 น.' },
-    { id:3, maxTemp:Infinity, maxPM:Infinity, label:'⚠ อันตราย', badgeBg:'#991b1b', barBg:'rgba(55,0,0,0.99)',
-      advice:null },
-  ];
-
-  var DANGER_ACTIONS = [
-    { icon:'🏠', text:'อยู่ในห้องแอร์/พัดลม' },
-    { icon:'💧', text:'ดื่มน้ำทุก 15 นาที'   },
-    { icon:'🧊', text:'เช็ดตัวด้วยน้ำเย็น'   },
-    { icon:'👴', text:'ดูแลเด็กและผู้สูงอายุ' },
-    { icon:'📞', text:'โทร 1669 ฉุกเฉิน', link:'tel:1669', urgent:true },
-  ];
-
-  function classify(temp, pm25) {
-    var tId = 0, pId = 0;
-    for (var j = 0; j < LEVELS.length; j++) { if (temp == null || temp < LEVELS[j].maxTemp) { tId = j; break; } tId = j; }
-    for (var k = 0; k < LEVELS.length; k++) { if (pm25 == null || pm25 < LEVELS[k].maxPM)  { pId = k; break; } pId = k; }
-    return LEVELS[Math.max(tId, pId)];
-  }
-
-  /* ── CSS ──────────────────────────────────────────────────────────────── */
+  /* ── Inject style ─────────────────────────────────────────────────────── */
   function injectStyle() {
     if (document.getElementById('hskk-ticker-style')) return;
     var s = document.createElement('style');
     s.id = 'hskk-ticker-style';
     s.textContent =
-      '#'+BAR_ID+'{position:sticky;top:var(--header-h,100px);z-index:1200;overflow:hidden;font-family:"Noto Sans Thai",system-ui,sans-serif;}' +
-      '#'+BAR_ID+'.lvl-compact{display:flex;align-items:center;height:32px;font-size:0.74rem;}' +
-      '#'+BAR_ID+'.lvl-danger{display:flex;flex-direction:column;align-items:stretch;border-bottom:2px solid rgba(239,68,68,0.5);}' +
-      '.hskk-row{display:flex;align-items:center;min-height:34px;}' +
-      '#'+BAR_ID+'.lvl-compact .hskk-row{flex:1;height:100%;}' +
-      '#hskk-badge{flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:0 11px 0 13px;align-self:stretch;color:#fff;font-weight:700;font-size:0.64rem;letter-spacing:0.05em;white-space:nowrap;}' +
-      '.lvl-danger #hskk-badge{font-size:0.7rem;animation:hskk-blink 1s step-start infinite;}' +
-      '#hskk-stats{flex-shrink:0;display:flex;align-items:center;gap:5px;padding:0 10px;font-size:0.7rem;color:rgba(255,255,255,0.72);border-right:1px solid rgba(255,255,255,0.1);white-space:nowrap;}' +
-      '#hskk-stats .t{color:#fff;font-size:0.84rem;font-weight:700;}' +
-      '#hskk-stats .sep{opacity:0.3;}' +
-      '#hskk-advice{flex:1;padding:0 12px;color:rgba(255,228,196,0.94);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}' +
-      '.lvl-danger #hskk-advice{white-space:normal;font-weight:600;font-size:0.76rem;}' +
-      '#hskk-actions{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:5px 12px 7px;}' +
-      '.hc{display:inline-flex;align-items:center;gap:3px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:20px;padding:3px 11px;font-size:0.7rem;color:#fff;white-space:nowrap;text-decoration:none;transition:background 0.15s;}' +
-      'a.hc:hover{background:rgba(255,255,255,0.2);}' +
-      '.hc-sos{background:rgba(239,68,68,0.22);border-color:rgba(239,68,68,0.45);color:#fca5a5;font-weight:700;}' +
-      'a.hc-sos:hover{background:rgba(239,68,68,0.38);}' +
-      '@keyframes hskk-blink{0%,100%{opacity:1}50%{opacity:0.2}}' +
+
+      /* Let site-header show content below its box */
+      '#site-header{overflow:visible!important;}' +
+
+      /* Ticker: absolute inside site-header, flush at its bottom edge */
+      '#'+BAR_ID+'{' +
+        'position:absolute;' +
+        'top:100%;left:0;right:0;' +   /* sticks to bottom of site-header */
+        'height:34px;' +
+        'display:flex;align-items:center;' +
+        'overflow:hidden;' +
+        'background:rgba(8,12,24,0.97);' +
+        'border-top:1px solid rgba(255,255,255,0.07);' +
+        'font-family:"Noto Sans Thai",system-ui,sans-serif;' +
+        'font-size:0.8rem;margin:0;' +
+        'z-index:0;' +    /* inherit site-header stacking context */
+      '}' +
+
+      /* Badge */
+      '#hskk-nb{' +
+        'flex-shrink:0;display:flex;align-items:center;gap:4px;' +
+        'padding:0 10px 0 12px;height:100%;align-self:stretch;' +
+        'background:#dc2626;color:#fff;' +
+        'font-weight:800;font-size:0.62rem;letter-spacing:0.14em;' +
+        'text-transform:uppercase;white-space:nowrap;' +
+      '}' +
+      '#hskk-nb .bd{' +
+        'width:5px;height:5px;border-radius:50%;background:#fff;flex-shrink:0;' +
+        'animation:hskk-nb-blink 1s step-start infinite;' +
+      '}' +
+      '@keyframes hskk-nb-blink{0%,100%{opacity:1}50%{opacity:0}}' +
+
+      /* Track */
+      '#hskk-nt{' +
+        'flex:1;overflow:hidden;height:100%;' +
+        '-webkit-mask-image:linear-gradient(to right,transparent,#000 2%,#000 97%,transparent);' +
+        'mask-image:linear-gradient(to right,transparent,#000 2%,#000 97%,transparent);' +
+      '}' +
+
+      /* Scrolling belt — content doubled for seamless loop */
+      '#hskk-ni{' +
+        'display:inline-flex;align-items:center;height:100%;' +
+        'white-space:nowrap;will-change:transform;' +
+        'animation:hskk-scroll 60s linear infinite;' +
+      '}' +
+      '#hskk-ni.paused,#hskk-ni:hover{animation-play-state:paused}' +
+      '#hskk-ni a,#hskk-ni span.ni{' +
+        'padding:0 1.25rem;text-decoration:none;transition:filter 0.15s;' +
+      '}' +
+      '#hskk-ni a:hover{filter:brightness(1.25);text-decoration:underline}' +
+      '.ni-sep{color:rgba(255,255,255,0.2);flex-shrink:0;padding:0 .1rem;}' +
+      '@keyframes hskk-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}' +
+
       '@media(max-width:600px){' +
-        '#'+BAR_ID+'.lvl-compact{height:28px;font-size:0.68rem}' +
-        '#hskk-badge{font-size:0.57rem;padding:0 8px 0 10px}' +
-        '#hskk-stats{font-size:0.64rem;padding:0 8px}' +
-        '#hskk-stats .t{font-size:0.76rem}' +
-        '#hskk-advice{padding:0 8px;font-size:0.65rem}' +
-        '.hskk-row{min-height:28px}' +
-        '.hc{font-size:0.63rem;padding:2px 8px}' +
-        '#hskk-actions{padding:4px 9px 6px;gap:4px}' +
+        '#'+BAR_ID+'{height:28px;font-size:0.73rem}' +
+        '#hskk-nb{font-size:0.56rem;padding:0 8px 0 10px}' +
+        '#hskk-ni a,#hskk-ni span.ni{padding:0 0.9rem}' +
       '}';
+
     document.head.appendChild(s);
   }
 
-  function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-  /* ── สร้าง HTML ───────────────────────────────────────────────────────── */
-  function buildStatsHTML(temp, pm25, wxCode) {
-    var wx   = wxInfo(wxCode);
-    var tStr = temp != null ? '<span class="t">'+Math.round(temp)+'°C</span>' : '<span class="t">—</span>';
-    var pStr = pm25 != null ? '<span class="sep">|</span>PM2.5 <span class="t">'+Math.round(pm25)+'</span>' : '';
-    return wx.icon+(wx.text?'<span>'+esc(wx.text)+'</span>':'')+
-           '<span class="sep">|</span>🌡️ '+tStr+pStr;
+  function esc(str) {
+    return String(str)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  function buildActionsHTML() {
-    return DANGER_ACTIONS.map(function(a){
-      var cls = 'hc'+(a.urgent?' hc-sos':'');
-      return a.link
-        ? '<a href="'+esc(a.link)+'" class="'+cls+'">'+a.icon+' '+esc(a.text)+'</a>'
-        : '<span class="'+cls+'">'+a.icon+' '+esc(a.text)+'</span>';
+  function buildHTML(items) {
+    var sep = '<span class="ni-sep" aria-hidden="true">◆</span>';
+    return items.map(function(it) {
+      var color = SEV_CLR[it.s] || SEV_CLR[0];
+      var text  = (SEV_PFX[it.s] || '') + esc(it.t);
+      if (it.href) return '<a href="'+esc(it.href)+'" style="color:'+color+'">'+text+'</a>'+sep;
+      return '<span class="ni" style="color:'+color+'">'+text+'</span>'+sep;
     }).join('');
   }
 
-  /* ── แสดงบาร์ ─────────────────────────────────────────────────────────── */
-  function createBar(temp, pm25, wxCode) {
-    var lvl      = classify(temp, pm25);
-    var isDanger = lvl.id >= 3;
+  /* ── Calibrate speed: ~70 px/s ───────────────────────────────────────── */
+  function calibrate() {
+    var ni = document.getElementById('hskk-ni');
+    if (!ni) return;
+    ni.style.animationDuration = Math.max(10, ni.scrollWidth / 2 / 70) + 's';
+  }
+
+  /* ── Update --header-h so hero padding compensates the taller header ──── */
+  function syncHeaderH(tickerH) {
+    var util = document.getElementById('util-bar');
+    var hdr  = document.getElementById('site-header');
+    if (!util || !hdr) return;
+    var h = util.getBoundingClientRect().height +
+            hdr.getBoundingClientRect().height +
+            (tickerH || 0);
+    document.documentElement.style.setProperty('--header-h', h + 'px');
+  }
+
+  /* ── Render ticker ────────────────────────────────────────────────────── */
+  function render(items) {
+    if (document.getElementById(BAR_ID)) return;
+    injectStyle();
+
+    var doubled = buildHTML(items) + buildHTML(items);
 
     var bar = document.createElement('div');
-    bar.id        = BAR_ID;
-    bar.className = isDanger ? 'lvl-danger' : 'lvl-compact';
-    bar.style.background = lvl.barBg;
-    bar.setAttribute('aria-label', 'สภาพอากาศและคำแนะนำวันนี้');
-
-    var adviceText = isDanger
-      ? 'ห้ามออกแดดโดยเด็ดขาด — ปฏิบัติทันที'
-      : esc(lvl.advice);
-
+    bar.id = BAR_ID;
+    bar.setAttribute('aria-label', 'ข่าวแจ้งเตือนสภาพอากาศขอนแก่น');
     bar.innerHTML =
-      '<div class="hskk-row">' +
-        '<div id="hskk-badge" style="background:'+esc(lvl.badgeBg)+'">'+esc(lvl.label)+'</div>' +
-        '<div id="hskk-stats">'+buildStatsHTML(temp, pm25, wxCode)+'</div>' +
-        '<div id="hskk-advice">'+adviceText+'</div>' +
-      '</div>' +
-      (isDanger ? '<div id="hskk-actions">'+buildActionsHTML()+'</div>' : '');
+      '<div id="hskk-nb"><span class="bd"></span>NEWS</div>' +
+      '<div id="hskk-nt"><div id="hskk-ni">' + doubled + '</div></div>';
 
-    return bar;
-  }
-
-  function insertBar(bar) {
-    var header = document.getElementById('site-header');
-    if (header && header.parentNode) {
-      header.parentNode.insertBefore(bar, header.nextSibling);
+    /* Append INSIDE #site-header — ticker is position:absolute;top:100% */
+    var hdr = document.getElementById('site-header');
+    if (hdr) {
+      hdr.appendChild(bar);
     } else {
-      document.body.insertBefore(bar, document.body.firstChild);
+      /* fallback: insert after whatever acts as header */
+      var h2 = document.querySelector('[id*="header"], header');
+      if (h2 && h2.parentNode) h2.parentNode.insertBefore(bar, h2.nextSibling);
+      else document.body.insertBefore(bar, document.body.firstChild);
     }
-    /* อัปเดต --header-h ให้ anchor scroll ถูกต้อง */
-    requestAnimationFrame(function () {
-      var h   = bar.getBoundingClientRect().height || 32;
-      var cur = parseFloat(document.documentElement.style.getPropertyValue('--header-h') || '100');
-      document.documentElement.style.setProperty('--header-h', (cur + h) + 'px');
-    });
+
+    var tickerH = 34; /* match CSS height */
+    syncHeaderH(tickerH);
+
+    window.addEventListener('resize', function() { syncHeaderH(tickerH); }, { passive:true });
+
+    /* Touch pause */
+    var ni = bar.querySelector('#hskk-ni');
+    if (ni) {
+      ni.addEventListener('touchstart', function(){ ni.classList.add('paused'); }, { passive:true });
+      ni.addEventListener('touchend',   function(){ ni.classList.remove('paused'); }, { passive:true });
+    }
+
+    requestAnimationFrame(calibrate);
   }
 
-  /* ── อัปเดตบาร์ที่มีอยู่แล้ว (ไม่ต้อง re-insert) ───────────────────── */
-  function updateBar(temp, pm25, wxCode) {
-    var bar = document.getElementById(BAR_ID);
-    if (!bar) return;
+  /* ── Init ─────────────────────────────────────────────────────────────── */
+  function init() {
+    if (!isHomePage()) return;
 
-    var lvl      = classify(temp, pm25);
-    var isDanger = lvl.id >= 3;
+    /* Render immediately with loading placeholder */
+    render([{ s:0, t:'กำลังโหลดข้อมูลสภาพอากาศขอนแก่น...', href:'/home' }]);
 
-    /* อัปเดต level style */
-    bar.className = isDanger ? 'lvl-danger' : 'lvl-compact';
-    bar.style.background = lvl.barBg;
-
-    /* อัปเดต badge */
-    var badge = document.getElementById('hskk-badge');
-    if (badge) { badge.textContent = lvl.label; badge.style.background = lvl.badgeBg; }
-
-    /* อัปเดต stats */
-    var stats = document.getElementById('hskk-stats');
-    if (stats) stats.innerHTML = buildStatsHTML(temp, pm25, wxCode);
-
-    /* อัปเดต advice */
-    var advice = document.getElementById('hskk-advice');
-    if (advice) {
-      advice.innerHTML = isDanger
-        ? 'ห้ามออกแดดโดยเด็ดขาด — ปฏิบัติทันที'
-        : esc(lvl.advice);
-    }
-
-    /* เพิ่ม actions ถ้า danger */
-    if (isDanger && !document.getElementById('hskk-actions')) {
-      var actions = document.createElement('div');
-      actions.id = 'hskk-actions';
-      actions.innerHTML = buildActionsHTML();
-      bar.appendChild(actions);
-    }
-  }
-
-  /* ── fetch API ────────────────────────────────────────────────────────── */
-  function fetchWeather() {
+    /* Fetch: temperature + rain + PM2.5 */
     var wxUrl = 'https://api.open-meteo.com/v1/forecast' +
       '?latitude='+lat+'&longitude='+lng+
-      '&current=apparent_temperature,weather_code&timezone=Asia%2FBangkok';
+      '&current=apparent_temperature,precipitation_probability&timezone=Asia%2FBangkok';
     var aqUrl = 'https://air-quality-api.open-meteo.com/v1/air-quality' +
       '?latitude='+lat+'&longitude='+lng+
       '&current=pm2_5&timezone=Asia%2FBangkok';
 
-    var apparent = null, wxCode = null, pm25 = null;
+    var temp = null, rain = null, pm25 = null;
     var wxDone = false, aqDone = false;
 
     function tryUpdate() {
       if (!wxDone || !aqDone) return;
-      updateBar(apparent, pm25, wxCode);
+      var ni = document.getElementById('hskk-ni');
+      if (!ni) return;
+      var items = buildItems(temp, pm25, rain);
+      if (!items.length) return;
+      ni.innerHTML = buildHTML(items) + buildHTML(items);
+      requestAnimationFrame(function() {
+        calibrate();
+        ni.style.animationPlayState = 'running';
+      });
     }
 
     fetch(wxUrl)
       .then(function(r){ return r.json(); })
-      .then(function(d){ if(d && d.current){ apparent = d.current.apparent_temperature; wxCode = d.current.weather_code; } })
+      .then(function(d){
+        if (d && d.current) {
+          temp = d.current.apparent_temperature;
+          rain = d.current.precipitation_probability;
+        }
+      })
       .catch(function(){})
-      .then(function(){ wxDone = true; tryUpdate(); });  /* .then แทน .finally */
+      .then(function(){ wxDone = true; tryUpdate(); });
 
     fetch(aqUrl)
       .then(function(r){ return r.json(); })
-      .then(function(d){ pm25 = d && d.current ? (d.current.pm2_5 || null) : null; })
+      .then(function(d){
+        pm25 = (d && d.current) ? (d.current.pm2_5 || null) : null;
+      })
       .catch(function(){})
       .then(function(){ aqDone = true; tryUpdate(); });
-  }
-
-  /* ── init: render ทันที → fetch → update ─────────────────────────────── */
-  function init() {
-    injectStyle();
-
-    /* แสดงบาร์ทันที (ไม่รอ API) */
-    if (!document.getElementById(BAR_ID)) {
-      insertBar(createBar(null, null, null));
-    }
-
-    /* ดึงข้อมูลจริง แล้วอัปเดต */
-    fetchWeather();
   }
 
   if (document.readyState === 'loading') {
