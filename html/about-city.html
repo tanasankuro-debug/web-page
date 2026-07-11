@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>รู้จักขอนแก่น — เมืองใหญ่แห่งอีสานที่กำลังร้อนขึ้น · Heat Safe Khon Kaen</title>
-  <meta name="description" content="บริบทเมืองขอนแก่นและแนวโน้มความร้อนเมือง — เมืองศูนย์กลางภาคตะวันออกเฉียงเหนือกับปรากฏการณ์เกาะความร้อนเมือง (Urban Heat Island)" />
+  <title>ประวัติขอนแก่น — ที่ตั้ง อาณาเขต และข้อมูลจังหวัด · Heat Safe Khon Kaen</title>
+  <meta name="description" content="ประวัติความเป็นมา ที่ตั้งทางภูมิศาสตร์ อาณาเขตติดต่อ และข้อมูลพื้นฐานจังหวัดขอนแก่น เมืองศูนย์กลางของภาคตะวันออกเฉียงเหนือประเทศไทย" />
   <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,152 +14,267 @@
   <link rel="stylesheet" href="../css/components.css" />
   <link rel="stylesheet" href="../css/themes.css" />
   <style>
-    html, body { background: #0B0F1A; color: #e2e8f0; }
+    html, body { background: #080c18; color: #e2e8f0; }
 
     /* ── Hero ── */
     .ac-hero {
       position: relative;
-      padding: calc(var(--header-h) + 3rem) 1.5rem 3.5rem;
+      padding: calc(var(--header-h) + 3.5rem) 1.5rem 4rem;
       text-align: center;
-      border-bottom: 1px solid rgba(255,255,255,.06);
       overflow: hidden;
-    }
-    @media (max-width: 640px) {
-      .ac-hero {
-        padding-top: calc(var(--header-h) + 2rem);
-        padding-inline: 1rem;
-      }
+      background:
+        radial-gradient(ellipse 90% 70% at 15% 75%, rgba(251,146,60,.22) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 80% at 85% 25%, rgba(239,68,68,.12) 0%, transparent 55%),
+        linear-gradient(160deg, #1c0d02 0%, #0d1118 45%, #060a16 100%);
     }
     .ac-hero-video {
       position: absolute; inset: 0;
       width: 100%; height: 100%;
-      object-fit: cover; z-index: 0;
-      opacity: .28;
+      object-fit: cover; z-index: 0; opacity: .18;
     }
     .ac-hero-overlay {
       position: absolute; inset: 0; z-index: 1;
-      background:
-        linear-gradient(to bottom, rgba(11,15,26,.55) 0%, rgba(11,15,26,.92) 100%),
-        linear-gradient(135deg, rgba(251,146,60,.12) 0%, rgba(239,68,68,.06) 100%);
+      background: linear-gradient(to bottom, rgba(8,12,24,.4) 0%, rgba(8,12,24,.88) 100%);
     }
     .ac-hero-inner { position: relative; z-index: 2; max-width: 760px; margin: 0 auto; }
     .ac-eyebrow {
+      display: inline-flex; align-items: center; gap: .5rem;
       font-family: 'Barlow Condensed', sans-serif;
       font-size: .74rem; font-weight: 700;
-      letter-spacing: .14em; text-transform: uppercase;
-      color: #fb923c; margin-bottom: .7rem;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: #fb923c; margin-bottom: .9rem;
+    }
+    .ac-eyebrow::before, .ac-eyebrow::after {
+      content: ''; display: inline-block;
+      width: 28px; height: 1.5px; background: rgba(251,146,60,.5);
     }
     .ac-title {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: clamp(2rem, 6vw, 3.6rem);
-      font-weight: 800; line-height: 1.02;
-      color: #fff; margin-bottom: .8rem;
+      font-size: clamp(2.4rem, 7vw, 4.2rem);
+      font-weight: 800; line-height: 1; color: #fff; margin-bottom: 1rem;
     }
     .ac-title span { color: #fb923c; }
     .ac-lead {
-      font-size: 1rem; line-height: 1.85;
-      color: rgba(255,255,255,.72);
-      max-width: 640px; margin: 0 auto;
+      font-size: 1rem; line-height: 1.9;
+      color: rgba(255,255,255,.65); max-width: 600px; margin: 0 auto 1.6rem;
+    }
+    .ac-hero-badges {
+      display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center;
+    }
+    .ac-badge {
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+      border-radius: 20px; padding: .28rem .85rem;
+      font-size: .72rem; color: rgba(255,255,255,.55); letter-spacing: .04em;
     }
 
-    /* ── Layout ── */
-    .ac-wrap { max-width: 860px; margin: 0 auto; padding: 0 1.35rem 4rem; }
-    .ac-section { padding: 2.8rem 0 .6rem; }
-    .ac-kicker {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: .72rem; font-weight: 700; letter-spacing: .12em;
-      text-transform: uppercase; color: #fb923c; margin-bottom: .5rem;
+    /* ── Rainbow divider ── */
+    .ac-rainbow {
+      height: 2px; border-radius: 1px;
+      background: linear-gradient(90deg,
+        transparent 0%, #fb923c 18%, #ef4444 36%, #a855f7 54%, #3b82f6 72%, #22d3ee 90%, transparent 100%);
+      margin: 0; opacity: .55;
     }
+
+    /* ── Wrap & sections ── */
+    .ac-wrap { max-width: 880px; margin: 0 auto; padding: 0 1.4rem 5rem; }
+    .ac-section { padding: 3rem 0 1rem; }
+
+    /* ── Kicker ── */
+    .ac-kicker {
+      display: inline-flex; align-items: center; gap: .45rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .7rem; font-weight: 700; letter-spacing: .15em;
+      text-transform: uppercase; color: #fb923c; margin-bottom: .6rem;
+    }
+    .ac-kicker::before {
+      content: ''; width: 18px; height: 2px;
+      background: linear-gradient(90deg, #fb923c, transparent);
+      border-radius: 1px;
+    }
+
+    /* ── Headings & text ── */
     .ac-h2 {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: clamp(1.5rem, 4vw, 2.1rem); font-weight: 800;
-      color: #fff; line-height: 1.15; margin: 0 0 1.1rem;
+      font-size: clamp(1.6rem, 4.5vw, 2.3rem); font-weight: 800;
+      color: #fff; line-height: 1.1; margin: 0 0 1.1rem;
     }
-    .ac-p { font-size: .97rem; line-height: 1.95; color: rgba(226,232,240,.82); margin: 0 0 1.1rem; }
-    .ac-p .hl { color: #fdba74; font-weight: 600; }
-    .ac-p .hl-red { color: #fca5a5; font-weight: 600; }
+    .ac-p { font-size: .95rem; line-height: 2; color: rgba(226,232,240,.78); margin: 0 0 1rem; }
+    .ac-p .hl  { color: #fdba74; font-weight: 600; }
+    .ac-p .hlb { color: #93c5fd; font-weight: 600; }
 
     /* ── Stat cards ── */
     .ac-stats {
       display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: .75rem; margin: 1.4rem 0 .5rem;
+      gap: .8rem; margin: 1.5rem 0 1.2rem;
     }
     .ac-stat {
-      background: rgba(255,255,255,.035);
-      border: 1px solid rgba(255,255,255,.09);
-      border-radius: 14px; padding: 1.1rem .7rem;
-      text-align: center;
+      background: linear-gradient(135deg, rgba(251,146,60,.1) 0%, rgba(251,146,60,.04) 100%);
+      border: 1px solid rgba(251,146,60,.28);
+      border-top: 2px solid rgba(251,146,60,.5);
+      border-radius: 16px; padding: 1.2rem .8rem;
+      text-align: center; transition: transform .18s, border-color .18s;
     }
+    .ac-stat:hover { transform: translateY(-3px); border-color: rgba(251,146,60,.5); }
     .ac-stat-val {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.85rem; font-weight: 800; line-height: 1;
-      color: #fb923c; margin-bottom: .3rem;
+      font-size: 2rem; font-weight: 800; line-height: 1;
+      color: #fb923c; margin-bottom: .35rem;
+      text-shadow: 0 0 28px rgba(251,146,60,.3);
     }
-    .ac-stat-lb { font-size: .66rem; line-height: 1.4; color: rgba(255,255,255,.5); }
+    .ac-stat-lb { font-size: .67rem; line-height: 1.5; color: rgba(255,255,255,.48); }
 
-    /* ── Table ── */
-    .ac-table-box { overflow-x: auto; margin: 1.2rem 0 .5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,.08); }
-    table.ac-table { width: 100%; border-collapse: collapse; font-size: .84rem; min-width: 420px; }
-    .ac-table caption { text-align: left; font-size: .78rem; color: rgba(255,255,255,.5); padding: .7rem .9rem; background: rgba(255,255,255,.03); }
-    .ac-table th, .ac-table td { padding: .55rem .8rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,.06); }
-    .ac-table thead th { background: rgba(251,146,60,.12); color: #fdba74; font-weight: 700; }
-    .ac-table tbody tr:hover { background: rgba(255,255,255,.03); }
-    .ac-table .row-hot td { color: #fca5a5; font-weight: 700; }
-    .ac-table .row-cool td { color: #93c5fd; }
+    /* ── History timeline style ── */
+    .ac-timeline { list-style: none; padding: 0; margin: 1.4rem 0; display: flex; flex-direction: column; gap: 0; }
+    .ac-tl-item {
+      display: flex; gap: 1.1rem; padding-bottom: 1.4rem; position: relative;
+    }
+    .ac-tl-item::before {
+      content: ''; position: absolute; left: 17px; top: 36px;
+      width: 2px; height: calc(100% - 12px);
+      background: linear-gradient(to bottom, rgba(251,146,60,.4), transparent);
+    }
+    .ac-tl-item:last-child::before { display: none; }
+    .ac-tl-dot {
+      flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(251,146,60,.12); border: 2px solid rgba(251,146,60,.4);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif; font-size: .78rem; font-weight: 800;
+      color: #fb923c; letter-spacing: -.02em;
+    }
+    .ac-tl-body { padding-top: .1rem; }
+    .ac-tl-year { font-family: 'Barlow Condensed', sans-serif; font-size: .72rem; font-weight: 700; color: #fb923c; letter-spacing: .08em; margin-bottom: .2rem; }
+    .ac-tl-text { font-size: .9rem; line-height: 1.8; color: rgba(226,232,240,.78); }
+    .ac-tl-text b { color: #fff; }
 
-    /* ── Cause list ── */
-    .ac-causes { list-style: none; padding: 0; margin: 1rem 0 .5rem; display: grid; gap: .7rem; }
-    .ac-cause {
-      display: flex; gap: .85rem; align-items: flex-start;
-      background: rgba(255,255,255,.035); border: 1px solid rgba(255,255,255,.08);
+    /* ── Compass boundary ── */
+    .compass-wrap {
+      display: grid;
+      grid-template-areas: ". north ." "west center east" ". south .";
+      grid-template-columns: 1fr 1.15fr 1fr;
+      gap: .6rem; margin: 1.5rem 0 .8rem;
+    }
+    .compass-card {
+      border-radius: 14px; padding: .85rem .9rem; text-align: center;
+    }
+    .compass-dir {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .62rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; margin-bottom: .3rem;
+    }
+    .compass-prov { font-size: .82rem; font-weight: 600; color: #fff; line-height: 1.45; }
+    .compass-note { font-size: .68rem; color: rgba(255,255,255,.4); margin-top: .25rem; line-height: 1.4; }
+    .cn { grid-area: north; background: rgba(96,165,250,.08); border: 1px solid rgba(96,165,250,.25); }
+    .cn .compass-dir { color: #93c5fd; }
+    .cs { grid-area: south; background: rgba(239,68,68,.08);  border: 1px solid rgba(239,68,68,.22); }
+    .cs .compass-dir { color: #f87171; }
+    .ce { grid-area: east;  background: rgba(34,197,94,.08);  border: 1px solid rgba(34,197,94,.22); }
+    .ce .compass-dir { color: #4ade80; }
+    .cw { grid-area: west;  background: rgba(168,85,247,.08); border: 1px solid rgba(168,85,247,.22); }
+    .cw .compass-dir { color: #c084fc; }
+    .cc {
+      grid-area: center;
+      background: linear-gradient(135deg, rgba(251,146,60,.12), rgba(239,68,68,.07));
+      border: 2px solid rgba(251,146,60,.35);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .cc-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem; font-weight: 800; color: #fb923c;
+    }
+    .cc-sub { font-size: .65rem; color: rgba(255,255,255,.45); margin-top: .15rem; }
+
+    /* ── Terrain cards ── */
+    .ac-terrains { display: grid; gap: .65rem; margin: 1.2rem 0; }
+    .ac-terrain {
+      display: flex; gap: .9rem; align-items: flex-start;
+      background: linear-gradient(135deg, rgba(6,182,212,.06) 0%, rgba(59,130,246,.03) 100%);
+      border: 1px solid rgba(6,182,212,.2); border-left: 3px solid rgba(6,182,212,.5);
       border-radius: 12px; padding: .9rem 1rem;
     }
-    .ac-cause-num {
-      flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
-      background: rgba(251,146,60,.18); color: #fb923c;
+    .ac-terrain-num {
+      flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
+      background: rgba(6,182,212,.15); color: #22d3ee;
       font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
       display: flex; align-items: center; justify-content: center; font-size: .9rem;
     }
-    .ac-cause-txt { font-size: .9rem; line-height: 1.7; color: rgba(226,232,240,.82); }
-    .ac-cause-txt b { color: #fff; }
+    .ac-terrain-txt { font-size: .9rem; line-height: 1.75; color: rgba(226,232,240,.78); }
+    .ac-terrain-txt b { color: #e2f8fc; }
 
-    /* ── Hotspots ── */
-    .ac-hotspots { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: .6rem; margin: 1.1rem 0 .5rem; }
-    .ac-hot {
-      background: rgba(239,68,68,.07); border: 1px solid rgba(239,68,68,.22);
-      border-radius: 12px; padding: .85rem .8rem; text-align: center;
+    /* ── Info grid ── */
+    .ac-infogrid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+      gap: .7rem; margin: 1.3rem 0 1rem;
     }
-    .ac-hot-name { font-size: .86rem; font-weight: 600; color: #fecaca; }
+    .ac-infocard {
+      border-radius: 14px; padding: 1rem .9rem; text-align: center;
+      transition: transform .15s;
+    }
+    .ac-infocard:hover { transform: translateY(-2px); }
+    .ac-infocard--a { background: rgba(251,146,60,.08); border: 1px solid rgba(251,146,60,.25); }
+    .ac-infocard--b { background: rgba(96,165,250,.07); border: 1px solid rgba(96,165,250,.22); }
+    .ac-infocard--c { background: rgba(34,197,94,.07);  border: 1px solid rgba(34,197,94,.22); }
+    .ac-infocard--d { background: rgba(168,85,247,.07); border: 1px solid rgba(168,85,247,.22); }
+    .ic-lbl { font-size: .63rem; color: rgba(255,255,255,.42); margin-bottom: .35rem; }
+    .ic-val {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.6rem; font-weight: 800; line-height: 1.1;
+      text-shadow: 0 0 20px currentColor;
+    }
+    .ic-val--a { color: #fb923c; }
+    .ic-val--b { color: #93c5fd; font-size: 1.05rem; }
+    .ic-val--c { color: #4ade80; font-size: 1.05rem; }
+    .ic-val--d { color: #c084fc; font-size: 1.05rem; }
+
+    /* ── Institution cards ── */
+    .ac-inst-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; margin: 1.2rem 0; }
+    .ac-inst {
+      display: flex; gap: .75rem; align-items: flex-start;
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px; padding: .9rem 1rem;
+    }
+    .ac-inst-icon { font-size: 1.35rem; flex-shrink: 0; margin-top: .05rem; }
+    .ac-inst-name { font-size: .88rem; font-weight: 600; color: #fff; margin-bottom: .2rem; }
+    .ac-inst-desc { font-size: .75rem; color: rgba(255,255,255,.45); line-height: 1.5; }
 
     /* ── Callout ── */
     .ac-callout {
-      background: rgba(251,146,60,.08); border: 1px solid rgba(251,146,60,.25);
-      border-left: 3px solid #fb923c; border-radius: 10px;
-      padding: 1rem 1.2rem; margin: 1.3rem 0; font-size: .9rem; line-height: 1.8; color: rgba(255,255,255,.8);
+      background: rgba(251,146,60,.07); border: 1px solid rgba(251,146,60,.22);
+      border-left: 3px solid #fb923c; border-radius: 12px;
+      padding: 1rem 1.3rem; margin: 1.2rem 0;
+      font-size: .9rem; line-height: 1.85; color: rgba(255,255,255,.78);
     }
-    .ac-note { font-size: .8rem; color: rgba(255,255,255,.45); line-height: 1.7; }
+    .ac-callout strong { color: #fdba74; }
 
     /* ── References ── */
-    .ac-refs { margin-top: 2rem; padding-top: 1.3rem; border-top: 1px solid rgba(255,255,255,.08); }
-    .ac-refs h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; letter-spacing:.06em; color: rgba(255,255,255,.6); margin: 0 0 .7rem; }
+    .ac-refs { margin-top: 2.5rem; padding-top: 1.4rem; border-top: 1px solid rgba(255,255,255,.08); }
+    .ac-refs h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .85rem; letter-spacing: .1em; text-transform: uppercase;
+      color: rgba(255,255,255,.4); margin: 0 0 .8rem;
+    }
     .ac-refs ul { margin: 0; padding-left: 1.1rem; }
-    .ac-refs li { font-size: .8rem; line-height: 1.9; color: rgba(255,255,255,.48); }
+    .ac-refs li { font-size: .78rem; line-height: 2; color: rgba(255,255,255,.38); }
 
     /* ── Page nav ── */
-    .ac-pagenav { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 2.2rem; }
+    .ac-pagenav { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 2.5rem; }
     .ac-pnb {
-      flex: 1; min-width: 150px; text-decoration: none;
-      padding: .85rem 1rem; border-radius: 12px; font-size: .88rem; font-weight: 600;
+      flex: 1; min-width: 140px; text-decoration: none;
+      padding: .9rem 1.1rem; border-radius: 12px; font-size: .88rem; font-weight: 600;
       display: flex; align-items: center; justify-content: center; gap: .5rem;
       transition: transform .15s, background .2s;
     }
     .ac-pnb:hover { transform: translateY(-2px); }
-    .ac-pnb--graph  { background: rgba(251,146,60,.12); border: 1px solid rgba(251,146,60,.3); color: #fdba74; }
-    .ac-pnb--shel   { background: rgba(34,197,94,.1);  border: 1px solid rgba(34,197,94,.28); color: #86efac; }
-    .ac-pnb--stats  { background: rgba(96,165,250,.1); border: 1px solid rgba(96,165,250,.28); color: #93c5fd; }
+    .ac-pnb--graph { background: rgba(251,146,60,.1); border: 1px solid rgba(251,146,60,.3); color: #fdba74; }
+    .ac-pnb--shel  { background: rgba(34,197,94,.08); border: 1px solid rgba(34,197,94,.25); color: #86efac; }
 
-    @media (max-width: 560px) {
-      .ac-stats { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 600px) {
+      .ac-stats  { grid-template-columns: repeat(2,1fr); }
+      .compass-wrap { grid-template-columns: 1fr 1fr 1fr; gap: .4rem; }
+      .cc-logo { font-size: .88rem; }
+      .ac-inst-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 400px) {
+      .compass-wrap { grid-template-areas: "north north north" "west center east" "south south south"; }
     }
   </style>
   <script src="../js/utility-bar.js"></script>
@@ -200,149 +315,228 @@
     </video>
     <div class="ac-hero-overlay" aria-hidden="true"></div>
     <div class="ac-hero-inner">
-      <p class="ac-eyebrow">GeoHeat Khon Kaen · บริบทเมืองและแนวโน้มความร้อน</p>
-      <h1 class="ac-title">รู้จักขอนแก่น<br><span>เมืองใหญ่แห่งอีสานที่กำลังร้อนขึ้น</span></h1>
+      <p class="ac-eyebrow">GeoHeat Khon Kaen · ประวัติและภูมิศาสตร์</p>
+      <h1 class="ac-title">ประวัติขอนแก่น<br><span>เมืองใหญ่แห่งภาคอีสาน</span></h1>
       <p class="ac-lead">
-        ขอนแก่นเป็นเมืองศูนย์กลางของภาคตะวันออกเฉียงเหนือที่เติบโตอย่างรวดเร็ว
-        แต่การขยายตัวของเมืองก็นำมาซึ่งปรากฏการณ์ “เกาะความร้อนเมือง” ที่ทำให้อุณหภูมิพื้นผิวสูงขึ้นทุกปี
-        บทความนี้อธิบายบริบทเมือง ข้อมูลความร้อน สาเหตุ และแนวโน้มในอนาคต
+        จังหวัดขอนแก่นมีประวัติความเป็นมายาวนานกว่า 200 ปี
+        ในฐานะศูนย์กลางของภาคตะวันออกเฉียงเหนือ
+        ทั้งด้านการปกครอง การค้า การศึกษา และการแพทย์
       </p>
+      <div class="ac-hero-badges">
+        <span class="ac-badge">ก่อตั้ง พ.ศ. 2340</span>
+        <span class="ac-badge">พื้นที่ 10,886 ตร.กม.</span>
+        <span class="ac-badge">26 อำเภอ</span>
+        <span class="ac-badge">ประชากร ~1.8 ล้านคน</span>
+      </div>
     </div>
   </section>
+  <div class="ac-rainbow"></div>
 
   <main class="ac-wrap">
 
-    <!-- 1. บริบทเมือง -->
+    <!-- 1. ประวัติความเป็นมา -->
     <section class="ac-section">
-      <p class="ac-kicker">01 · บริบทเมือง</p>
-      <h2 class="ac-h2">ขอนแก่น: เมืองศูนย์กลางของภาคอีสาน</h2>
+      <p class="ac-kicker">01 · ประวัติความเป็นมา</p>
+      <h2 class="ac-h2">ประวัติความเป็นมาของจังหวัดขอนแก่น</h2>
       <p class="ac-p">
-        ในปัจจุบัน เมืองขอนแก่นมีบทบาทสำคัญในฐานะ<span class="hl">เมืองศูนย์กลางของภาคตะวันออกเฉียงเหนือ</span>
-        ทั้งด้านเศรษฐกิจ การศึกษา การแพทย์ การคมนาคม การค้า การบริการ และการบริหารจัดการภาครัฐ
-        การเติบโตดังกล่าวส่งผลให้เขตเทศบาลนครขอนแก่นมีการขยายตัวของอาคารที่อยู่อาศัย อาคารพาณิชย์
-        ถนน พื้นคอนกรีต ลานจอดรถ และโครงสร้างพื้นฐานเพิ่มขึ้นอย่างต่อเนื่อง
-        ขณะที่พื้นที่สีเขียว แหล่งน้ำ และพื้นที่ซึมน้ำตามธรรมชาติกลับกระจายตัวไม่เท่ากันในแต่ละบริเวณ
+        ชื่อ <span class="hl">"ขอนแก่น"</span> สันนิษฐานว่ามาจากต้นไม้ขนาดใหญ่ที่มีแก่นแข็ง
+        ซึ่งพบมากในบริเวณพื้นที่นั้นในอดีต
+        เมืองขอนแก่นได้รับการสถาปนาอย่างเป็นทางการในสมัย
+        <span class="hl">รัชกาลที่ 1 แห่งกรุงรัตนโกสินทร์</span>
+        โดยทรงโปรดเกล้าฯ ให้ยกบ้านบึงบอนขึ้นเป็นเมืองขอนแก่น
+        จนกลายเป็นศูนย์กลางของภาคตะวันออกเฉียงเหนือในเวลาต่อมา
       </p>
-      <p class="ac-p">
-        นอกจากนี้ ขอนแก่นยังได้รับการผลักดันให้เป็น<span class="hl">เมืองอัจฉริยะ (Smart City)</span>
-        โดยสำนักงานส่งเสริมเศรษฐกิจดิจิทัลระบุว่าจังหวัดขอนแก่นเป็นหนึ่งในเมืองอัจฉริยะนำร่องของประเทศไทย
-        ครอบคลุมหลายมิติ ได้แก่ Smart Mobility, Smart Living, Smart Citizen, Smart Economy,
-        Smart Environment และ Smart Governance
-      </p>
+
+      <ul class="ac-timeline">
+        <li class="ac-tl-item">
+          <div class="ac-tl-dot">2340</div>
+          <div class="ac-tl-body">
+            <div class="ac-tl-year">พ.ศ. 2340 · รัชกาลที่ 1</div>
+            <div class="ac-tl-text">พระบาทสมเด็จพระพุทธยอดฟ้าจุฬาโลกทรงโปรดเกล้าฯ ให้<b>ยกบ้านบึงบอน</b>ขึ้นเป็น<b>เมืองขอนแก่น</b> เมืองศูนย์กลางการปกครองในภาคอีสาน</div>
+          </div>
+        </li>
+        <li class="ac-tl-item">
+          <div class="ac-tl-dot">2440</div>
+          <div class="ac-tl-body">
+            <div class="ac-tl-year">พ.ศ. 2440 · รัชกาลที่ 5</div>
+            <div class="ac-tl-text">ปฏิรูปการปกครองส่วนภูมิภาค จังหวัดขอนแก่นได้รับการ<b>จัดตั้งอย่างเป็นทางการ</b> และขยายอาณาเขตให้ครอบคลุมพื้นที่กว้างขึ้นตามระบบมณฑลเทศาภิบาล</div>
+          </div>
+        </li>
+        <li class="ac-tl-item">
+          <div class="ac-tl-dot">2504</div>
+          <div class="ac-tl-body">
+            <div class="ac-tl-year">พ.ศ. 2504 · จุดเปลี่ยนสำคัญ</div>
+            <div class="ac-tl-text">ก่อตั้ง<b>มหาวิทยาลัยขอนแก่น</b> มหาวิทยาลัยแห่งแรกในภาคอีสาน กลายเป็นศูนย์กลางการศึกษาและการพัฒนาทรัพยากรมนุษย์ของภูมิภาค</div>
+          </div>
+        </li>
+        <li class="ac-tl-item">
+          <div class="ac-tl-dot">ปัจจุบัน</div>
+          <div class="ac-tl-body">
+            <div class="ac-tl-year">พ.ศ. 2560–ปัจจุบัน · Smart City</div>
+            <div class="ac-tl-text">ขอนแก่นได้รับการผลักดันให้เป็น<b>เมืองอัจฉริยะนำร่อง</b>ของประเทศไทย ครอบคลุม Smart Mobility, Smart Living, Smart Citizen, Smart Economy, Smart Environment และ Smart Governance</div>
+          </div>
+        </li>
+      </ul>
     </section>
 
-    <!-- 2. ร้อนขึ้นแค่ไหน -->
+    <!-- 2. ที่ตั้ง -->
     <section class="ac-section">
-      <p class="ac-kicker">02 · ตัวเลขความร้อน</p>
-      <h2 class="ac-h2">ขอนแก่นร้อนขึ้นแค่ไหน?</h2>
+      <p class="ac-kicker">02 · ที่ตั้งทางภูมิศาสตร์</p>
+      <h2 class="ac-h2">ที่ตั้งของจังหวัดขอนแก่น</h2>
       <p class="ac-p">
-        จากการวิเคราะห์ค่า<span class="hl">อุณหภูมิพื้นผิวเมือง (Land Surface Temperature: LST)</span>
-        ด้วยข้อมูลดาวเทียม Landsat 8–9 ผ่าน Google Earth Engine ในช่วงปี พ.ศ. 2559–2569
-        พบว่าเขตเทศบาลนครขอนแก่นมีค่า LST เฉลี่ยสูงถึง <span class="hl-red">43.98 องศาเซลเซียส</span>
-        และมีแนวโน้มเพิ่มขึ้นอย่างต่อเนื่อง
+        จังหวัดขอนแก่นตั้งอยู่ใน<span class="hl">ภาคตะวันออกเฉียงเหนือตอนกลาง</span>ของประเทศไทย
+        บนที่ราบสูงโคราช พิกัดโดยประมาณ <span class="hlb">16°26'N 102°50'E</span>
+        ห่างจากกรุงเทพมหานครประมาณ <span class="hl">449 กิโลเมตร</span> ทางทิศตะวันออกเฉียงเหนือ
       </p>
 
       <div class="ac-stats">
-        <div class="ac-stat"><div class="ac-stat-val">43.98°C</div><div class="ac-stat-lb">LST เฉลี่ย 10 ปี (2559–2569)</div></div>
-        <div class="ac-stat"><div class="ac-stat-val">48.18°C</div><div class="ac-stat-lb">ปีร้อนสุด · พ.ศ. 2567</div></div>
-        <div class="ac-stat"><div class="ac-stat-val">+0.11°C</div><div class="ac-stat-lb">อัตราเพิ่มต่อปี (slope)</div></div>
-        <div class="ac-stat"><div class="ac-stat-val">38.39°C</div><div class="ac-stat-lb">ปีเย็นสุด · พ.ศ. 2561</div></div>
+        <div class="ac-stat"><div class="ac-stat-val">10,886</div><div class="ac-stat-lb">พื้นที่จังหวัด<br>(ตารางกิโลเมตร)</div></div>
+        <div class="ac-stat"><div class="ac-stat-val">26</div><div class="ac-stat-lb">จำนวนอำเภอ<br>ทั่วทั้งจังหวัด</div></div>
+        <div class="ac-stat"><div class="ac-stat-val">1.8M</div><div class="ac-stat-lb">ประชากร<br>(โดยประมาณ)</div></div>
+        <div class="ac-stat"><div class="ac-stat-val">449</div><div class="ac-stat-lb">กม. จากกรุงเทพฯ<br>ทิศตะวันออกเฉียงเหนือ</div></div>
       </div>
 
-      <div class="ac-table-box">
-        <table class="ac-table">
-          <caption>ตารางที่ 7 · ค่าอุณหภูมิพื้นผิวเมืองเฉลี่ยในเขตเทศบาลนครขอนแก่น พ.ศ. 2559–2569</caption>
-          <thead>
-            <tr><th>ปี พ.ศ.</th><th>LST ต่ำสุด (°C)</th><th>LST สูงสุด (°C)</th><th>LST เฉลี่ย (°C)</th><th>เทียบค่าเฉลี่ยรวม</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>2559</td><td>25.57</td><td>56.97</td><td>45.93</td><td>+1.95</td></tr>
-            <tr><td>2560</td><td>16.75</td><td>62.05</td><td>44.94</td><td>+0.96</td></tr>
-            <tr class="row-cool"><td>2561</td><td>25.62</td><td>50.17</td><td>38.39</td><td>−5.59</td></tr>
-            <tr><td>2562</td><td>19.14</td><td>55.38</td><td>43.73</td><td>−0.25</td></tr>
-            <tr><td>2563</td><td>15.54</td><td>60.30</td><td>47.99</td><td>+4.01</td></tr>
-            <tr><td>2564</td><td>30.47</td><td>53.88</td><td>41.56</td><td>−2.42</td></tr>
-            <tr><td>2565</td><td>29.91</td><td>53.42</td><td>41.29</td><td>−2.69</td></tr>
-            <tr><td>2566</td><td>32.38</td><td>54.00</td><td>42.10</td><td>−1.88</td></tr>
-            <tr class="row-hot"><td>2567</td><td>33.89</td><td>60.73</td><td>48.18</td><td>+4.20</td></tr>
-            <tr><td>2568</td><td>31.90</td><td>59.75</td><td>45.82</td><td>+1.84</td></tr>
-            <tr><td>2569</td><td>32.46</td><td>56.08</td><td>43.84</td><td>−0.14</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="ac-note">
-        หมายเหตุ: LST คืออุณหภูมิพื้นผิว (surface temperature) ที่วัดจากดาวเทียม
-        ซึ่งมีค่าสูงกว่าอุณหภูมิอากาศ (air temperature) ที่รายงานตามสถานีอุตุนิยมวิทยา
-        ทั้งสองค่าจึงไม่เท่ากันแต่สะท้อนแนวโน้มความร้อนเมืองเช่นเดียวกัน
+      <p class="ac-p">
+        ตัวเมืองขอนแก่นตั้งอยู่ริม<span class="hl">บึงแก่นนคร</span> บึงน้ำสาธารณะสัญลักษณ์ของเมือง
+        เขตเทศบาลนครขอนแก่นมีพื้นที่ประมาณ 46.5 ตารางกิโลเมตร
+        เป็นที่ตั้งของหน่วยงานภาครัฐ สถาบันการศึกษา โรงพยาบาล และศูนย์การค้าสำคัญ
       </p>
     </section>
 
-    <!-- 3. ทำไมถึงร้อนขึ้น -->
+    <!-- 3. อาณาเขต -->
     <section class="ac-section">
-      <p class="ac-kicker">03 · สาเหตุ</p>
-      <h2 class="ac-h2">ทำไมขอนแก่นถึงร้อนขึ้น?</h2>
+      <p class="ac-kicker">03 · อาณาเขตติดต่อ</p>
+      <h2 class="ac-h2">อาณาเขตจังหวัดขอนแก่น</h2>
       <p class="ac-p">
-        ปรากฏการณ์ที่ทำให้เมืองร้อนกว่าพื้นที่โดยรอบเรียกว่า
-        <span class="hl">“เกาะความร้อนเมือง” (Urban Heat Island: UHI)</span>
-        สำนักงานปกป้องสิ่งแวดล้อมสหรัฐอเมริกา (EPA, 2025) อธิบายว่า พื้นที่เมืองที่มีสิ่งปลูกสร้างหนาแน่น
-        และมีพื้นที่สีเขียวน้อย มักกลายเป็นบริเวณที่มีอุณหภูมิสูงกว่าพื้นที่โดยรอบ
-        สอดคล้องกับงานวิจัยคลาสสิกของ Oke (1982) ที่ระบุว่าเมืองสะสมความร้อนจากวัสดุพื้นผิว
-        รูปทรงอาคาร การระบายอากาศ และกิจกรรมของมนุษย์มากกว่าพื้นที่ธรรมชาติ
+        จังหวัดขอนแก่นมีอาณาเขตติดต่อกับ 8 จังหวัดในภาคตะวันออกเฉียงเหนือ
+        ทำให้เป็น<span class="hl">ศูนย์กลางเชื่อมต่อ</span>ที่สำคัญของภูมิภาค
       </p>
-      <ul class="ac-causes">
-        <li class="ac-cause"><span class="ac-cause-num">1</span><span class="ac-cause-txt"><b>พื้นที่ธรรมชาติลดลง</b> — ต้นไม้ พื้นที่สีเขียว และแหล่งน้ำในเมืองลดลง ทำให้ค่าดัชนีพืชพรรณ (NDVI) ต่ำ</span></li>
-        <li class="ac-cause"><span class="ac-cause-num">2</span><span class="ac-cause-txt"><b>พื้นผิวแข็งเพิ่มขึ้น</b> — หลังคา ถนน อาคาร ลานคอนกรีต และลานจอดรถเพิ่มขึ้น ทำให้ค่าดัชนีสิ่งปลูกสร้าง (NDBI) สูง</span></li>
-        <li class="ac-cause"><span class="ac-cause-num">3</span><span class="ac-cause-txt"><b>วัสดุเมืองสะสมความร้อน</b> — คอนกรีตและยางมะตอยดูดซับและคายความร้อนจากดวงอาทิตย์มากกว่าพื้นที่ธรรมชาติ</span></li>
-        <li class="ac-cause"><span class="ac-cause-num">4</span><span class="ac-cause-txt"><b>ความร้อนจากกิจกรรมมนุษย์</b> — ยานพาหนะ เครื่องปรับอากาศ และกิจกรรมทางเศรษฐกิจปล่อยความร้อนเข้าสู่เมือง</span></li>
-      </ul>
-      <p class="ac-p">
-        ผลการวิเคราะห์ของโครงงานยืนยันความสัมพันธ์นี้: ปีหรือพื้นที่ที่มีค่า <span class="hl-red">NDBI สูง</span>
-        (สิ่งปลูกสร้างหนาแน่น) มักมีค่า LST สูงตามไปด้วย ขณะที่พื้นที่ที่มีค่า <span class="hl">NDVI สูง</span>
-        (พืชพรรณหนาแน่น) จะช่วยลดการสะสมความร้อน โดยเฉพาะปี พ.ศ. 2567 ที่ร้อนที่สุดเป็นปีที่มีค่า NDVI ต่ำ
-      </p>
-    </section>
 
-    <!-- 4. ร้อนตรงไหน -->
-    <section class="ac-section">
-      <p class="ac-kicker">04 · พื้นที่เสี่ยง</p>
-      <h2 class="ac-h2">เมืองร้อนที่สุดตรงไหนบ้าง?</h2>
-      <p class="ac-p">
-        การซ้อนทับข้อมูล LST, NDVI, NDBI ร่วมกับข้อมูลภาคสนามและข้อมูลแจ้งเหตุจากประชาชน
-        พบพื้นที่จุดความร้อนสะสม (Urban Heat Hotspot) จำนวน <span class="hl-red">5 บริเวณ</span>
-        ซึ่งส่วนใหญ่จัดอยู่ในระดับความเสี่ยงซ้ำซ้อนสูงมาก
-      </p>
-      <div class="ac-hotspots">
-        <div class="ac-hot"><div class="ac-hot-name">ย่านถนนมิตรภาพ</div></div>
-        <div class="ac-hot"><div class="ac-hot-name">ย่านตลาดสด</div></div>
-        <div class="ac-hot"><div class="ac-hot-name">ย่านถนนศรีจันทร์</div></div>
-        <div class="ac-hot"><div class="ac-hot-name">ย่านสถานีขนส่ง</div></div>
-        <div class="ac-hot"><div class="ac-hot-name">ย่านชุมชนหนาแน่น</div></div>
+      <div class="compass-wrap" aria-label="แผนภาพอาณาเขตจังหวัดขอนแก่น">
+        <div class="compass-card cn">
+          <div class="compass-dir">ทิศเหนือ ↑</div>
+          <div class="compass-prov">เลย · อุดรธานี</div>
+          <div class="compass-note">แนวเทือกเขาภูพาน</div>
+        </div>
+        <div class="compass-card cw">
+          <div class="compass-dir">← ทิศตะวันตก</div>
+          <div class="compass-prov">ชัยภูมิ<br>เพชรบูรณ์</div>
+          <div class="compass-note">เทือกเขาเพชรบูรณ์</div>
+        </div>
+        <div class="compass-card cc">
+          <div class="cc-logo">ขอนแก่น</div>
+          <div class="cc-sub">16°26'N 102°50'E</div>
+        </div>
+        <div class="compass-card ce">
+          <div class="compass-dir">ทิศตะวันออก →</div>
+          <div class="compass-prov">กาฬสินธุ์<br>มหาสารคาม</div>
+          <div class="compass-note">ที่ราบลุ่มชี–มูล</div>
+        </div>
+        <div class="compass-card cs">
+          <div class="compass-dir">↓ ทิศใต้</div>
+          <div class="compass-prov">บุรีรัมย์ · นครราชสีมา</div>
+          <div class="compass-note">ที่ราบสูงโคราช</div>
+        </div>
       </div>
+
       <div class="ac-callout">
-        ผลสำรวจความคิดเห็นประชาชนสอดคล้องกับข้อมูลดาวเทียม โดยประชาชนรับรู้ปัญหาความร้อนเมือง
-        ในระดับ “มากที่สุด” ค่าเฉลี่ย 4.43 จาก 5.00 — ความร้อนเมืองจึงไม่ใช่เพียงข้อมูลเชิงตัวเลข
-        แต่เป็นปัญหาที่ประชาชนสัมผัสได้จริงในชีวิตประจำวัน
+        ด้วยที่ตั้งใจกลางภาคอีสาน ขอนแก่นเป็นจุดเชื่อมต่อการเดินทางสำคัญ ทั้ง
+        <strong>ทางหลวงมิตรภาพ (หมายเลข 2)</strong> · <strong>ท่าอากาศยานขอนแก่น</strong> ·
+        <strong>รถไฟสายตะวันออกเฉียงเหนือ</strong> และโครงการ<strong>รถไฟความเร็วสูง</strong>ที่กำลังพัฒนา
       </div>
     </section>
 
-    <!-- 5. อนาคต -->
+    <!-- 4. ลักษณะภูมิประเทศ -->
     <section class="ac-section">
-      <p class="ac-kicker">05 · แนวโน้มอนาคต</p>
-      <h2 class="ac-h2">ถ้าไม่ทำอะไร อนาคตจะเป็นอย่างไร?</h2>
+      <p class="ac-kicker">04 · ลักษณะภูมิประเทศ</p>
+      <h2 class="ac-h2">ภูมิประเทศและภูมิอากาศ</h2>
       <p class="ac-p">
-        เมื่อวิเคราะห์แนวโน้มด้วยสมการถดถอยเชิงเส้น <span class="hl">y = 43.30 + 0.11x</span>
-        พบว่าค่า LST เฉลี่ยมีแนวโน้มเพิ่มขึ้นประมาณ 0.11 องศาเซลเซียสต่อปี
-        หากแนวโน้มยังคงเป็นไปตามรูปแบบเดิม โดยไม่มีการเพิ่มพื้นที่สีเขียวหรือลดพื้นผิวดาดแข็ง
-        คาดว่าในปี <span class="hl-red">พ.ศ. 2575 ค่า LST เฉลี่ยอาจแตะ 45.17 องศาเซลเซียส</span>
+        พื้นที่ส่วนใหญ่เป็น<span class="hl">ที่ราบสูง</span>
+        ความสูงจากระดับน้ำทะเลเฉลี่ย 150–200 เมตร
+        ทางเหนือและตะวันตกมีเทือกเขา<span class="hl">ภูพาน</span>
+        ซึ่งเป็นแหล่งต้นน้ำสำคัญ
       </p>
-      <p class="ac-p">
-        อย่างไรก็ตาม ค่าสัมประสิทธิ์การกำหนด (R² = 0.02) อยู่ในระดับต่ำ เนื่องจากค่า LST รายปีมีความผันผวนสูง
-        และสัมพันธ์กับปรากฏการณ์เอลนีโญ–ลานีญา (ENSO) การคาดการณ์นี้จึงควรใช้เป็นข้อมูล
-        ประกอบการเฝ้าระวังเบื้องต้น มากกว่าการทำนายที่แน่นอน
-      </p>
-      <div class="ac-callout">
-        ข้อเสนอเชิงพื้นที่: การเพิ่มพื้นที่สีเขียว ลดพื้นผิวดาดแข็ง ปลูกต้นไม้ริมถนน
-        และพัฒนาพื้นที่ร่มเงาบริเวณจุดฮอตสปอตทั้ง 5 แห่ง จะช่วยชะลอการเพิ่มขึ้นของอุณหภูมิพื้นผิวเมืองได้
+      <div class="ac-terrains">
+        <div class="ac-terrain">
+          <span class="ac-terrain-num">1</span>
+          <span class="ac-terrain-txt"><b>แม่น้ำพอง</b> — แม่น้ำสายหลักของจังหวัด ไหลผ่านอำเภอเมืองไปบรรจบ<b>แม่น้ำชี</b>ที่อำเภอชนบท เป็นแหล่งน้ำสำคัญสำหรับเกษตรกรรม</span>
+        </div>
+        <div class="ac-terrain">
+          <span class="ac-terrain-num">2</span>
+          <span class="ac-terrain-txt"><b>บึงแก่นนคร</b> — บึงน้ำสาธารณะกลางเมือง พื้นที่ประมาณ 1 ตร.กม. เป็น<b>ปอดของเมือง</b>และสัญลักษณ์ประจำจังหวัดขอนแก่น</span>
+        </div>
+        <div class="ac-terrain">
+          <span class="ac-terrain-num">3</span>
+          <span class="ac-terrain-txt"><b>ภูมิอากาศ 3 ฤดู</b> — <b>ร้อน</b> (มี.ค.–พ.ค.) · <b>ฝน</b> (มิ.ย.–ต.ค.) · <b>หนาว</b> (พ.ย.–ก.พ.) อุณหภูมิเฉลี่ย 27–28°C ตลอดปี</span>
+        </div>
+        <div class="ac-terrain">
+          <span class="ac-terrain-num">4</span>
+          <span class="ac-terrain-txt"><b>ปริมาณน้ำฝน</b> — เฉลี่ย 1,000–1,200 มม./ปี ส่วนใหญ่ตกช่วงมิถุนายน–ตุลาคม ฝนแล้งช่วงมีนาคม–พฤษภาคม</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. ข้อมูลพื้นฐาน -->
+    <section class="ac-section">
+      <p class="ac-kicker">05 · ข้อมูลพื้นฐาน</p>
+      <h2 class="ac-h2">ข้อมูลพื้นฐานจังหวัดขอนแก่น</h2>
+
+      <div class="ac-infogrid">
+        <div class="ac-infocard ac-infocard--a">
+          <div class="ic-lbl">จำนวนอำเภอ</div>
+          <div class="ic-val ic-val--a">26</div>
+        </div>
+        <div class="ac-infocard ac-infocard--a">
+          <div class="ic-lbl">จำนวนตำบล</div>
+          <div class="ic-val ic-val--a">198</div>
+        </div>
+        <div class="ac-infocard ac-infocard--a">
+          <div class="ic-lbl">จำนวนหมู่บ้าน</div>
+          <div class="ic-val ic-val--a">2,331</div>
+        </div>
+        <div class="ac-infocard ac-infocard--b">
+          <div class="ic-lbl">ดอกไม้ประจำจังหวัด</div>
+          <div class="ic-val ic-val--b">ดอกลาวัณย์เครือ</div>
+        </div>
+        <div class="ac-infocard ac-infocard--c">
+          <div class="ic-lbl">ต้นไม้ประจำจังหวัด</div>
+          <div class="ic-val ic-val--c">กาลพฤกษ์</div>
+        </div>
+        <div class="ac-infocard ac-infocard--d">
+          <div class="ic-lbl">คำขวัญจังหวัด</div>
+          <div class="ic-val ic-val--d" style="font-size:.82rem;font-family:'Noto Sans Thai',sans-serif;">พระธาตุขามแก่น<br>เสียงแคนดอกคูน</div>
+        </div>
+      </div>
+
+      <div class="ac-inst-grid">
+        <div class="ac-inst">
+          <span class="ac-inst-icon">🎓</span>
+          <div>
+            <div class="ac-inst-name">มหาวิทยาลัยขอนแก่น</div>
+            <div class="ac-inst-desc">มหาวิทยาลัยที่ใหญ่ที่สุดในภาคตะวันออกเฉียงเหนือ ก่อตั้งปี พ.ศ. 2504</div>
+          </div>
+        </div>
+        <div class="ac-inst">
+          <span class="ac-inst-icon">🏥</span>
+          <div>
+            <div class="ac-inst-name">โรงพยาบาลศรีนครินทร์</div>
+            <div class="ac-inst-desc">โรงพยาบาลมหาวิทยาลัยระดับตติยภูมิ ศูนย์การแพทย์ภาคอีสาน</div>
+          </div>
+        </div>
+        <div class="ac-inst">
+          <span class="ac-inst-icon">✈️</span>
+          <div>
+            <div class="ac-inst-name">ท่าอากาศยานขอนแก่น</div>
+            <div class="ac-inst-desc">บินตรงกรุงเทพฯ ชั่วโมงเดียว รองรับผู้โดยสารกว่า 2 ล้านคน/ปี</div>
+          </div>
+        </div>
+        <div class="ac-inst">
+          <span class="ac-inst-icon">🏙️</span>
+          <div>
+            <div class="ac-inst-name">เทศบาลนครขอนแก่น</div>
+            <div class="ac-inst-desc">พื้นที่ 46.5 ตร.กม. ศูนย์กลางเศรษฐกิจและ Smart City ของอีสาน</div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -350,19 +544,17 @@
     <div class="ac-refs">
       <h3>เอกสารอ้างอิง</h3>
       <ul>
-        <li>Environmental Protection Agency (EPA). (2025). <em>Heat Island Effect.</em></li>
-        <li>Oke, T. R. (1982). The energetic basis of the urban heat island. <em>Quarterly Journal of the Royal Meteorological Society.</em></li>
-        <li>สำนักงานส่งเสริมเศรษฐกิจดิจิทัล. (ม.ป.ป.). <em>เมืองอัจฉริยะจังหวัดขอนแก่น.</em></li>
-        <li>ข้อมูลดาวเทียม Landsat 8–9 Collection 2 Level 2 ผ่าน Google Earth Engine (2559–2569).</li>
+        <li>กรมการปกครอง กระทรวงมหาดไทย. ข้อมูลพื้นฐานจังหวัดขอนแก่น.</li>
+        <li>สำนักงานจังหวัดขอนแก่น. ประวัติความเป็นมาจังหวัดขอนแก่น.</li>
+        <li>กรมอุตุนิยมวิทยา. ข้อมูลภูมิอากาศภาคตะวันออกเฉียงเหนือ.</li>
+        <li>สำนักงานส่งเสริมเศรษฐกิจดิจิทัล. เมืองอัจฉริยะจังหวัดขอนแก่น.</li>
       </ul>
     </div>
 
     <!-- Page nav -->
     <nav class="ac-pagenav" aria-label="ไปยังหน้าที่เกี่ยวข้อง">
-      <!-- <a href="heat-gis.html" class="ac-pnb ac-pnb--graph">กราฟคาดการณ์ความร้อน →</a> -->
-      <!-- <a href="heat-analysis.html" class="ac-pnb ac-pnb--stats">สถิติอุณหภูมิ 10 ปี →</a> -->
-      <!-- <a href="shelter-map.html" class="ac-pnb ac-pnb--shel">วิธีรับมือภัยพิบัติ →</a> -->
-       <a href="index.html" class="ac-pnb ac-pnb--shel">กลับหน้าเเรก →</a>
+      <a href="lst.html" class="ac-pnb ac-pnb--graph">ดูข้อมูลความร้อนเมือง →</a>
+      <a href="index.html" class="ac-pnb ac-pnb--shel">กลับหน้าแรก →</a>
     </nav>
 
   </main>
