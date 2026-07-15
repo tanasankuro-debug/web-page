@@ -489,6 +489,16 @@
       margin: 0.75rem 0 0;
       line-height: 1.6;
     }
+    a.landing-sub {
+      display: inline-block;
+      border-bottom: 1px solid rgba(255,255,255,0.25);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    a.landing-sub:hover,
+    a.landing-sub:focus-visible {
+      color: rgba(255,255,255,0.95);
+      border-bottom-color: rgba(255,255,255,0.7);
+    }
 
     /* ── NAV BUTTONS ───────────────────────────────────────── */
     .landing-nav {
@@ -981,7 +991,7 @@
         HEAT SAFE<br>
         <span class="landing-title-accent">KHON KAEN</span>
       </h1>
-      <p class="landing-sub reveal" style="transition-delay:.24s">ที่มาของโครงงานและคณะผู้จัดทำ · GeoHeat Khon Kaen</p>
+      <a href="team.html" class="landing-sub reveal" style="transition-delay:.24s;text-decoration:none;cursor:pointer;">ที่มาของโครงงานและคณะผู้จัดทำ · GeoHeat Khon Kaen</a>
     </div>
 
     <!-- Navigation buttons -->
@@ -1211,74 +1221,172 @@
   <!-- =====================================================================
        VIDEO — GeoHeat เกาะความร้อนเมือง
   ====================================================================== -->
-  <section id="geoheat-video-section" style="
-    background:#080c18;
-    border-top:1px solid rgba(255,255,255,.07);
-    padding:3.5rem 0 4rem;
-  ">
-    <div style="max-width:880px;margin:0 auto;padding:0 1.25rem;">
+  <section id="geoheat-video-section" style="background:#080c18;border-top:1px solid rgba(255,255,255,.07);">
 
-      <p style="
-        font-family:'Barlow Condensed',var(--font-display),sans-serif;
-        font-size:.72rem;font-weight:700;letter-spacing:.14em;
-        text-transform:uppercase;color:#fb923c;margin:0 0 .5rem;
-      ">GeoHeat Khon Kaen · โครงงานวิจัย</p>
+    <!-- ── Toggle header ── -->
+    <button id="ghv-toggle" onclick="ghvToggle()" aria-expanded="true" aria-controls="ghv-body" style="
+      width:100%;background:none;border:none;cursor:pointer;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      padding:.95rem 1.25rem;
+    ">
+      <div style="max-width:880px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+        <div style="display:flex;align-items:center;gap:.75rem;">
+          <div style="
+            width:34px;height:34px;border-radius:8px;flex-shrink:0;
+            background:rgba(251,146,60,.12);border:1px solid rgba(251,146,60,.25);
+            display:flex;align-items:center;justify-content:center;
+          ">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#fb923c" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+          <div style="text-align:left;">
+            <p style="font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#fb923c;margin:0 0 .1rem;">GeoHeat · วิดีโอโครงงาน</p>
+            <p style="font-size:.9rem;font-weight:700;color:#fff;margin:0;line-height:1.2;">เกาะความร้อนเมืองขอนแก่น</p>
+          </div>
+        </div>
+        <!-- Chevron -->
+        <div id="ghv-chevron" style="color:rgba(255,255,255,.35);display:flex;flex-shrink:0;transition:transform .3s cubic-bezier(.4,0,.2,1);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+    </button>
 
-      <h2 style="
-        font-family:'Barlow Condensed',var(--font-display),sans-serif;
-        font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;
-        color:#fff;line-height:1;margin:0 0 .75rem;
-      ">เกาะความร้อนเมือง<br><span style="color:#fb923c;">ขอนแก่น</span></h2>
+    <!-- ── Collapsible body ── -->
+    <div id="ghv-body" style="
+      overflow:hidden;
+      max-height:800px;
+      opacity:1;
+      transition:max-height .4s cubic-bezier(.4,0,.2,1), opacity .3s ease;
+    ">
+      <div style="max-width:880px;margin:0 auto;padding:2.25rem 1.25rem 3rem;">
 
-      <p style="font-size:.9rem;color:rgba(255,255,255,.45);margin:0 0 1.5rem;line-height:1.65;max-width:560px;">
-        วิดีโอแนะนำโครงการ GeoHeat — ทำไมขอนแก่นถึงร้อน เกาะความร้อนเมืองคืออะไร และเราวิเคราะห์มันด้วยดาวเทียมอย่างไร
-      </p>
+        <p style="font-size:.88rem;color:rgba(255,255,255,.45);margin:0 0 1.5rem;line-height:1.65;max-width:560px;">
+          วิดีโอแนะนำโครงการ GeoHeat — ทำไมขอนแก่นถึงร้อน เกาะความร้อนเมืองคืออะไร และเราวิเคราะห์มันด้วยดาวเทียมอย่างไร
+        </p>
 
-      <!-- Video wrapper -->
-      <div id="ghv-wrap" style="position:relative;border-radius:16px;overflow:hidden;background:#000;box-shadow:0 8px 40px rgba(0,0,0,.6);">
+        <!-- Video wrapper -->
+        <div id="ghv-wrap" style="position:relative;border-radius:16px;overflow:hidden;background:#000;box-shadow:0 8px 40px rgba(0,0,0,.6);">
 
-        <video
-          id="ghv"
-          src="../assets/video/GeoHeat__%E0%B9%80%E0%B8%81%E0%B8%B2%E0%B8%B0%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%A3%E0%B9%89%E0%B8%AD%E0%B8%99%E0%B9%80%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%87.mp4"
-          autoplay muted playsinline loop
-          style="width:100%;display:block;max-height:500px;object-fit:contain;"
-          aria-label="วิดีโอ GeoHeat เกาะความร้อนเมืองขอนแก่น">
-        </video>
+          <video
+            id="ghv"
+            src="../assets/video/GeoHeat__%E0%B9%80%E0%B8%81%E0%B8%B2%E0%B8%B0%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%A3%E0%B9%89%E0%B8%AD%E0%B8%99%E0%B9%80%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%87.mp4"
+            autoplay muted playsinline loop
+            style="width:100%;display:block;max-height:500px;object-fit:contain;"
+            aria-label="วิดีโอ GeoHeat เกาะความร้อนเมืองขอนแก่น">
+          </video>
 
-        <!-- Unmute button overlay -->
-        <button id="ghv-unmute" onclick="
-          var v=document.getElementById('ghv');
-          var b=document.getElementById('ghv-unmute');
-          if(v.muted){
-            v.muted=false;
-            v.volume=1;
-            b.innerHTML='<svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot;><polygon points=&quot;11 5 6 9 2 9 2 15 6 15 11 19 11 5&quot;/><path d=&quot;M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07&quot;/></svg> ปิดเสียง';
-          } else {
-            v.muted=true;
-            b.innerHTML='<svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot;><polygon points=&quot;11 5 6 9 2 9 2 15 6 15 11 19 11 5&quot;/><line x1=&quot;23&quot; y1=&quot;9&quot; x2=&quot;17&quot; y2=&quot;15&quot;/><line x1=&quot;17&quot; y1=&quot;9&quot; x2=&quot;23&quot; y2=&quot;15&quot;/></svg> เปิดเสียง';
-          }
-        " style="
-          position:absolute;bottom:14px;right:14px;
-          display:inline-flex;align-items:center;gap:6px;
-          background:rgba(0,0,0,.72);backdrop-filter:blur(8px);
-          border:1px solid rgba(255,255,255,.2);border-radius:8px;
-          color:#fff;font-size:.78rem;font-family:var(--font-body,'Noto Sans Thai',sans-serif);
-          padding:7px 14px;cursor:pointer;transition:background .18s;
-          font-weight:600;letter-spacing:.02em;
-        " aria-label="เปิด/ปิดเสียงวิดีโอ">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-          เปิดเสียง
-        </button>
+          <!-- Click-to-play/pause overlay -->
+          <div onclick="ghvPlayPause()" style="position:absolute;inset:0;cursor:pointer;display:flex;align-items:center;justify-content:center;" aria-hidden="true">
+            <div id="ghv-play-icon" style="
+              width:64px;height:64px;border-radius:50%;
+              background:rgba(0,0,0,.55);backdrop-filter:blur(6px);
+              border:2px solid rgba(255,255,255,.3);
+              display:none;align-items:center;justify-content:center;
+              transition:opacity .2s;pointer-events:none;
+            ">
+              <svg id="ghv-pi-svg" width="26" height="26" viewBox="0 0 24 24" fill="white" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+          </div>
+
+          <!-- Unmute button overlay -->
+          <button id="ghv-unmute" onclick="
+            var v=document.getElementById('ghv');
+            var b=document.getElementById('ghv-unmute');
+            if(v.muted){
+              v.muted=false;v.volume=1;
+              b.innerHTML='<svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot;><polygon points=&quot;11 5 6 9 2 9 2 15 6 15 11 19 11 5&quot;/><path d=&quot;M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07&quot;/></svg> ปิดเสียง';
+            } else {
+              v.muted=true;
+              b.innerHTML='<svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot;><polygon points=&quot;11 5 6 9 2 9 2 15 6 15 11 19 11 5&quot;/><line x1=&quot;23&quot; y1=&quot;9&quot; x2=&quot;17&quot; y2=&quot;15&quot;/><line x1=&quot;17&quot; y1=&quot;9&quot; x2=&quot;23&quot; y2=&quot;15&quot;/></svg> เปิดเสียง';
+            }
+          " style="
+            position:absolute;bottom:14px;right:14px;
+            display:inline-flex;align-items:center;gap:6px;
+            background:rgba(0,0,0,.72);backdrop-filter:blur(8px);
+            border:1px solid rgba(255,255,255,.2);border-radius:8px;
+            color:#fff;font-size:.78rem;font-family:var(--font-body,'Noto Sans Thai',sans-serif);
+            padding:7px 14px;cursor:pointer;transition:background .18s;
+            font-weight:600;letter-spacing:.02em;
+          " aria-label="เปิด/ปิดเสียงวิดีโอ">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+            เปิดเสียง
+          </button>
+
+          <!-- Play/Pause button -->
+          <button id="ghv-playbtn" onclick="ghvPlayPause()" style="
+            position:absolute;bottom:14px;left:14px;
+            display:inline-flex;align-items:center;gap:6px;
+            background:rgba(0,0,0,.72);backdrop-filter:blur(8px);
+            border:1px solid rgba(255,255,255,.2);border-radius:8px;
+            color:#fff;font-size:.78rem;font-family:var(--font-body,'Noto Sans Thai',sans-serif);
+            padding:7px 14px;cursor:pointer;transition:background .18s;
+            font-weight:600;letter-spacing:.02em;
+          " aria-label="เล่น/หยุดวิดีโอ">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            หยุด
+          </button>
+
+        </div>
+
+        <p style="font-size:.68rem;color:rgba(255,255,255,.25);margin:.65rem 0 0;text-align:right;">
+          วิดีโอเล่นอัตโนมัติแบบไม่มีเสียง · กด "เปิดเสียง" เพื่อฟัง
+        </p>
 
       </div>
-
-      <!-- Note about autoplay -->
-      <p style="font-size:.68rem;color:rgba(255,255,255,.25);margin:.65rem 0 0;text-align:right;">
-        วิดีโอเล่นอัตโนมัติแบบไม่มีเสียง · กด "เปิดเสียง" เพื่อฟัง
-      </p>
-
     </div>
+
   </section>
+
+  <script>
+  function ghvPlayPause() {
+    var v = document.getElementById('ghv');
+    var btn = document.getElementById('ghv-playbtn');
+    var icon = document.getElementById('ghv-play-icon');
+    var piSvg = document.getElementById('ghv-pi-svg');
+    if (!v) return;
+
+    if (v.paused) {
+      v.play();
+      /* ปุ่มซ้ายล่าง → แสดง pause */
+      if (btn) btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> หยุด';
+      /* icon กลางจอ → แฟลช play แล้วซ่อน */
+      if (icon && piSvg) {
+        piSvg.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+        icon.style.display = 'flex'; icon.style.opacity = '1';
+        setTimeout(function(){ icon.style.opacity='0'; setTimeout(function(){ icon.style.display='none'; },200); },600);
+      }
+    } else {
+      v.pause();
+      if (btn) btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg> เล่น';
+      /* icon กลางจอ → แสดง pause ค้างไว้ */
+      if (icon && piSvg) {
+        piSvg.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+        icon.style.display = 'flex'; icon.style.opacity = '1';
+      }
+    }
+  }
+
+  function ghvToggle() {
+    var body    = document.getElementById('ghv-body');
+    var chevron = document.getElementById('ghv-chevron');
+    var btn     = document.getElementById('ghv-toggle');
+    var video   = document.getElementById('ghv');
+    var isOpen  = body.style.maxHeight !== '0px';
+
+    if (isOpen) {
+      body.style.maxHeight = '0px';
+      body.style.opacity   = '0';
+      chevron.style.transform = 'rotate(-90deg)';
+      btn.setAttribute('aria-expanded', 'false');
+      if (video) { video.pause(); }
+    } else {
+      body.style.maxHeight = '800px';
+      body.style.opacity   = '1';
+      chevron.style.transform = 'rotate(0deg)';
+      btn.setAttribute('aria-expanded', 'true');
+      if (video) { video.play(); }
+    }
+  }
+  </script>
 
 
   <!-- =====================================================================
@@ -1613,19 +1721,57 @@
             geoBtn.disabled = true;
             navigator.geolocation.getCurrentPosition(
               function (pos) {
+                var lat = pos.coords.latitude;
+                var lon = pos.coords.longitude;
+                var acc = pos.coords.accuracy; /* ความแม่นยำ (เมตร) */
                 var locEl = document.getElementById('lp-loc-name');
+
+                /* แสดงพิกัด + ความแม่นยำชั่วคราว */
                 if (locEl) locEl.textContent =
-                  'ตำแหน่งของคุณ (' +
-                  pos.coords.latitude.toFixed(3) + ', ' +
-                  pos.coords.longitude.toFixed(3) + ')';
+                  'ตำแหน่งของคุณ (' + lat.toFixed(5) + ', ' + lon.toFixed(5) + ')' +
+                  (acc ? ' ±' + Math.round(acc) + ' ม.' : '');
                 geoBtn.textContent = 'พบตำแหน่งแล้ว';
                 geoBtn.disabled = false;
+
+                /* Reverse geocode zoom=18 → ชื่อสถานที่/ถนน */
+                fetch('https://nominatim.openstreetmap.org/reverse?lat=' + lat +
+                      '&lon=' + lon + '&format=json&accept-language=th&zoom=18')
+                  .then(function (r) { return r.json(); })
+                  .then(function (data) {
+                    if (!data || !data.address || !locEl) return;
+                    var a = data.address;
+                    var parts = [];
+                    /* ลำดับความสำคัญ: สถานที่ชัดเจน → ถนน → ตำบล → อำเภอ */
+                    var place = a.amenity || a.building || a.tourism ||
+                                a.leisure || a.shop || a.office ||
+                                a.aeroway || a.historic || a.natural;
+                    var road  = a.road || a.pedestrian || a.footway || a.path;
+                    var sub   = a.suburb || a.quarter || a.neighbourhood || a.village || a.hamlet;
+                    var dist  = a.city_district || a.county;
+                    var city  = a.city || a.town || a.municipality;
+                    if (place) {
+                      /* มีชื่อสถานที่ชัดเจน → โชว์สถานที่ + บริบทเบาๆ */
+                      parts.push(place);
+                      var ctx = sub || dist || city;
+                      if (ctx && ctx !== place) parts.push(ctx);
+                    } else {
+                      /* ไม่มีชื่อสถานที่ → โชว์ถนน/ซอย + ตำบล */
+                      if (road) parts.push(road);
+                      if (sub && sub !== road) parts.push(sub);
+                      if (dist && dist !== sub) parts.push(dist);
+                      if (!parts.length && city) parts.push(city);
+                    }
+                    if (acc) parts.push('±' + Math.round(acc) + ' ม.');
+                    if (parts.length) locEl.textContent = parts.join(' · ');
+                  })
+                  .catch(function () {});
               },
-              function () {
-                geoBtn.textContent = 'ไม่พบตำแหน่ง';
+              function (err) {
+                geoBtn.textContent = err.code === 1 ? 'ไม่ได้รับอนุญาต' : 'ไม่พบตำแหน่ง';
                 geoBtn.disabled = false;
                 setTimeout(function () { geoBtn.innerHTML = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg> GPS'; }, 2500);
-              }
+              },
+              { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
             );
           });
         }
