@@ -30,7 +30,7 @@
       overflow-x: hidden;
     }
 
-    /* ── Top bar ─────────────────────────────────────────────────────── */
+    /* ── Picker top bar ──────────────────────────────────────────────── */
     .top-bar {
       display: flex; align-items: center; gap: 0.75rem;
       padding: 0.6rem 1rem;
@@ -66,7 +66,7 @@
     }
     .top-close:hover { background: rgba(255,255,255,0.1); color: var(--text); }
 
-    /* ── Main layout ─────────────────────────────────────────────────── */
+    /* ── Picker layout ───────────────────────────────────────────────── */
     .picker-wrap {
       min-height: calc(100svh - 54px);
       display: flex; flex-direction: column;
@@ -74,16 +74,12 @@
       padding: 2rem 1.25rem;
       gap: 1rem;
     }
-    .picker-heading {
-      text-align: center; margin-bottom: 0.5rem;
-    }
+    .picker-heading { text-align: center; margin-bottom: 0.5rem; }
     .picker-heading h1 {
       font-family: var(--font-d); font-size: clamp(1.6rem, 5vw, 2.4rem);
       font-weight: 800; letter-spacing: 0.02em; color: var(--text);
     }
-    .picker-heading p {
-      font-size: 0.8rem; color: var(--text-sec); margin-top: 0.3rem;
-    }
+    .picker-heading p { font-size: 0.8rem; color: var(--text-sec); margin-top: 0.3rem; }
 
     /* ── Cards grid ──────────────────────────────────────────────────── */
     .picker-grid {
@@ -92,7 +88,6 @@
       gap: 1rem; width: 100%; max-width: 680px;
     }
 
-    /* Base card */
     .p-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -103,10 +98,11 @@
       transition: border-color 0.18s, background 0.18s;
     }
 
-    /* ── Card A — แบบจำลองความร้อน (link card) ─────────────────────── */
+    /* Card A */
     .p-card-heat {
-      text-decoration: none; color: inherit;
-      cursor: pointer;
+      cursor: pointer; text-decoration: none; color: inherit;
+      appearance: none; font: inherit;
+      text-align: left; width: 100%;
     }
     .p-card-heat:hover {
       background: var(--bg-card2);
@@ -114,7 +110,7 @@
     }
     .p-card-heat:hover .p-card-icon { background: rgba(251,146,60,0.18); }
 
-    /* ── Card B — DEM (static card with sub-buttons) ────────────────── */
+    /* Card B */
     .p-card-dem { cursor: default; }
     .p-card-dem:hover {
       background: var(--bg-card2);
@@ -142,40 +138,202 @@
       flex: 1;
     }
 
-    /* Enter CTA (card A) */
     .p-card-enter {
       display: flex; align-items: center; gap: 0.45rem;
       font-size: 0.78rem; font-weight: 700; color: var(--hot);
       margin-top: auto;
     }
 
-    /* DEM sub-buttons */
-    .dem-btns {
-      display: flex; flex-direction: column; gap: 0.5rem;
-      margin-top: 0.25rem;
-    }
+    .dem-btns { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.25rem; }
     .dem-btn {
       display: flex; align-items: center; gap: 0.6rem;
-      padding: 0.65rem 0.85rem;
-      border-radius: 10px;
+      padding: 0.65rem 0.85rem; border-radius: 10px;
       border: 1px solid rgba(34,211,238,0.22);
       background: rgba(34,211,238,0.05);
       text-decoration: none; color: var(--text);
-      font-size: 0.8rem; font-weight: 600;
-      font-family: var(--font-b);
+      font-size: 0.8rem; font-weight: 600; font-family: var(--font-b);
+      cursor: pointer; appearance: none; text-align: left; width: 100%;
       transition: background 0.15s, border-color 0.15s;
     }
-    .dem-btn:hover {
-      background: rgba(34,211,238,0.12);
-      border-color: rgba(34,211,238,0.45);
-    }
-    .dem-btn-icon {
-      font-size: 1.15rem; flex-shrink: 0;
-    }
+    .dem-btn:hover { background: rgba(34,211,238,0.12); border-color: rgba(34,211,238,0.45); }
+    .dem-btn-icon { font-size: 1.15rem; flex-shrink: 0; }
     .dem-btn-info { flex: 1; }
     .dem-btn-name { display: block; font-size: 0.8rem; font-weight: 700; color: var(--cool); }
     .dem-btn-sub  { display: block; font-size: 0.65rem; color: var(--text-sec); margin-top: 1px; }
     .dem-btn-arr  { flex-shrink: 0; opacity: 0.45; }
+
+    /* ── Viewer overlay ──────────────────────────────────────────────── */
+    #viewer {
+      display: none;
+      flex-direction: column;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: var(--bg);
+    }
+    #viewer.active { display: flex; }
+
+    /* Viewer top bar — matches air-sim.html / smart-map.html style */
+    .viewer-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0 1rem;
+      height: 52px;
+      background: #0B1829;
+      border-bottom: 1px solid #1E3050;
+      flex-shrink: 0;
+    }
+    .viewer-back {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      color: #FB923C; font-size: 0.875rem; font-weight: 700;
+      background: none; border: 1.5px solid rgba(251,146,60,0.35);
+      border-radius: 8px; padding: 0.4rem 0.8rem;
+      cursor: pointer; font-family: var(--font-b);
+      transition: background 0.15s, border-color 0.15s;
+      flex-shrink: 0;
+    }
+    .viewer-back:hover { background: rgba(251,146,60,0.12); border-color: rgba(251,146,60,0.65); }
+
+    .viewer-title {
+      flex: 1; display: flex; flex-direction: column;
+      font-size: 0.9rem; font-weight: 700; color: #F1F5F9;
+      line-height: 1.2;
+    }
+    .viewer-title-sub {
+      font-size: 0.65rem; color: rgba(241,245,249,0.5);
+      font-weight: 400;
+    }
+
+    .viewer-close {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px;
+      color: #64748B; font-size: 1.1rem;
+      text-decoration: none; border-radius: 6px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .viewer-close:hover { background: rgba(255,255,255,0.08); color: #F1F5F9; }
+
+    #viewer-frame {
+      flex: 1; width: 100%; border: none; display: block;
+    }
+
+    /* ── Viewer loading ──────────────────────────────────────────────── */
+    #viewer-loading {
+      position: absolute;
+      inset: 52px 0 0;
+      background: var(--bg);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0;
+      transition: opacity .55s ease;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    #viewer-loading.hidden { opacity: 0; }
+
+    /* Top progress bar */
+    .vl-progress {
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: rgba(255,255,255,0.05);
+      overflow: hidden;
+    }
+    .vl-progress-fill {
+      height: 100%; width: 42%;
+      background: var(--vl-accent, #FB923C);
+      border-radius: 0 2px 2px 0;
+      box-shadow: 0 0 10px var(--vl-accent, #FB923C);
+      animation: vl-bar 1.9s ease-in-out infinite;
+    }
+    @keyframes vl-bar {
+      0%   { transform: translateX(-220%); }
+      100% { transform: translateX(330%); }
+    }
+
+    /* Ambient rings */
+    .vl-rings {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+    }
+    .vl-ring {
+      position: absolute; border-radius: 50%;
+      border: 1px solid var(--vl-accent, #FB923C);
+      animation: vl-ring-out 3.2s ease-out infinite;
+    }
+    .vl-ring-1 { width: 140px; height: 140px; animation-delay: 0s;   opacity: 0; }
+    .vl-ring-2 { width: 220px; height: 220px; animation-delay: 0.7s; opacity: 0; }
+    .vl-ring-3 { width: 300px; height: 300px; animation-delay: 1.4s; opacity: 0; }
+    @keyframes vl-ring-out {
+      0%   { opacity: 0;    transform: scale(0.82); }
+      15%  { opacity: 0.22; }
+      100% { opacity: 0;    transform: scale(1.18); }
+    }
+
+    /* Icon area */
+    .vl-icon-area {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      width: 110px; height: 110px;
+      margin-bottom: 1.75rem;
+    }
+    .vl-icon-glow {
+      position: absolute; inset: 0; border-radius: 50%;
+      background: radial-gradient(circle, var(--vl-accent-dim, rgba(251,146,60,0.15)) 0%, transparent 72%);
+      animation: vl-glow-pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes vl-glow-pulse {
+      0%, 100% { transform: scale(0.92); opacity: 0.6; }
+      50%       { transform: scale(1.12); opacity: 1; }
+    }
+    .vl-icon-svg {
+      position: relative; z-index: 1;
+      animation: vl-float 3.2s ease-in-out infinite;
+      filter: drop-shadow(0 0 18px var(--vl-accent, #FB923C));
+    }
+    @keyframes vl-float {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-7px); }
+    }
+
+    /* Text */
+    .vl-text {
+      text-align: center; display: flex;
+      flex-direction: column; align-items: center; gap: 0.3rem;
+    }
+    .vl-name {
+      font-family: var(--font-d);
+      font-size: clamp(1.6rem, 7vw, 2.6rem);
+      font-weight: 800; letter-spacing: 0.04em;
+      color: var(--text); line-height: 1;
+      animation: vl-up .55s ease both;
+    }
+    .vl-sub {
+      font-size: 0.78rem; color: rgba(241,245,249,0.42);
+      font-family: var(--font-b);
+      animation: vl-up .55s ease .08s both;
+    }
+    .vl-dots {
+      display: flex; align-items: center; gap: 0.3rem;
+      margin-top: 1.4rem;
+      animation: vl-up .55s ease .16s both;
+    }
+    .vl-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--vl-accent, #FB923C);
+    }
+    .vl-dot:nth-child(1) { animation: vl-dot-blink 1.3s ease-in-out infinite 0.0s; }
+    .vl-dot:nth-child(2) { animation: vl-dot-blink 1.3s ease-in-out infinite 0.2s; }
+    .vl-dot:nth-child(3) { animation: vl-dot-blink 1.3s ease-in-out infinite 0.4s; }
+    @keyframes vl-dot-blink {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.2; transform: scale(0.6); }
+    }
+    @keyframes vl-up {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
     /* ── Responsive ──────────────────────────────────────────────────── */
     @media (max-width: 540px) {
@@ -186,7 +344,7 @@
 </head>
 <body>
 
-  <!-- Top bar -->
+  <!-- ── Picker top bar ─────────────────────────────────────────────── -->
   <div class="top-bar">
     <a href="javascript:history.back()" class="top-back" aria-label="กลับ">
       <svg viewBox="0 0 20 20" fill="none" width="14" height="14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -208,8 +366,8 @@
     <a href="index.html" class="top-close" aria-label="ปิด">✕</a>
   </div>
 
-  <!-- Picker -->
-  <main class="picker-wrap" id="main-content">
+  <!-- ── Picker ────────────────────────────────────────────────────── -->
+  <main class="picker-wrap" id="picker">
 
     <div class="picker-heading">
       <h1>เลือกแบบจำลอง</h1>
@@ -219,7 +377,9 @@
     <div class="picker-grid" role="list">
 
       <!-- Card A — แบบจำลองความร้อน -->
-      <a href="air-sim.html" class="p-card p-card-heat" role="listitem" aria-label="เปิดแบบจำลองความร้อน Urban Heat Island 3D">
+      <button class="p-card p-card-heat" role="listitem"
+              onclick="openViewer('https://air-sim.vercel.app/', 'แบบจำลองความร้อน', 'UHI 3D Simulation — ขอนแก่น', 'heat')"
+              aria-label="เปิดแบบจำลองความร้อน Urban Heat Island 3D">
 
         <div class="p-card-icon p-card-icon--heat" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" width="26" height="26" stroke="#FB923C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -244,7 +404,7 @@
           </svg>
         </div>
 
-      </a>
+      </button>
 
       <!-- Card B — DEM -->
       <div class="p-card p-card-dem" role="listitem">
@@ -263,7 +423,9 @@
         </div>
 
         <nav class="dem-btns" aria-label="เลือก DEM">
-          <a href="https://kku-university-dem.vercel.app/" target="_blank" rel="noopener noreferrer" class="dem-btn">
+          <button class="dem-btn"
+                  onclick="openViewer('https://kku-university-dem.vercel.app/', 'kku-university', 'มหาวิทยาลัยขอนแก่น', 'dem')"
+                  aria-label="เปิด DEM มหาวิทยาลัยขอนแก่น">
             <span class="dem-btn-icon" aria-hidden="true">🎓</span>
             <span class="dem-btn-info">
               <span class="dem-btn-name">kku-university</span>
@@ -272,8 +434,10 @@
             <svg class="dem-btn-arr" viewBox="0 0 16 16" fill="none" width="12" height="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M3 8h10M9 4l4 4-4 4"/>
             </svg>
-          </a>
-          <a href="https://3swamp-dem.vercel.app/" target="_blank" rel="noopener noreferrer" class="dem-btn">
+          </button>
+          <button class="dem-btn"
+                  onclick="openViewer('https://3swamp-dem.vercel.app/', '3swamp', 'พื้นที่ลุ่มน้ำ / บึง', 'dem')"
+                  aria-label="เปิด DEM พื้นที่ลุ่มน้ำ">
             <span class="dem-btn-icon" aria-hidden="true">🌿</span>
             <span class="dem-btn-info">
               <span class="dem-btn-name">3swamp</span>
@@ -282,7 +446,7 @@
             <svg class="dem-btn-arr" viewBox="0 0 16 16" fill="none" width="12" height="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M3 8h10M9 4l4 4-4 4"/>
             </svg>
-          </a>
+          </button>
         </nav>
 
       </div>
@@ -290,6 +454,139 @@
     </div><!-- /.picker-grid -->
 
   </main>
+
+  <!-- ── Viewer overlay ─────────────────────────────────────────────── -->
+  <div id="viewer" role="dialog" aria-modal="true" aria-label="แบบจำลอง 3D">
+
+    <!-- Viewer top bar -->
+    <div class="viewer-bar">
+      <button class="viewer-back" onclick="closeViewer()" aria-label="กลับไปเลือกแบบจำลอง">
+        <svg viewBox="0 0 20 20" fill="none" width="15" height="15" stroke="currentColor"
+             stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M13 10H7M10 13l-3-3 3-3"/><circle cx="10" cy="10" r="8"/>
+        </svg>
+        กลับ
+      </button>
+
+      <div class="viewer-title">
+        <span id="viewer-name">—</span>
+        <span class="viewer-title-sub" id="viewer-sub">—</span>
+      </div>
+
+      <a href="index.html" class="viewer-close" aria-label="ปิด">✕</a>
+    </div>
+
+    <!-- Loading screen -->
+    <div id="viewer-loading">
+
+      <!-- Top progress bar -->
+      <div class="vl-progress" aria-hidden="true">
+        <div class="vl-progress-fill"></div>
+      </div>
+
+      <!-- Ambient pulse rings -->
+      <div class="vl-rings" aria-hidden="true">
+        <div class="vl-ring vl-ring-1"></div>
+        <div class="vl-ring vl-ring-2"></div>
+        <div class="vl-ring vl-ring-3"></div>
+      </div>
+
+      <!-- Icon -->
+      <div class="vl-icon-area" aria-hidden="true">
+        <div class="vl-icon-glow"></div>
+        <!-- Heat icon -->
+        <svg id="vl-icon-heat" class="vl-icon-svg" viewBox="0 0 56 56" fill="none" width="68" height="68"
+             stroke="#FB923C" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="34" width="8" height="18" rx="1"/>
+          <rect x="14" y="26" width="9" height="26" rx="1"/>
+          <rect x="26" y="18" width="10" height="34" rx="1"/>
+          <rect x="39" y="28" width="8" height="24" rx="1"/>
+          <rect x="50" y="36" width="4" height="16" rx="1"/>
+          <path d="M2 52h53"/>
+          <path d="M9 26c2-5 5-10 11-12s7 3 13 2 5-5 9-10" stroke-opacity=".38" stroke-width="1.3"/>
+        </svg>
+        <!-- DEM / terrain icon -->
+        <svg id="vl-icon-dem" class="vl-icon-svg" viewBox="0 0 56 56" fill="none" width="68" height="68"
+             stroke="#22D3EE" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"
+             style="display:none">
+          <path d="M4 46l14-20 9 11 11-18 14 27H4z"/>
+          <path d="M4 38l14-11 9 7 11-14 14 18" stroke-opacity=".35"/>
+          <path d="M4 30l14-6 9 4 11-9 14 12" stroke-opacity=".18"/>
+          <circle cx="47" cy="9" r="5.5"/>
+          <path d="M47 1v4M47 18v4M39 9h4M51 9h4" stroke-opacity=".5"/>
+        </svg>
+      </div>
+
+      <!-- Text -->
+      <div class="vl-text">
+        <div class="vl-name" id="vl-name">—</div>
+        <div class="vl-sub"  id="vl-sub">กำลังโหลดแบบจำลอง</div>
+        <div class="vl-dots" aria-label="กำลังโหลด" role="status">
+          <div class="vl-dot"></div>
+          <div class="vl-dot"></div>
+          <div class="vl-dot"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Iframe -->
+    <iframe id="viewer-frame"
+            title="แบบจำลอง 3D"
+            allow="geolocation; fullscreen"
+            loading="eager">
+    </iframe>
+
+  </div>
+
+  <script>
+    var frame   = document.getElementById('viewer-frame');
+    var loading = document.getElementById('viewer-loading');
+    var viewer  = document.getElementById('viewer');
+
+    function openViewer(url, name, sub, type) {
+      type = type || 'heat';
+      var isHeat = type === 'heat';
+      var accent    = isHeat ? '#FB923C' : '#22D3EE';
+      var accentDim = isHeat ? 'rgba(251,146,60,0.15)' : 'rgba(34,211,238,0.14)';
+
+      /* accent colours on loading screen */
+      loading.style.setProperty('--vl-accent',     accent);
+      loading.style.setProperty('--vl-accent-dim', accentDim);
+
+      /* swap icon */
+      document.getElementById('vl-icon-heat').style.display = isHeat ? '' : 'none';
+      document.getElementById('vl-icon-dem').style.display  = isHeat ? 'none' : '';
+
+      /* loading text */
+      document.getElementById('vl-name').textContent = name;
+      document.getElementById('vl-sub').textContent  = sub;
+
+      /* viewer bar text */
+      document.getElementById('viewer-name').textContent = name;
+      document.getElementById('viewer-sub').textContent  = sub;
+
+      loading.classList.remove('hidden');
+      frame.src = url;
+      viewer.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeViewer() {
+      viewer.classList.remove('active');
+      frame.src = '';
+      document.body.style.overflow = '';
+    }
+
+    frame.addEventListener('load', function () {
+      setTimeout(function () { loading.classList.add('hidden'); }, 300);
+    });
+    setTimeout(function () { loading.classList.add('hidden'); }, 14000);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && viewer.classList.contains('active')) closeViewer();
+    });
+  </script>
 
 </body>
 </html>
