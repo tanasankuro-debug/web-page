@@ -169,26 +169,28 @@
    7. SECTION SUMMARY BOX (⚡ callout)
    ════════════════════════════════════════════════════════════════════════ */
 .section-summary {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
+  display: block;
+  position: relative;
   background: rgba(251, 146, 60, 0.10);
   border-left: 4px solid #FB923C;
   border-radius: 0 10px 10px 0;
-  padding: 1rem 1.375rem;
+  padding: 0.95rem 1.375rem 0.95rem 3rem;
   margin-bottom: 2rem;
   font-size: 1.0625rem;
   font-weight: 600;
   color: #fdba74;
-  line-height: 1.65;
+  line-height: 1.75;
   overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .section-summary::before {
   content: '⚡';
-  flex-shrink: 0;
-  margin-top: 1px;
+  position: absolute;
+  left: 0.95rem;
+  top: 1rem;
   font-size: 1em;
+  line-height: 1;
 }
 
 /* ════════════════════════════════════════════════════════════════════════
@@ -336,7 +338,7 @@
   .article-body li { font-size: 1.0625rem; }
 
   .section-intro   { font-size: 1rem; margin-bottom: 1.25rem; }
-  .section-summary { font-size: 1rem; padding: 0.875rem 1.125rem; }
+  .section-summary { font-size: 1rem; padding: 0.875rem 1.125rem 0.875rem 2.75rem; }
 
   .action-box      { padding: 1rem 1.125rem; }
   .action-box li   { font-size: 1rem; }
