@@ -52,6 +52,12 @@ self.addEventListener('fetch', function (e) {
   /* Only handle GET */
   if (req.method !== 'GET') return;
 
+  /* External APIs (Supabase, CDN etc.) — let browser handle directly */
+  if (url.indexOf('supabase.co') !== -1 ||
+      url.indexOf('cdn.jsdelivr.net') !== -1 ||
+      url.indexOf('fonts.googleapis.com') !== -1 ||
+      url.indexOf('fonts.gstatic.com') !== -1) return;
+
   /* Open-Meteo API: network-first, stale cache as fallback */
   if (API_HOSTS.some(function (h) { return url.indexOf(h) !== -1; })) {
     e.respondWith(

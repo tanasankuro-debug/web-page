@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>โหวตสวนสีเขียว — Heat Safe Khon Kaen</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700;800&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:    #010D1E;
+      --bg2:   #06111F;
+      --text:  #F1F5F9;
+      --muted: #64748B;
+      --green: #4ADE80;
+    }
+
+    html, body { min-height: 100dvh; background: var(--bg); color: var(--text); }
+    body { font-family: 'Noto Sans Thai', sans-serif; -webkit-font-smoothing: antialiased; }
+
+    /* ── top bar ─────────────────────────────────────── */
+    .topbar {
+      position: sticky; top: 0; z-index: 30;
+      height: 52px;
+      background: rgba(1,13,30,.88);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      display: flex; align-items: center;
+      padding: 0 1rem; gap: .75rem;
+    }
+    .tb-back {
+      display: inline-flex; align-items: center; gap: .4rem;
+      color: var(--green); font-size: .875rem; font-weight: 700;
+      text-decoration: none;
+      padding: .38rem .8rem;
+      border: 1.5px solid rgba(74,222,128,.3); border-radius: 8px;
+      transition: background .15s;
+      white-space: nowrap;
+    }
+    .tb-back:hover { background: rgba(74,222,128,.1); }
+    .tb-title { flex: 1; font-size: .88rem; font-weight: 700; color: var(--text); }
+
+    /* ── hero ─────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      padding: 2.5rem 1.5rem 2rem;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute;
+      width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(74,222,128,.1) 0%, transparent 65%);
+      top: -320px; left: 50%; transform: translateX(-50%);
+      animation: heroGlowAnim 5s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes heroGlowAnim {
+      0%,100% { opacity:.7; transform:translateX(-50%) scale(1); }
+      50%      { opacity:1;  transform:translateX(-50%) scale(1.12); }
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 20%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 20%, transparent 80%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .62rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--green);
+      background: rgba(74,222,128,.1);
+      border: 1px solid rgba(74,222,128,.28);
+      border-radius: 99px; padding: .22rem .85rem;
+      margin-bottom: .85rem;
+    }
+    .hero-eyebrow-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green); box-shadow: 0 0 8px var(--green);
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+    @keyframes dotPulse { 0%,100%{opacity:1;} 50%{opacity:.25;} }
+    .hero-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.2rem, 9vw, 3.2rem); font-weight: 800;
+      line-height: 1; letter-spacing: -.02em; color: var(--text);
+      margin-bottom: .4rem; text-wrap: balance;
+    }
+    .hero-title em { color: var(--green); font-style: normal; }
+    .hero-sub {
+      font-size: .85rem; color: rgba(255,255,255,.45); line-height: 1.75;
+      max-width: 360px; margin: 0 auto;
+    }
+
+    /* ── steps ────────────────────────────────────────── */
+    .steps {
+      display: flex; align-items: center;
+      max-width: 640px; margin: 0 auto 1.75rem;
+      padding: 0 1.5rem;
+    }
+    .step-node { display: flex; flex-direction: column; align-items: center; gap: .28rem; }
+    .step-circle {
+      width: 28px; height: 28px; border-radius: 50%;
+      font-size: .72rem; font-weight: 800;
+      display: grid; place-items: center;
+      transition: all .3s;
+    }
+    .step-circle.on  { background: var(--green); color: #000; box-shadow: 0 0 16px rgba(74,222,128,.4); }
+    .step-circle.off { background: rgba(255,255,255,.07); color: rgba(255,255,255,.28); border: 1.5px solid rgba(255,255,255,.1); }
+    .step-label {
+      font-size: .6rem; font-weight: 600; white-space: nowrap;
+    }
+    .step-label.on  { color: var(--green); }
+    .step-label.off { color: rgba(255,255,255,.28); }
+    .step-line { flex: 1; height: 1px; background: rgba(255,255,255,.1); margin-bottom: 1rem; }
+
+    /* ── main wrap ────────────────────────────────────── */
+    .wrap { max-width: 640px; margin: 0 auto; padding: 0 1.25rem 6rem; }
+
+    .sec-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .62rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+      color: rgba(255,255,255,.28); margin-bottom: .875rem;
+    }
+
+    /* ══ PARK CARDS — Premium UI ═══════════════════════════════ */
+    .park-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Card shell */
+    .park-card {
+      display: flex; flex-direction: column;
+      border-radius: 20px; overflow: hidden; cursor: pointer;
+      position: relative;
+      border: 1.5px solid rgba(255,255,255,.07);
+      background: linear-gradient(160deg, #081a2e 0%, #050f1c 100%);
+      user-select: none; -webkit-tap-highlight-color: transparent;
+      transition: border-color .25s, box-shadow .3s, transform .22s;
+    }
+
+    /* Gradient border accent via pseudo-element */
+    .park-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(var(--crgb),.65) 0%, rgba(var(--crgb),.1) 40%, transparent 70%);
+      padding: 1.5px;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      opacity: 0; transition: opacity .3s;
+      pointer-events: none; z-index: 1;
+    }
+    .park-card:hover::before,
+    .park-card.selected::before { opacity: 1; }
+
+    .park-card:hover {
+      border-color: rgba(var(--crgb),.3);
+      box-shadow:
+        0 0 0 1px rgba(var(--crgb),.1),
+        0 14px 44px rgba(var(--crgb),.18),
+        0 4px 16px rgba(0,0,0,.5);
+      transform: translateY(-5px);
+    }
+    .park-card:active { transform: scale(.975) translateY(0); transition-duration:.08s; }
+    .park-card.selected {
+      border-color: rgba(var(--crgb),.5);
+      box-shadow:
+        0 0 0 1px var(--c),
+        0 18px 54px rgba(var(--crgb),.26),
+        0 4px 18px rgba(0,0,0,.55);
+      transform: translateY(-5px);
+    }
+    .park-card:focus-visible {
+      outline: 2px solid var(--c); outline-offset: 3px;
+    }
+
+    /* Scene */
+    .pc-scene {
+      height: 150px; position: relative; overflow: hidden; flex-shrink: 0;
+    }
+    .pc-scene svg {
+      display: block; width: 100%; height: 100%;
+      transition: transform .55s cubic-bezier(.25,.46,.45,.94);
+    }
+    .park-card:hover .pc-scene svg,
+    .park-card.selected .pc-scene svg { transform: scale(1.07); }
+
+    /* Bottom fade on scene image */
+    .pc-scene::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 55px;
+      background: linear-gradient(to top, #081a2e, transparent);
+      pointer-events: none; z-index: 1;
+    }
+    .pc-scene-overlay {
+      position: absolute; inset: 0;
+      background: rgba(var(--crgb), 0);
+      mix-blend-mode: screen;
+      transition: background .3s; pointer-events: none;
+    }
+    .park-card.selected .pc-scene-overlay { background: rgba(var(--crgb), .06); }
+
+    /* Type label badge on scene */
+    .pc-scene-badge {
+      position: absolute; bottom: .75rem; left: .75rem; z-index: 3;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .58rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--c);
+      background: rgba(5,12,25,.82);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(var(--crgb),.35);
+      border-radius: 99px; padding: .2rem .7rem;
+    }
+
+    /* Selection check badge */
+    .pc-check {
+      position: absolute; top: .9rem; right: .9rem; z-index: 10;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--c); color: #000;
+      font-size: .7rem; font-weight: 900;
+      display: grid; place-items: center;
+      opacity: 0; transform: scale(.3) rotate(-90deg);
+      transition: opacity .18s, transform .32s cubic-bezier(.34,1.56,.64,1);
+      box-shadow: 0 0 18px rgba(var(--crgb),.55);
+    }
+    .park-card.selected .pc-check { opacity: 1; transform: scale(1) rotate(0deg); }
+
+    /* Content area */
+    .pc-content {
+      flex: 1; display: flex; flex-direction: column;
+      padding: 1rem 1rem .95rem;
+    }
+    .pc-name {
+      font-size: .96rem; font-weight: 800; color: var(--text);
+      line-height: 1.25; letter-spacing: -.01em;
+      margin-bottom: .38rem;
+    }
+    .pc-desc {
+      font-size: .76rem; color: rgba(255,255,255,.55); line-height: 1.7;
+      margin-bottom: .65rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
+
+    /* Feature chips with icon */
+    .pc-chips { display: flex; flex-wrap: wrap; gap: .3rem; margin-bottom: .75rem; }
+    .pc-chip {
+      display: inline-flex; align-items: center; gap: .26rem;
+      font-size: .64rem; font-weight: 600;
+      color: var(--c);
+      background: rgba(var(--crgb),.08);
+      border: 1px solid rgba(var(--crgb),.2);
+      border-radius: 99px; padding: .24rem .62rem;
+      white-space: nowrap;
+      transition: background .15s, border-color .15s;
+      cursor: default;
+    }
+    .park-card:hover .pc-chip {
+      background: rgba(var(--crgb),.14);
+      border-color: rgba(var(--crgb),.36);
+    }
+    .pc-chip-icon { font-size: .78rem; line-height: 1; }
+
+    /* Impact section */
+    .pc-impact {
+      display: flex; align-items: center; gap: .65rem;
+      background: rgba(var(--crgb),.05);
+      border: 1px solid rgba(var(--crgb),.12);
+      border-radius: 12px; padding: .65rem .8rem;
+      margin-bottom: .8rem;
+      transition: background .25s, border-color .25s;
+    }
+    .park-card:hover .pc-impact,
+    .park-card.selected .pc-impact {
+      background: rgba(var(--crgb),.1);
+      border-color: rgba(var(--crgb),.3);
+    }
+    .pc-impact-icon { font-size: 1.1rem; flex-shrink: 0; }
+    .pc-impact-body { flex: 1; min-width: 0; }
+    .pc-impact-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .55rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: rgba(255,255,255,.3); margin-bottom: .05rem;
+    }
+    .pc-impact-val {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem; font-weight: 800; letter-spacing: -.02em;
+      color: var(--c); line-height: 1;
+    }
+    .pc-impact-unit {
+      font-size: .62rem; color: rgba(255,255,255,.38); font-weight: 500; margin-top: .06rem;
+    }
+
+    /* CTA pseudo-button (label can't contain real button) */
+    .pc-cta {
+      margin-top: auto;
+      display: flex; align-items: center; justify-content: center; gap: .45rem;
+      background: linear-gradient(135deg, rgba(var(--crgb),.14) 0%, rgba(var(--crgb),.06) 100%);
+      border: 1px solid rgba(var(--crgb),.26);
+      border-radius: 12px; padding: .68rem .9rem;
+      font-family: 'Noto Sans Thai', sans-serif;
+      font-size: .8rem; font-weight: 700; color: var(--c);
+      transition: background .22s, border-color .22s, box-shadow .22s;
+    }
+    .park-card:hover .pc-cta {
+      background: linear-gradient(135deg, rgba(var(--crgb),.22) 0%, rgba(var(--crgb),.1) 100%);
+      border-color: rgba(var(--crgb),.48);
+      box-shadow: 0 4px 18px rgba(var(--crgb),.15);
+    }
+    .park-card.selected .pc-cta {
+      background: linear-gradient(135deg, var(--c) 0%, rgba(var(--crgb),.88) 100%);
+      color: #000; border-color: transparent;
+      box-shadow: 0 4px 22px rgba(var(--crgb),.35);
+    }
+    .pc-cta-arrow { transition: transform .22s; flex-shrink: 0; }
+    .park-card:hover .pc-cta-arrow { transform: translateX(3px); }
+    .park-card.selected .pc-cta-arrow { transform: translateX(2px); }
+
+    /* ── district section ─────────────────────────────── */
+    .district-section {
+      background: rgba(255,255,255,.025);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 16px;
+      padding: 1.1rem 1.1rem .9rem;
+      margin-bottom: 1.5rem;
+    }
+    .dist-select {
+      width: 100%;
+      background: rgba(255,255,255,.05);
+      border: 1.5px solid rgba(255,255,255,.1);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: 'Noto Sans Thai', sans-serif;
+      font-size: .9rem;
+      padding: .75rem 2.5rem .75rem 1rem;
+      cursor: pointer;
+      appearance: none; -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round'%3E%3Cpolyline points='4 6 8 10 12 6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right .9rem center;
+      transition: border-color .15s;
+    }
+    .dist-select:focus { outline: none; border-color: rgba(74,222,128,.5); }
+    .dist-select option { background: #0B1829; }
+
+    /* ── errors ───────────────────────────────────────── */
+    .field-err { font-size: .75rem; color: #F87171; margin-top: .45rem; display: none; }
+    .field-err.show { display: block; }
+
+    /* ── submit ───────────────────────────────────────── */
+    .submit-btn {
+      width: 100%;
+      background: var(--green); color: #000;
+      font-family: 'Noto Sans Thai', sans-serif;
+      font-size: 1rem; font-weight: 800;
+      padding: 1rem;
+      border: none; border-radius: 14px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: .5rem;
+      transition: background .15s, transform .12s, box-shadow .2s;
+      box-shadow: 0 4px 24px rgba(74,222,128,.28);
+    }
+    .submit-btn:hover:not(:disabled) {
+      background: #22c55e;
+      box-shadow: 0 6px 36px rgba(74,222,128,.44);
+      transform: translateY(-2px);
+    }
+    .submit-btn:active:not(:disabled) { transform: scale(.98); }
+    .submit-btn:disabled { opacity: .4; cursor: not-allowed; box-shadow: none; }
+
+    /* ── already voted ────────────────────────────────── */
+    .voted-box {
+      background: rgba(74,222,128,.06);
+      border: 1.5px solid rgba(74,222,128,.22);
+      border-radius: 16px; padding: 1.75rem 1.25rem;
+      text-align: center; display: none; margin-bottom: 1.5rem;
+    }
+    .voted-box.show { display: block; }
+    .voted-icon {
+      width: 56px; height: 56px; margin: 0 auto .75rem;
+      border-radius: 50%;
+      background: rgba(74,222,128,.12); border: 2px solid rgba(74,222,128,.3);
+      display: grid; place-items: center;
+    }
+    .voted-title { font-size: 1.1rem; font-weight: 700; color: var(--green); margin-bottom: .3rem; }
+    .voted-sub   { font-size: .82rem; color: rgba(255,255,255,.42); line-height: 1.65; }
+    .voted-link  {
+      display: inline-block; margin-top: .9rem;
+      background: rgba(74,222,128,.1); border: 1px solid rgba(74,222,128,.25);
+      border-radius: 8px; color: var(--green);
+      font-size: .82rem; font-weight: 700; padding: .45rem 1.1rem; text-decoration: none;
+    }
+
+    /* ── success overlay ──────────────────────────────── */
+    .success-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(1,13,30,.96); backdrop-filter: blur(16px);
+      z-index: 100; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 2rem;
+    }
+    .success-overlay.show { display: flex; }
+    .success-ring {
+      width: 90px; height: 90px; border-radius: 50%;
+      background: rgba(74,222,128,.12); border: 2px solid var(--green);
+      display: grid; place-items: center; margin-bottom: 1.5rem;
+      animation: popIn .5s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes popIn { from{transform:scale(.3);opacity:0;} to{transform:scale(1);opacity:1;} }
+    .success-title { font-family:'Barlow Condensed',sans-serif; font-size: 2rem; font-weight: 800; color: var(--green); margin-bottom: .5rem; letter-spacing:-.01em; }
+    .success-sub   { font-size: .88rem; color: rgba(255,255,255,.48); line-height: 1.75; max-width: 300px; }
+    .success-btn   {
+      margin-top: 1.75rem; background: var(--green); color: #000;
+      font-family: 'Noto Sans Thai', sans-serif;
+      font-size: .9rem; font-weight: 700;
+      padding: .72rem 2rem; border: none; border-radius: 12px;
+      cursor: pointer; text-decoration: none; display: inline-block;
+      box-shadow: 0 4px 20px rgba(74,222,128,.3);
+    }
+
+    @keyframes pvw-spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 440px) {
+      .park-grid { grid-template-columns: 1fr; gap: .75rem; }
+      .pc-scene  { height: 180px; }
+    }
+    @media (max-width: 360px) {
+      .hero-title { font-size: 1.9rem; }
+      .pc-scene   { height: 160px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- top bar -->
+  <div class="topbar">
+    <a href="javascript:history.back()" class="tb-back" aria-label="กลับ">
+      <svg viewBox="0 0 20 20" fill="none" width="14" height="14" stroke="currentColor"
+           stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M13 10H7M10 13l-3-3 3-3"/><circle cx="10" cy="10" r="8"/>
+      </svg>
+      กลับ
+    </a>
+    <span class="tb-title">เสียงประชาชน · โหวตสวนสีเขียว</span>
+  </div>
+
+  <!-- success overlay -->
+  <div class="success-overlay" id="success-overlay" role="alertdialog" aria-modal="true" aria-labelledby="success-title">
+    <div class="success-ring" aria-hidden="true">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 21C6 21 7 13 14 8C18 5 21 4 21 4C21 4 20 8 17 12C13 17 6 21 6 21Z" fill="rgba(74,222,128,.25)"/>
+        <path d="M6 21L12 14"/>
+      </svg>
+    </div>
+    <div class="success-title" id="success-title">โหวตสำเร็จ!</div>
+    <div class="success-sub">ขอบคุณที่ร่วมแสดงความคิดเห็น<br>เสียงของคุณจะช่วยพัฒนาเมืองขอนแก่นให้น่าอยู่ยิ่งขึ้น</div>
+    <a href="index.html" class="success-btn">กลับหน้าแรก</a>
+  </div>
+
+  <!-- hero -->
+  <div class="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-dot" aria-hidden="true"></span>
+      Your City · Your Voice
+    </div>
+    <h1 class="hero-title">คุณอยากเห็น<br><em>สวนแบบไหน</em>?</h1>
+    <p class="hero-sub">เลือกพื้นที่สีเขียวที่คุณอยากให้ขอนแก่นมีมากขึ้น เสียงของคุณจะถูกนำเสนอต่อหน่วยงานที่เกี่ยวข้อง</p>
+  </div>
+
+  <!-- step indicator -->
+  <div class="steps" aria-label="ขั้นตอน">
+    <div class="step-node">
+      <div class="step-circle on" id="sc1">1</div>
+      <span class="step-label on">เลือกสวน</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-node">
+      <div class="step-circle off" id="sc2">2</div>
+      <span class="step-label off" id="sl2">ระบุพื้นที่</span>
+    </div>
+  </div>
+
+  <main class="wrap">
+
+    <!-- already voted -->
+    <div class="voted-box" id="voted-box" role="alert">
+      <div class="voted-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <div class="voted-title">คุณโหวตแล้ว</div>
+      <div class="voted-sub">ขอบคุณสำหรับความคิดเห็น!<br>ดูผลโหวตรวมได้ที่หน้าแรก</div>
+      <a href="index.html" class="voted-link">← กลับหน้าแรก</a>
+    </div>
+
+    <form id="vote-form" novalidate>
+
+      <!-- ── STEP 1: park type ──────────────────────── -->
+      <div class="sec-label">เลือกประเภทพื้นที่สีเขียวที่คุณอยากเห็น</div>
+
+      <div class="park-grid" role="group" aria-label="ประเภทพื้นที่สีเขียว">
+
+        <!-- ① Pocket Park -->
+        <label class="park-card" data-key="pocket_park" tabindex="0" role="radio" aria-checked="false"
+               style="--c:#4ADE80;--crgb:74,222,128;">
+          <div class="pc-scene">
+            <svg viewBox="0 0 280 158" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="pp-bg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#011a10"/>
+                  <stop offset="100%" stop-color="#022c1c"/>
+                </linearGradient>
+                <radialGradient id="pp-glow" cx="50%" cy="25%" r="55%">
+                  <stop offset="0%" stop-color="rgba(74,222,128,.28)"/>
+                  <stop offset="100%" stop-color="transparent"/>
+                </radialGradient>
+              </defs>
+              <rect width="280" height="158" fill="url(#pp-bg)"/>
+              <rect width="280" height="158" fill="url(#pp-glow)"/>
+              <!-- ground -->
+              <rect y="130" width="280" height="28" fill="#011a0e"/>
+              <ellipse cx="140" cy="130" rx="200" ry="12" fill="#012e17" opacity=".9"/>
+              <!-- path -->
+              <path d="M115 130 L95 158 M165 130 L185 158" stroke="#011a0e" stroke-width="22" stroke-linecap="round"/>
+              <!-- back trees -->
+              <rect x="24" y="94" width="7" height="36" rx="3" fill="#03451e"/>
+              <circle cx="27" cy="88" r="16" fill="#035c28"/>
+              <circle cx="27" cy="80" r="12" fill="#047a35"/>
+              <rect x="245" y="98" width="7" height="32" rx="3" fill="#03451e"/>
+              <circle cx="248" cy="92" r="16" fill="#035c28"/>
+              <circle cx="248" cy="84" r="12" fill="#047a35"/>
+              <rect x="60" y="88" width="8" height="42" rx="3" fill="#03541e"/>
+              <circle cx="64" cy="81" r="19" fill="#035c28"/>
+              <circle cx="64" cy="72" r="14" fill="#059942"/>
+              <rect x="205" y="90" width="8" height="40" rx="3" fill="#03541e"/>
+              <circle cx="209" cy="83" r="19" fill="#035c28"/>
+              <circle cx="209" cy="74" r="14" fill="#059942"/>
+              <!-- center big tree -->
+              <rect x="131" y="68" width="18" height="62" rx="5" fill="#5c3a11"/>
+              <circle cx="140" cy="60" r="40" fill="#024a20"/>
+              <circle cx="140" cy="48" r="32" fill="#026b2c"/>
+              <circle cx="118" cy="64" r="24" fill="#038138"/>
+              <circle cx="162" cy="64" r="24" fill="#038138"/>
+              <circle cx="140" cy="38" r="22" fill="#04a348"/>
+              <!-- light particles -->
+              <circle cx="95" cy="40" r="2.5" fill="rgba(74,222,128,.7)" opacity=".8"/>
+              <circle cx="190" cy="30" r="2"   fill="rgba(74,222,128,.6)" opacity=".6"/>
+              <circle cx="140" cy="18" r="3.5" fill="rgba(74,222,128,.5)" opacity=".5"/>
+              <circle cx="58"  cy="55" r="1.8" fill="rgba(74,222,128,.5)" opacity=".6"/>
+              <circle cx="220" cy="48" r="1.5" fill="rgba(74,222,128,.4)" opacity=".5"/>
+              <!-- ground foliage -->
+              <ellipse cx="75"  cy="130" rx="28" ry="9" fill="#024a20" opacity=".7"/>
+              <ellipse cx="205" cy="130" rx="24" ry="8" fill="#024a20" opacity=".7"/>
+            </svg>
+            <div class="pc-scene-overlay"></div>
+            <div class="pc-scene-badge">Pocket Park</div>
+          </div>
+          <div class="pc-check" aria-hidden="true">✓</div>
+          <div class="pc-content">
+            <div class="pc-name">สวนขนาดเล็กในชุมชน</div>
+            <p class="pc-desc">เพิ่มพื้นที่พักผ่อนและออกกำลังกายให้กับชุมชน ลดเกาะความร้อนในย่านที่อยู่อาศัย พร้อมสร้างพื้นที่พบปะสังสรรค์สำหรับคนทุกวัย</p>
+            <div class="pc-chips">
+              <span class="pc-chip"><span class="pc-chip-icon" aria-hidden="true">🌳</span>พื้นที่สีเขียว</span>
+              <span class="pc-chip"><span class="pc-chip-icon" aria-hidden="true">🏃</span>ออกกำลังกาย</span>
+              <span class="pc-chip"><span class="pc-chip-icon" aria-hidden="true">🌿</span>สิ่งแวดล้อม</span>
+            </div>
+            <div class="pc-impact">
+              <div class="pc-impact-icon" aria-hidden="true">🌡</div>
+              <div class="pc-impact-body">
+                <div class="pc-impact-label">ผลลัพธ์ที่คาดหวัง</div>
+                <div class="pc-impact-val">−4°C</div>
+                <div class="pc-impact-unit">ลดอุณหภูมิในย่านชุมชน</div>
+              </div>
+            </div>
+            <div class="pc-cta" role="presentation" aria-hidden="true">
+              เลือกโครงการนี้
+              <svg class="pc-cta-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </div>
+          </div>
+        </label>
+
+        <!-- ② Green Walkway -->
+        <label class="park-card" data-key="green_walkway" tabindex="0" role="radio" aria-checked="false"
+               style="--c:#22D3EE;--crgb:34,211,238;">
+          <div class="pc-scene">
+            <svg viewBox="0 0 280 158" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="gw-bg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#011820"/>
+                  <stop offset="100%" stop-color="#022535"/>
+                </linearGradient>
+                <radialGradient id="gw-glow" cx="50%" cy="35%" r="35%">
+                  <stop offset="0%" stop-color="rgba(34,211,238,.45)"/>
+                  <stop offset="100%" stop-color="transparent"/>
+                </radialGradient>
+              </defs>
+              <rect width="280" height="158" fill="url(#gw-bg)"/>
+              <!-- trees left - depth -->
+              <rect x="5"  y="55" width="22" height="103" fill="#023040" opacity=".9"/>
+              <rect x="32" y="45" width="26" height="113" fill="#022d3c" opacity=".9"/>
+              <rect x="62" y="38" width="30" height="120" fill="#022938"/>
+              <!-- trees right -->
+              <rect x="253" y="55" width="22" height="103" fill="#023040" opacity=".9"/>
+              <rect x="222" y="45" width="26" height="113" fill="#022d3c" opacity=".9"/>
+              <rect x="188" y="38" width="30" height="120" fill="#022938"/>
+              <!-- canopy layers left -->
+              <ellipse cx="18"  cy="55" rx="28" ry="22" fill="#024a5e" opacity=".8"/>
+              <ellipse cx="45"  cy="45" rx="30" ry="24" fill="#025e72" opacity=".85"/>
+              <ellipse cx="77"  cy="38" rx="32" ry="26" fill="#027090"/>
+              <!-- canopy layers right -->
+              <ellipse cx="262" cy="55" rx="28" ry="22" fill="#024a5e" opacity=".8"/>
+              <ellipse cx="235" cy="45" rx="30" ry="24" fill="#025e72" opacity=".85"/>
+              <ellipse cx="203" cy="38" rx="32" ry="26" fill="#027090"/>
+              <!-- path -->
+              <path d="M95 158 L125 90 L140 70 L155 90 L185 158Z" fill="#031b24"/>
+              <path d="M125 90 L140 70 L155 90" fill="#042230" stroke="none"/>
+              <!-- path center dashes -->
+              <line x1="140" y1="155" x2="140" y2="140" stroke="#073040" stroke-width="3" stroke-linecap="round"/>
+              <line x1="140" y1="132" x2="140" y2="118" stroke="#073040" stroke-width="3" stroke-linecap="round"/>
+              <line x1="140" y1="110" x2="140" y2="98"  stroke="#073040" stroke-width="3" stroke-linecap="round"/>
+              <!-- vanishing point glow -->
+              <rect width="280" height="158" fill="url(#gw-glow)"/>
+              <!-- leafy canopy ceiling -->
+              <ellipse cx="140" cy="30" rx="160" ry="35" fill="#027090" opacity=".6"/>
+              <ellipse cx="140" cy="22" rx="130" ry="28" fill="#029AB5" opacity=".4"/>
+              <!-- light spots on path -->
+              <ellipse cx="140" cy="100" rx="12" ry="6" fill="rgba(34,211,238,.12)"/>
+              <ellipse cx="140" cy="130" rx="20" ry="8" fill="rgba(34,211,238,.08)"/>
+              <!-- particles -->
+              <circle cx="105" cy="60" r="2" fill="rgba(34,211,238,.6)" opacity=".7"/>
+              <circle cx="175" cy="50" r="1.8" fill="rgba(34,211,238,.5)" opacity=".6"/>
+              <circle cx="140" cy="45" r="2.5" fill="rgba(255,255,255,.5)" opacity=".5"/>
+            </svg>
+            <div class="pc-scene-overlay"></div>
+            <div class="pc-scene-badge">Green Walkway</div>
+          </div>
+          <div class="pc-check" aria-hidden="true">✓</div>
+          <div class="pc-content">
+            <div class="pc-name">ทางเดินร่มเงาสีเขียว</div>
+            <p class="pc-desc">ทางเดินเท้าและทางจักรยานที่ร่มรื่นตลอดสาย ลดความร้อนบนท้องถนน ส่งเสริมการเดินทางเชิงสุขภาพ และเพิ่มความน่าอยู่ในเมือง</p>
+            <div class="pc-chips">
+              <span class="pc-chip"><span class="pc-chip-icon" aria-hidden="true">🚶</span>เดินสะดวก</span>
+              <span class="pc-chip"><span class="pc-chip-icon" aria-hidden="true">🌿</span>ร่มรื่น</span>
+              <span class="pc-chip"><span class="pc-chip-icon" aria-hidden="true">💚</span>สุขภาพดี</span>
+            </div>
+            <div class="pc-impact">
+              <div class="pc-impact-icon" aria-hidden="true">🌡</div>
+              <div class="pc-impact-body">
+                <div class="pc-impact-label">ผลลัพธ์ที่คาดหวัง</div>
+                <div class="pc-impact-val">−6°C</div>
+                <div class="pc-impact-unit">ลดความรู้สึกร้อนขณะเดิน</div>
+              </div>
+            </div>
+            <div class="pc-cta" role="presentation" aria-hidden="true">
+              เลือกโครงการนี้
+              <svg class="pc-cta-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </div>
+          </div>
+        </label>
+
+        <!-- ③ Sponge Park -->
+        <label class="park-card" data-key="sponge_park" tabindex="0" role="radio" aria-checked="false"
+               style="--c:#60A5FA;--crgb:96,165,250;">
+          <div class="pc-scene">
+            <svg viewBox="0 0 280 158" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="sp-bg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#060f2a"/>
+                  <stop offset="100%" stop-color="#0a1a3d"/>
+                </linearGradient>
+                <radialGradient id="sp-glow" cx="50%" cy="70%" r="60%">
+                  <stop offset="0%" stop-color="rgba(96,165,250,.22)"/>
+                  <stop offset="100%" stop-color="transparent"/>
+                </radialGradient>
+              </defs>
+              <rect width="280" height="158" fill="url(#sp-bg)"/>
+              <!-- rain streaks -->
+              <g opacity=".35" stroke="#60A5FA" stroke-width="1" stroke-linecap="round">
+                <line x1="30"  y1="0"  x2="20"  y2="40"/>
+                <line x1="65"  y1="0"  x2="55"  y2="40"/>
+                <line x1="100" y1="0"  x2="90"  y2="40"/>
+                <line x1="135" y1="0"  x2="125" y2="40"/>
+                <line x1="170" y1="0"  x2="160" y2="40"/>
+                <line x1="205" y1="0"  x2="195" y2="40"/>
+                <line x1="240" y1="0"  x2="230" y2="40"/>
+                <line x1="280" y1="5"  x2="268" y2="48"/>
+                <line x1="47"  y1="10" x2="37"  y2="55"/>
+                <line x1="82"  y1="8"  x2="72"  y2="48"/>
+                <line x1="118" y1="5"  x2="107" y2="48"/>
+                <line x1="153" y1="12" x2="143" y2="55"/>
+                <line x1="188" y1="6"  x2="178" y2="50"/>
+                <line x1="223" y1="9"  x2="213" y2="52"/>
+                <line x1="258" y1="0"  x2="248" y2="42"/>
+              </g>
+              <!-- ground absorption zone -->
+              <rect y="118" width="280" height="40" fill="#040d22"/>
+              <!-- water ripple rings (concentric) -->
+              <ellipse cx="140" cy="128" rx="110" ry="16" fill="none" stroke="rgba(96,165,250,.18)" stroke-width="1.5"/>
+              <ellipse cx="140" cy="128" rx="82"  ry="12" fill="none" stroke="rgba(96,165,250,.25)" stroke-width="1.5"/>
+              <ellipse cx="140" cy="128" rx="55"  ry="8"  fill="none" stroke="rgba(96,165,250,.35)" stroke-width="1.5"/>
+              <ellipse cx="140" cy="128" rx="30"  ry="5"  fill="none" stroke="rgba(96,165,250,.5)"  stroke-width="1.5"/>
+              <ellipse cx="140" cy="128" rx="12"  ry="2.5" fill="rgba(96,165,250,.3)"/>
+              <!-- glow on ground -->
+              <rect width="280" height="158" fill="url(#sp-glow)"/>
+              <!-- rain drops upper -->
+              <g fill="rgba(96,165,250,.7)">
+                <path d="M55 55 C55 55 53 60 55 63 C57 66 59 63 57 60Z"/>
+                <path d="M120 40 C120 40 118 46 120 50 C122 53 124 50 122 47Z"/>
+                <path d="M175 62 C175 62 173 67 175 70 C177 73 179 70 177 67Z"/>
+                <path d="M230 45 C230 45 228 51 230 55 C232 58 234 55 232 52Z"/>
+                <path d="M85  72 C85 72 83 77 85 80 C87 83 89 80 87 77Z"/>
+              </g>
+              <!-- small plants emerging -->
+              <g stroke="#4ADE80" stroke-width="1.5" stroke-linecap="round" opacity=".65">
+                <path d="M90 118 C90 118 88 112 90 108 C92 105 94 108 93 112"/>
+                <path d="M90 118 C90 118 86 113 84 110"/>
+                <path d="M185 118 C185 118 183 113 185 109 C187 106 189 109 188 113"/>
+                <path d="M185 118 C185 118 181 114 179 111"/>
+                <path d="M140 118 C140 118 138 111 140 107 C142 104 144 107 143 111"/>
+              </g>
+            </svg>
+            <div class="pc-scene-overlay"></div>
+            <div class="pc-scene-badge">Sponge Park</div>
+          </div>
+          <div class="pc-check" aria-hidden="true">✓</div>
+          <div class="pc-content">
+            <div class="pc-name">สวนฟองน้ำดูดซับน้ำฝน</div>
+            <p class="pc-desc">สวนที่ออกแบบระบบดูดซับน้ำฝนลงสู่ดินอย่างชาญฉลาด มีพืชทนน้ำและบ่อพักน้ำธรรมชาติ แก้ปัญหาน้ำท่วมซ้ำซากได้อย่างยั่งยืน</p>
+            <div class="pc-chips">
+              <span class="pc-chip"><span class="pc-chip-icon" aria-hidden="true">💧</span>ลดน้ำท่วม</span>
+              <span class="pc-chip"><span class="pc-chip-icon" aria-hidden="true">🌱</span>ระบบนิเวศ</span>
+              <span class="pc-chip"><span class="pc-chip-icon" aria-hidden="true">☔</span>รับน้ำฝน</span>
+            </div>
+            <div class="pc-impact">
+              <div class="pc-impact-icon" aria-hidden="true">💧</div>
+              <div class="pc-impact-body">
+                <div class="pc-impact-label">ผลลัพธ์ที่คาดหวัง</div>
+                <div class="pc-impact-val">−80%</div>
+                <div class="pc-impact-unit">ลดความเสี่ยงน้ำท่วมในชุมชน</div>
+              </div>
+            </div>
+            <div class="pc-cta" role="presentation" aria-hidden="true">
+              เลือกโครงการนี้
+              <svg class="pc-cta-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </div>
+          </div>
+        </label>
+
+        <!-- ④ Green Roof -->
+        <label class="park-card" data-key="green_roof" tabindex="0" role="radio" aria-checked="false"
+               style="--c:#A3E635;--crgb:163,230,53;">
+          <div class="pc-scene">
+            <svg viewBox="0 0 280 158" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="gr-bg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#080e02"/>
+                  <stop offset="100%" stop-color="#10180a"/>
+                </linearGradient>
+                <radialGradient id="gr-dawn" cx="50%" cy="45%" r="45%">
+                  <stop offset="0%" stop-color="rgba(163,230,53,.25)"/>
+                  <stop offset="60%" stop-color="rgba(163,230,53,.05)"/>
+                  <stop offset="100%" stop-color="transparent"/>
+                </radialGradient>
+              </defs>
+              <rect width="280" height="158" fill="url(#gr-bg)"/>
+              <!-- dawn glow behind buildings -->
+              <rect width="280" height="158" fill="url(#gr-dawn)"/>
+              <!-- distant buildings (silhouettes) -->
+              <rect x="0"   y="75"  width="28" height="83" fill="#0a1505" opacity=".9"/>
+              <rect x="22"  y="88"  width="22" height="70" fill="#0c1a07"/>
+              <rect x="40"  y="60"  width="30" height="98" fill="#0a1505" opacity=".9"/>
+              <rect x="63"  y="80"  width="18" height="78" fill="#0e1e08"/>
+              <rect x="234" y="68"  width="46" height="90" fill="#0a1505" opacity=".9"/>
+              <rect x="210" y="82"  width="26" height="76" fill="#0c1a07"/>
+              <rect x="192" y="55"  width="22" height="103" fill="#0a1505" opacity=".9"/>
+              <rect x="170" y="78"  width="24" height="80" fill="#0e1e08"/>
+              <!-- main center building -->
+              <rect x="90"  y="70"  width="100" height="88" fill="#0d1a06"/>
+              <rect x="100" y="50"  width="80"  height="22" fill="#111f08"/><!-- parapet -->
+              <!-- rooftop garden -->
+              <!-- soil/base layer -->
+              <rect x="102" y="44" width="76" height="8" rx="2" fill="#1a2c06"/>
+              <!-- plants as circles/bumps -->
+              <circle cx="118" cy="42" r="10" fill="#1f3807"/>
+              <circle cx="118" cy="38" r="8"  fill="#2d5210"/>
+              <circle cx="118" cy="34" r="6"  fill="#3d7018"/>
+              <circle cx="140" cy="44" r="11" fill="#1f3807"/>
+              <circle cx="140" cy="39" r="9"  fill="#2d5210"/>
+              <circle cx="140" cy="34" r="7"  fill="#3d7018"/>
+              <circle cx="140" cy="29" r="5"  fill="#4f921f"/>
+              <circle cx="162" cy="42" r="10" fill="#1f3807"/>
+              <circle cx="162" cy="38" r="8"  fill="#2d5210"/>
+              <circle cx="162" cy="33" r="6"  fill="#3d7018"/>
+              <!-- small accent plants -->
+              <circle cx="110" cy="47" r="5" fill="#2d5210"/>
+              <circle cx="130" cy="46" r="4" fill="#2d5210"/>
+              <circle cx="150" cy="46" r="4" fill="#2d5210"/>
+              <circle cx="170" cy="47" r="5" fill="#2d5210"/>
+              <!-- leaf highlights -->
+              <circle cx="118" cy="31" r="3.5" fill="#5eb825" opacity=".9"/>
+              <circle cx="140" cy="26" r="3"   fill="#5eb825" opacity=".85"/>
+              <circle cx="162" cy="30" r="3.5" fill="#5eb825" opacity=".9"/>
+              <!-- window dots on building -->
+              <g fill="rgba(163,230,53,.15)">
+                <rect x="100" y="78" width="12" height="9" rx="1"/>
+                <rect x="118" y="78" width="12" height="9" rx="1"/>
+                <rect x="136" y="78" width="12" height="9" rx="1"/>
+                <rect x="154" y="78" width="12" height="9" rx="1"/>
+                <rect x="172" y="78" width="12" height="9" rx="1"/>
+                <rect x="100" y="94" width="12" height="9" rx="1"/>
+                <rect x="136" y="94" width="12" height="9" rx="1"/>
+                <rect x="172" y="94" width="12" height="9" rx="1"/>
+              </g>
+              <!-- stars -->
+              <circle cx="50"  cy="20" r="1.2" fill="rgba(255,255,255,.4)"/>
+              <circle cx="90"  cy="12" r="1"   fill="rgba(255,255,255,.35)"/>
+              <circle cx="220" cy="16" r="1.2" fill="rgba(255,255,255,.4)"/>
+              <circle cx="248" cy="25" r="1"   fill="rgba(255,255,255,.3)"/>
+            </svg>
+            <div class="pc-scene-overlay"></div>
+            <div class="pc-scene-badge">Green Roof</div>
+          </div>
+          <div class="pc-check" aria-hidden="true">✓</div>
+          <div class="pc-content">
+            <div class="pc-name">สวนบนดาดฟ้าอาคาร</div>
+            <p class="pc-desc">เปลี่ยนหลังคาคอนกรีตเป็นสวนสีเขียว ลดความร้อนสะสมในอาคาร ประหยัดพลังงานแอร์ กักเก็บน้ำฝน โดยไม่ต้องใช้พื้นที่ดินเพิ่มเติม</p>
+            <div class="pc-chips">
+              <span class="pc-chip"><span class="pc-chip-icon" aria-hidden="true">⚡</span>ประหยัดพลังงาน</span>
+              <span class="pc-chip"><span class="pc-chip-icon" aria-hidden="true">💧</span>กักน้ำฝน</span>
+              <span class="pc-chip"><span class="pc-chip-icon" aria-hidden="true">🏙</span>เมืองสีเขียว</span>
+            </div>
+            <div class="pc-impact">
+              <div class="pc-impact-icon" aria-hidden="true">⚡</div>
+              <div class="pc-impact-body">
+                <div class="pc-impact-label">ผลลัพธ์ที่คาดหวัง</div>
+                <div class="pc-impact-val">−25%</div>
+                <div class="pc-impact-unit">ประหยัดพลังงานความเย็นอาคาร</div>
+              </div>
+            </div>
+            <div class="pc-cta" role="presentation" aria-hidden="true">
+              เลือกโครงการนี้
+              <svg class="pc-cta-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </div>
+          </div>
+        </label>
+
+        <!-- ⑤ Sponge Plaza -->
+        <label class="park-card" data-key="sponge_plaza" tabindex="0" role="radio" aria-checked="false"
+               style="--c:#FB923C;--crgb:251,146,60;grid-column:span 1;">
+          <div class="pc-scene">
+            <svg viewBox="0 0 280 158" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="sgp-bg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#1a0600"/>
+                  <stop offset="100%" stop-color="#250c02"/>
+                </linearGradient>
+                <radialGradient id="sgp-glow" cx="50%" cy="60%" r="50%">
+                  <stop offset="0%" stop-color="rgba(251,146,60,.3)"/>
+                  <stop offset="100%" stop-color="transparent"/>
+                </radialGradient>
+                <radialGradient id="sgp-plaza" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="rgba(251,146,60,.12)"/>
+                  <stop offset="100%" stop-color="transparent"/>
+                </radialGradient>
+              </defs>
+              <rect width="280" height="158" fill="url(#sgp-bg)"/>
+              <!-- warm sky gradient -->
+              <rect width="280" height="80" fill="rgba(251,100,20,.06)"/>
+              <!-- plaza ground -->
+              <ellipse cx="140" cy="120" rx="135" ry="50" fill="#1e0900"/>
+              <!-- plaza rings (top-down perspective) -->
+              <ellipse cx="140" cy="120" rx="120" ry="44" fill="none" stroke="rgba(251,146,60,.12)" stroke-width="1.5"/>
+              <ellipse cx="140" cy="120" rx="95"  ry="35" fill="none" stroke="rgba(251,146,60,.18)" stroke-width="1.5"/>
+              <ellipse cx="140" cy="120" rx="68"  ry="25" fill="none" stroke="rgba(251,146,60,.25)" stroke-width="1.5"/>
+              <ellipse cx="140" cy="120" rx="42"  ry="16" fill="none" stroke="rgba(251,146,60,.35)" stroke-width="2"/>
+              <!-- plaza glow -->
+              <rect width="280" height="158" fill="url(#sgp-glow)"/>
+              <!-- fountain basin -->
+              <ellipse cx="140" cy="110" rx="22" ry="9" fill="#280d02"/>
+              <ellipse cx="140" cy="110" rx="22" ry="9" fill="none" stroke="rgba(251,146,60,.45)" stroke-width="1.5"/>
+              <ellipse cx="140" cy="108" rx="14" ry="5.5" fill="rgba(251,146,60,.15)"/>
+              <!-- fountain water sprays -->
+              <g stroke="rgba(96,165,250,.6)" stroke-width="1.2" stroke-linecap="round" opacity=".8">
+                <path d="M140 108 C140 108 138 100 136 94"/>
+                <path d="M140 108 C140 108 142 100 144 94"/>
+                <path d="M140 108 C140 108 133 102 128 98"/>
+                <path d="M140 108 C140 108 147 102 152 98"/>
+                <path d="M140 108 C140 108 135 104 130 104"/>
+                <path d="M140 108 C140 108 145 104 150 104"/>
+              </g>
+              <circle cx="140" cy="108" r="3" fill="rgba(96,165,250,.5)"/>
+              <!-- fountain top glow -->
+              <ellipse cx="140" cy="96" rx="14" ry="8" fill="rgba(96,165,250,.08)"/>
+              <!-- people silhouettes -->
+              <g fill="rgba(251,146,60,.35)">
+                <!-- groups around plaza -->
+                <circle cx="90"  cy="108" r="3.5"/>
+                <circle cx="84"  cy="107" r="3"/>
+                <circle cx="97"  cy="110" r="3.5"/>
+                <circle cx="190" cy="108" r="3.5"/>
+                <circle cx="196" cy="107" r="3"/>
+                <circle cx="183" cy="110" r="3.5"/>
+                <circle cx="140" cy="134" r="3.5"/>
+                <circle cx="148" cy="135" r="3"/>
+                <circle cx="132" cy="135" r="3"/>
+              </g>
+              <!-- lamp posts -->
+              <g stroke="rgba(251,146,60,.4)" stroke-width="1.5" stroke-linecap="round">
+                <line x1="100" y1="122" x2="100" y2="96"/>
+                <circle cx="100" cy="94" r="4" fill="rgba(251,146,60,.3)" stroke="none"/>
+                <circle cx="100" cy="94" r="7" fill="rgba(251,146,60,.08)" stroke="none"/>
+                <line x1="180" y1="122" x2="180" y2="96"/>
+                <circle cx="180" cy="94" r="4" fill="rgba(251,146,60,.3)" stroke="none"/>
+                <circle cx="180" cy="94" r="7" fill="rgba(251,146,60,.08)" stroke="none"/>
+              </g>
+              <!-- stars/building bg -->
+              <circle cx="30"  cy="30" r="1.2" fill="rgba(255,255,255,.3)"/>
+              <circle cx="70"  cy="18" r="1"   fill="rgba(255,255,255,.25)"/>
+              <circle cx="210" cy="22" r="1.2" fill="rgba(255,255,255,.3)"/>
+              <circle cx="250" cy="35" r="1"   fill="rgba(255,255,255,.25)"/>
+              <circle cx="155" cy="15" r="1.5" fill="rgba(251,146,60,.5)"/>
+            </svg>
+            <div class="pc-scene-overlay"></div>
+            <div class="pc-scene-badge">Sponge Plaza</div>
+          </div>
+          <div class="pc-check" aria-hidden="true">✓</div>
+          <div class="pc-content">
+            <div class="pc-name">ลานกิจกรรมชุมชนซับน้ำ</div>
+            <p class="pc-desc">ลานสาธารณะพื้นผิวซึมน้ำ รองรับฝนหนักได้โดยไม่ท่วม เป็นทั้งพื้นที่จัดกิจกรรมชุมชนตลอดปี และระบบจัดการน้ำฝนที่มีประสิทธิภาพ</p>
+            <div class="pc-chips">
+              <span class="pc-chip"><span class="pc-chip-icon" aria-hidden="true">🎪</span>กิจกรรมชุมชน</span>
+              <span class="pc-chip"><span class="pc-chip-icon" aria-hidden="true">💧</span>ลดน้ำท่วม</span>
+              <span class="pc-chip"><span class="pc-chip-icon" aria-hidden="true">🌆</span>พื้นที่สาธารณะ</span>
+            </div>
+            <div class="pc-impact">
+              <div class="pc-impact-icon" aria-hidden="true">💧</div>
+              <div class="pc-impact-body">
+                <div class="pc-impact-label">ผลลัพธ์ที่คาดหวัง</div>
+                <div class="pc-impact-val">−60%</div>
+                <div class="pc-impact-unit">ลดน้ำท่วมช่วงฝนตกหนัก</div>
+              </div>
+            </div>
+            <div class="pc-cta" role="presentation" aria-hidden="true">
+              เลือกโครงการนี้
+              <svg class="pc-cta-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </div>
+          </div>
+        </label>
+
+      </div>
+
+      <div class="field-err" id="err-park">กรุณาเลือกประเภทพื้นที่สีเขียวก่อน</div>
+
+      <!-- ── STEP 2: district ────────────────────────── -->
+      <div class="district-section">
+        <div class="sec-label" style="margin-bottom:.7rem;">พื้นที่ที่คุณอยู่</div>
+        <select class="dist-select" id="district-select" aria-label="เลือกอำเภอ">
+          <option value="">— เลือกอำเภอ —</option>
+          <option value="อำเภอเมืองขอนแก่น">อำเภอเมืองขอนแก่น</option>
+          <option value="อำเภอน้ำพอง">อำเภอน้ำพอง</option>
+          <option value="อำเภอบ้านไผ่">อำเภอบ้านไผ่</option>
+          <option value="อำเภอพล">อำเภอพล</option>
+          <option value="อำเภอชุมแพ">อำเภอชุมแพ</option>
+          <option value="อำเภออุบลรัตน์">อำเภออุบลรัตน์</option>
+          <option value="อำเภอชนบท">อำเภอชนบท</option>
+          <option value="อำเภอมัญจาคีรี">อำเภอมัญจาคีรี</option>
+          <option value="อำเภอภูเวียง">อำเภอภูเวียง</option>
+          <option value="อำเภอกระนวน">อำเภอกระนวน</option>
+          <option value="อำเภอหนองเรือ">อำเภอหนองเรือ</option>
+          <option value="อำเภอหนองสองห้อง">อำเภอหนองสองห้อง</option>
+          <option value="อำเภออื่นๆ">อำเภออื่นๆ</option>
+        </select>
+        <div class="field-err" id="err-district">กรุณาเลือกอำเภอที่คุณอยู่</div>
+      </div>
+
+      <!-- global error -->
+      <div class="field-err" id="err-global" style="margin-bottom:.75rem;font-size:.82rem;"></div>
+
+      <!-- submit -->
+      <button type="submit" class="submit-btn" id="submit-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        ส่งเสียงโหวต
+      </button>
+
+    </form>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="../js/config.js"></script>
+  <script>
+  (function () {
+    'use strict';
+
+    var sb = null;
+    function getSb() {
+      if (sb) return sb;
+      var cfg = window.HSKK_CONFIG && window.HSKK_CONFIG.supabase;
+      if (!cfg || !cfg.url || !cfg.anonKey) return null;
+      if (!window.supabase || !window.supabase.createClient) return null;
+      sb = window.supabase.createClient(cfg.url, cfg.anonKey);
+      return sb;
+    }
+
+    function getFingerprint() {
+      var k = 'pvw_fp';
+      var fp = localStorage.getItem(k);
+      if (!fp) {
+        fp = 'fp_' + Date.now() + '_' + Math.random().toString(36).slice(2, 11);
+        try { localStorage.setItem(k, fp); } catch (e) {}
+      }
+      return fp;
+    }
+
+    var selectedPark = '';
+
+    function checkAlreadyVoted() {
+      if (localStorage.getItem('pvw_voted') === '1') {
+        document.getElementById('voted-box').classList.add('show');
+        document.querySelectorAll('.park-card').forEach(function(c) {
+          c.style.pointerEvents = 'none';
+          c.setAttribute('tabindex', '-1');
+        });
+        var ds = document.getElementById('district-select');
+        if (ds) ds.disabled = true;
+        var btn = document.getElementById('submit-btn');
+        btn.disabled = true;
+        btn.innerHTML = '✓ คุณได้โหวตในแบบสำรวจนี้แล้ว';
+      }
+    }
+
+    /* step highlight when district focused */
+    var distSel = document.getElementById('district-select');
+    distSel.addEventListener('focus', function () {
+      document.getElementById('sc2').className = 'step-circle on';
+      document.getElementById('sl2').className = 'step-label on';
+    });
+
+    document.querySelectorAll('.park-card').forEach(function (card) {
+      function selectCard() {
+        document.querySelectorAll('.park-card').forEach(function (c) {
+          c.classList.remove('selected');
+          c.setAttribute('aria-checked', 'false');
+        });
+        card.classList.add('selected');
+        card.setAttribute('aria-checked', 'true');
+        selectedPark = card.dataset.key;
+        document.getElementById('err-park').classList.remove('show');
+      }
+      card.addEventListener('click', selectCard);
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectCard(); }
+      });
+    });
+
+    document.getElementById('vote-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var valid = true;
+
+      if (!selectedPark) {
+        document.getElementById('err-park').classList.add('show');
+        valid = false;
+      }
+      var district = distSel.value;
+      if (!district) {
+        document.getElementById('err-district').classList.add('show');
+        valid = false;
+      }
+      if (!valid) return;
+
+      var errGlobal = document.getElementById('err-global');
+      errGlobal.classList.remove('show'); errGlobal.textContent = '';
+
+      var client = getSb();
+      if (!client) {
+        errGlobal.textContent = 'ไม่สามารถเชื่อมต่อฐานข้อมูลได้ กรุณาลองใหม่ภายหลัง';
+        errGlobal.classList.add('show'); return;
+      }
+
+      var btn = document.getElementById('submit-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="animation:pvw-spin .8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> กำลังส่ง...';
+
+      client.from('park_votes').insert({
+        park_type: selectedPark, district: district, fingerprint: getFingerprint()
+      }).then(function (res) {
+        if (res.error) {
+          if (res.error.code === '23505') {
+            try { localStorage.setItem('pvw_voted', '1'); } catch (e) {}
+            document.getElementById('voted-box').classList.add('show');
+            document.getElementById('vote-form').style.display = 'none';
+            return;
+          }
+          errGlobal.textContent = 'เกิดข้อผิดพลาด: ' + (res.error.message || 'ไม่ทราบสาเหตุ');
+          errGlobal.classList.add('show');
+          btn.disabled = false;
+          btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> ส่งเสียงโหวต';
+          return;
+        }
+        try { localStorage.setItem('pvw_voted', '1'); } catch (e) {}
+        document.getElementById('success-overlay').classList.add('show');
+      }).catch(function () {
+        errGlobal.textContent = 'ไม่สามารถส่งข้อมูลได้ กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ต';
+        errGlobal.classList.add('show');
+        btn.disabled = false;
+        btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> ส่งเสียงโหวต';
+      });
+    });
+
+    distSel.addEventListener('change', function () {
+      if (this.value) document.getElementById('err-district').classList.remove('show');
+    });
+
+    checkAlreadyVoted();
+
+    var s = document.createElement('style');
+    s.textContent = '@keyframes pvw-spin{to{transform:rotate(360deg);}}';
+    document.head.appendChild(s);
+
+  })();
+  </script>
+</body>
+</html>

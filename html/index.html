@@ -396,6 +396,230 @@
       .lp-daily { grid-template-columns: repeat(2, 1fr); }
     }
 
+    /* ══ Park Vote Feature Card ════════════════════════════════════ */
+    .pvw-feat {
+      position: relative;
+      background: rgba(2,14,32,.94);
+      border: 1px solid rgba(74,222,128,.22);
+      border-radius: 20px;
+      padding: 1.25rem 1.375rem;
+      overflow: hidden;
+    }
+    .pvw-feat-leaf {
+      position: absolute;
+      right: -40px; top: -40px;
+      opacity: .05;
+      pointer-events: none;
+      transform: rotate(15deg);
+    }
+    /* header */
+    .pvw-feat-hd {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      margin-bottom: .95rem;
+    }
+    .pvw-feat-icon {
+      width: 42px; height: 42px; flex-shrink: 0;
+      border-radius: 12px;
+      background: rgba(74,222,128,.1);
+      border: 1px solid rgba(74,222,128,.28);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pvw-feat-title-wrap { flex: 1; min-width: 0; }
+    .pvw-feat-eyebrow {
+      display: flex; align-items: center; gap: .45rem;
+      margin-bottom: .3rem;
+    }
+    .pvw-feat-badge {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .6rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: #4ADE80;
+      background: rgba(74,222,128,.1);
+      border: 1px solid rgba(74,222,128,.25);
+      border-radius: 99px;
+      padding: .12rem .6rem;
+    }
+    .pvw-feat-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #4ADE80;
+      box-shadow: 0 0 6px #4ADE80;
+      flex-shrink: 0;
+      animation: lpDotPulse 2s ease-in-out infinite;
+    }
+    .pvw-feat-title {
+      font-family: 'Noto Sans Thai', sans-serif;
+      font-size: .92rem; font-weight: 700;
+      color: #F1F5F9; line-height: 1.4;
+    }
+    /* chips */
+    .pvw-chips {
+      display: flex; flex-wrap: wrap; gap: .38rem;
+      margin-bottom: .95rem;
+    }
+    .pvw-chip {
+      display: inline-flex; align-items: center; gap: .3rem;
+      padding: .28rem .65rem;
+      background: var(--cc);
+      border: 1px solid var(--cb);
+      border-radius: 99px;
+      font-family: 'Noto Sans Thai', sans-serif;
+      font-size: .65rem; font-weight: 600;
+      color: var(--ct);
+      white-space: nowrap;
+    }
+    /* CTA */
+    .pvw-feat-cta {
+      display: flex; gap: .6rem; align-items: center;
+    }
+    .pvw-feat-vote-btn {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center; gap: .45rem;
+      padding: .7rem 1rem;
+      background: #4ADE80; color: #001a10;
+      border-radius: 12px; border: none;
+      font-family: 'Noto Sans Thai', sans-serif;
+      font-size: .85rem; font-weight: 700;
+      text-decoration: none; cursor: pointer;
+      box-shadow: 0 4px 20px rgba(74,222,128,.32);
+      transition: background .18s, transform .15s, box-shadow .18s;
+    }
+    .pvw-feat-vote-btn:hover {
+      background: #22c55e;
+      box-shadow: 0 6px 28px rgba(74,222,128,.48);
+      transform: translateY(-2px);
+    }
+    .pvw-feat-vote-btn:active { transform: translateY(0); }
+    .pvw-feat-result-btn {
+      padding: .7rem .95rem;
+      background: rgba(74,222,128,.08);
+      border: 1px solid rgba(74,222,128,.22);
+      border-radius: 12px;
+      color: #4ADE80;
+      font-family: 'Noto Sans Thai', sans-serif;
+      font-size: .78rem; font-weight: 600;
+      cursor: pointer; white-space: nowrap;
+      transition: background .18s;
+    }
+    .pvw-feat-result-btn:hover { background: rgba(74,222,128,.16); }
+
+    @media (max-width: 480px) {
+      .pvw-chips { gap: .3rem; }
+      .pvw-chip  { font-size: .6rem; padding: .22rem .5rem; }
+      .pvw-feat-vote-btn { font-size: .8rem; }
+    }
+
+    /* ══ Park Vote Home Stats ════════════════════════════════════ */
+    #pvwStatsBlock {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(74,222,128,.12);
+      border-radius: 18px;
+      padding: 1rem 1.1rem .85rem;
+      margin-top: .6rem;
+    }
+    .pvwhs-loading, .pvwhs-empty {
+      text-align: center; padding: .75rem 0;
+      font-size: .75rem; color: rgba(255,255,255,.28);
+    }
+    .pvwhs-err {
+      padding: .6rem 0; font-size: .75rem; color: #F87171;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .pvwhs-retry {
+      background: none; border: 1px solid rgba(248,113,113,.3);
+      color: #F87171; font-size: .68rem; padding: .18rem .5rem;
+      border-radius: 5px; cursor: pointer; flex-shrink: 0;
+    }
+    /* header row */
+    .pvwhs-hd {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      margin-bottom: .85rem;
+    }
+    .pvwhs-hd-left { display: flex; flex-direction: column; gap: .3rem; }
+    .pvwhs-title {
+      display: flex; align-items: center; gap: .35rem;
+      font-size: .72rem; font-weight: 700;
+      color: rgba(255,255,255,.6); letter-spacing: .04em;
+    }
+    .pvwhs-live {
+      display: inline-flex; align-items: center; gap: .28rem;
+      font-size: .54rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+      color: #4ADE80;
+      background: rgba(74,222,128,.1); border: 1px solid rgba(74,222,128,.2);
+      border-radius: 99px; padding: .14rem .5rem;
+      width: fit-content;
+    }
+    .pvwhs-dot {
+      width: 5px; height: 5px; border-radius: 50%; background: #4ADE80; flex-shrink: 0;
+      animation: pvwhsBlink 1.4s ease-in-out infinite;
+    }
+    @keyframes pvwhsBlink { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.3;transform:scale(.6);} }
+    /* total counter */
+    .pvwhs-total { text-align: right; }
+    .pvwhs-total-num {
+      display: block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem; font-weight: 800; color: #4ADE80;
+      line-height: 1; letter-spacing: -.02em;
+    }
+    .pvwhs-total-lbl {
+      font-size: .58rem; color: rgba(255,255,255,.28);
+      font-weight: 600; letter-spacing: .04em;
+    }
+    /* rows */
+    .pvwhs-rows { display: flex; flex-direction: column; }
+    .pvwhs-row {
+      display: flex; align-items: center; gap: .5rem;
+      padding: .5rem 0;
+      border-top: 1px solid rgba(255,255,255,.05);
+    }
+    .pvwhs-row:first-child { border-top: none; }
+    .pvwhs-rank {
+      font-size: .56rem; color: rgba(255,255,255,.22);
+      width: 10px; text-align: center; flex-shrink: 0;
+    }
+    .pvwhs-icon {
+      display: flex; align-items: center; justify-content: center;
+      width: 18px; height: 18px; flex-shrink: 0;
+    }
+    .pvwhs-info { flex: 1; min-width: 0; }
+    .pvwhs-name-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: .24rem;
+    }
+    .pvwhs-name { font-size: .7rem; font-weight: 700; color: rgba(255,255,255,.7); }
+    .pvwhs-pct {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .9rem; font-weight: 800; line-height: 1;
+    }
+    .pvwhs-bar-bg {
+      height: 5px; border-radius: 99px;
+      background: rgba(255,255,255,.07); overflow: hidden;
+    }
+    .pvwhs-bar-fill {
+      height: 100%; border-radius: 99px; width: 0%;
+      transition: width 1.1s cubic-bezier(.22,.68,0,1.1);
+    }
+    .pvwhs-count {
+      font-size: .6rem; color: rgba(255,255,255,.22);
+      width: 22px; text-align: right; flex-shrink: 0;
+    }
+    /* footer */
+    .pvwhs-foot {
+      margin-top: .65rem; padding-top: .5rem;
+      border-top: 1px solid rgba(255,255,255,.05);
+      font-size: .58rem; color: rgba(255,255,255,.18);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .pvwhs-foot-btn {
+      background: none; border: none;
+      color: rgba(74,222,128,.5); font-size: .58rem; cursor: pointer;
+      padding: 0; display: flex; align-items: center; gap: .25rem;
+    }
+    .pvwhs-foot-btn:hover { color: #4ADE80; }
+
     /* ── คำแนะนำวันนี้ card ── */
     .lp-adv-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:.45rem; }
     .lp-adv-item { display:flex; align-items:flex-start; gap:.6rem; padding:.6rem .75rem; background:rgba(255,255,255,.05); border-radius:8px; border:1px solid rgba(255,255,255,.07); }
@@ -1076,6 +1300,73 @@
   <section id="lp-dashboard" class="lp-dashboard" aria-label="แดชบอร์ดสภาพอากาศสด ขอนแก่น">
     <div class="lp-dash-inner">
 
+      <!-- ── Park Vote Feature Card ── -->
+      <div class="pvw-feat" role="region" aria-label="แบบสอบถามสวนสีเขียว">
+
+        <!-- decorative bg leaf -->
+        <div class="pvw-feat-leaf" aria-hidden="true">
+          <svg width="160" height="160" viewBox="0 0 24 24" fill="#4ADE80"><path d="M6 21C6 21 7 13 14 8C18 5 21 4 21 4C21 4 20 8 17 12C13 17 6 21 6 21Z"/></svg>
+        </div>
+
+        <!-- header -->
+        <div class="pvw-feat-hd">
+          <div class="pvw-feat-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 21C6 21 7 13 14 8C18 5 21 4 21 4C21 4 20 8 17 12C13 17 6 21 6 21Z" fill="rgba(74,222,128,.2)"/>
+              <path d="M6 21L12 14"/>
+            </svg>
+          </div>
+          <div class="pvw-feat-title-wrap">
+            <div class="pvw-feat-eyebrow">
+              <span class="pvw-feat-badge">Your City · Your Voice</span>
+              <span class="pvw-feat-dot" aria-hidden="true"></span>
+            </div>
+            <div class="pvw-feat-title">คุณอยากให้ขอนแก่น<br>มีสวนแบบไหน?</div>
+          </div>
+        </div>
+
+        <!-- park type chips -->
+        <div class="pvw-chips" aria-label="ตัวเลือกประเภทสวน">
+          <span class="pvw-chip" style="--cc:rgba(74,222,128,.18);--cb:rgba(74,222,128,.3);--ct:#4ADE80;">
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="5.5" r="3" fill="rgba(74,222,128,.2)"/><path d="M8 8.5V12"/><path d="M5 13h6"/></svg>
+            Pocket Park
+          </span>
+          <span class="pvw-chip" style="--cc:rgba(34,211,238,.15);--cb:rgba(34,211,238,.28);--ct:#22D3EE;">
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 2C5 2 4 5 5.5 8C7 11 8 12 8 12s1-1 2.5-4C12 5 11 2 11 2"/><path d="M3 14c1-1 2.5-1 4 0s3 1 4 0 2-1 3 0"/></svg>
+            Green Walkway
+          </span>
+          <span class="pvw-chip" style="--cc:rgba(96,165,250,.15);--cb:rgba(96,165,250,.28);--ct:#60A5FA;">
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 2C8 2 5 5.5 5 8.5A3 3 0 0 0 11 8.5C11 5.5 8 2 8 2Z" fill="rgba(96,165,250,.18)"/></svg>
+            Sponge Park
+          </span>
+          <span class="pvw-chip" style="--cc:rgba(163,230,53,.14);--cb:rgba(163,230,53,.26);--ct:#A3E635;">
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="12" height="6"/><path d="M1 8l7-5 7 5"/></svg>
+            Green Roof
+          </span>
+          <span class="pvw-chip" style="--cc:rgba(251,146,60,.14);--cb:rgba(251,146,60,.26);--ct:#FB923C;">
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="8" y1="2" x2="8" y2="5"/><path d="M5.5 5h5"/><path d="M6 5c-.5 2-1.5 3-1.5 3h7s-1-1-1.5-3"/><path d="M3 13c1-1 2.5-1 4 0s3 1 4 0 2-1 3 0"/></svg>
+            Sponge Plaza
+          </span>
+        </div>
+
+        <!-- CTA row -->
+        <div class="pvw-feat-cta">
+          <a href="vote-park.html" class="pvw-feat-vote-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+            ร่วมโหวตตอนนี้เลย
+          </a>
+          <button onclick="pvwToggle()" class="pvw-feat-result-btn">
+            ดูผล
+          </button>
+        </div>
+
+      </div>
+
+      <!-- ── Live Vote Stats ─────────────────────────────── -->
+      <div id="pvwStatsBlock" aria-label="ผลโหวตสด">
+        <div class="pvwhs-loading">กำลังโหลดผลโหวต...</div>
+      </div>
+
       <!-- 1. Alert Card + Stats + Share -->
       <div class="lp-hero-card" id="lp-hero-card">
 
@@ -1427,7 +1718,9 @@
   </section>
 
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="../js/config.js"></script>
+  <script src="../js/park-vote.js"></script>
   <script src="../js/utils.js"></script>
   <script src="../js/nav.js"></script>
   <script src="../js/weather-icons.js"></script>
@@ -1969,5 +2262,98 @@
       });
     }());
   </script>
+
+  <!-- =====================================================================
+       PARK VOTE WIDGET — fixed right side, ~30% from top
+  ====================================================================== -->
+  <div id="pvw-wrap" style="position:fixed;right:0;top:30%;z-index:900;display:flex;flex-direction:row-reverse;align-items:flex-start;gap:0;pointer-events:none;">
+
+    <!-- trigger button -->
+    <button id="pvw-btn"
+            onclick="pvwToggle()"
+            aria-label="ผลโหวตสวนสีเขียว — เปิด/ปิด"
+            aria-expanded="false"
+            aria-controls="pvw-panel"
+            style="pointer-events:auto;position:relative;width:44px;height:44px;
+                   border-radius:50% 0 0 50%;border:1px solid rgba(74,222,128,.4);
+                   border-right:none;background:rgba(1,13,30,.88);
+                   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+                   cursor:pointer;display:flex;align-items:center;justify-content:center;
+                   transition:background .18s,border-color .18s;
+                   box-shadow:-4px 0 16px rgba(74,222,128,.14);">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="flex-shrink:0;">
+        <path d="M6 21C6 21 7 13 14 8C18 5 21 4 21 4C21 4 20 8 17 12C13 17 6 21 6 21Z" fill="rgba(74,222,128,.22)" stroke="#4ADE80" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M6 21L12 14" stroke="#4ADE80" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <span aria-hidden="true"
+            style="position:absolute;top:7px;right:8px;width:7px;height:7px;
+                   border-radius:50%;background:#4ADE80;
+                   box-shadow:0 0 6px #4ADE80;
+                   animation:pvwDotBlink 1.8s ease-in-out infinite;"></span>
+    </button>
+
+    <!-- expandable panel -->
+    <div id="pvw-panel"
+         role="region"
+         aria-label="ผลโหวตสวนสีเขียวที่คนขอนแก่นต้องการ"
+         style="display:none;pointer-events:auto;
+                flex-direction:column;
+                width:220px;
+                background:rgba(1,13,30,.94);
+                border:1px solid rgba(74,222,128,.22);
+                border-radius:14px 0 0 14px;
+                border-right:none;
+                backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+                box-shadow:-6px 0 28px rgba(0,0,0,.5);
+                overflow:hidden;
+                font-family:'Noto Sans Thai',sans-serif;">
+      <!-- header -->
+      <div style="padding:.7rem .9rem .6rem;border-bottom:1px solid rgba(255,255,255,.07);
+                  display:flex;align-items:center;justify-content:space-between;gap:.5rem;">
+        <div style="display:flex;align-items:center;gap:.45rem;">
+          <span aria-hidden="true" style="display:flex;align-items:center;flex-shrink:0;width:22px;height:22px;background:rgba(74,222,128,.1);border-radius:6px;justify-content:center;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M6 21C6 21 7 13 14 8C18 5 21 4 21 4C21 4 20 8 17 12C13 17 6 21 6 21Z" fill="rgba(74,222,128,.3)" stroke="#4ADE80" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M6 21L12 14" stroke="#4ADE80" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <div>
+            <div style="font-size:.75rem;font-weight:700;color:#F1F5F9;line-height:1.2;">สวนที่คนขอนแก่น</div>
+            <div style="font-size:.65rem;color:rgba(255,255,255,.4);">อยากได้มากที่สุด</div>
+          </div>
+        </div>
+        <button onclick="pvwToggle()"
+                aria-label="ปิด"
+                style="background:none;border:none;color:rgba(255,255,255,.3);font-size:.85rem;
+                       cursor:pointer;padding:.2rem .35rem;border-radius:4px;line-height:1;
+                       transition:color .15s;">✕</button>
+      </div>
+      <!-- dynamic content -->
+      <div id="pvw-card-inner"></div>
+    </div>
+
+  </div>
+
+  <style>
+    @keyframes pvwDotBlink {
+      0%,100% { opacity:1; transform:scale(1); box-shadow:0 0 6px #4ADE80; }
+      50%      { opacity:.2; transform:scale(.5); box-shadow:none; }
+    }
+    @keyframes pvw-spin { to { transform:rotate(360deg); } }
+    @keyframes pvwShimmer {
+      0%,100% { opacity:.28; }
+      50%      { opacity:.85; }
+    }
+    @keyframes pvwIconPulse {
+      0%,100% { box-shadow:0 0 0 0 rgba(74,222,128,0); background:rgba(74,222,128,.1); }
+      50%      { box-shadow:0 0 0 6px rgba(74,222,128,.07); background:rgba(74,222,128,.22); }
+    }
+    @keyframes pvwBarLoad {
+      0%   { width:4%; }
+      50%  { width:82%; }
+      100% { width:4%; }
+    }
+    #pvw-btn:hover { background:rgba(4,25,55,.95) !important; border-color:rgba(74,222,128,.65) !important; }
+  </style>
 </body>
 </html>

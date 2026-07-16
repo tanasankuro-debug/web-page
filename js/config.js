@@ -67,8 +67,8 @@ window.HSKK_CONFIG = {
      In this vanilla build the values are set here directly (do NOT commit real keys to git).
   ─────────────────────────────────────────────────────────────────────────── */
   supabase: {
-    url:     'https://vfnhvccdagboofywjumb.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmbmh2Y2NkYWdib29meXdqdW1iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1MjQ3MzQsImV4cCI6MjA5ODEwMDczNH0.iKUN3ieEHOks4nblE6MYPzoPB-pwTIDX4fu07T65ulE'
+    url:     'https://xhabqlmffxcuuqkkdoom.supabase.co',
+    anonKey: 'sb_publishable_T_wl7ChyVLBh1AVODr7h3w_8A_rgDtR'
   },
 
   /* ── Map tile layers ─────────────────────────────────────────────────────
