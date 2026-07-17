@@ -188,43 +188,60 @@
       var count = _votes[p.key] || 0;
       var pct   = _total > 0 ? Math.round((count / _total) * 100) : 0;
       var rank  = i + 1;
+      var isTop = rank === 1;
       return (
-        '<div style="padding:.55rem .9rem;' + (i > 0 ? 'border-top:1px solid rgba(255,255,255,.06);' : '') + '">' +
-        '  <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem;">' +
-        '    <span style="font-size:.6rem;color:rgba(255,255,255,.3);width:12px;text-align:right;">' + rank + '</span>' +
-        '    <span style="color:' + p.color + ';display:inline-flex;align-items:center;width:18px;height:18px;justify-content:center;flex-shrink:0;">' + p.svg + '</span>' +
-        '    <span style="font-size:.8rem;font-weight:700;color:#F1F5F9;flex:1;">' + p.label + '</span>' +
-        '    <span style="font-size:.75rem;font-weight:700;color:' + p.color + ';">' + pct + '%</span>' +
-        '  </div>' +
-        '  <div style="display:flex;align-items:center;gap:.5rem;">' +
-        '    <div style="width:12px;flex-shrink:0;"></div>' + /* indent */
-        '    <div style="flex:1;height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden;">' +
-        '      <div style="height:100%;width:' + pct + '%;background:' + p.color + ';border-radius:3px;' +
-        '           transition:width .6s ease;"></div>' +
-        '    </div>' +
-        '    <span style="font-size:.65rem;color:rgba(255,255,255,.3);width:28px;text-align:right;">' + count + '</span>' +
-        '  </div>' +
+        '<div style="padding:.6rem .9rem;' +
+        (i > 0 ? 'border-top:1px solid rgba(255,255,255,.05);' : '') +
+        (isTop ? 'background:rgba(74,222,128,.04);border-left:2px solid rgba(74,222,128,.55);padding-left:calc(.9rem - 2px);' : '') +
+        '">' +
+        /* label row */
+        '<div style="display:flex;align-items:center;gap:.45rem;margin-bottom:.32rem;">' +
+        '<span style="font-size:' + (isTop ? '.65rem' : '.58rem') + ';font-weight:700;' +
+        'color:' + (isTop ? '#4ADE80' : 'rgba(255,255,255,.2)') + ';' +
+        'width:12px;text-align:center;flex-shrink:0;">' + rank + '</span>' +
+        '<span style="color:' + p.color + ';display:inline-flex;align-items:center;justify-content:center;' +
+        'width:22px;height:22px;flex-shrink:0;background:rgba(255,255,255,.04);border-radius:5px;">' + p.svg + '</span>' +
+        '<span style="font-size:.77rem;font-weight:700;' +
+        'color:' + (isTop ? '#F1F5F9' : 'rgba(255,255,255,.68)') + ';' +
+        'flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + p.label + '</span>' +
+        '<span style="font-family:\'Barlow Condensed\',sans-serif;font-size:1.1rem;font-weight:800;' +
+        'color:' + p.color + ';line-height:1;flex-shrink:0;">' + pct + '%</span>' +
+        '</div>' +
+        /* bar row */
+        '<div style="display:flex;align-items:center;gap:.45rem;">' +
+        '<div style="width:12px;flex-shrink:0;"></div>' +
+        '<div style="flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;">' +
+        '<div style="height:100%;width:' + pct + '%;' +
+        'background:linear-gradient(90deg,' + p.color + ',' + p.color + '88);' +
+        'border-radius:99px;box-shadow:0 0 10px ' + p.color + '55;' +
+        'transition:width 1s cubic-bezier(.22,.68,0,1.1);"></div>' +
+        '</div>' +
+        '<span style="font-size:.6rem;color:rgba(255,255,255,.25);width:22px;text-align:right;flex-shrink:0;">' + count + '</span>' +
+        '</div>' +
         '</div>'
       );
     }).join('');
 
-    var votedBadge = _hasVoted
-      ? '<span style="font-size:.62rem;color:#4ADE80;background:rgba(74,222,128,.12);' +
-        'border:1px solid rgba(74,222,128,.25);border-radius:4px;padding:.15rem .45rem;">✓ คุณโหวตแล้ว</span>'
+    var votedLine = _hasVoted
+      ? '<div style="margin-bottom:.42rem;">' +
+        '<span style="font-size:.62rem;color:#4ADE80;background:rgba(74,222,128,.1);' +
+        'border:1px solid rgba(74,222,128,.22);border-radius:4px;padding:.14rem .45rem;">✓ คุณโหวตแล้ว</span>' +
+        '</div>'
       : '';
 
     card.innerHTML =
       rows +
-      '<div style="padding:.7rem .9rem;border-top:1px solid rgba(255,255,255,.08);' +
-      '     display:flex;align-items:center;justify-content:space-between;gap:.5rem;">' +
-      '  ' + votedBadge +
-      '  <a href="vote-park.html" style="' +
-      '    background:' + (_hasVoted ? 'rgba(255,255,255,.06)' : '#4ADE80') + ';' +
-      '    color:' + (_hasVoted ? 'rgba(255,255,255,.4)' : '#000') + ';' +
-      '    font-size:.75rem;font-weight:700;padding:.4rem .9rem;' +
-      '    border-radius:7px;text-decoration:none;display:inline-block;">' +
-      '    ' + (_hasVoted ? 'ดูผล' : 'ร่วมโหวต →') +
-      '  </a>' +
+      '<div style="padding:.65rem .9rem;border-top:1px solid rgba(255,255,255,.07);">' +
+      votedLine +
+      '<a href="/vote-park.html" style="' +
+      'display:flex;align-items:center;justify-content:center;gap:.4rem;width:100%;' +
+      'padding:.52rem;border-radius:8px;text-decoration:none;font-size:.76rem;font-weight:700;' +
+      (_hasVoted
+        ? 'background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.07);'
+        : 'background:#4ADE80;color:#001a08;border:1px solid transparent;') +
+      '">' +
+      (_hasVoted ? 'ดูผลทั้งหมด →' : '🌿 ร่วมโหวตได้เลย') +
+      '</a>' +
       '</div>';
   }
 
@@ -277,10 +294,10 @@
     sorted.forEach(function (p, i) {
       var count = _votes[p.key] || 0;
       var pct   = _total > 0 ? Math.round((count / _total) * 100) : 0;
-      /* box-shadow glow on bar uses color */
+      var isTop = i === 0;
       html +=
-        '<div class="pvwhs-row">' +
-        '  <span class="pvwhs-rank">' + (i + 1) + '</span>' +
+        '<div class="pvwhs-row' + (isTop ? ' pvwhs-row--top' : '') + '">' +
+        '  <span class="pvwhs-rank' + (isTop ? ' pvwhs-rank--top' : '') + '">' + (i + 1) + '</span>' +
         '  <span class="pvwhs-icon" style="color:' + p.color + ';">' + p.svg + '</span>' +
         '  <div class="pvwhs-info">' +
         '    <div class="pvwhs-name-row">' +
@@ -288,8 +305,9 @@
         '      <span class="pvwhs-pct" style="color:' + p.color + ';">' + pct + '%</span>' +
         '    </div>' +
         '    <div class="pvwhs-bar-bg">' +
-        '      <div class="pvwhs-bar-fill" style="background:' + p.color +
-               ';box-shadow:0 0 8px ' + p.color + '66" data-w="' + pct + '"></div>' +
+        '      <div class="pvwhs-bar-fill" style="' +
+               'background:linear-gradient(90deg,' + p.color + ',' + p.color + '88);' +
+               'box-shadow:0 0 10px ' + p.color + '55;" data-w="' + pct + '"></div>' +
         '    </div>' +
         '  </div>' +
         '  <span class="pvwhs-count">' + count + '</span>' +
@@ -301,11 +319,15 @@
     html +=
       '<div class="pvwhs-foot">' +
       '  <span>อัปเดต ' + timeStr + '</span>' +
-      '  <button class="pvwhs-foot-btn" onclick="pvwRefresh()" title="รีเฟรชผลโหวต">' +
-      '    <svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">' +
-      '      <path d="M13.5 8A5.5 5.5 0 1 1 10 3.13"/><path d="M10 1v3h3"/>' +
-      '    </svg> รีเฟรช' +
-      '  </button>' +
+      '  <div style="display:flex;align-items:center;gap:.7rem;">' +
+      '    <a href="/vote-park.html" style="color:rgba(255,255,255,.3);font-size:.58rem;text-decoration:none;transition:color .15s;" ' +
+      '       onmouseover="this.style.color=\'rgba(255,255,255,.6)\'" onmouseout="this.style.color=\'rgba(255,255,255,.3)\'">ดูผลทั้งหมด →</a>' +
+      '    <button class="pvwhs-foot-btn" onclick="pvwRefresh()" title="รีเฟรชผลโหวต">' +
+      '      <svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">' +
+      '        <path d="M13.5 8A5.5 5.5 0 1 1 10 3.13"/><path d="M10 1v3h3"/>' +
+      '      </svg> รีเฟรช' +
+      '    </button>' +
+      '  </div>' +
       '</div>';
 
     block.innerHTML = html;
