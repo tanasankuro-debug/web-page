@@ -8,7 +8,7 @@
    ========================================================================== */
 'use strict';
 
-var CACHE = 'hskk-v1';
+var CACHE = 'hskk-v2';
 var OFFLINE = '/html/offline.html';
 
 var PRECACHE = [
@@ -52,9 +52,12 @@ self.addEventListener('fetch', function (e) {
   /* Only handle GET */
   if (req.method !== 'GET') return;
 
-  /* External APIs (Supabase, CDN etc.) — let browser handle directly */
+  /* External APIs (Supabase, CDN, geocoding) — let browser handle directly */
   if (url.indexOf('supabase.co') !== -1 ||
       url.indexOf('cdn.jsdelivr.net') !== -1 ||
+      url.indexOf('unpkg.com') !== -1 ||
+      url.indexOf('nominatim.openstreetmap.org') !== -1 ||
+      url.indexOf('basemaps.cartocdn.com') !== -1 ||
       url.indexOf('fonts.googleapis.com') !== -1 ||
       url.indexOf('fonts.gstatic.com') !== -1) return;
 

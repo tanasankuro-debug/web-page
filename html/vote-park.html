@@ -433,6 +433,82 @@
 
     @keyframes pvw-spin { to { transform: rotate(360deg); } }
 
+    /* ── Pin Map Section ─────────────────────────────────────── */
+    .pin-section {
+      background: rgba(255,255,255,.025);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 16px;
+      padding: 1.1rem 1.1rem .9rem;
+      margin-bottom: 1.5rem;
+    }
+    .pin-optional {
+      font-size: .56rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      color: rgba(255,255,255,.3);
+      background: rgba(255,255,255,.07);
+      border-radius: 99px; padding: .1rem .48rem;
+      margin-left: .4rem; vertical-align: middle;
+    }
+    .pin-hint {
+      font-size: .75rem; color: rgba(255,255,255,.35); line-height: 1.65;
+      margin: .35rem 0 .8rem;
+    }
+    #pin-map {
+      height: 240px; border-radius: 12px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,.1);
+      margin-bottom: .65rem;
+    }
+    .pin-actions { display: flex; gap: .5rem; align-items: center; margin-bottom: .55rem; flex-wrap: wrap; }
+    .pin-btn-gps {
+      display: inline-flex; align-items: center; gap: .35rem;
+      background: rgba(74,222,128,.1); border: 1px solid rgba(74,222,128,.28);
+      border-radius: 9px; padding: .52rem .9rem;
+      color: #4ADE80; font-family: 'Noto Sans Thai', sans-serif;
+      font-size: .76rem; font-weight: 600; cursor: pointer;
+      transition: background .15s;
+    }
+    .pin-btn-gps:hover  { background: rgba(74,222,128,.18); }
+    .pin-btn-gps:disabled { opacity: .45; cursor: not-allowed; }
+    .pin-btn-clear {
+      display: none; align-items: center; gap: .3rem;
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 9px; padding: .52rem .8rem;
+      color: rgba(255,255,255,.4); font-family: 'Noto Sans Thai', sans-serif;
+      font-size: .72rem; cursor: pointer; transition: background .15s;
+    }
+    .pin-btn-clear:hover { background: rgba(255,255,255,.1); }
+    .pin-info {
+      display: none; align-items: flex-start; gap: .4rem;
+      font-size: .73rem; color: rgba(255,255,255,.55);
+      background: rgba(74,222,128,.06); border: 1px solid rgba(74,222,128,.14);
+      border-radius: 9px; padding: .5rem .75rem; line-height: 1.5;
+    }
+    .pin-info-dot { color: #4ADE80; flex-shrink: 0; margin-top: .1rem; }
+
+    /* Leaflet dark-theme overrides */
+    .leaflet-container { background: #071525 !important; }
+    .leaflet-bar a {
+      background: #0e1f35 !important; color: #f1f5f9 !important;
+      border-color: rgba(255,255,255,.12) !important;
+    }
+    .leaflet-bar a:hover { background: #162e4a !important; }
+    .leaflet-control-attribution {
+      background: rgba(0,0,0,.55) !important; color: rgba(255,255,255,.3) !important;
+      font-size: 9px !important;
+    }
+    .leaflet-control-attribution a { color: rgba(255,255,255,.4) !important; }
+    .pin-marker-pulse {
+      width: 14px; height: 14px; border-radius: 50%;
+      background: rgba(74,222,128,.35);
+      border: 2px solid #4ADE80;
+      box-shadow: 0 0 0 0 rgba(74,222,128,.5);
+      animation: pinPulse 1.8s ease-out infinite;
+    }
+    @keyframes pinPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(74,222,128,.5); }
+      70%  { box-shadow: 0 0 0 10px rgba(74,222,128,0); }
+      100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); }
+    }
+
     @media (max-width: 440px) {
       .park-grid { grid-template-columns: 1fr; gap: .75rem; }
       .pc-scene  { height: 180px; }
@@ -491,7 +567,12 @@
     <div class="step-line"></div>
     <div class="step-node">
       <div class="step-circle off" id="sc2">2</div>
-      <span class="step-label off" id="sl2">ระบุพื้นที่</span>
+      <span class="step-label off" id="sl2">ปักหมุด</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-node">
+      <div class="step-circle off" id="sc3">3</div>
+      <span class="step-label off" id="sl3">ระบุพื้นที่</span>
     </div>
   </div>
 
@@ -504,9 +585,9 @@
           <polyline points="20 6 9 17 4 12"/>
         </svg>
       </div>
-      <div class="voted-title">คุณโหวตแล้ว</div>
-      <div class="voted-sub">ขอบคุณสำหรับความคิดเห็น!<br>ดูผลโหวตรวมได้ที่หน้าแรก</div>
-      <a href="index.html" class="voted-link">← กลับหน้าแรก</a>
+      <div class="voted-title">คุณเคยโหวตแล้ว</div>
+      <div class="voted-sub">ขอบคุณที่ร่วมแสดงความคิดเห็น!<br>คุณสามารถโหวตเพิ่มได้อีกได้เลย</div>
+      <a href="index.html" class="voted-link">← ดูผลโหวตรวม</a>
     </div>
 
     <form id="vote-form" novalidate>
@@ -967,7 +1048,35 @@
 
       <div class="field-err" id="err-park">กรุณาเลือกประเภทพื้นที่สีเขียวก่อน</div>
 
-      <!-- ── STEP 2: district ────────────────────────── -->
+      <!-- ── STEP 2: pin on map (optional) ─────────── -->
+      <div class="pin-section">
+        <div class="sec-label">
+          ปักหมุดพื้นที่ที่อยากได้สวน
+          <span class="pin-optional">ไม่บังคับ</span>
+        </div>
+        <p class="pin-hint">กดบนแผนที่เพื่อระบุจุดที่คุณอยากให้สร้างสวน — ลากหมุดเพื่อปรับตำแหน่ง</p>
+        <div id="pin-map" role="application" aria-label="แผนที่ปักหมุดพื้นที่"></div>
+        <div class="pin-actions">
+          <button type="button" id="pin-gps-btn" class="pin-btn-gps">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
+            </svg>
+            ตำแหน่งปัจจุบัน
+          </button>
+          <button type="button" id="pin-clear-btn" class="pin-btn-clear">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path d="M12 4L4 12M4 4l8 8"/>
+            </svg>
+            ล้างหมุด
+          </button>
+        </div>
+        <div class="pin-info" id="pin-info">
+          <span class="pin-info-dot">📍</span>
+          <span id="pin-addr">กำลังระบุที่อยู่...</span>
+        </div>
+      </div>
+
+      <!-- ── STEP 3: district ────────────────────────── -->
       <div class="district-section">
         <div class="sec-label" style="margin-bottom:.7rem;">พื้นที่ที่คุณอยู่</div>
         <select class="dist-select" id="district-select" aria-label="เลือกอำเภอ">
@@ -1005,6 +1114,8 @@
     </form>
   </main>
 
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="../js/config.js"></script>
   <script>
@@ -1032,27 +1143,131 @@
     }
 
     var selectedPark = '';
+    var selectedLat = null, selectedLng = null;
+    var _pinMap = null, _pinMarker = null;
+
+    /* ── Leaflet map init ──────────────────────────────────── */
+    function initPinMap() {
+      if (_pinMap) return;
+      var mapEl = document.getElementById('pin-map');
+      if (!mapEl || typeof L === 'undefined') return;
+
+      _pinMap = L.map('pin-map', { zoomControl: true, attributionControl: true })
+        .setView([16.44, 102.82], 13);
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd', maxZoom: 19
+      }).addTo(_pinMap);
+
+      /* click to place / move pin */
+      _pinMap.on('click', function (ev) {
+        placePin(ev.latlng.lat, ev.latlng.lng);
+      });
+    }
+
+    var _pulseIcon = null;
+    function getPulseIcon() {
+      if (_pulseIcon) return _pulseIcon;
+      _pulseIcon = L.divIcon({
+        className: '',
+        html: '<div class="pin-marker-pulse"></div>',
+        iconSize: [14, 14], iconAnchor: [7, 7]
+      });
+      return _pulseIcon;
+    }
+
+    function placePin(lat, lng) {
+      selectedLat = lat; selectedLng = lng;
+      if (_pinMarker) {
+        _pinMarker.setLatLng([lat, lng]);
+      } else {
+        _pinMarker = L.marker([lat, lng], { icon: getPulseIcon(), draggable: true })
+          .addTo(_pinMap);
+        _pinMarker.on('dragend', function () {
+          var p = _pinMarker.getLatLng();
+          selectedLat = p.lat; selectedLng = p.lng;
+          reverseGeocode(p.lat, p.lng);
+        });
+      }
+      document.getElementById('pin-clear-btn').style.display = 'inline-flex';
+      showPinInfo('กำลังระบุที่อยู่...');
+      reverseGeocode(lat, lng);
+      /* activate step 2 */
+      document.getElementById('sc2').className = 'step-circle on';
+      document.getElementById('sl2').className = 'step-label on';
+    }
+
+    function showPinInfo(text) {
+      var info = document.getElementById('pin-info');
+      info.style.display = 'flex';
+      document.getElementById('pin-addr').textContent = text;
+    }
+
+    function reverseGeocode(lat, lng) {
+      var url = 'https://nominatim.openstreetmap.org/reverse?lat=' + lat +
+                '&lon=' + lng + '&format=json&accept-language=th';
+      fetch(url, { headers: { 'Accept-Language': 'th' } })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          var addr = data.display_name || (lat.toFixed(5) + ', ' + lng.toFixed(5));
+          showPinInfo(addr);
+        })
+        .catch(function () {
+          showPinInfo(lat.toFixed(5) + ', ' + lng.toFixed(5));
+        });
+    }
+
+    document.getElementById('pin-gps-btn').addEventListener('click', function () {
+      var btn = this;
+      if (!navigator.geolocation) {
+        showPinInfo('เบราว์เซอร์นี้ไม่รองรับ GPS');
+        return;
+      }
+      btn.disabled = true;
+      btn.textContent = 'กำลังระบุตำแหน่ง...';
+      navigator.geolocation.getCurrentPosition(function (pos) {
+        var lat = pos.coords.latitude, lng = pos.coords.longitude;
+        if (!_pinMap) initPinMap();
+        _pinMap.setView([lat, lng], 15);
+        placePin(lat, lng);
+        btn.disabled = false;
+        btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg> ตำแหน่งปัจจุบัน';
+      }, function () {
+        showPinInfo('ไม่สามารถระบุตำแหน่งได้');
+        btn.disabled = false;
+        btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg> ตำแหน่งปัจจุบัน';
+      });
+    });
+
+    document.getElementById('pin-clear-btn').addEventListener('click', function () {
+      if (_pinMarker) { _pinMap.removeLayer(_pinMarker); _pinMarker = null; }
+      selectedLat = null; selectedLng = null;
+      this.style.display = 'none';
+      document.getElementById('pin-info').style.display = 'none';
+    });
+
+    /* init map when section becomes visible on first interaction */
+    (function () {
+      var obs = window.IntersectionObserver && new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) { initPinMap(); obs.disconnect(); }
+      }, { threshold: 0.1 });
+      var el = document.querySelector('.pin-section');
+      if (obs && el) obs.observe(el); else initPinMap();
+    })();
 
     function checkAlreadyVoted() {
       if (localStorage.getItem('pvw_voted') === '1') {
+        /* Show banner only — still allow re-voting */
         document.getElementById('voted-box').classList.add('show');
-        document.querySelectorAll('.park-card').forEach(function(c) {
-          c.style.pointerEvents = 'none';
-          c.setAttribute('tabindex', '-1');
-        });
-        var ds = document.getElementById('district-select');
-        if (ds) ds.disabled = true;
-        var btn = document.getElementById('submit-btn');
-        btn.disabled = true;
-        btn.innerHTML = '✓ คุณได้โหวตในแบบสำรวจนี้แล้ว';
       }
     }
 
-    /* step highlight when district focused */
+    /* step 3 highlight when district focused */
     var distSel = document.getElementById('district-select');
     distSel.addEventListener('focus', function () {
-      document.getElementById('sc2').className = 'step-circle on';
-      document.getElementById('sl2').className = 'step-label on';
+      document.getElementById('sc3').className = 'step-circle on';
+      document.getElementById('sl3').className = 'step-label on';
     });
 
     document.querySelectorAll('.park-card').forEach(function (card) {
@@ -1065,6 +1280,9 @@
         card.setAttribute('aria-checked', 'true');
         selectedPark = card.dataset.key;
         document.getElementById('err-park').classList.remove('show');
+        /* guide user to step 2 */
+        document.getElementById('sc2').className = 'step-circle on';
+        document.getElementById('sl2').className = 'step-label on';
       }
       card.addEventListener('click', selectCard);
       card.addEventListener('keydown', function (e) {
@@ -1100,16 +1318,11 @@
       btn.disabled = true;
       btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="animation:pvw-spin .8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> กำลังส่ง...';
 
-      client.from('park_votes').insert({
-        park_type: selectedPark, district: district, fingerprint: getFingerprint()
-      }).then(function (res) {
+      var row = { park_type: selectedPark, district: district, fingerprint: getFingerprint() };
+      if (selectedLat !== null) { row.lat = selectedLat; row.lng = selectedLng; }
+
+      client.from('park_votes').insert(row).then(function (res) {
         if (res.error) {
-          if (res.error.code === '23505') {
-            try { localStorage.setItem('pvw_voted', '1'); } catch (e) {}
-            document.getElementById('voted-box').classList.add('show');
-            document.getElementById('vote-form').style.display = 'none';
-            return;
-          }
           errGlobal.textContent = 'เกิดข้อผิดพลาด: ' + (res.error.message || 'ไม่ทราบสาเหตุ');
           errGlobal.classList.add('show');
           btn.disabled = false;
