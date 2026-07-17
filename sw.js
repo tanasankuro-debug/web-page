@@ -70,7 +70,9 @@ self.addEventListener('fetch', function (e) {
         caches.open(CACHE).then(function (c) { c.put(req, clone); });
         return res;
       }).catch(function () {
-        return caches.match(req);
+        return caches.match(req).then(function (cached) {
+          return cached || new Response('Offline', { status: 503, statusText: 'Service Unavailable' });
+        });
       })
     );
     return;
