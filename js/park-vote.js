@@ -233,7 +233,7 @@
       rows +
       '<div style="padding:.65rem .9rem;border-top:1px solid rgba(255,255,255,.07);">' +
       votedLine +
-      '<a href="/vote-park.html" style="' +
+      '<a href="vote-park.html" style="' +
       'display:flex;align-items:center;justify-content:center;gap:.4rem;width:100%;' +
       'padding:.52rem;border-radius:8px;text-decoration:none;font-size:.76rem;font-weight:700;' +
       (_hasVoted
@@ -320,7 +320,7 @@
       '<div class="pvwhs-foot">' +
       '  <span>อัปเดต ' + timeStr + '</span>' +
       '  <div style="display:flex;align-items:center;gap:.7rem;">' +
-      '    <a href="/vote-park.html" style="color:rgba(255,255,255,.3);font-size:.58rem;text-decoration:none;transition:color .15s;" ' +
+      '    <a href="vote-park.html" style="color:rgba(255,255,255,.3);font-size:.58rem;text-decoration:none;transition:color .15s;" ' +
       '       onmouseover="this.style.color=\'rgba(255,255,255,.6)\'" onmouseout="this.style.color=\'rgba(255,255,255,.3)\'">ดูผลทั้งหมด →</a>' +
       '    <button class="pvwhs-foot-btn" onclick="pvwRefresh()" title="รีเฟรชผลโหวต">' +
       '      <svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">' +
