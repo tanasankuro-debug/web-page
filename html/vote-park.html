@@ -517,6 +517,51 @@
       .hero-title { font-size: 1.9rem; }
       .pc-scene   { height: 160px; }
     }
+
+    /* ── Desktop layout ≥1024px ──────────────────────── */
+    @media (min-width: 1024px) {
+      .hero { padding: 3.5rem 2rem 2.5rem; }
+      .hero-sub { max-width: 520px; font-size: .95rem; }
+
+      .steps { max-width: 1180px; padding: 0 2rem; }
+
+      .wrap { max-width: 1180px; padding: 0 2rem 6rem; }
+
+      #vote-form {
+        display: grid;
+        grid-template-columns: 1fr 390px;
+        gap: 2rem;
+        align-items: start;
+      }
+
+      .form-left { min-width: 0; }
+
+      .form-right {
+        position: sticky;
+        top: 4.5rem;
+        background: rgba(255,255,255,.022);
+        border: 1px solid rgba(255,255,255,.08);
+        border-radius: 20px;
+        padding: 1.25rem 1.25rem 1.5rem;
+      }
+
+      .park-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: .875rem;
+      }
+
+      .park-card { border-radius: 16px; }
+
+      #pin-map { height: 320px; }
+
+      .form-right .district-section { margin-bottom: 1rem; }
+    }
+
+    @media (min-width: 1280px) {
+      .wrap { max-width: 1320px; }
+      .steps { max-width: 1320px; }
+      #vote-form { grid-template-columns: 1fr 420px; }
+    }
   </style>
 </head>
 <body>
@@ -591,6 +636,8 @@
     </div>
 
     <form id="vote-form" novalidate>
+
+      <div class="form-left">
 
       <!-- ── STEP 1: park type ──────────────────────── -->
       <div class="sec-label">เลือกประเภทพื้นที่สีเขียวที่คุณอยากเห็น</div>
@@ -1048,6 +1095,10 @@
 
       <div class="field-err" id="err-park">กรุณาเลือกประเภทพื้นที่สีเขียวก่อน</div>
 
+      </div><!-- /form-left -->
+
+      <div class="form-right">
+
       <!-- ── STEP 2: pin on map (optional) ─────────── -->
       <div class="pin-section">
         <div class="sec-label">
@@ -1110,6 +1161,8 @@
         </svg>
         ส่งเสียงโหวต
       </button>
+
+      </div><!-- /form-right -->
 
     </form>
   </main>
