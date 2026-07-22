@@ -1097,7 +1097,7 @@
 
       </div><!-- /form-left -->
 
-      <div class="form-right">
+      <div class="form-right" id="form-right">
 
       <!-- ── STEP 2: pin on map (optional) ─────────── -->
       <div class="pin-section">
@@ -1336,6 +1336,12 @@
         /* guide user to step 2 */
         document.getElementById('sc2').className = 'step-circle on';
         document.getElementById('sl2').className = 'step-label on';
+        /* on mobile: scroll to the action panel (map + district + submit) */
+        if (window.innerWidth < 1024) {
+          setTimeout(function () {
+            document.getElementById('form-right').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 120);
+        }
       }
       card.addEventListener('click', selectCard);
       card.addEventListener('keydown', function (e) {
