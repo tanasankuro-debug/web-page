@@ -667,8 +667,8 @@
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(to top, rgba(1,8,20,0.94) 0%, rgba(1,8,20,0.72) 38%, rgba(1,8,20,0.22) 68%, transparent 85%),
-        linear-gradient(to bottom, rgba(1,8,20,0.55) 0%, transparent 20%);
+        linear-gradient(to top, rgba(1,8,20,0.96) 0%, rgba(1,8,20,0.65) 35%, rgba(1,8,20,0.12) 62%, transparent 80%),
+        linear-gradient(to bottom, rgba(1,8,20,0.45) 0%, transparent 18%);
       z-index: -1;
       pointer-events: none;
     }
@@ -1566,13 +1566,13 @@
         </p>
 
         <!-- Video wrapper -->
-        <div id="ghv-wrap" style="position:relative;border-radius:16px;overflow:hidden;background:#000;box-shadow:0 8px 40px rgba(0,0,0,.6);">
+        <div id="ghv-wrap" style="position:relative;border-radius:16px;overflow:hidden;background:#000;box-shadow:0 8px 40px rgba(0,0,0,.6);aspect-ratio:16/9;">
 
           <video
             id="ghv"
             src="../assets/video/GeoHeat__%E0%B9%80%E0%B8%81%E0%B8%B2%E0%B8%B0%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%A3%E0%B9%89%E0%B8%AD%E0%B8%99%E0%B9%80%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%87.mp4"
             autoplay muted playsinline loop
-            style="width:100%;display:block;max-height:500px;object-fit:contain;"
+            style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"
             aria-label="วิดีโอ GeoHeat เกาะความร้อนเมืองขอนแก่น">
           </video>
 
