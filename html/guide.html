@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="th" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>คู่มือเพิ่มพื้นที่สีเขียว — Heat Safe Khon Kaen</title>
+  <meta name="description" content="คู่มือแนวทางเพิ่มพื้นที่สีเขียวในขอนแก่น ลดเกาะความร้อนเมือง ประเภทสวน วิธีเสนอโครงการ และวิธีมีส่วนร่วม" />
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/themes.css" />
+  <script src="../js/utility-bar.js"></script>
+  <script src="../js/alert-bar.js"></script>
+  <script src="../js/pwa.js"></script>
+  <style>
+    html, body { background: var(--bg); }
+
+    /* ── Hero ─────────────────────────────────── */
+    .gh-hero {
+      position: relative;
+      padding: calc(var(--header-h) + 3.5rem) 1.5rem 4rem;
+      text-align: center;
+      overflow: hidden;
+      background: #04100a;
+    }
+    .gh-hero::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 55% at 50% 100%, rgba(74,222,128,.18) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 35% at 20% 60%, rgba(34,211,238,.08) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 35% at 80% 60%, rgba(163,230,53,.08) 0%, transparent 55%);
+    }
+    .gh-hero-inner {
+      position: relative; z-index: 2;
+      max-width: 620px; margin: 0 auto;
+    }
+    .gh-eyebrow {
+      font-family: var(--font-display);
+      font-size: .7rem; font-weight: 700;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: #4ADE80;
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(74,222,128,.1); border: 1px solid rgba(74,222,128,.25);
+      border-radius: 99px; padding: .25rem .9rem;
+      margin-bottom: 1rem;
+    }
+    .gh-eyebrow-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #4ADE80; box-shadow: 0 0 8px #4ADE80;
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+    @keyframes dotPulse { 0%,100%{opacity:1;} 50%{opacity:.2;} }
+    .gh-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 8vw, 4.2rem);
+      font-weight: 800; line-height: 1;
+      color: #fff; margin-bottom: 1rem;
+      text-wrap: balance;
+    }
+    .gh-title em { color: #4ADE80; font-style: normal; }
+    .gh-lead {
+      font-size: .95rem; line-height: 1.85;
+      color: rgba(255,255,255,.5);
+      max-width: 500px; margin: 0 auto 1.75rem;
+    }
+    .gh-hero-cta {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: #4ADE80; color: #000;
+      font-family: var(--font-body,'Noto Sans Thai',sans-serif);
+      font-size: .88rem; font-weight: 700;
+      padding: .7rem 1.6rem; border-radius: 12px;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(74,222,128,.3);
+      transition: background .15s, transform .12s, box-shadow .2s;
+    }
+    .gh-hero-cta:hover {
+      background: #22c55e;
+      box-shadow: 0 6px 32px rgba(74,222,128,.45);
+      transform: translateY(-2px);
+    }
+
+    /* ── Layout: sidebar + content ──────────────── */
+    .gh-body {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 3rem 1.25rem 6rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    @media (min-width: 900px) {
+      .gh-body { grid-template-columns: 220px 1fr; align-items: start; }
+    }
+    @media (min-width: 1100px) {
+      .gh-body { grid-template-columns: 240px 1fr; }
+    }
+
+    /* ── TOC Sidebar ─────────────────────────── */
+    .gh-toc {
+      position: sticky; top: 5rem;
+      background: rgba(255,255,255,.025);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 16px;
+      padding: 1.25rem;
+    }
+    .gh-toc-title {
+      font-family: var(--font-display);
+      font-size: .6rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+      color: rgba(255,255,255,.28); margin-bottom: 1rem;
+    }
+    .gh-toc-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .15rem; }
+    .gh-toc-list a {
+      display: flex; align-items: center; gap: .6rem;
+      font-size: .82rem; font-weight: 500;
+      color: rgba(255,255,255,.45);
+      text-decoration: none;
+      padding: .45rem .6rem; border-radius: 8px;
+      transition: color .15s, background .15s;
+      line-height: 1.3;
+    }
+    .gh-toc-list a:hover, .gh-toc-list a.active {
+      color: #4ADE80; background: rgba(74,222,128,.07);
+    }
+    .gh-toc-num {
+      font-family: var(--font-display);
+      font-size: .68rem; font-weight: 800;
+      color: rgba(74,222,128,.5); flex-shrink: 0;
+      min-width: 1.2rem;
+    }
+    .gh-toc-list a.active .gh-toc-num { color: #4ADE80; }
+
+    /* ── Content area ────────────────────────── */
+    .gh-content { min-width: 0; }
+
+    /* Section */
+    .gh-section {
+      margin-bottom: 3rem;
+      scroll-margin-top: 5.5rem;
+    }
+    .gh-section-header {
+      display: flex; align-items: center; gap: .9rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: .9rem;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .gh-section-icon {
+      width: 42px; height: 42px; flex-shrink: 0;
+      border-radius: 12px;
+      background: rgba(74,222,128,.1); border: 1px solid rgba(74,222,128,.22);
+      display: grid; place-items: center;
+    }
+    .gh-section-num {
+      font-family: var(--font-display);
+      font-size: .62rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+      color: rgba(74,222,128,.6); margin-bottom: .2rem;
+    }
+    .gh-section-title {
+      font-family: var(--font-display);
+      font-size: 1.45rem; font-weight: 800; color: #fff; line-height: 1.1;
+    }
+
+    /* Body text */
+    .gh-text {
+      font-size: .92rem; line-height: 1.9; color: rgba(255,255,255,.6);
+      margin-bottom: 1rem;
+    }
+    .gh-text strong { color: rgba(255,255,255,.88); font-weight: 600; }
+
+    /* Highlight box */
+    .gh-highlight {
+      background: rgba(74,222,128,.06);
+      border: 1px solid rgba(74,222,128,.18);
+      border-left: 3px solid #4ADE80;
+      border-radius: 0 12px 12px 0;
+      padding: 1rem 1.25rem;
+      margin: 1.25rem 0;
+      font-size: .88rem; line-height: 1.75; color: rgba(255,255,255,.65);
+    }
+    .gh-highlight strong { color: #4ADE80; }
+
+    /* Info card grid */
+    .gh-card-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: .875rem;
+      margin: 1.25rem 0;
+    }
+    @media (min-width: 600px) {
+      .gh-card-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .gh-card {
+      background: rgba(255,255,255,.028);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px;
+      padding: 1.1rem 1.1rem .95rem;
+      transition: border-color .2s, background .2s;
+    }
+    .gh-card:hover {
+      border-color: rgba(74,222,128,.25);
+      background: rgba(74,222,128,.04);
+    }
+    .gh-card-icon { font-size: 1.4rem; margin-bottom: .55rem; }
+    .gh-card-title {
+      font-weight: 700; font-size: .88rem; color: #fff; margin-bottom: .35rem;
+    }
+    .gh-card-sub { font-size: .78rem; color: rgba(255,255,255,.42); line-height: 1.6; }
+    .gh-card-tag {
+      display: inline-block; margin-top: .6rem;
+      font-size: .62rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      background: rgba(74,222,128,.1); color: #4ADE80;
+      border-radius: 99px; padding: .15rem .65rem;
+    }
+
+    /* Steps */
+    .gh-steps { display: flex; flex-direction: column; gap: .75rem; margin: 1.25rem 0; }
+    .gh-step {
+      display: flex; gap: 1rem; align-items: flex-start;
+      background: rgba(255,255,255,.025);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 14px;
+      padding: 1rem 1.1rem;
+      transition: border-color .2s;
+    }
+    .gh-step:hover { border-color: rgba(74,222,128,.22); }
+    .gh-step-num {
+      font-family: var(--font-display);
+      font-size: 1.1rem; font-weight: 800; color: #4ADE80;
+      min-width: 2rem; line-height: 1;
+      margin-top: .1rem;
+    }
+    .gh-step-title { font-weight: 700; font-size: .9rem; color: #fff; margin-bottom: .3rem; }
+    .gh-step-desc { font-size: .8rem; color: rgba(255,255,255,.45); line-height: 1.65; }
+
+    /* Stat row */
+    .gh-stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .75rem;
+      margin: 1.25rem 0;
+    }
+    .gh-stat {
+      background: rgba(255,255,255,.025);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 12px;
+      padding: 1rem .9rem;
+      text-align: center;
+    }
+    .gh-stat-val {
+      font-family: var(--font-display);
+      font-size: 1.75rem; font-weight: 800; color: #4ADE80;
+      line-height: 1; margin-bottom: .25rem;
+    }
+    .gh-stat-label { font-size: .72rem; color: rgba(255,255,255,.38); line-height: 1.45; }
+
+    /* Type cards (park types) */
+    .gh-type-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: .75rem;
+      margin: 1.25rem 0;
+    }
+    @media (min-width: 560px) {
+      .gh-type-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .gh-type {
+      display: flex; gap: .85rem; align-items: flex-start;
+      background: rgba(255,255,255,.025);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 14px;
+      padding: 1rem 1.1rem;
+    }
+    .gh-type-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      flex-shrink: 0; margin-top: .35rem;
+    }
+    .gh-type-name { font-weight: 700; font-size: .88rem; color: #fff; margin-bottom: .25rem; }
+    .gh-type-desc { font-size: .78rem; color: rgba(255,255,255,.42); line-height: 1.6; }
+    .gh-type-impact {
+      margin-top: .5rem;
+      font-size: .72rem; font-weight: 700;
+      color: rgba(255,255,255,.55);
+    }
+    .gh-type-impact span { font-family: var(--font-display); font-size: .9rem; color: #4ADE80; }
+
+    /* CTA banner */
+    .gh-cta-banner {
+      background: linear-gradient(135deg, rgba(74,222,128,.1) 0%, rgba(34,211,238,.06) 100%);
+      border: 1px solid rgba(74,222,128,.22);
+      border-radius: 16px;
+      padding: 1.75rem 1.5rem;
+      display: flex; flex-direction: column; gap: 1rem;
+      align-items: flex-start;
+      margin: 1.25rem 0;
+    }
+    @media (min-width: 560px) {
+      .gh-cta-banner { flex-direction: row; align-items: center; }
+    }
+    .gh-cta-banner-text h3 {
+      font-family: var(--font-display);
+      font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: .3rem;
+    }
+    .gh-cta-banner-text p { font-size: .82rem; color: rgba(255,255,255,.5); line-height: 1.6; margin: 0; }
+    .gh-cta-banner-btn {
+      flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: .45rem;
+      background: #4ADE80; color: #000;
+      font-family: var(--font-body,'Noto Sans Thai',sans-serif);
+      font-size: .84rem; font-weight: 700;
+      padding: .65rem 1.4rem; border-radius: 10px;
+      text-decoration: none; white-space: nowrap;
+      box-shadow: 0 4px 18px rgba(74,222,128,.28);
+      transition: background .15s, transform .12s;
+    }
+    .gh-cta-banner-btn:hover { background: #22c55e; transform: translateY(-1px); }
+
+    /* Tips list */
+    .gh-tips { display: flex; flex-direction: column; gap: .6rem; margin: 1rem 0; }
+    .gh-tip {
+      display: flex; gap: .75rem; align-items: flex-start;
+      font-size: .86rem; color: rgba(255,255,255,.55); line-height: 1.65;
+    }
+    .gh-tip-icon { color: #4ADE80; flex-shrink: 0; margin-top: .1rem; font-size: .9rem; }
+
+    /* Table */
+    .gh-table-wrap { overflow-x: auto; margin: 1.25rem 0; border-radius: 12px; }
+    .gh-table {
+      width: 100%; border-collapse: collapse;
+      font-size: .82rem;
+    }
+    .gh-table th {
+      background: rgba(74,222,128,.08);
+      color: rgba(255,255,255,.65); font-weight: 700;
+      padding: .75rem 1rem; text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      white-space: nowrap;
+    }
+    .gh-table td {
+      padding: .7rem 1rem;
+      color: rgba(255,255,255,.5);
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      vertical-align: top; line-height: 1.55;
+    }
+    .gh-table tr:last-child td { border-bottom: none; }
+    .gh-table tr:hover td { background: rgba(255,255,255,.02); }
+    .gh-table-highlight { color: #4ADE80 !important; font-weight: 700; }
+
+    /* Mobile TOC toggle */
+    .gh-toc-mobile {
+      background: rgba(255,255,255,.025);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px;
+      padding: .85rem 1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: .85rem; font-weight: 600; color: rgba(255,255,255,.6);
+      margin-bottom: .5rem;
+    }
+    @media (min-width: 900px) { .gh-toc-mobile { display: none; } }
+    .gh-toc { display: none; }
+    @media (min-width: 900px) { .gh-toc { display: block; } }
+    .gh-toc.open { display: block; }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <header id="site-header" role="banner">
+    <div class="header-inner container">
+      <a href="index.html" class="site-logo" aria-label="Heat Safe Khon Kaen — กลับหน้าแรก">
+        <span class="logo-heat">Heat Safe</span>
+        <span class="logo-city">Khon Kaen</span>
+      </a>
+      <nav id="main-nav" aria-label="เมนูหลัก">
+        <ul class="nav-links" role="list">
+          <li><a href="index.html" class="nav-link">หน้าแรก</a></li>
+          <li><a href="heat.html" class="nav-link"><span class="nav-icon nav-icon--heat"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="17" r="7"/><path d="M24 7V4M24 27V30M37 17H34M11 17H14M31 10L33 8M17 10L15 8M31 24L33 26M17 24L15 26"/><path d="M8 37c3-4 5-4 8 0s5 4 8 0 5-4 8 0 5 4 8 0"/><path d="M8 44c3-4 5-4 8 0s5 4 8 0 5-4 8 0 5 4 8 0"/></svg></span> ความร้อน</a></li>
+          <li><a href="dust.html" class="nav-link"><span class="nav-icon nav-icon--pm25"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20h18a5.5 5.5 0 1 0-5-7.5"/><path d="M5 29h24a6 6 0 0 0 0-12h-2"/><path d="M5 37h20"/><path d="M5 44h13"/><circle cx="35" cy="37" r="2" fill="currentColor" stroke="none"/><circle cx="30" cy="44" r="2" fill="currentColor" stroke="none"/><circle cx="42" cy="43" r="2" fill="currentColor" stroke="none"/><circle cx="43" cy="33" r="2" fill="currentColor" stroke="none"/></svg></span> ฝุ่น PM2.5</a></li>
+          <li><a href="rain.html" class="nav-link"><span class="nav-icon nav-icon--storm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 31A13 13 0 1 1 31 18.5h3a8 8 0 0 1 5 14"/><path d="M11 39l-2 7"/><path d="M22 38l-2 8"/><path d="M38 27l-5 8h6l-5 8"/></svg></span> ฝน/พายุ</a></li>
+          <li><a href="flood.html" class="nav-link"><span class="nav-icon nav-icon--flood"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 24l16-12 16 12"/><path d="M14 23v9"/><path d="M34 23v9"/><path d="M20 32h8"/><path d="M5 35c3-4 5.5-4 8 0s5 4 8 0 5.5-4 8 0 5 4 8 0"/><path d="M5 43c3-4 5.5-4 8 0s5 4 8 0 5.5-4 8 0 5 4 8 0"/></svg></span> น้ำท่วม</a></li>
+          <li><a href="team.html" class="nav-link"><span class="nav-icon nav-icon--team"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="14" r="7"/><path d="M6 42c0-9.9 8.1-18 18-18s18 8.1 18 18"/><circle cx="9" cy="18" r="5" opacity="0.6"/><path d="M1 40c0-6.5 3.6-11 8-11" opacity="0.6"/><circle cx="39" cy="18" r="5" opacity="0.6"/><path d="M47 40c0-6.5-3.6-11-8-11" opacity="0.6"/></svg></span> คณะผู้จัดทำ</a></li>
+        </ul>
+        <a href="vote-park.html" class="btn btn-primary btn-sm nav-cta" aria-label="โหวตสวนสีเขียว">
+          <svg viewBox="0 0 16 16" fill="none" width="13" height="13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-1px;margin-right:3px"><polyline points="5 8 7.5 10.5 11 6"/><circle cx="8" cy="8" r="6.5"/></svg>
+          ร่วมโหวต
+        </a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="เปิด/ปิดเมนูนำทาง" aria-expanded="false" aria-controls="main-nav">
+        <span class="ham-line"></span><span class="ham-line"></span><span class="ham-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ── HERO ─────────────────────────────────────────── -->
+    <section class="gh-hero" aria-labelledby="guide-title">
+      <div class="gh-hero-inner">
+        <span class="gh-eyebrow">
+          <span class="gh-eyebrow-dot" aria-hidden="true"></span>
+          คู่มือประชาชน · Green Space Guide
+        </span>
+        <h1 class="gh-title" id="guide-title">คู่มือ<em>เพิ่มพื้นที่<br>สีเขียว</em></h1>
+        <p class="gh-lead">แนวทางสำหรับประชาชนและหน่วยงานในการเพิ่มพื้นที่สีเขียว ลดเกาะความร้อนเมือง และสร้างขอนแก่นให้น่าอยู่มากขึ้น</p>
+        <a href="vote-park.html" class="gh-hero-cta">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          ร่วมโหวตสวนสีเขียวตอนนี้
+        </a>
+      </div>
+    </section>
+
+    <!-- ── BODY ──────────────────────────────────────────── -->
+    <div class="gh-body">
+
+      <!-- Sidebar TOC (desktop) -->
+      <aside aria-label="สารบัญ">
+        <!-- Mobile toggle -->
+        <button class="gh-toc-mobile" id="toc-toggle" aria-expanded="false" aria-controls="gh-toc">
+          <span>สารบัญ</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <nav class="gh-toc" id="gh-toc" aria-label="สารบัญคู่มือ">
+          <div class="gh-toc-title">สารบัญ</div>
+          <ul class="gh-toc-list" role="list">
+            <li><a href="#why" id="toc-why"><span class="gh-toc-num">01</span>ทำไมต้องเพิ่มพื้นที่สีเขียว</a></li>
+            <li><a href="#types" id="toc-types"><span class="gh-toc-num">02</span>ประเภทพื้นที่สีเขียว</a></li>
+            <li><a href="#benefits" id="toc-benefits"><span class="gh-toc-num">03</span>ประโยชน์และผลลัพธ์</a></li>
+            <li><a href="#how-to" id="toc-how"><span class="gh-toc-num">04</span>วิธีเสนอโครงการ</a></li>
+            <li><a href="#participate" id="toc-part"><span class="gh-toc-num">05</span>วิธีมีส่วนร่วม</a></li>
+            <li><a href="#location" id="toc-loc"><span class="gh-toc-num">06</span>เลือกพื้นที่อย่างไร</a></li>
+            <li><a href="#faq" id="toc-faq"><span class="gh-toc-num">07</span>คำถามที่พบบ่อย</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Main content -->
+      <div class="gh-content">
+
+        <!-- ── 01 ทำไมต้องเพิ่มพื้นที่สีเขียว ────────── -->
+        <section class="gh-section" id="why" aria-labelledby="why-title">
+          <div class="gh-section-header">
+            <div class="gh-section-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <div>
+              <div class="gh-section-num">01 — ทำไม</div>
+              <h2 class="gh-section-title" id="why-title">ทำไมต้องเพิ่มพื้นที่สีเขียว?</h2>
+            </div>
+          </div>
+
+          <p class="gh-text">ขอนแก่นเป็นเมืองที่กำลังขยายตัวอย่างรวดเร็ว พื้นที่สีเขียวที่เคยมีถูกแทนที่ด้วยคอนกรีตและยางมะตอย ส่งผลให้เกิด <strong>ปรากฏการณ์เกาะความร้อนเมือง (Urban Heat Island)</strong> ซึ่งทำให้อุณหภูมิในเมืองสูงกว่าพื้นที่โดยรอบถึง 4–8°C</p>
+
+          <div class="gh-stat-row" aria-label="สถิติสำคัญ">
+            <div class="gh-stat">
+              <div class="gh-stat-val">+6°C</div>
+              <div class="gh-stat-label">อุณหภูมิพื้นผิวสูงกว่าพื้นที่โดยรอบ</div>
+            </div>
+            <div class="gh-stat">
+              <div class="gh-stat-val">−4°C</div>
+              <div class="gh-stat-label">ลดได้ด้วยสวนขนาดเล็กในชุมชน</div>
+            </div>
+            <div class="gh-stat">
+              <div class="gh-stat-val">25%</div>
+              <div class="gh-stat-label">ประหยัดพลังงานแอร์เมื่อมีหลังคาเขียว</div>
+            </div>
+          </div>
+
+          <div class="gh-highlight">
+            <strong>ข้อมูลจากงานวิจัย GeoHeat:</strong> การวิเคราะห์ภาพถ่ายดาวเทียม Landsat พบว่าพื้นที่สีเขียว 1 ตารางกิโลเมตรสามารถลดอุณหภูมิพื้นผิวเฉลี่ยได้ 3–5°C โดยมีความสัมพันธ์ผกผันระหว่าง NDVI กับ LST ที่ r = −0.91
+          </div>
+
+          <p class="gh-text">นอกจากการลดความร้อน พื้นที่สีเขียวยังช่วย <strong>กรองฝุ่น PM2.5</strong> ลดมลพิษทางเสียง รองรับน้ำฝน ลดน้ำท่วม และสร้างพื้นที่พักผ่อนสำหรับคนทุกวัยในชุมชน</p>
+        </section>
+
+        <!-- ── 02 ประเภทพื้นที่สีเขียว ──────────────── -->
+        <section class="gh-section" id="types" aria-labelledby="types-title">
+          <div class="gh-section-header">
+            <div class="gh-section-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round"><path d="M12 22V12M12 12C12 7 7 4 3 6M12 12C12 7 17 4 21 6"/></svg>
+            </div>
+            <div>
+              <div class="gh-section-num">02 — ประเภท</div>
+              <h2 class="gh-section-title" id="types-title">ประเภทพื้นที่สีเขียว</h2>
+            </div>
+          </div>
+
+          <p class="gh-text">พื้นที่สีเขียวในเมืองมีหลายรูปแบบ แต่ละแบบเหมาะกับบริบทพื้นที่ต่างกัน เลือกให้ตรงกับความต้องการของชุมชน:</p>
+
+          <div class="gh-type-grid" role="list">
+            <div class="gh-type" role="listitem">
+              <div class="gh-type-dot" style="background:#4ADE80;" aria-hidden="true"></div>
+              <div>
+                <div class="gh-type-name">🌳 Pocket Park — สวนชุมชนขนาดเล็ก</div>
+                <div class="gh-type-desc">สวนพักผ่อนในย่านที่อยู่อาศัย ขนาด 200–2,000 ตร.ม. มีต้นไม้ ม้านั่ง และพื้นที่ออกกำลังกาย เหมาะกับที่ดินว่างเปล่าหรือพื้นที่รกร้าง</div>
+                <div class="gh-type-impact">ผล: ลดอุณหภูมิ <span>−4°C</span> ในรัศมี 200 ม.</div>
+              </div>
+            </div>
+            <div class="gh-type" role="listitem">
+              <div class="gh-type-dot" style="background:#22D3EE;" aria-hidden="true"></div>
+              <div>
+                <div class="gh-type-name">🌿 Green Walkway — ทางเดินสีเขียว</div>
+                <div class="gh-type-desc">เส้นทางเดินและปั่นจักรยานที่ร่มรื่น เชื่อมย่านต่างๆ เข้าด้วยกัน ลดการใช้รถยนต์และสร้างระบบโครงข่ายสีเขียวในเมือง</div>
+                <div class="gh-type-impact">ผล: ลดฝุ่น PM2.5 <span>−18%</span> ตามแนวทาง</div>
+              </div>
+            </div>
+            <div class="gh-type" role="listitem">
+              <div class="gh-type-dot" style="background:#A3E635;" aria-hidden="true"></div>
+              <div>
+                <div class="gh-type-name">🏙 Green Roof — หลังคาสีเขียว</div>
+                <div class="gh-type-desc">ปลูกต้นไม้บนดาดฟ้าอาคาร ไม่ต้องใช้พื้นที่ดิน เหมาะกับอาคารพาณิชย์ โรงเรียน และโรงพยาบาล ช่วยกักน้ำฝนและลดความร้อนในอาคาร</div>
+                <div class="gh-type-impact">ผล: ประหยัดพลังงาน <span>−25%</span> ต่ออาคาร</div>
+              </div>
+            </div>
+            <div class="gh-type" role="listitem">
+              <div class="gh-type-dot" style="background:#FB923C;" aria-hidden="true"></div>
+              <div>
+                <div class="gh-type-name">💧 Sponge Plaza — ลานซับน้ำ</div>
+                <div class="gh-type-desc">พื้นที่สาธารณะที่ใช้วัสดุซึมน้ำ รองรับน้ำฝนหนักได้โดยไม่ท่วม เหมาะกับลานหน้าชุมชน ตลาด หรือพื้นที่จัดกิจกรรม</div>
+                <div class="gh-type-impact">ผล: ลดน้ำท่วม <span>−60%</span> ช่วงฝนหนัก</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="gh-table-wrap">
+            <table class="gh-table" aria-label="เปรียบเทียบประเภทพื้นที่สีเขียว">
+              <thead>
+                <tr>
+                  <th>ประเภท</th>
+                  <th>พื้นที่ขั้นต่ำ</th>
+                  <th>งบประมาณโดยประมาณ</th>
+                  <th>เหมาะกับ</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Pocket Park</td>
+                  <td>200 ตร.ม.</td>
+                  <td class="gh-table-highlight">200,000–1,500,000 บาท</td>
+                  <td>ที่ดินว่าง, ริมถนน</td>
+                </tr>
+                <tr>
+                  <td>Green Walkway</td>
+                  <td>ระยะทาง 500 ม.</td>
+                  <td class="gh-table-highlight">500,000–5,000,000 บาท</td>
+                  <td>ทางเท้า, ริมคลอง</td>
+                </tr>
+                <tr>
+                  <td>Green Roof</td>
+                  <td>100 ตร.ม.</td>
+                  <td class="gh-table-highlight">80,000–400,000 บาท</td>
+                  <td>อาคาร, โรงเรียน</td>
+                </tr>
+                <tr>
+                  <td>Sponge Plaza</td>
+                  <td>500 ตร.ม.</td>
+                  <td class="gh-table-highlight">300,000–2,000,000 บาท</td>
+                  <td>ลาน, ตลาด, ชุมชน</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ── 03 ประโยชน์และผลลัพธ์ ─────────────────── -->
+        <section class="gh-section" id="benefits" aria-labelledby="benefits-title">
+          <div class="gh-section-header">
+            <div class="gh-section-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div>
+              <div class="gh-section-num">03 — ประโยชน์</div>
+              <h2 class="gh-section-title" id="benefits-title">ประโยชน์และผลลัพธ์</h2>
+            </div>
+          </div>
+
+          <div class="gh-card-grid" role="list">
+            <div class="gh-card" role="listitem">
+              <div class="gh-card-icon" aria-hidden="true">🌡</div>
+              <div class="gh-card-title">ลดอุณหภูมิ</div>
+              <div class="gh-card-sub">ร่มเงาและการระเหยน้ำจากพืชช่วยลดอุณหภูมิพื้นผิวได้สูงสุด 6°C ลดความเสี่ยงโรคลมแดดในชุมชน</div>
+              <span class="gh-card-tag">ด้านสุขภาพ</span>
+            </div>
+            <div class="gh-card" role="listitem">
+              <div class="gh-card-icon" aria-hidden="true">💨</div>
+              <div class="gh-card-title">กรองฝุ่น PM2.5</div>
+              <div class="gh-card-sub">ใบไม้ดักจับและดูดซับอนุภาคฝุ่นขนาดเล็ก ช่วยปรับปรุงคุณภาพอากาศในชุมชนได้อย่างต่อเนื่อง</div>
+              <span class="gh-card-tag">คุณภาพอากาศ</span>
+            </div>
+            <div class="gh-card" role="listitem">
+              <div class="gh-card-icon" aria-hidden="true">💧</div>
+              <div class="gh-card-title">บริหารน้ำฝน</div>
+              <div class="gh-card-sub">พื้นที่สีเขียวดูดซับน้ำฝนลดการไหลบ่าบนผิวถนน ช่วยลดความเสี่ยงน้ำท่วมในช่วงฤดูฝน</div>
+              <span class="gh-card-tag">ป้องกันน้ำท่วม</span>
+            </div>
+            <div class="gh-card" role="listitem">
+              <div class="gh-card-icon" aria-hidden="true">⚡</div>
+              <div class="gh-card-title">ประหยัดพลังงาน</div>
+              <div class="gh-card-sub">ร่มเงาจากต้นไม้และ Green Roof ลดการใช้เครื่องปรับอากาศในอาคารโดยรอบ ประหยัดค่าไฟได้จริง</div>
+              <span class="gh-card-tag">พลังงาน</span>
+            </div>
+            <div class="gh-card" role="listitem">
+              <div class="gh-card-icon" aria-hidden="true">🧠</div>
+              <div class="gh-card-title">สุขภาพจิต</div>
+              <div class="gh-card-sub">งานวิจัยพบว่าการเข้าถึงพื้นที่สีเขียวลดความเครียดและอาการซึมเศร้า สร้างพื้นที่พบปะสังคมสำหรับทุกคน</div>
+              <span class="gh-card-tag">คุณภาพชีวิต</span>
+            </div>
+            <div class="gh-card" role="listitem">
+              <div class="gh-card-icon" aria-hidden="true">🏘</div>
+              <div class="gh-card-title">มูลค่าที่ดิน</div>
+              <div class="gh-card-sub">ที่ดินในรัศมี 400 ม. จากสวนสาธารณะมีมูลค่าสูงขึ้น 5–15% เพิ่มความน่าดึงดูดของย่านที่อยู่อาศัย</div>
+              <span class="gh-card-tag">เศรษฐกิจ</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── 04 วิธีเสนอโครงการ ──────────────────── -->
+        <section class="gh-section" id="how-to" aria-labelledby="howto-title">
+          <div class="gh-section-header">
+            <div class="gh-section-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <div>
+              <div class="gh-section-num">04 — ขั้นตอน</div>
+              <h2 class="gh-section-title" id="howto-title">วิธีเสนอโครงการ</h2>
+            </div>
+          </div>
+
+          <p class="gh-text">ประชาชนทั่วไปสามารถเสนอโครงการพื้นที่สีเขียวต่อหน่วยงานท้องถิ่นได้โดยทำตามขั้นตอนต่อไปนี้:</p>
+
+          <div class="gh-steps" role="list">
+            <div class="gh-step" role="listitem">
+              <div class="gh-step-num" aria-label="ขั้นที่ 1">01</div>
+              <div>
+                <div class="gh-step-title">สำรวจพื้นที่เป้าหมาย</div>
+                <div class="gh-step-desc">ระบุพื้นที่ที่ต้องการเพิ่มสวนในชุมชน เช่น ที่ดินรกร้าง ริมถนน หรือพื้นที่สาธารณะที่ไม่ได้ใช้ประโยชน์ ถ่ายภาพและจดบันทึก GPS ไว้</div>
+              </div>
+            </div>
+            <div class="gh-step" role="listitem">
+              <div class="gh-step-num" aria-label="ขั้นที่ 2">02</div>
+              <div>
+                <div class="gh-step-title">รวบรวมเสียงสนับสนุนจากชุมชน</div>
+                <div class="gh-step-desc">พูดคุยกับเพื่อนบ้านและชุมชนโดยรอบ รวบรวมรายชื่อผู้สนับสนุนอย่างน้อย 20 คน หรือโหวตผ่านระบบออนไลน์ของโครงการนี้</div>
+              </div>
+            </div>
+            <div class="gh-step" role="listitem">
+              <div class="gh-step-num" aria-label="ขั้นที่ 3">03</div>
+              <div>
+                <div class="gh-step-title">เขียนข้อเสนอโครงการ</div>
+                <div class="gh-step-desc">ระบุ: ประเภทพื้นที่สีเขียวที่ต้องการ ที่ตั้ง ขนาดประมาณ ประโยชน์ที่ชุมชนจะได้รับ และแหล่งงบประมาณที่อาจขอได้ (อบจ. / เทศบาล / งบ สสส.)</div>
+              </div>
+            </div>
+            <div class="gh-step" role="listitem">
+              <div class="gh-step-num" aria-label="ขั้นที่ 4">04</div>
+              <div>
+                <div class="gh-step-title">ยื่นเรื่องต่อหน่วยงานท้องถิ่น</div>
+                <div class="gh-step-desc">ยื่นข้อเสนอต่อเทศบาลนครขอนแก่น / อบต. / อบจ.ขอนแก่น พร้อมรายชื่อสนับสนุน เอกสาร และรูปถ่าย สามารถยื่นออนไลน์ผ่าน QueQ หรือยื่นที่ศูนย์บริการประชาชน</div>
+              </div>
+            </div>
+            <div class="gh-step" role="listitem">
+              <div class="gh-step-num" aria-label="ขั้นที่ 5">05</div>
+              <div>
+                <div class="gh-step-title">ติดตามผลและมีส่วนร่วม</div>
+                <div class="gh-step-desc">ติดตามความคืบหน้ากับหน่วยงาน เข้าร่วมประชุมประชาคม และช่วยดูแลรักษาพื้นที่สีเขียวหลังจากสร้างเสร็จเพื่อความยั่งยืน</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="gh-highlight">
+            <strong>เคล็ดลับ:</strong> โครงการที่มีข้อมูลสนับสนุน เช่น ข้อมูลอุณหภูมิจาก <a href="heat.html" style="color:#4ADE80;">แผนที่ความร้อน</a> หรือจำนวนผู้สนับสนุนจากการโหวต มักได้รับการพิจารณาเร็วกว่า
+          </div>
+        </section>
+
+        <!-- ── 05 วิธีมีส่วนร่วม ────────────────────── -->
+        <section class="gh-section" id="participate" aria-labelledby="part-title">
+          <div class="gh-section-header">
+            <div class="gh-section-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div>
+              <div class="gh-section-num">05 — มีส่วนร่วม</div>
+              <h2 class="gh-section-title" id="part-title">วิธีมีส่วนร่วม</h2>
+            </div>
+          </div>
+
+          <p class="gh-text">ทุกคนมีส่วนร่วมได้ตั้งแต่วันนี้ ไม่ว่าจะเป็นการโหวต การแชร์ข้อมูล หรือการลงมือทำในชุมชนของตัวเอง:</p>
+
+          <div class="gh-tips" role="list">
+            <div class="gh-tip" role="listitem">
+              <span class="gh-tip-icon" aria-hidden="true">✅</span>
+              <span><strong style="color:rgba(255,255,255,.8);">โหวตออนไลน์</strong> — เลือกประเภทสวนที่อยากเห็นในขอนแก่นผ่านระบบโหวตบนเว็บไซต์นี้ เสียงของคุณจะถูกรวบรวมเสนอต่อหน่วยงานที่เกี่ยวข้อง</span>
+            </div>
+            <div class="gh-tip" role="listitem">
+              <span class="gh-tip-icon" aria-hidden="true">✅</span>
+              <span><strong style="color:rgba(255,255,255,.8);">ปักหมุดพื้นที่</strong> — เมื่อโหวต ให้ปักหมุดบนแผนที่ระบุจุดที่อยากให้สร้างสวน ข้อมูลจะช่วยให้วางแผนได้แม่นยำขึ้น</span>
+            </div>
+            <div class="gh-tip" role="listitem">
+              <span class="gh-tip-icon" aria-hidden="true">✅</span>
+              <span><strong style="color:rgba(255,255,255,.8);">แชร์ข้อมูล</strong> — แชร์ผลการวิเคราะห์ความร้อนและแผนที่ให้เพื่อนบ้าน สมาชิกชุมชน และผู้นำท้องถิ่นรับรู้</span>
+            </div>
+            <div class="gh-tip" role="listitem">
+              <span class="gh-tip-icon" aria-hidden="true">✅</span>
+              <span><strong style="color:rgba(255,255,255,.8);">ปลูกต้นไม้เอง</strong> — เริ่มจากบ้านตัวเองได้เลย ปลูกต้นไม้ในกระถางบนระเบียง บนดาดฟ้า หรือหน้าบ้าน ทุกต้นมีความหมาย</span>
+            </div>
+            <div class="gh-tip" role="listitem">
+              <span class="gh-tip-icon" aria-hidden="true">✅</span>
+              <span><strong style="color:rgba(255,255,255,.8);">เข้าร่วมกลุ่มอาสา</strong> — ติดต่อกลุ่มอาสาสมัครปลูกต้นไม้ในขอนแก่น เช่น โครงการ "ขอนแก่นเมืองสีเขียว" ของเทศบาลนครขอนแก่น</span>
+            </div>
+          </div>
+
+          <div class="gh-cta-banner" aria-label="ร่วมโหวตสวนสีเขียว">
+            <div class="gh-cta-banner-text">
+              <h3>ร่วมโหวตเลือกสวนที่คุณอยากเห็น</h3>
+              <p>ใช้เวลาแค่ 1 นาที เสียงของคุณจะถูกนำเสนอต่อหน่วยงานที่เกี่ยวข้องจริง</p>
+            </div>
+            <a href="vote-park.html" class="gh-cta-banner-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              โหวตเลย
+            </a>
+          </div>
+        </section>
+
+        <!-- ── 06 เลือกพื้นที่อย่างไร ───────────────── -->
+        <section class="gh-section" id="location" aria-labelledby="loc-title">
+          <div class="gh-section-header">
+            <div class="gh-section-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="10" r="4"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+            </div>
+            <div>
+              <div class="gh-section-num">06 — พื้นที่</div>
+              <h2 class="gh-section-title" id="loc-title">เลือกพื้นที่อย่างไร?</h2>
+            </div>
+          </div>
+
+          <p class="gh-text">การเลือกที่ตั้งที่เหมาะสมเป็นปัจจัยสำคัญที่สุดในการสร้างพื้นที่สีเขียวให้มีประสิทธิภาพสูงสุด ควรพิจารณาจากเกณฑ์เหล่านี้:</p>
+
+          <div class="gh-card-grid" role="list">
+            <div class="gh-card" role="listitem">
+              <div class="gh-card-icon" aria-hidden="true">🌡</div>
+              <div class="gh-card-title">จุดร้อนสูง (LST สูง)</div>
+              <div class="gh-card-sub">ดูแผนที่ความร้อนดาวเทียมเพื่อระบุพื้นที่ที่มีอุณหภูมิพื้นผิวสูงกว่า 45°C ซึ่งได้ประโยชน์สูงสุดจากพื้นที่สีเขียว</div>
+            </div>
+            <div class="gh-card" role="listitem">
+              <div class="gh-card-icon" aria-hidden="true">🏘</div>
+              <div class="gh-card-title">ความหนาแน่นประชากร</div>
+              <div class="gh-card-sub">พื้นที่ที่มีคนอาศัยมากแต่เข้าถึงสวนสาธารณะยาก (รัศมี 400 ม. ไม่มีสวน) ควรได้รับการพิจารณาก่อน</div>
+            </div>
+            <div class="gh-card" role="listitem">
+              <div class="gh-card-icon" aria-hidden="true">🌿</div>
+              <div class="gh-card-title">ค่า NDVI ต่ำ</div>
+              <div class="gh-card-sub">พื้นที่ที่ดัชนีพืชพรรณ (NDVI) ต่ำกว่า 0.2 หมายถึงมีพืชน้อย และจะได้รับประโยชน์มากที่สุดจากการปลูกต้นไม้เพิ่ม</div>
+            </div>
+            <div class="gh-card" role="listitem">
+              <div class="gh-card-icon" aria-hidden="true">🚶</div>
+              <div class="gh-card-title">การเข้าถึง</div>
+              <div class="gh-card-sub">ควรอยู่ใกล้ทางเดินเท้าหรือขนส่งสาธารณะ เพื่อให้ประชาชนเข้าถึงได้ง่ายโดยไม่ต้องใช้รถยนต์</div>
+            </div>
+          </div>
+
+          <div class="gh-highlight">
+            <strong>เครื่องมือช่วยเลือกพื้นที่:</strong> ดูแผนที่ดัชนีพืชพรรณ NDVI ที่ <a href="ndvi.html" style="color:#4ADE80;">หน้า NDVI</a> และแผนที่ความร้อนดาวเทียมที่ <a href="heat.html" style="color:#4ADE80;">หน้าความร้อน</a> เพื่อระบุจุดที่ต้องการพื้นที่สีเขียวมากที่สุด
+          </div>
+        </section>
+
+        <!-- ── 07 FAQ ───────────────────────────────── -->
+        <section class="gh-section" id="faq" aria-labelledby="faq-title">
+          <div class="gh-section-header">
+            <div class="gh-section-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17" stroke-width="3"/></svg>
+            </div>
+            <div>
+              <div class="gh-section-num">07 — FAQ</div>
+              <h2 class="gh-section-title" id="faq-title">คำถามที่พบบ่อย</h2>
+            </div>
+          </div>
+
+          <div class="gh-steps" role="list">
+            <div class="gh-step" role="listitem">
+              <div class="gh-step-num" aria-hidden="true">Q</div>
+              <div>
+                <div class="gh-step-title">ใครเป็นคนตัดสินใจสร้างสวน?</div>
+                <div class="gh-step-desc">เทศบาลนครขอนแก่น / อบจ.ขอนแก่น / อบต. ในพื้นที่รับผิดชอบ เสียงโหวตจากประชาชนเป็นข้อมูลสนับสนุนการตัดสินใจ ไม่ใช่การตัดสินใจโดยตรง</div>
+              </div>
+            </div>
+            <div class="gh-step" role="listitem">
+              <div class="gh-step-num" aria-hidden="true">Q</div>
+              <div>
+                <div class="gh-step-title">โหวตแล้วมีผลจริงมั้ย?</div>
+                <div class="gh-step-desc">ผลโหวตจะถูกรวบรวมและนำเสนอต่อหน่วยงานท้องถิ่นโดยตรง พร้อมข้อมูลเชิงพื้นที่จากการปักหมุด ซึ่งช่วยให้หน่วยงานเห็นว่าชุมชนไหนต้องการสวนมากที่สุด</div>
+              </div>
+            </div>
+            <div class="gh-step" role="listitem">
+              <div class="gh-step-num" aria-hidden="true">Q</div>
+              <div>
+                <div class="gh-step-title">ฉันไม่มีที่ดิน จะช่วยได้ยังไง?</div>
+                <div class="gh-step-desc">โหวต แชร์ข้อมูล ปลูกต้นไม้ในกระถาง เข้าร่วมกลุ่มอาสา หรือเสนอแนวคิดให้นายกเทศมนตรี / ผู้แทนชุมชนในพื้นที่ของคุณ ทุกการกระทำมีความหมาย</div>
+              </div>
+            </div>
+            <div class="gh-step" role="listitem">
+              <div class="gh-step-num" aria-hidden="true">Q</div>
+              <div>
+                <div class="gh-step-title">ต้นไม้แบบไหนเหมาะกับขอนแก่น?</div>
+                <div class="gh-step-desc">พันธุ์ไม้ที่ทนร้อน แล้ง และโตเร็ว เช่น ประดู่ป่า กัลปพฤกษ์ อินทนิล สะเดา และไทรย้อยใบแหลม เหมาะสำหรับปลูกในสภาพอากาศขอนแก่น</div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+      </div><!-- /gh-content -->
+    </div><!-- /gh-body -->
+
+  </main>
+
+  <footer style="background:#04080f;border-top:1px solid rgba(255,255,255,.06);padding:2rem 1.25rem;text-align:center;">
+    <p style="font-size:.75rem;color:rgba(255,255,255,.22);font-family:var(--font-display,'Barlow Condensed',sans-serif);letter-spacing:.05em;">
+      HEAT SAFE KHON KAEN · คู่มือเพิ่มพื้นที่สีเขียว · โครงงาน GeoHeat
+    </p>
+    <p style="font-size:.72rem;color:rgba(255,255,255,.15);margin-top:.4rem;">
+      <a href="index.html" style="color:rgba(74,222,128,.5);text-decoration:none;">← กลับหน้าแรก</a>
+      &nbsp;·&nbsp;
+      <a href="vote-park.html" style="color:rgba(74,222,128,.5);text-decoration:none;">ร่วมโหวตสวนสีเขียว</a>
+    </p>
+  </footer>
+
+  <script>
+    /* Mobile TOC toggle */
+    var tocToggle = document.getElementById('toc-toggle');
+    var tocEl = document.getElementById('gh-toc');
+    if (tocToggle && tocEl) {
+      tocToggle.addEventListener('click', function () {
+        var open = tocEl.classList.toggle('open');
+        tocToggle.setAttribute('aria-expanded', open);
+      });
+    }
+
+    /* Highlight active TOC item on scroll */
+    var sections = document.querySelectorAll('.gh-section[id]');
+    var tocLinks = document.querySelectorAll('.gh-toc-list a');
+    function onScroll() {
+      var scrollY = window.scrollY + 120;
+      var current = '';
+      sections.forEach(function (sec) {
+        if (sec.offsetTop <= scrollY) current = sec.id;
+      });
+      tocLinks.forEach(function (a) {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  </script>
+</body>
+</html>
