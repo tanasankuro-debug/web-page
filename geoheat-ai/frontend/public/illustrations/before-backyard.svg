@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fde68a"/>
+      <stop offset="100%" stop-color="#fca5a5"/>
+    </linearGradient>
+    <linearGradient id="wall1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#cbd5c1"/>
+      <stop offset="100%" stop-color="#a8ab9c"/>
+    </linearGradient>
+    <linearGradient id="floor1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#b8b8ae"/>
+      <stop offset="100%" stop-color="#8f8f85"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#sky1)"/>
+  <circle cx="660" cy="90" r="46" fill="#fb923c" opacity="0.85"/>
+
+  <rect x="0" y="120" width="800" height="120" fill="url(#wall1)"/>
+  <rect x="0" y="120" width="800" height="8" fill="#8f9284"/>
+
+  <rect x="0" y="230" width="800" height="220" fill="url(#floor1)"/>
+
+  <!-- concrete tile cracks -->
+  <g stroke="#75756b" stroke-width="2" opacity="0.55">
+    <line x1="0" y1="290" x2="800" y2="290"/>
+    <line x1="0" y1="360" x2="800" y2="360"/>
+    <line x1="130" y1="230" x2="130" y2="450"/>
+    <line x1="300" y1="230" x2="300" y2="450"/>
+    <line x1="470" y1="230" x2="470" y2="450"/>
+    <line x1="640" y1="230" x2="640" y2="450"/>
+    <path d="M330 290 L360 330 L340 360" fill="none" stroke="#5f5f57" stroke-width="2"/>
+  </g>
+
+  <!-- single dry planter, sparse -->
+  <rect x="600" y="330" width="70" height="46" rx="4" fill="#9a7b5a"/>
+  <ellipse cx="635" cy="330" rx="34" ry="10" fill="#7a6146"/>
+  <path d="M635 330 C615 300 615 280 620 260" stroke="#a3a08a" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M635 330 C650 300 655 285 648 268" stroke="#a3a08a" stroke-width="6" fill="none" stroke-linecap="round"/>
+
+  <text x="40" y="420" font-family="sans-serif" font-size="20" fill="#5c5c52" opacity="0.7">พื้นที่คอนกรีตหลังบ้าน — Before</text>
+</svg>

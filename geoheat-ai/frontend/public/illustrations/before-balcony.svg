@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#bfdbfe"/>
+      <stop offset="100%" stop-color="#fbcfe8"/>
+    </linearGradient>
+    <linearGradient id="tile2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c7c9c2"/>
+      <stop offset="100%" stop-color="#9fa196"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#sky2)"/>
+
+  <!-- distant city skyline -->
+  <g fill="#93a3b8" opacity="0.55">
+    <rect x="40" y="140" width="50" height="150"/>
+    <rect x="110" y="100" width="60" height="190"/>
+    <rect x="190" y="160" width="45" height="130"/>
+    <rect x="600" y="130" width="55" height="160"/>
+    <rect x="670" y="90" width="65" height="200"/>
+    <rect x="745" y="150" width="45" height="140"/>
+  </g>
+
+  <!-- balcony floor -->
+  <rect x="0" y="290" width="800" height="160" fill="url(#tile2)"/>
+  <g stroke="#83857a" stroke-width="2" opacity="0.5">
+    <line x1="0" y1="330" x2="800" y2="330"/>
+    <line x1="0" y1="390" x2="800" y2="390"/>
+    <line x1="200" y1="290" x2="200" y2="450"/>
+    <line x1="400" y1="290" x2="400" y2="450"/>
+    <line x1="600" y1="290" x2="600" y2="450"/>
+  </g>
+
+  <!-- railing -->
+  <rect x="0" y="270" width="800" height="14" fill="#6b7280"/>
+  <g fill="#6b7280">
+    <rect x="30" y="270" width="8" height="180"/>
+    <rect x="110" y="270" width="8" height="180"/>
+    <rect x="190" y="270" width="8" height="180"/>
+    <rect x="270" y="270" width="8" height="180"/>
+    <rect x="350" y="270" width="8" height="180"/>
+    <rect x="430" y="270" width="8" height="180"/>
+    <rect x="510" y="270" width="8" height="180"/>
+    <rect x="590" y="270" width="8" height="180"/>
+    <rect x="670" y="270" width="8" height="180"/>
+    <rect x="750" y="270" width="8" height="180"/>
+  </g>
+
+  <text x="40" y="420" font-family="sans-serif" font-size="20" fill="#4b5563" opacity="0.75">ระเบียงคอนโดว่างเปล่า — Before</text>
+</svg>

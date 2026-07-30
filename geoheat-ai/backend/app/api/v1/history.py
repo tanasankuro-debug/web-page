@@ -1,12 +1,20 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
-from app.models.schemas import ApiResponse, HistoryItem
+from app.core.deps import get_current_user_id
+from app.core.supabase import get_supabase
+from app.models.schemas import ApiResponse, Project
 
 router = APIRouter(prefix="/history", tags=["history"])
 
 
-@router.get("", response_model=ApiResponse[list[HistoryItem]])
-async def get_history() -> ApiResponse[list[HistoryItem]]:
-    return ApiResponse(
-        data=[HistoryItem(project="หลังบ้าน", date="2026-07-30", score=82)]
+@router.get("", response_model=ApiResponse[list[Project]])
+async def get_history(user_id: str = Depends(get_current_user_id)) -> ApiResponse[list[Project]]:
+    result = (
+        get_supabase()
+        .table("projects")
+        .select("*")
+        .eq("user_id", user_id)
+        .order("created_at", desc=True)
+        .execute()
     )
+    return ApiResponse(data=[Project(**row) for row in result.data])

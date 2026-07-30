@@ -1,15 +1,14 @@
 from __future__ import annotations
 
-from typing import Generic, TypeVar
+from typing import Generic, Literal, TypeVar
 
 from pydantic import BaseModel, Field
 
 T = TypeVar("T")
 
-
-class ApiError(BaseModel):
-    code: str
-    message: str
+GardenStyle = Literal["tropical", "minimal", "low_maintenance"]
+HeatLevel = Literal["low", "moderate", "high", "extreme"]
+CoolingEffect = Literal["low", "medium", "high"]
 
 
 class ApiResponse(BaseModel, Generic[T]):
@@ -19,45 +18,31 @@ class ApiResponse(BaseModel, Generic[T]):
 
 
 # ---------------------------------------------------------------------------
-# Auth (Supabase Auth is the source of truth; these mirror it for API docs)
-# ---------------------------------------------------------------------------
-
-
-class RegisterRequest(BaseModel):
-    email: str
-    password: str
-    full_name: str
-
-
-class LoginRequest(BaseModel):
-    email: str
-    password: str
-
-
-# ---------------------------------------------------------------------------
 # Projects
 # ---------------------------------------------------------------------------
-
-
-class Location(BaseModel):
-    lat: float
-    lng: float
 
 
 class ProjectCreate(BaseModel):
     name: str
     description: str | None = None
-    location: Location | None = None
+    address: str | None = None
+    latitude: float | None = None
+    longitude: float | None = None
 
 
 class Project(BaseModel):
     id: str
+    user_id: str
     name: str
     description: str | None = None
-    location: Location | None = None
+    address: str | None = None
+    latitude: float | None = None
+    longitude: float | None = None
     area_size: float | None = None
     status: str = "draft"
-    green_score: float | None = None
+    is_demo: bool = False
+    created_at: str
+    updated_at: str
 
 
 # ---------------------------------------------------------------------------
@@ -71,25 +56,22 @@ class ImageUploadResponse(BaseModel):
 
 
 class ProjectImage(BaseModel):
-    url: str
-    type: str
+    id: str
+    project_id: str
+    image_url: str
+    image_type: str
+    created_at: str
 
 
 # ---------------------------------------------------------------------------
-# AI analysis (see AI_WORKFLOW doc: YOLO -> SAM -> Depth -> area calc)
+# AI analysis
 # ---------------------------------------------------------------------------
 
 
 class DetectedObject(BaseModel):
-    name: str
+    type: str
     confidence: float
     bbox: list[int] | None = None
-
-
-class AreaBreakdown(BaseModel):
-    total: float
-    green: float
-    concrete: float
 
 
 class AnalysisStartRequest(BaseModel):
@@ -97,24 +79,112 @@ class AnalysisStartRequest(BaseModel):
     image_id: str
 
 
-class AnalysisStartResponse(BaseModel):
-    task_id: str
-    status: str = "processing"
-
-
-class AnalysisStatus(BaseModel):
-    status: str = Field(description="pending | processing | completed | failed")
-
-
 class AnalysisResult(BaseModel):
-    area: AreaBreakdown
-    objects: list[DetectedObject]
-    heat_level: str
+    id: str
+    project_id: str
+    image_id: str | None = None
+    total_area: float
+    green_area: float
+    concrete_area: float
+    green_percentage: float
+    heat_level: HeatLevel
+    detected_objects: list[DetectedObject]
+    created_at: str
 
 
 # ---------------------------------------------------------------------------
-# Area measurement
+# Green score
 # ---------------------------------------------------------------------------
+
+
+class GreenScoreCalculateRequest(BaseModel):
+    project_id: str
+    stage: Literal["current", "projected"] = "current"
+
+
+class GreenScore(BaseModel):
+    id: str
+    project_id: str
+    stage: str
+    vegetation_score: float
+    shade_score: float
+    heat_reduction_score: float
+    diversity_score: float
+    maintenance_score: float
+    total_score: float
+    created_at: str
+
+
+# ---------------------------------------------------------------------------
+# Plants
+# ---------------------------------------------------------------------------
+
+
+class Plant(BaseModel):
+    id: str
+    name_th: str
+    name_en: str | None = None
+    scientific_name: str | None = None
+    category: str
+    sunlight_requirement: str | None = None
+    water_requirement: str | None = None
+    maintenance_level: str | None = None
+    heat_tolerance: float | None = None
+    cooling_score: float | None = None
+    max_height_m: float | None = None
+    min_area_sqm: float | None = None
+    image_url: str | None = None
+    description: str | None = None
+
+
+# ---------------------------------------------------------------------------
+# Recommendations / garden designs
+# ---------------------------------------------------------------------------
+
+
+class GardenRecommendationRequest(BaseModel):
+    project_id: str
+    area: float
+    budget: float | None = None
+    style: GardenStyle | None = None
+
+
+class RecommendedPlant(BaseModel):
+    plant_id: str
+    name_th: str
+    quantity: int
+
+
+class Recommendation(BaseModel):
+    id: str
+    project_id: str
+    style: GardenStyle
+    plants: list[RecommendedPlant]
+    estimated_cost: float
+    cooling_effect: CoolingEffect
+    reasoning: str | None = None
+    created_at: str
+
+
+# ---------------------------------------------------------------------------
+# History / assistant
+# ---------------------------------------------------------------------------
+
+
+class ChatRequest(BaseModel):
+    message: str
+    project_id: str | None = None
+
+
+class ChatResponse(BaseModel):
+    answer: str
+
+
+class GeoHeatData(BaseModel):
+    temperature: float
+    lst: float
+    ndvi: float
+    risk: str
 
 
 class ManualMeasurementRequest(BaseModel):
@@ -126,99 +196,12 @@ class MeasurementResult(BaseModel):
     unit: str = "sqm"
 
 
-# ---------------------------------------------------------------------------
-# GeoHeat / GIS
-# ---------------------------------------------------------------------------
-
-
-class GeoHeatData(BaseModel):
-    temperature: float
-    lst: float
-    ndvi: float
-    risk: str
-
-
-# ---------------------------------------------------------------------------
-# Garden recommendation
-# ---------------------------------------------------------------------------
-
-
-class GardenRecommendationRequest(BaseModel):
-    project_id: str
-    area: float
-    budget: float | None = None
-    style: str | None = None
-
-
-class RecommendedPlant(BaseModel):
-    name: str
-    quantity: int
-
-
-class GardenRecommendation(BaseModel):
-    garden_type: str
-    plants: list[RecommendedPlant]
-    cost: float
-    cooling: str
-
-
-class Plant(BaseModel):
-    name: str
-    score: float
-
-
-# ---------------------------------------------------------------------------
-# Simulation
-# ---------------------------------------------------------------------------
-
-
 class SimulationRequest(BaseModel):
     project_id: str
-    garden_style: str
+    garden_style: GardenStyle
     plants: list[str] = Field(default_factory=list)
 
 
 class SimulationResult(BaseModel):
     before: str
     after: str
-
-
-# ---------------------------------------------------------------------------
-# Green score
-# ---------------------------------------------------------------------------
-
-
-class GreenScoreDetail(BaseModel):
-    green: float
-    shade: float
-    cooling: float
-    diversity: float = 0
-
-
-class GreenScoreResult(BaseModel):
-    score: float
-    detail: GreenScoreDetail
-
-
-class GreenScoreCalculateRequest(BaseModel):
-    project_id: str
-
-
-# ---------------------------------------------------------------------------
-# History / assistant / admin
-# ---------------------------------------------------------------------------
-
-
-class HistoryItem(BaseModel):
-    project: str
-    date: str
-    score: float
-
-
-class ChatRequest(BaseModel):
-    message: str
-    project_id: str | None = None
-
-
-class ChatResponse(BaseModel):
-    answer: str

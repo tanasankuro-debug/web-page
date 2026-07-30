@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="skyL" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#dcfce7"/>
+    </linearGradient>
+    <linearGradient id="gravelL" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d9d2bd"/>
+      <stop offset="100%" stop-color="#c3bb9f"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#skyL)"/>
+  <circle cx="700" cy="90" r="38" fill="#fbbf24" opacity="0.85"/>
+
+  <rect x="0" y="300" width="800" height="150" fill="url(#gravelL)"/>
+  <g fill="#b6ac8c" opacity="0.5">
+    <circle cx="80" cy="330" r="3"/><circle cx="140" cy="345" r="2.5"/><circle cx="210" cy="325" r="3"/>
+    <circle cx="300" cy="350" r="2.5"/><circle cx="500" cy="330" r="3"/><circle cx="600" cy="345" r="2.5"/>
+    <circle cx="680" cy="325" r="3"/><circle cx="740" cy="350" r="2.5"/>
+  </g>
+
+  <!-- drought tolerant shrub clusters, evenly spaced, sparse but tidy -->
+  <g fill="#65a30d">
+    <circle cx="140" cy="300" r="30"/>
+    <circle cx="390" cy="295" r="26"/>
+    <circle cx="650" cy="300" r="32"/>
+  </g>
+  <g fill="#84cc16">
+    <circle cx="150" cy="288" r="14" opacity="0.8"/>
+    <circle cx="400" cy="284" r="12" opacity="0.8"/>
+    <circle cx="660" cy="288" r="14" opacity="0.8"/>
+  </g>
+
+  <!-- ornamental grasses -->
+  <g stroke="#a3a832" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M240 340 C230 320 232 300 245 285"/>
+    <path d="M240 340 C245 315 255 300 268 288"/>
+    <path d="M240 340 C250 325 248 305 240 288"/>
+    <path d="M540 335 C530 315 532 295 545 280"/>
+    <path d="M540 335 C545 310 555 295 568 283"/>
+  </g>
+
+  <!-- simple low border edging -->
+  <rect x="0" y="300" width="800" height="6" fill="#a99f7e"/>
+
+  <text x="40" y="430" font-family="sans-serif" font-size="20" fill="#57534e" opacity="0.8">Low-Maintenance Garden — After</text>
+</svg>

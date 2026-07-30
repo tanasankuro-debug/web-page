@@ -1,21 +1,22 @@
-from app.models.schemas import AnalysisResult, AreaBreakdown, DetectedObject
-from app.services.ai.base import AIService
+from app.models.schemas import DetectedObject
+from app.services.ai.base import AIService, RawAnalysis, RawArea
 
 
 class MockAIService(AIService):
     """Deterministic stand-in for the YOLOv11 + SAM 2 pipeline.
 
     Returns the same shape the real pipeline will, per
-    AI_WORKFLOW_geoheat_ai_green_designer.md section 5-6, so routes and
-    the frontend can be built against it today.
+    04_AI_WorkFLOW.md / 12_AI_Model_Specification.md, so routes and the
+    frontend can be built against it today. Permanent for MVP per
+    00_MVP_Specification_FINAL.md §2 (no GPU hosting budget identified).
     """
 
-    async def analyze_image(self, image_id: str) -> AnalysisResult:
-        return AnalysisResult(
-            area=AreaBreakdown(total=25, green=5, concrete=20),
+    async def analyze_image(self, image_id: str) -> RawAnalysis:
+        return RawAnalysis(
+            area=RawArea(total=25, green=5, concrete=20),
             objects=[
-                DetectedObject(name="concrete", confidence=0.95, bbox=[120, 200, 500, 700]),
-                DetectedObject(name="tree", confidence=0.91, bbox=[50, 60, 150, 260]),
+                DetectedObject(type="concrete", confidence=0.95, bbox=[120, 200, 500, 700]),
+                DetectedObject(type="tree", confidence=0.91, bbox=[50, 60, 150, 260]),
             ],
             heat_level="high",
         )

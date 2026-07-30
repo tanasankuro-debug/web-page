@@ -60,7 +60,7 @@ export default function LandingPage() {
                 <Button
                   size="lg"
                   className="rounded-2xl"
-                  render={<Link href="/dashboard/scanner" />}
+                  render={<Link href="/dashboard/projects/new" />}
                 >
                   เริ่มวิเคราะห์พื้นที่
                   <ArrowRight className="size-4" />

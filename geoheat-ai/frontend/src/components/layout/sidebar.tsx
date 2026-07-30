@@ -2,24 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Home,
-  Camera,
-  Sprout,
-  Flame,
-  FolderKanban,
-  Settings,
-  Leaf,
-} from "lucide-react";
+import { Home, FolderKanban, Leaf } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// AI Scanner / Garden Design are project-scoped (under /dashboard/projects/[id]/...),
+// not standalone pages, so they're not listed here — reachable from a project's
+// detail page instead. Heat Map / Settings are out of MVP scope per
+// Prompt camera/00_MVP_Specification_FINAL.md §5.
 const menu = [
   { href: "/dashboard", label: "Dashboard", icon: Home },
-  { href: "/dashboard/scanner", label: "AI Scanner", icon: Camera },
-  { href: "/dashboard/garden", label: "Garden Design", icon: Sprout },
-  { href: "/dashboard/heat-map", label: "Heat Map", icon: Flame },
   { href: "/dashboard/projects", label: "My Projects", icon: FolderKanban },
-  { href: "/dashboard/settings", label: "Settings", icon: Settings },
 ];
 
 export function Sidebar() {

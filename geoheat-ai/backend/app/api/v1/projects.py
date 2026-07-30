@@ -1,37 +1,50 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, HTTPException
 
+from app.core.deps import get_current_user_id
+from app.core.supabase import get_supabase
 from app.models.schemas import ApiResponse, Project, ProjectCreate
 
 router = APIRouter(prefix="/projects", tags=["projects"])
 
-# In-memory placeholder store until the Supabase `projects` table is wired
-# up (blocked on freeing a free-tier project slot — see DATABASE_SCHEMA doc).
-_PROJECTS: dict[str, Project] = {}
-
 
 @router.post("", response_model=ApiResponse[Project])
-async def create_project(payload: ProjectCreate) -> ApiResponse[Project]:
-    project_id = str(len(_PROJECTS) + 1)
-    project = Project(id=project_id, name=payload.name, description=payload.description,
-                       location=payload.location)
-    _PROJECTS[project_id] = project
-    return ApiResponse(data=project)
+async def create_project(
+    payload: ProjectCreate, user_id: str = Depends(get_current_user_id)
+) -> ApiResponse[Project]:
+    row = {**payload.model_dump(), "user_id": user_id}
+    result = get_supabase().table("projects").insert(row).execute()
+    return ApiResponse(data=Project(**result.data[0]))
 
 
 @router.get("", response_model=ApiResponse[list[Project]])
-async def list_projects() -> ApiResponse[list[Project]]:
-    return ApiResponse(data=list(_PROJECTS.values()))
+async def list_projects(user_id: str = Depends(get_current_user_id)) -> ApiResponse[list[Project]]:
+    result = (
+        get_supabase()
+        .table("projects")
+        .select("*")
+        .or_(f"user_id.eq.{user_id},is_demo.eq.true")
+        .order("created_at", desc=True)
+        .execute()
+    )
+    return ApiResponse(data=[Project(**row) for row in result.data])
 
 
 @router.get("/{project_id}", response_model=ApiResponse[Project])
-async def get_project(project_id: str) -> ApiResponse[Project]:
-    project = _PROJECTS.get(project_id)
-    if project is None:
-        return ApiResponse(success=False, message="not found", data=None)
-    return ApiResponse(data=project)
+async def get_project(
+    project_id: str, user_id: str = Depends(get_current_user_id)
+) -> ApiResponse[Project]:
+    result = get_supabase().table("projects").select("*").eq("id", project_id).execute()
+    if not result.data:
+        raise HTTPException(status_code=404, detail="Project not found")
+    project = result.data[0]
+    if project["user_id"] != user_id and not project["is_demo"]:
+        raise HTTPException(status_code=403, detail="Not your project")
+    return ApiResponse(data=Project(**project))
 
 
 @router.delete("/{project_id}", response_model=ApiResponse[None])
-async def delete_project(project_id: str) -> ApiResponse[None]:
-    _PROJECTS.pop(project_id, None)
+async def delete_project(
+    project_id: str, user_id: str = Depends(get_current_user_id)
+) -> ApiResponse[None]:
+    get_supabase().table("projects").delete().eq("id", project_id).eq("user_id", user_id).execute()
     return ApiResponse(data=None)

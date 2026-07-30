@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="skyM" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e0f2fe"/>
+      <stop offset="100%" stop-color="#f0fdf4"/>
+    </linearGradient>
+    <linearGradient id="groundM" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e7e2d3"/>
+      <stop offset="100%" stop-color="#d7d0ba"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#skyM)"/>
+  <rect x="0" y="290" width="800" height="160" fill="url(#groundM)"/>
+
+  <!-- minimal deck line -->
+  <rect x="0" y="290" width="800" height="6" fill="#c9c2a8"/>
+
+  <!-- three evenly spaced planters with succulents, generous negative space -->
+  <g>
+    <rect x="150" y="330" width="90" height="70" rx="10" fill="#e2ded1"/>
+    <rect x="150" y="330" width="90" height="10" rx="4" fill="#cfc9b8"/>
+    <ellipse cx="195" cy="322" rx="26" ry="12" fill="#22c55e"/>
+    <ellipse cx="180" cy="316" rx="12" ry="8" fill="#4ade80"/>
+    <ellipse cx="212" cy="314" rx="10" ry="7" fill="#4ade80"/>
+  </g>
+
+  <g>
+    <rect x="355" y="315" width="90" height="85" rx="10" fill="#e2ded1"/>
+    <rect x="355" y="315" width="90" height="10" rx="4" fill="#cfc9b8"/>
+    <path d="M400 310 C388 280 388 260 400 235 C412 260 412 280 400 310 Z" fill="#16a34a"/>
+    <path d="M400 310 C378 290 370 270 375 250 C395 265 400 285 400 310 Z" fill="#22c55e"/>
+    <path d="M400 310 C422 290 430 270 425 250 C405 265 400 285 400 310 Z" fill="#22c55e"/>
+  </g>
+
+  <g>
+    <rect x="560" y="335" width="80" height="65" rx="10" fill="#e2ded1"/>
+    <rect x="560" y="335" width="80" height="10" rx="4" fill="#cfc9b8"/>
+    <circle cx="600" cy="322" r="20" fill="#4ade80"/>
+    <circle cx="600" cy="322" r="10" fill="#22c55e"/>
+  </g>
+
+  <!-- thin bench -->
+  <rect x="60" y="405" width="150" height="8" rx="4" fill="#a3a08a"/>
+  <rect x="70" y="413" width="8" height="20" fill="#a3a08a"/>
+  <rect x="190" y="413" width="8" height="20" fill="#a3a08a"/>
+
+  <text x="40" y="430" font-family="sans-serif" font-size="20" fill="#57534e" opacity="0.8">Minimal Garden — After</text>
+</svg>
