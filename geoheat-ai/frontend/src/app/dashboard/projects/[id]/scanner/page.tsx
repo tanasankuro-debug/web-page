@@ -79,7 +79,7 @@ export default async function ScannerPage({
             <>
               {signedUrl && (
                 <div className="relative aspect-video w-full max-w-sm overflow-hidden rounded-xl border border-white/10">
-                  <Image src={signedUrl} alt={project.name} fill className="object-cover" unoptimized />
+                  <Image src={signedUrl} alt={project.name} fill className="object-cover" unoptimized priority />
                 </div>
               )}
               <p className="text-sm text-muted-foreground">
@@ -89,6 +89,7 @@ export default async function ScannerPage({
                 size="sm"
                 className="w-fit rounded-xl"
                 render={<Link href={`/dashboard/projects/${id}/analysis`} />}
+                nativeButton={false}
               >
                 ดูผลวิเคราะห์
                 <ArrowRight className="size-4" />
@@ -101,7 +102,7 @@ export default async function ScannerPage({
               {signedUrl && latestImage && (
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                   <div className="relative aspect-video w-full max-w-sm overflow-hidden rounded-xl border border-white/10">
-                    <Image src={signedUrl} alt={project.name} fill className="object-cover" unoptimized />
+                    <Image src={signedUrl} alt={project.name} fill className="object-cover" unoptimized priority />
                   </div>
                   <div className="flex flex-col items-start gap-2">
                     <AnalyzeButton projectId={id} imageId={latestImage.id} />

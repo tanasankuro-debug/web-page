@@ -35,7 +35,7 @@ export function GardenDesignResult({
             <div className="mb-2 text-xs text-muted-foreground">ก่อน</div>
             <div className="relative aspect-video overflow-hidden rounded-xl border border-white/10">
               {beforeImageUrl ? (
-                <Image src={beforeImageUrl} alt="before" fill className="object-cover" unoptimized />
+                <Image src={beforeImageUrl} alt="before" fill className="object-cover" unoptimized priority />
               ) : (
                 <div className="flex h-full items-center justify-center text-xs text-muted-foreground">
                   ไม่มีรูปพื้นที่
@@ -51,6 +51,7 @@ export function GardenDesignResult({
                 alt={GARDEN_STYLE_LABEL[style]}
                 fill
                 className="object-cover"
+                priority
               />
             </div>
           </div>

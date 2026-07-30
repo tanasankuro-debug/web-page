@@ -61,6 +61,7 @@ export default function LandingPage() {
                   size="lg"
                   className="rounded-2xl"
                   render={<Link href="/dashboard/projects/new" />}
+                  nativeButton={false}
                 >
                   เริ่มวิเคราะห์พื้นที่
                   <ArrowRight className="size-4" />
@@ -70,6 +71,7 @@ export default function LandingPage() {
                   variant="outline"
                   className="rounded-2xl"
                   render={<Link href="/dashboard" />}
+                  nativeButton={false}
                 >
                   ดูตัวอย่าง
                 </Button>

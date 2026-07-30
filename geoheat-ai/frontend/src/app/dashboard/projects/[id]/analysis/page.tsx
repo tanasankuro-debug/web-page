@@ -139,6 +139,7 @@ export default async function AnalysisPage({
           <Button
             className="w-fit rounded-xl"
             render={<Link href={`/dashboard/projects/${id}/garden`} />}
+            nativeButton={false}
           >
             แนะนำแบบสวน
             <ArrowRight className="size-4" />
@@ -152,7 +153,7 @@ export default async function AnalysisPage({
               title="ยังไม่มีผลวิเคราะห์สำหรับโครงการนี้"
               description="เริ่มวิเคราะห์พื้นที่ที่ AI Scanner"
               action={
-                <Button size="sm" className="rounded-xl" render={<Link href={`/dashboard/projects/${id}/scanner`} />}>
+                <Button size="sm" className="rounded-xl" render={<Link href={`/dashboard/projects/${id}/scanner`} />} nativeButton={false}>
                   ไปที่ AI Scanner
                 </Button>
               }

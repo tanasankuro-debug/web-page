@@ -27,10 +27,10 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Button variant="ghost" render={<Link href="/login" />}>
+          <Button variant="ghost" render={<Link href="/login" />} nativeButton={false}>
             เข้าสู่ระบบ
           </Button>
-          <Button className="rounded-xl" render={<Link href="/dashboard" />}>
+          <Button className="rounded-xl" render={<Link href="/dashboard" />} nativeButton={false}>
             เริ่มวิเคราะห์พื้นที่
           </Button>
         </div>

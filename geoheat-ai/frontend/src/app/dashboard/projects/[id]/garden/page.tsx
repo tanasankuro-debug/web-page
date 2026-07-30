@@ -95,7 +95,7 @@ export default async function GardenPage({
           title="ยังวิเคราะห์พื้นที่ไม่เสร็จ"
           description="กรุณาวิเคราะห์พื้นที่ก่อนเพื่อรับคำแนะนำแบบสวน"
           action={
-            <Button size="sm" className="rounded-xl" render={<Link href={`/dashboard/projects/${id}/scanner`} />}>
+            <Button size="sm" className="rounded-xl" render={<Link href={`/dashboard/projects/${id}/scanner`} />} nativeButton={false}>
               ไปที่ AI Scanner
             </Button>
           }

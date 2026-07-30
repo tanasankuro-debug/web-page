@@ -122,6 +122,7 @@ export default async function DashboardPage() {
             variant="outline"
             className="h-auto flex-col gap-2 rounded-2xl py-6"
             render={<Link href="/dashboard/projects/new" />}
+            nativeButton={false}
           >
             <Plus className="size-5" />
             New Project
@@ -130,6 +131,7 @@ export default async function DashboardPage() {
             variant="outline"
             className="h-auto flex-col gap-2 rounded-2xl py-6"
             render={<Link href="/dashboard/projects" />}
+            nativeButton={false}
           >
             <FolderKanban className="size-5" />
             My Projects
@@ -171,7 +173,7 @@ export default async function DashboardPage() {
               title="ยังไม่มีโครงการ"
               description="เริ่มสร้างโครงการแรกของคุณได้เลย"
               action={
-                <Button size="sm" className="rounded-xl" render={<Link href="/dashboard/projects/new" />}>
+                <Button size="sm" className="rounded-xl" render={<Link href="/dashboard/projects/new" />} nativeButton={false}>
                   สร้างโครงการ
                 </Button>
               }

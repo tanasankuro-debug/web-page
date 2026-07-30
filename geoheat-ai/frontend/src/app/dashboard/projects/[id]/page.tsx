@@ -73,6 +73,7 @@ export default async function ProjectDetailPage({
             size="sm"
             className="rounded-xl"
             render={<Link href={`/dashboard/projects/${project.id}/scanner`} />}
+            nativeButton={false}
           >
             <Camera className="size-4" />
             AI Scanner
@@ -82,6 +83,7 @@ export default async function ProjectDetailPage({
             size="sm"
             className="rounded-xl"
             render={<Link href={`/dashboard/projects/${project.id}/analysis`} />}
+            nativeButton={false}
           >
             <LineChart className="size-4" />
             ผลวิเคราะห์
@@ -91,6 +93,7 @@ export default async function ProjectDetailPage({
             size="sm"
             className="rounded-xl"
             render={<Link href={`/dashboard/projects/${project.id}/garden`} />}
+            nativeButton={false}
           >
             <Sprout className="size-4" />
             แบบสวน
@@ -109,7 +112,7 @@ export default async function ProjectDetailPage({
           {signedImages.length > 0 ? (
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
               {signedImages.map(
-                (img) =>
+                (img, index) =>
                   img.signedUrl && (
                     <div
                       key={img.id}
@@ -121,6 +124,7 @@ export default async function ProjectDetailPage({
                         fill
                         className="object-cover"
                         unoptimized
+                        priority={index === 0}
                       />
                     </div>
                   ),

@@ -22,7 +22,7 @@ export default async function ProjectsPage() {
           <h1 className="text-2xl font-bold">My Projects</h1>
           <p className="text-sm text-muted-foreground">โครงการทั้งหมดของคุณ</p>
         </div>
-        <Button className="rounded-xl" render={<Link href="/dashboard/projects/new" />}>
+        <Button className="rounded-xl" render={<Link href="/dashboard/projects/new" />} nativeButton={false}>
           <Plus className="size-4" />
           New Project
         </Button>
@@ -63,7 +63,7 @@ export default async function ProjectsPage() {
               title="ยังไม่มีโครงการ"
               description="สร้างโครงการแรกของคุณเพื่อเริ่มต้น"
               action={
-                <Button size="sm" className="rounded-xl" render={<Link href="/dashboard/projects/new" />}>
+                <Button size="sm" className="rounded-xl" render={<Link href="/dashboard/projects/new" />} nativeButton={false}>
                   สร้างโครงการ
                 </Button>
               }
