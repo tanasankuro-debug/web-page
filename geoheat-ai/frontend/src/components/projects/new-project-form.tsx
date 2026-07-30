@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 import { apiPost } from "@/lib/api";
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { FloatingInput } from "@/components/ui/floating-input";
 import { Button } from "@/components/ui/button";
 
 interface ProjectResponse {
@@ -38,30 +38,25 @@ export function NewProjectForm() {
   return (
     <GlassCard className="p-6">
       <CardHeader className="p-0">
-        <CardTitle className="text-xl font-bold">สร้างโครงการใหม่</CardTitle>
+        <CardTitle className="text-2xl font-extrabold tracking-tight">สร้างโครงการใหม่</CardTitle>
       </CardHeader>
       <CardContent className="mt-6 p-0">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className="grid gap-1.5">
-            <Label htmlFor="name">ชื่อโครงการ</Label>
-            <Input
-              id="name"
-              placeholder="เช่น สวนหลังบ้าน"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="grid gap-1.5">
-            <Label htmlFor="description">คำอธิบาย (ไม่บังคับ)</Label>
-            <Input
-              id="description"
-              placeholder="เช่น พื้นที่คอนกรีต 20 ตร.ม. ด้านหลังบ้าน"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
+          <FloatingInput
+            id="name"
+            label="ชื่อโครงการ"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          <FloatingInput
+            id="description"
+            label="คำอธิบาย (ไม่บังคับ)"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
           <Button type="submit" className="mt-2 rounded-xl" disabled={loading}>
+            {loading && <Loader2 className="size-4 animate-spin" />}
             {loading ? "กำลังสร้าง..." : "สร้างโครงการ"}
           </Button>
         </form>

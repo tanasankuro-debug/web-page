@@ -3,12 +3,13 @@
 import { useState } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
-import { Sprout, TreeDeciduous, Flower2 } from "lucide-react";
+import { Sprout, TreeDeciduous, Flower2, Loader2 } from "lucide-react";
 import { apiPost } from "@/lib/api";
 import { GARDEN_STYLE_IMAGE, GARDEN_STYLE_LABEL, type GardenStyle } from "@/lib/garden-styles";
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { BeforeAfterSlider } from "@/components/ui/before-after-slider";
 import { cn } from "@/lib/utils";
 
 interface RecommendedPlant {
@@ -70,7 +71,7 @@ export function GardenStyleSelector({
             type="button"
             onClick={() => handleSelect(style.value)}
             className={cn(
-              "flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-5 text-center transition-colors hover:border-primary/40 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+              "flex flex-col items-center gap-2 rounded-2xl border border-border bg-white/[0.02] p-5 text-center transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
               selected === style.value && "border-primary bg-primary/10",
             )}
           >
@@ -80,37 +81,40 @@ export function GardenStyleSelector({
         ))}
       </div>
 
-      {loading && <p className="text-sm text-muted-foreground">กำลังแนะนำแบบสวน...</p>}
+      {loading && (
+        <p className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Loader2 className="size-4 animate-spin" />
+          กำลังแนะนำแบบสวน...
+        </p>
+      )}
 
       {recommendation && (
         <GlassCard className="p-6">
           <CardContent className="flex flex-col gap-6 p-0">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <div className="mb-2 text-xs text-muted-foreground">ก่อน</div>
-                <div className="relative aspect-video overflow-hidden rounded-xl border border-white/10">
-                  {beforeImageUrl ? (
-                    <Image src={beforeImageUrl} alt="before" fill className="object-cover" unoptimized priority />
-                  ) : (
-                    <div className="flex h-full items-center justify-center text-xs text-muted-foreground">
-                      ไม่มีรูปพื้นที่
-                    </div>
-                  )}
-                </div>
+            {beforeImageUrl ? (
+              <div className="ring-1 ring-border rounded-[2rem]">
+                <BeforeAfterSlider
+                  beforeSrc={beforeImageUrl}
+                  afterSrc={GARDEN_STYLE_IMAGE[recommendation.style]}
+                  beforeAlt="ก่อนออกแบบสวน"
+                  afterAlt={GARDEN_STYLE_LABEL[recommendation.style]}
+                  afterLabel={`หลัง (${GARDEN_STYLE_LABEL[recommendation.style]})`}
+                />
               </div>
-              <div>
-                <div className="mb-2 text-xs text-muted-foreground">หลัง (ตัวอย่างสไตล์)</div>
-                <div className="relative aspect-video overflow-hidden rounded-xl border border-white/10">
-                  <Image
-                    src={GARDEN_STYLE_IMAGE[recommendation.style]}
-                    alt={GARDEN_STYLE_LABEL[recommendation.style]}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                </div>
+            ) : (
+              <div className="relative aspect-video overflow-hidden rounded-[2rem] border border-border">
+                <Image
+                  src={GARDEN_STYLE_IMAGE[recommendation.style]}
+                  alt={GARDEN_STYLE_LABEL[recommendation.style]}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <span className="absolute right-4 top-4 rounded-full bg-primary/90 px-3 py-1 text-xs font-semibold text-primary-foreground">
+                  หลัง (ตัวอย่างสไตล์)
+                </span>
               </div>
-            </div>
+            )}
 
             <div className="flex flex-wrap items-center gap-2">
               <Badge className="rounded-full bg-primary/15 text-primary hover:bg-primary/15">

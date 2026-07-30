@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScoreCircle } from "@/components/ui/score-circle";
+import { AnimatedNumber } from "@/components/ui/animated-number";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DemoBadge } from "@/components/projects/demo-badge";
@@ -64,7 +65,7 @@ export default async function AnalysisPage({
 
       <div className="flex items-center gap-3">
         <div>
-          <h1 className="text-2xl font-bold">ผลวิเคราะห์พื้นที่</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight md:text-4xl">ผลวิเคราะห์พื้นที่</h1>
           <p className="text-sm text-muted-foreground">
             ผลจาก AI วิเคราะห์พื้นที่สีเขียว คอนกรีต และระดับความร้อน
           </p>
@@ -78,14 +79,16 @@ export default async function AnalysisPage({
             <GlassCard className="p-6">
               <CardContent className="p-0">
                 <div className="text-xs text-muted-foreground">พื้นที่ทั้งหมด</div>
-                <div className="mt-1 text-2xl font-bold">{analysis.total_area} ตร.ม.</div>
+                <div className="mt-1 text-2xl font-bold">
+                  <AnimatedNumber value={analysis.total_area} suffix=" ตร.ม." />
+                </div>
               </CardContent>
             </GlassCard>
             <GlassCard className="p-6">
               <CardContent className="p-0">
                 <div className="text-xs text-muted-foreground">พื้นที่สีเขียว</div>
                 <div className="mt-1 text-2xl font-bold text-primary">
-                  {analysis.green_area} ตร.ม. ({analysis.green_percentage}%)
+                  <AnimatedNumber value={analysis.green_area} suffix=" ตร.ม." /> ({analysis.green_percentage}%)
                 </div>
               </CardContent>
             </GlassCard>
@@ -93,7 +96,7 @@ export default async function AnalysisPage({
               <CardContent className="p-0">
                 <div className="text-xs text-muted-foreground">พื้นที่คอนกรีต</div>
                 <div className="mt-1 text-2xl font-bold text-heat-orange">
-                  {analysis.concrete_area} ตร.ม.
+                  <AnimatedNumber value={analysis.concrete_area} suffix=" ตร.ม." />
                 </div>
               </CardContent>
             </GlassCard>
@@ -105,15 +108,26 @@ export default async function AnalysisPage({
                 สิ่งที่ตรวจพบ
               </CardTitle>
             </CardHeader>
-            <CardContent className="mt-4 flex flex-wrap items-center gap-2 p-0">
-              <Badge className="rounded-full bg-heat-orange/15 text-heat-orange hover:bg-heat-orange/15">
+            <CardContent className="mt-4 flex flex-col gap-4 p-0">
+              <Badge className="w-fit rounded-full bg-heat-orange/15 text-heat-orange hover:bg-heat-orange/15">
                 Heat Level: {HEAT_LEVEL_TH[analysis.heat_level] ?? analysis.heat_level}
               </Badge>
-              {(analysis.detected_objects as DetectedObject[]).map((obj, i) => (
-                <Badge key={i} variant="secondary" className="rounded-full">
-                  {obj.type} ({Math.round(obj.confidence * 100)}%)
-                </Badge>
-              ))}
+              <div className="flex flex-col gap-3">
+                {(analysis.detected_objects as DetectedObject[]).map((obj, i) => (
+                  <div key={i}>
+                    <div className="mb-1.5 flex items-center justify-between text-sm">
+                      <span className="font-medium capitalize">{obj.type}</span>
+                      <span className="text-muted-foreground">{Math.round(obj.confidence * 100)}%</span>
+                    </div>
+                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/[0.06]">
+                      <div
+                        className="h-full rounded-full bg-primary transition-all duration-700"
+                        style={{ width: `${obj.confidence * 100}%` }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
             </CardContent>
           </GlassCard>
 

@@ -63,7 +63,7 @@ export default async function GardenPage({
 
       <div className="flex items-center gap-3">
         <div>
-          <h1 className="text-2xl font-bold">แนะนำแบบสวน</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight md:text-4xl">แนะนำแบบสวน</h1>
           <p className="text-sm text-muted-foreground">
             {existingDesign
               ? "แบบสวนที่แนะนำสำหรับโครงการนี้"

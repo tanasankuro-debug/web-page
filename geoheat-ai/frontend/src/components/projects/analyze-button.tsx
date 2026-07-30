@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Sparkles } from "lucide-react";
+import { Sparkles, Loader2 } from "lucide-react";
 import { apiPost } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 
@@ -11,17 +11,30 @@ interface AnalysisResponse {
   id: string;
 }
 
-export function AnalyzeButton({ projectId, imageId }: { projectId: string; imageId: string }) {
+export function AnalyzeButton({
+  projectId,
+  imageId,
+  onLoadingChange,
+}: {
+  projectId: string;
+  imageId: string;
+  onLoadingChange?: (loading: boolean) => void;
+}) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
+  function setLoadingState(next: boolean) {
+    setLoading(next);
+    onLoadingChange?.(next);
+  }
+
   async function handleAnalyze() {
-    setLoading(true);
+    setLoadingState(true);
     try {
       await apiPost<AnalysisResponse>("/ai/analyze", { project_id: projectId, image_id: imageId });
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "วิเคราะห์พื้นที่ไม่สำเร็จ");
-      setLoading(false);
+      setLoadingState(false);
       return;
     }
 
@@ -40,12 +53,12 @@ export function AnalyzeButton({ projectId, imageId }: { projectId: string; image
 
     router.push(`/dashboard/projects/${projectId}/analysis`);
     router.refresh();
-    setLoading(false);
+    setLoadingState(false);
   }
 
   return (
     <Button type="button" className="rounded-xl" disabled={loading} onClick={handleAnalyze}>
-      <Sparkles className="size-4" />
+      {loading ? <Loader2 className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
       {loading ? "กำลังวิเคราะห์..." : "เริ่มวิเคราะห์ด้วย AI"}
     </Button>
   );

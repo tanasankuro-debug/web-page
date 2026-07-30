@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { FolderKanban, Plus, Thermometer, FolderPlus } from "lucide-react";
+import {
+  Plus,
+  Thermometer,
+  FolderPlus,
+  FolderKanban,
+  Sparkles,
+  Trophy,
+} from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,15 +23,39 @@ const HEAT_LEVEL_TH: Record<string, string> = {
   extreme: "สูงมาก",
 };
 
+function StatCard({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  value: string | number;
+}) {
+  return (
+    <GlassCard className="p-5">
+      <CardContent className="flex items-center gap-3 p-0">
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <Icon className="size-5" />
+        </span>
+        <div>
+          <div className="text-xl font-bold">{value}</div>
+          <div className="text-xs text-muted-foreground">{label}</div>
+        </div>
+      </CardContent>
+    </GlassCard>
+  );
+}
+
 export default async function DashboardPage() {
   const supabase = await createClient();
 
-  const { data: projects } = await supabase
-    .from("projects")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(5);
+  const [{ data: userData }, { data: projects }] = await Promise.all([
+    supabase.auth.getUser(),
+    supabase.from("projects").select("*").order("created_at", { ascending: false }),
+  ]);
 
+  const displayName = userData?.user?.user_metadata?.full_name || userData?.user?.email || "";
   const latestProject = projects?.[0];
 
   const [{ data: scores }, { data: analyses }] = latestProject
@@ -47,14 +78,40 @@ export default async function DashboardPage() {
 
   const latestScore = scores?.[0];
   const latestAnalysis = analyses?.[0];
+  const totalProjects = projects?.length ?? 0;
+  const demoProjects = projects?.filter((p) => p.is_demo).length ?? 0;
 
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <p className="text-sm text-muted-foreground">
-          ภาพรวมพื้นที่และคะแนนความเป็นมิตรต่อสิ่งแวดล้อมของคุณ
-        </p>
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="text-sm font-medium text-primary">สวัสดี</p>
+          <h1 className="mt-1 text-3xl font-extrabold tracking-tight md:text-4xl">
+            {displayName}
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            ภาพรวมพื้นที่และคะแนนความเป็นมิตรต่อสิ่งแวดล้อมของคุณ
+          </p>
+        </div>
+        <Button className="rounded-xl" render={<Link href="/dashboard/projects/new" />} nativeButton={false}>
+          <Plus className="size-4" />
+          New Project
+        </Button>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <StatCard icon={FolderKanban} label="โครงการทั้งหมด" value={totalProjects} />
+        <StatCard icon={Sparkles} label="โครงการตัวอย่าง" value={demoProjects} />
+        <StatCard
+          icon={Trophy}
+          label="Green Score ล่าสุด"
+          value={latestScore ? Math.round(latestScore.total_score) : "-"}
+        />
+        <StatCard
+          icon={Thermometer}
+          label="Heat Level ล่าสุด"
+          value={latestAnalysis ? (HEAT_LEVEL_TH[latestAnalysis.heat_level] ?? latestAnalysis.heat_level) : "-"}
+        />
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
@@ -111,76 +168,49 @@ export default async function DashboardPage() {
         </GlassCard>
       </div>
 
-      <GlassCard className="p-6">
-        <CardHeader className="p-0">
-          <CardTitle className="text-base font-semibold text-muted-foreground">
-            Quick Action
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="mt-4 grid gap-3 p-0 sm:grid-cols-2">
-          <Button
-            variant="outline"
-            className="h-auto flex-col gap-2 rounded-2xl py-6"
-            render={<Link href="/dashboard/projects/new" />}
-            nativeButton={false}
-          >
-            <Plus className="size-5" />
-            New Project
-          </Button>
-          <Button
-            variant="outline"
-            className="h-auto flex-col gap-2 rounded-2xl py-6"
-            render={<Link href="/dashboard/projects" />}
-            nativeButton={false}
-          >
-            <FolderKanban className="size-5" />
-            My Projects
-          </Button>
-        </CardContent>
-      </GlassCard>
-
-      <GlassCard className="p-6">
-        <CardHeader className="p-0">
-          <CardTitle className="text-base font-semibold text-muted-foreground">
-            Recent Projects
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="mt-4 divide-y divide-white/10 p-0">
-          {projects && projects.length > 0 ? (
-            projects.map((project) => (
-              <Link
-                key={project.id}
-                href={`/dashboard/projects/${project.id}`}
-                className="flex items-center justify-between py-3 first:pt-0 last:pb-0 hover:opacity-80"
-              >
-                <div className="flex items-center gap-2">
-                  <div>
-                    <div className="font-medium">{project.name}</div>
-                    <div className="text-xs text-muted-foreground">
-                      {new Date(project.created_at).toLocaleDateString("th-TH")}
+      <div>
+        <h2 className="text-lg font-semibold">My Projects</h2>
+        {projects && projects.length > 0 ? (
+          <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {projects.map((project) => (
+              <Link key={project.id} href={`/dashboard/projects/${project.id}`}>
+                <GlassCard className="h-full p-5">
+                  <CardContent className="flex h-full flex-col gap-3 p-0">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="font-semibold">{project.name}</div>
+                      {project.is_demo && <DemoBadge />}
                     </div>
-                  </div>
-                  {project.is_demo && <DemoBadge />}
-                </div>
-                <Badge variant="secondary" className="rounded-full">
-                  {project.status}
-                </Badge>
+                    <p className="line-clamp-2 flex-1 text-sm text-muted-foreground">
+                      {project.description || "ไม่มีคำอธิบาย"}
+                    </p>
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <span>{new Date(project.created_at).toLocaleDateString("th-TH")}</span>
+                      <Badge variant="secondary" className="rounded-full">
+                        {project.status}
+                      </Badge>
+                    </div>
+                  </CardContent>
+                </GlassCard>
               </Link>
-            ))
-          ) : (
-            <EmptyState
-              icon={FolderPlus}
-              title="ยังไม่มีโครงการ"
-              description="เริ่มสร้างโครงการแรกของคุณได้เลย"
-              action={
-                <Button size="sm" className="rounded-xl" render={<Link href="/dashboard/projects/new" />} nativeButton={false}>
-                  สร้างโครงการ
-                </Button>
-              }
-            />
-          )}
-        </CardContent>
-      </GlassCard>
+            ))}
+          </div>
+        ) : (
+          <GlassCard className="mt-4 p-6">
+            <CardContent className="p-0">
+              <EmptyState
+                icon={FolderPlus}
+                title="ยังไม่มีโครงการ"
+                description="เริ่มสร้างโครงการแรกของคุณได้เลย"
+                action={
+                  <Button size="sm" className="rounded-xl" render={<Link href="/dashboard/projects/new" />} nativeButton={false}>
+                    สร้างโครงการ
+                  </Button>
+                }
+              />
+            </CardContent>
+          </GlassCard>
+        )}
+      </div>
     </div>
   );
 }

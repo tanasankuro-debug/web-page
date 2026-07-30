@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ImageUploadForm } from "@/components/projects/image-upload-form";
-import { AnalyzeButton } from "@/components/projects/analyze-button";
+import { ScannerPreview } from "@/components/projects/scanner-preview";
 import { DemoBadge } from "@/components/projects/demo-badge";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Button } from "@/components/ui/button";
@@ -57,7 +57,7 @@ export default async function ScannerPage({
 
       <div className="flex items-center gap-3">
         <div>
-          <h1 className="text-2xl font-bold">AI Scanner</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight md:text-4xl">AI Scanner</h1>
           <p className="text-sm text-muted-foreground">
             อัปโหลดรูปพื้นที่ แล้วให้ AI วิเคราะห์พื้นที่สีเขียวและระดับความร้อน
           </p>
@@ -78,7 +78,7 @@ export default async function ScannerPage({
             // the seeded numbers with a fresh mock analysis.
             <>
               {signedUrl && (
-                <div className="relative aspect-video w-full max-w-sm overflow-hidden rounded-xl border border-white/10">
+                <div className="relative aspect-video w-full max-w-sm overflow-hidden rounded-xl border border-border">
                   <Image src={signedUrl} alt={project.name} fill className="object-cover" unoptimized priority />
                 </div>
               )}
@@ -100,22 +100,14 @@ export default async function ScannerPage({
               <ImageUploadForm projectId={id} />
 
               {signedUrl && latestImage && (
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-                  <div className="relative aspect-video w-full max-w-sm overflow-hidden rounded-xl border border-white/10">
-                    <Image src={signedUrl} alt={project.name} fill className="object-cover" unoptimized priority />
-                  </div>
-                  <div className="flex flex-col items-start gap-2">
-                    <AnalyzeButton projectId={id} imageId={latestImage.id} />
-                    {hasAnalysis && (
-                      <Link
-                        href={`/dashboard/projects/${id}/analysis`}
-                        className="text-xs text-muted-foreground hover:text-foreground"
-                      >
-                        ดูผลวิเคราะห์ล่าสุด →
-                      </Link>
-                    )}
-                  </div>
-                </div>
+                <ScannerPreview
+                  projectId={id}
+                  imageId={latestImage.id}
+                  imageUrl={signedUrl}
+                  alt={project.name}
+                  hasAnalysis={hasAnalysis}
+                  analysisHref={`/dashboard/projects/${id}/analysis`}
+                />
               )}
 
               {!latestImage && (

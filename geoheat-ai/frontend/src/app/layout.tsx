@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Prompt, Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import { AmbientBackground } from "@/components/ui/ambient-background";
 import "./globals.css";
 
 const prompt = Prompt({
@@ -28,9 +29,10 @@ export default function RootLayout({
   return (
     <html
       lang="th"
-      className={`${prompt.variable} ${inter.variable} dark h-full antialiased`}
+      className={`${prompt.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <AmbientBackground />
         {children}
         <Toaster />
       </body>

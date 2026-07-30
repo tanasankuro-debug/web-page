@@ -4,11 +4,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { FloatingInput } from "@/components/ui/floating-input";
 import { Button } from "@/components/ui/button";
 
 export function AuthForm({ mode }: { mode: "login" | "register" }) {
@@ -50,45 +50,40 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
   return (
     <GlassCard className="p-6">
       <CardHeader className="p-0">
-        <CardTitle className="text-xl font-bold">
+        <CardTitle className="text-2xl font-extrabold tracking-tight">
           {mode === "login" ? "เข้าสู่ระบบ" : "สร้างบัญชีใหม่"}
         </CardTitle>
       </CardHeader>
       <CardContent className="mt-6 p-0">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {mode === "register" && (
-            <div className="grid gap-1.5">
-              <Label htmlFor="full_name">ชื่อ</Label>
-              <Input
-                id="full_name"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                required
-              />
-            </div>
+            <FloatingInput
+              id="full_name"
+              label="ชื่อ"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              required
+            />
           )}
-          <div className="grid gap-1.5">
-            <Label htmlFor="email">อีเมล</Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="grid gap-1.5">
-            <Label htmlFor="password">รหัสผ่าน</Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              minLength={6}
-              required
-            />
-          </div>
+          <FloatingInput
+            id="email"
+            label="อีเมล"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <FloatingInput
+            id="password"
+            label="รหัสผ่าน"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            minLength={6}
+            required
+          />
           <Button type="submit" className="mt-2 rounded-xl" disabled={loading}>
+            {loading && <Loader2 className="size-4 animate-spin" />}
             {loading
               ? "กำลังดำเนินการ..."
               : mode === "login"

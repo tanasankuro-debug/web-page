@@ -60,7 +60,7 @@ export default async function ProjectDetailPage({
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold">{project.name}</h1>
+            <h1 className="text-3xl font-extrabold tracking-tight md:text-4xl">{project.name}</h1>
             {project.is_demo && <DemoBadge />}
           </div>
           <p className="text-sm text-muted-foreground">
@@ -116,13 +116,13 @@ export default async function ProjectDetailPage({
                   img.signedUrl && (
                     <div
                       key={img.id}
-                      className="relative aspect-square overflow-hidden rounded-xl border border-white/10"
+                      className="group relative aspect-square overflow-hidden rounded-xl border border-border"
                     >
                       <Image
                         src={img.signedUrl}
                         alt={project.name}
                         fill
-                        className="object-cover"
+                        className="object-cover transition-transform duration-200 group-hover:scale-105"
                         unoptimized
                         priority={index === 0}
                       />
