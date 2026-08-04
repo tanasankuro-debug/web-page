@@ -8,7 +8,11 @@ class Settings(BaseSettings):
 
     app_name: str = "GeoHeat AI Green Designer API"
     api_v1_prefix: str = "/api/v1"
-    cors_origins: list[str] = ["http://localhost:3000", "http://localhost:3001"]
+    cors_origins: list[str] = [
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "https://geoheat-ai-frontend.vercel.app",
+    ]
 
     supabase_url: str = ""
     supabase_service_role_key: str = ""
