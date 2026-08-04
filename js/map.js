@@ -25,6 +25,12 @@ function initSatelliteMap() {
     return;
   }
 
+  if (!document.getElementById('satellite-map-el')) {
+    /* This page doesn't have the generic satellite map container —
+       it likely has its own page-specific map (e.g. aqimap.js). */
+    return;
+  }
+
   const cfg = window.HSKK_CONFIG;
   if (!cfg) { console.warn('[map] config.js not loaded.'); return; }
 

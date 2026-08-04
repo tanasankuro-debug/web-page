@@ -151,6 +151,7 @@ function whenLoaded(map, fn) {
 /* ── Main entry point (called by main.js as initSatelliteMap) ────────────── */
 function initSatelliteMap() {
   if (typeof maplibregl === 'undefined') return;
+  if (!document.getElementById('satellite-map-el')) return;
   const cfg = window.HSKK_CONFIG;
   if (!cfg) return;
 

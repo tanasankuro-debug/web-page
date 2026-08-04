@@ -19,6 +19,7 @@
 
   /* ── Inject overlay as first child of <body> ─────────────── */
   function injectOverlay() {
+    if (!document.body) { requestAnimationFrame(injectOverlay); return; }
     if (document.getElementById(OVERLAY_ID)) return;
     var el = document.createElement('div');
     el.id = OVERLAY_ID;
