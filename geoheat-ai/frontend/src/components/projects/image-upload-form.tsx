@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Upload, Loader2, ImageIcon, X } from "lucide-react";
+import { Upload, Loader2, ImageIcon, X, Camera } from "lucide-react";
 import { apiUpload } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 export function ImageUploadForm({ projectId }: { projectId: string }) {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -49,6 +50,38 @@ export function ImageUploadForm({ projectId }: { projectId: string }) {
 
   return (
     <div className="flex flex-col gap-3">
+      {!previewUrl && (
+        <div className="grid grid-cols-2 gap-2">
+          <Button
+            type="button"
+            variant="secondary"
+            className="h-auto flex-col gap-1.5 rounded-2xl py-4"
+            onClick={() => cameraInputRef.current?.click()}
+          >
+            <Camera className="size-5" />
+            ถ่ายภาพ
+          </Button>
+          <Button
+            type="button"
+            variant="secondary"
+            className="h-auto flex-col gap-1.5 rounded-2xl py-4"
+            onClick={() => inputRef.current?.click()}
+          >
+            <ImageIcon className="size-5" />
+            เลือกจากเครื่อง
+          </Button>
+          <input
+            ref={cameraInputRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            aria-label="ถ่ายภาพพื้นที่ด้วยกล้อง"
+            onChange={(e) => selectFile(e.target.files?.[0] ?? null)}
+            className="hidden"
+          />
+        </div>
+      )}
+
       <div
         onDragOver={(e) => {
           e.preventDefault();
@@ -77,7 +110,7 @@ export function ImageUploadForm({ projectId }: { projectId: string }) {
             <span className="flex size-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
               <Upload className="size-6" />
             </span>
-            <p className="text-sm font-medium">ลากรูปมาวาง หรือคลิกเพื่อเลือกไฟล์</p>
+            <p className="text-sm font-medium">หรือลากรูปมาวาง</p>
             <p className="text-xs text-muted-foreground">JPG, PNG, WEBP</p>
           </>
         )}
