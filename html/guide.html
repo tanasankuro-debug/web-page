@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>คู่มือเพิ่มพื้นที่สีเขียว — Heat Safe Khon Kaen</title>
-  <meta name="description" content="คู่มือแนวทางเพิ่มพื้นที่สีเขียวในขอนแก่น ลดเกาะความร้อนเมือง ประเภทสวน วิธีเสนอโครงการ และวิธีมีส่วนร่วม" />
+  <title>Garden Design Library — คลังแบบสวน AI | Heat Safe Khon Kaen</title>
+  <meta name="description" content="คลังแบบสวนที่ขับเคลื่อนด้วย AI สำหรับลดความร้อนเมือง เพิ่มพื้นที่สีเขียว และบริหารจัดการน้ำฝนอย่างยั่งยืนในขอนแก่น" />
   <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/base.css" />
   <link rel="stylesheet" href="../css/layout.css" />
   <link rel="stylesheet" href="../css/components.css" />
@@ -17,353 +17,507 @@
   <script src="../js/alert-bar.js"></script>
   <script src="../js/pwa.js"></script>
   <style>
-    html, body { background: var(--bg); }
+    html, body { background: #050B14; }
 
-    /* ── Hero ─────────────────────────────────── */
-    .gh-hero {
-      position: relative;
-      padding: calc(var(--header-h) + 3.5rem) 1.5rem 4rem;
-      text-align: center;
-      overflow: hidden;
-      background: #04100a;
+    .gdl {
+      --gdl-bg: #050B14;
+      --gdl-emerald: #10B981;
+      --gdl-emerald-soft: rgba(16,185,129,.16);
+      --gdl-green: #22C55E;
+      --gdl-green-soft: rgba(34,197,94,.16);
+      --gdl-blue: #3B82F6;
+      --gdl-blue-soft: rgba(59,130,246,.16);
+      --gdl-teal: #14B8A6;
+      --gdl-teal-soft: rgba(20,184,166,.16);
+      --gdl-lime: #84CC16;
+      --gdl-lime-soft: rgba(132,204,22,.16);
+      --gdl-text: #ffffff;
+      --gdl-text-dim: rgba(255,255,255,.6);
+      --gdl-text-faint: rgba(255,255,255,.4);
+      --gdl-border: rgba(255,255,255,.09);
+      --gdl-glass: rgba(255,255,255,.03);
+      --gdl-radius-lg: 32px;
+      --gdl-radius-md: 24px;
+      --gdl-ease: cubic-bezier(.16,1,.3,1);
+      color: var(--gdl-text);
     }
-    .gh-hero::before {
-      content: '';
-      position: absolute; inset: 0; pointer-events: none;
-      background:
-        radial-gradient(ellipse 60% 55% at 50% 100%, rgba(74,222,128,.18) 0%, transparent 65%),
-        radial-gradient(ellipse 40% 35% at 20% 60%, rgba(34,211,238,.08) 0%, transparent 55%),
-        radial-gradient(ellipse 40% 35% at 80% 60%, rgba(163,230,53,.08) 0%, transparent 55%);
-    }
-    .gh-hero-inner {
-      position: relative; z-index: 2;
-      max-width: 620px; margin: 0 auto;
-    }
-    .gh-eyebrow {
+
+    .gdl * { box-sizing: border-box; }
+
+    .gdl-container { max-width: 1240px; margin: 0 auto; padding: 0 1.5rem; }
+
+    .gdl-eyebrow {
+      display: inline-flex; align-items: center; gap: .55rem;
       font-family: var(--font-display);
-      font-size: .7rem; font-weight: 700;
-      letter-spacing: .18em; text-transform: uppercase;
-      color: #4ADE80;
-      display: inline-flex; align-items: center; gap: .5rem;
-      background: rgba(74,222,128,.1); border: 1px solid rgba(74,222,128,.25);
-      border-radius: 99px; padding: .25rem .9rem;
-      margin-bottom: 1rem;
+      font-size: .72rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--gdl-emerald);
+      background: var(--gdl-emerald-soft);
+      border: 1px solid rgba(16,185,129,.3);
+      border-radius: 99px; padding: .4rem 1rem;
     }
-    .gh-eyebrow-dot {
+    .gdl-eyebrow-dot {
       width: 6px; height: 6px; border-radius: 50%;
-      background: #4ADE80; box-shadow: 0 0 8px #4ADE80;
-      animation: dotPulse 2s ease-in-out infinite;
+      background: var(--gdl-emerald); box-shadow: 0 0 10px var(--gdl-emerald);
+      animation: gdlDot 2s ease-in-out infinite;
     }
-    @keyframes dotPulse { 0%,100%{opacity:1;} 50%{opacity:.2;} }
-    .gh-title {
+    @keyframes gdlDot { 0%,100%{opacity:1;} 50%{opacity:.25;} }
+
+    .gdl-section-tag {
       font-family: var(--font-display);
-      font-size: clamp(2.4rem, 8vw, 4.2rem);
-      font-weight: 800; line-height: 1;
-      color: #fff; margin-bottom: 1rem;
-      text-wrap: balance;
+      font-size: .68rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--gdl-emerald); margin-bottom: .6rem; display: block;
     }
-    .gh-title em { color: #4ADE80; font-style: normal; }
-    .gh-lead {
-      font-size: .95rem; line-height: 1.85;
-      color: rgba(255,255,255,.5);
-      max-width: 500px; margin: 0 auto 1.75rem;
-    }
-    .gh-hero-cta {
-      display: inline-flex; align-items: center; gap: .5rem;
-      background: #4ADE80; color: #000;
-      font-family: var(--font-body,'Noto Sans Thai',sans-serif);
-      font-size: .88rem; font-weight: 700;
-      padding: .7rem 1.6rem; border-radius: 12px;
-      text-decoration: none;
-      box-shadow: 0 4px 20px rgba(74,222,128,.3);
-      transition: background .15s, transform .12s, box-shadow .2s;
-    }
-    .gh-hero-cta:hover {
-      background: #22c55e;
-      box-shadow: 0 6px 32px rgba(74,222,128,.45);
-      transform: translateY(-2px);
-    }
-
-    /* ── Layout: sidebar + content ──────────────── */
-    .gh-body {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 3rem 1.25rem 6rem;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
-    }
-    @media (min-width: 900px) {
-      .gh-body { grid-template-columns: 220px 1fr; align-items: start; }
-    }
-    @media (min-width: 1100px) {
-      .gh-body { grid-template-columns: 240px 1fr; }
-    }
-
-    /* ── TOC Sidebar ─────────────────────────── */
-    .gh-toc {
-      position: sticky; top: 5rem;
-      background: rgba(255,255,255,.025);
-      border: 1px solid rgba(255,255,255,.07);
-      border-radius: 16px;
-      padding: 1.25rem;
-    }
-    .gh-toc-title {
+    .gdl-section-title {
       font-family: var(--font-display);
-      font-size: .6rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
-      color: rgba(255,255,255,.28); margin-bottom: 1rem;
+      font-size: clamp(1.9rem, 1.4rem + 2vw, 2.9rem);
+      font-weight: 800; line-height: 1.08; color: #fff;
+      letter-spacing: -.01em; margin-bottom: .85rem;
     }
-    .gh-toc-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .15rem; }
-    .gh-toc-list a {
-      display: flex; align-items: center; gap: .6rem;
-      font-size: .82rem; font-weight: 500;
-      color: rgba(255,255,255,.45);
-      text-decoration: none;
-      padding: .45rem .6rem; border-radius: 8px;
-      transition: color .15s, background .15s;
-      line-height: 1.3;
+    .gdl-section-lead {
+      font-size: .95rem; line-height: 1.8; color: var(--gdl-text-dim);
+      max-width: 620px;
     }
-    .gh-toc-list a:hover, .gh-toc-list a.active {
-      color: #4ADE80; background: rgba(74,222,128,.07);
-    }
-    .gh-toc-num {
-      font-family: var(--font-display);
-      font-size: .68rem; font-weight: 800;
-      color: rgba(74,222,128,.5); flex-shrink: 0;
-      min-width: 1.2rem;
-    }
-    .gh-toc-list a.active .gh-toc-num { color: #4ADE80; }
+    .gdl-section-head { margin-bottom: 3rem; }
+    .gdl-section-head.center { text-align: center; margin-left: auto; margin-right: auto; }
+    .gdl-section-head.center .gdl-section-lead { margin-left: auto; margin-right: auto; }
 
-    /* ── Content area ────────────────────────── */
-    .gh-content { min-width: 0; }
+    /* Reveal-on-scroll */
+    .gdl-reveal {
+      opacity: 0; transform: translateY(28px);
+      filter: blur(6px);
+      transition: opacity .8s var(--gdl-ease), transform .8s var(--gdl-ease), filter .8s var(--gdl-ease);
+    }
+    .gdl-reveal.in-view { opacity: 1; transform: translateY(0); filter: blur(0); }
 
-    /* Section */
-    .gh-section {
-      margin-bottom: 3rem;
-      scroll-margin-top: 5.5rem;
-    }
-    .gh-section-header {
-      display: flex; align-items: center; gap: .9rem;
-      margin-bottom: 1.5rem;
-      padding-bottom: .9rem;
-      border-bottom: 1px solid rgba(255,255,255,.07);
-    }
-    .gh-section-icon {
-      width: 42px; height: 42px; flex-shrink: 0;
-      border-radius: 12px;
-      background: rgba(74,222,128,.1); border: 1px solid rgba(74,222,128,.22);
-      display: grid; place-items: center;
-    }
-    .gh-section-num {
-      font-family: var(--font-display);
-      font-size: .62rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
-      color: rgba(74,222,128,.6); margin-bottom: .2rem;
-    }
-    .gh-section-title {
-      font-family: var(--font-display);
-      font-size: 1.45rem; font-weight: 800; color: #fff; line-height: 1.1;
-    }
-
-    /* Body text */
-    .gh-text {
-      font-size: .92rem; line-height: 1.9; color: rgba(255,255,255,.6);
-      margin-bottom: 1rem;
-    }
-    .gh-text strong { color: rgba(255,255,255,.88); font-weight: 600; }
-
-    /* Highlight box */
-    .gh-highlight {
-      background: rgba(74,222,128,.06);
-      border: 1px solid rgba(74,222,128,.18);
-      border-left: 3px solid #4ADE80;
-      border-radius: 0 12px 12px 0;
-      padding: 1rem 1.25rem;
-      margin: 1.25rem 0;
-      font-size: .88rem; line-height: 1.75; color: rgba(255,255,255,.65);
-    }
-    .gh-highlight strong { color: #4ADE80; }
-
-    /* Info card grid */
-    .gh-card-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: .875rem;
-      margin: 1.25rem 0;
-    }
-    @media (min-width: 600px) {
-      .gh-card-grid { grid-template-columns: 1fr 1fr; }
-    }
-    .gh-card {
-      background: rgba(255,255,255,.028);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 14px;
-      padding: 1.1rem 1.1rem .95rem;
-      transition: border-color .2s, background .2s;
-    }
-    .gh-card:hover {
-      border-color: rgba(74,222,128,.25);
-      background: rgba(74,222,128,.04);
-    }
-    .gh-card-icon { font-size: 1.4rem; margin-bottom: .55rem; }
-    .gh-card-title {
-      font-weight: 700; font-size: .88rem; color: #fff; margin-bottom: .35rem;
-    }
-    .gh-card-sub { font-size: .78rem; color: rgba(255,255,255,.42); line-height: 1.6; }
-    .gh-card-tag {
-      display: inline-block; margin-top: .6rem;
-      font-size: .62rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-      background: rgba(74,222,128,.1); color: #4ADE80;
-      border-radius: 99px; padding: .15rem .65rem;
-    }
-
-    /* Steps */
-    .gh-steps { display: flex; flex-direction: column; gap: .75rem; margin: 1.25rem 0; }
-    .gh-step {
-      display: flex; gap: 1rem; align-items: flex-start;
-      background: rgba(255,255,255,.025);
-      border: 1px solid rgba(255,255,255,.07);
-      border-radius: 14px;
-      padding: 1rem 1.1rem;
-      transition: border-color .2s;
-    }
-    .gh-step:hover { border-color: rgba(74,222,128,.22); }
-    .gh-step-num {
-      font-family: var(--font-display);
-      font-size: 1.1rem; font-weight: 800; color: #4ADE80;
-      min-width: 2rem; line-height: 1;
-      margin-top: .1rem;
-    }
-    .gh-step-title { font-weight: 700; font-size: .9rem; color: #fff; margin-bottom: .3rem; }
-    .gh-step-desc { font-size: .8rem; color: rgba(255,255,255,.45); line-height: 1.65; }
-
-    /* Stat row */
-    .gh-stat-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: .75rem;
-      margin: 1.25rem 0;
-    }
-    .gh-stat {
-      background: rgba(255,255,255,.025);
-      border: 1px solid rgba(255,255,255,.07);
-      border-radius: 12px;
-      padding: 1rem .9rem;
+    /* ══════════════════════ SECTION 1 — HERO ══════════════════════ */
+    .gdl-hero {
+      position: relative;
+      overflow: hidden;
+      padding: calc(var(--header-h) + 5rem) 1.5rem 6rem;
+      background: var(--gdl-bg);
       text-align: center;
     }
-    .gh-stat-val {
+    .gdl-hero-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .gdl-aurora {
+      position: absolute; border-radius: 50%;
+      filter: blur(90px);
+      opacity: .55;
+      will-change: transform;
+    }
+    .gdl-aurora--1 { width: 46vw; height: 46vw; max-width: 620px; max-height: 620px; top: -14%; left: -8%; background: radial-gradient(circle, var(--gdl-emerald), transparent 70%); animation: gdlDrift1 26s ease-in-out infinite; }
+    .gdl-aurora--2 { width: 38vw; height: 38vw; max-width: 520px; max-height: 520px; top: 6%; right: -10%; background: radial-gradient(circle, var(--gdl-blue), transparent 70%); animation: gdlDrift2 32s ease-in-out infinite; }
+    .gdl-aurora--3 { width: 40vw; height: 40vw; max-width: 560px; max-height: 560px; bottom: -20%; left: 30%; background: radial-gradient(circle, var(--gdl-teal), transparent 70%); animation: gdlDrift3 38s ease-in-out infinite; }
+    @keyframes gdlDrift1 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(6%,8%) scale(1.15);} }
+    @keyframes gdlDrift2 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-8%,6%) scale(1.1);} }
+    @keyframes gdlDrift3 { 0%,100%{transform:translate(0,0) scale(.95);} 50%{transform:translate(5%,-6%) scale(1.08);} }
+    .gdl-hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 56px 56px;
+      -webkit-mask-image: radial-gradient(ellipse 60% 55% at 50% 35%, #000 0%, transparent 75%);
+      mask-image: radial-gradient(ellipse 60% 55% at 50% 35%, #000 0%, transparent 75%);
+    }
+    .gdl-leaf {
+      position: absolute; color: var(--gdl-emerald); opacity: .35;
+      animation: gdlFloat 7s ease-in-out infinite;
+    }
+    @keyframes gdlFloat { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-22px) rotate(8deg);} }
+    .gdl-hero-inner { position: relative; z-index: 2; max-width: 720px; margin: 0 auto; }
+    .gdl-hero-inner .gdl-eyebrow { margin-bottom: 1.4rem; }
+    .gdl-hero-title {
       font-family: var(--font-display);
-      font-size: 1.75rem; font-weight: 800; color: #4ADE80;
-      line-height: 1; margin-bottom: .25rem;
+      font-size: clamp(2.6rem, 1.7rem + 5.5vw, 5.4rem);
+      font-weight: 800; line-height: 1; letter-spacing: -.02em;
+      color: #fff; margin-bottom: 1.1rem;
     }
-    .gh-stat-label { font-size: .72rem; color: rgba(255,255,255,.38); line-height: 1.45; }
-
-    /* Type cards (park types) */
-    .gh-type-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: .75rem;
-      margin: 1.25rem 0;
+    .gdl-hero-title span {
+      background: linear-gradient(120deg, var(--gdl-emerald), var(--gdl-teal) 55%, var(--gdl-blue));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     }
-    @media (min-width: 560px) {
-      .gh-type-grid { grid-template-columns: 1fr 1fr; }
+    .gdl-hero-sub {
+      font-size: 1.02rem; line-height: 1.75; color: var(--gdl-text-dim);
+      max-width: 560px; margin: 0 auto 1rem;
     }
-    .gh-type {
-      display: flex; gap: .85rem; align-items: flex-start;
-      background: rgba(255,255,255,.025);
-      border: 1px solid rgba(255,255,255,.07);
-      border-radius: 14px;
-      padding: 1rem 1.1rem;
+    .gdl-hero-sub-th {
+      font-size: .88rem; line-height: 1.75; color: var(--gdl-text-faint);
+      max-width: 520px; margin: 0 auto 2.2rem;
     }
-    .gh-type-dot {
-      width: 10px; height: 10px; border-radius: 50%;
-      flex-shrink: 0; margin-top: .35rem;
-    }
-    .gh-type-name { font-weight: 700; font-size: .88rem; color: #fff; margin-bottom: .25rem; }
-    .gh-type-desc { font-size: .78rem; color: rgba(255,255,255,.42); line-height: 1.6; }
-    .gh-type-impact {
-      margin-top: .5rem;
-      font-size: .72rem; font-weight: 700;
-      color: rgba(255,255,255,.55);
-    }
-    .gh-type-impact span { font-family: var(--font-display); font-size: .9rem; color: #4ADE80; }
-
-    /* CTA banner */
-    .gh-cta-banner {
-      background: linear-gradient(135deg, rgba(74,222,128,.1) 0%, rgba(34,211,238,.06) 100%);
-      border: 1px solid rgba(74,222,128,.22);
-      border-radius: 16px;
-      padding: 1.75rem 1.5rem;
-      display: flex; flex-direction: column; gap: 1rem;
-      align-items: flex-start;
-      margin: 1.25rem 0;
-    }
-    @media (min-width: 560px) {
-      .gh-cta-banner { flex-direction: row; align-items: center; }
-    }
-    .gh-cta-banner-text h3 {
-      font-family: var(--font-display);
-      font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: .3rem;
-    }
-    .gh-cta-banner-text p { font-size: .82rem; color: rgba(255,255,255,.5); line-height: 1.6; margin: 0; }
-    .gh-cta-banner-btn {
-      flex-shrink: 0;
-      display: inline-flex; align-items: center; gap: .45rem;
-      background: #4ADE80; color: #000;
+    .gdl-hero-cta-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .9rem; }
+    .gdl-btn {
+      position: relative; overflow: hidden;
+      display: inline-flex; align-items: center; gap: .55rem;
       font-family: var(--font-body,'Noto Sans Thai',sans-serif);
-      font-size: .84rem; font-weight: 700;
-      padding: .65rem 1.4rem; border-radius: 10px;
-      text-decoration: none; white-space: nowrap;
-      box-shadow: 0 4px 18px rgba(74,222,128,.28);
-      transition: background .15s, transform .12s;
+      font-size: .9rem; font-weight: 700;
+      padding: .85rem 1.7rem; border-radius: 14px;
+      text-decoration: none; cursor: pointer; border: none;
+      transition: transform .25s var(--gdl-ease), box-shadow .25s var(--gdl-ease), background .2s;
     }
-    .gh-cta-banner-btn:hover { background: #22c55e; transform: translateY(-1px); }
+    .gdl-btn:active { transform: scale(.96); }
+    .gdl-btn-primary {
+      background: linear-gradient(120deg, var(--gdl-emerald), var(--gdl-teal));
+      color: #04120c;
+      box-shadow: 0 8px 30px -8px rgba(16,185,129,.55);
+    }
+    .gdl-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 40px -8px rgba(16,185,129,.7); }
+    .gdl-btn-ghost {
+      background: rgba(255,255,255,.05);
+      color: #fff;
+      border: 1px solid var(--gdl-border);
+    }
+    .gdl-btn-ghost:hover { background: rgba(255,255,255,.09); transform: translateY(-2px); }
+    .gdl-ripple {
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,.5);
+      transform: scale(0); pointer-events: none;
+      animation: gdlRipple .6s ease-out forwards;
+    }
+    @keyframes gdlRipple { to { transform: scale(2.6); opacity: 0; } }
 
-    /* Tips list */
-    .gh-tips { display: flex; flex-direction: column; gap: .6rem; margin: 1rem 0; }
-    .gh-tip {
-      display: flex; gap: .75rem; align-items: flex-start;
-      font-size: .86rem; color: rgba(255,255,255,.55); line-height: 1.65;
+    .gdl-hero-stats {
+      position: relative; z-index: 2;
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;
+      margin-top: 3.5rem;
     }
-    .gh-tip-icon { color: #4ADE80; flex-shrink: 0; margin-top: .1rem; font-size: .9rem; }
+    .gdl-hero-stat {
+      background: var(--gdl-glass);
+      border: 1px solid var(--gdl-border);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-radius: 18px; padding: 1rem 1.5rem;
+      min-width: 150px;
+      animation: gdlFloat 6s ease-in-out infinite;
+    }
+    .gdl-hero-stat:nth-child(2) { animation-delay: .8s; }
+    .gdl-hero-stat:nth-child(3) { animation-delay: 1.6s; }
+    .gdl-hero-stat-val {
+      font-family: var(--font-display); font-size: 1.7rem; font-weight: 800;
+      background: linear-gradient(120deg, var(--gdl-emerald), var(--gdl-teal));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      line-height: 1;
+    }
+    .gdl-hero-stat-label { font-size: .72rem; color: var(--gdl-text-faint); margin-top: .35rem; }
 
-    /* Table */
-    .gh-table-wrap { overflow-x: auto; margin: 1.25rem 0; border-radius: 12px; }
-    .gh-table {
-      width: 100%; border-collapse: collapse;
-      font-size: .82rem;
+    /* ══════════════════════ SECTION 2 — WORKFLOW ══════════════════════ */
+    .gdl-flow { position: relative; padding: 6rem 1.5rem; background: #060c17; overflow: hidden; }
+    .gdl-flow::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 55% 45% at 50% 0%, rgba(16,185,129,.08), transparent 70%);
     }
-    .gh-table th {
-      background: rgba(74,222,128,.08);
-      color: rgba(255,255,255,.65); font-weight: 700;
-      padding: .75rem 1rem; text-align: left;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      white-space: nowrap;
+    .gdl-timeline {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: repeat(6, 1fr); gap: 1.1rem;
+      counter-reset: gdl-step;
     }
-    .gh-table td {
-      padding: .7rem 1rem;
-      color: rgba(255,255,255,.5);
-      border-bottom: 1px solid rgba(255,255,255,.05);
-      vertical-align: top; line-height: 1.55;
-    }
-    .gh-table tr:last-child td { border-bottom: none; }
-    .gh-table tr:hover td { background: rgba(255,255,255,.02); }
-    .gh-table-highlight { color: #4ADE80 !important; font-weight: 700; }
+    @media (max-width: 980px) { .gdl-timeline { grid-template-columns: repeat(3, 1fr); gap: 1.5rem 1rem; } }
+    @media (max-width: 620px) { .gdl-timeline { grid-template-columns: 1fr; gap: 1rem; } }
 
-    /* Mobile TOC toggle */
-    .gh-toc-mobile {
-      background: rgba(255,255,255,.025);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 12px;
-      padding: .85rem 1rem;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: space-between;
-      font-size: .85rem; font-weight: 600; color: rgba(255,255,255,.6);
-      margin-bottom: .5rem;
+    .gdl-step {
+      position: relative;
+      background: var(--gdl-glass);
+      border: 1px solid var(--gdl-border);
+      border-radius: 22px;
+      padding: 1.5rem 1.25rem 1.35rem;
+      text-align: center;
+      transition: border-color .3s, background .3s, transform .3s var(--gdl-ease);
+      opacity: 0; transform: translateY(24px);
     }
-    @media (min-width: 900px) { .gh-toc-mobile { display: none; } }
-    .gh-toc { display: none; }
-    @media (min-width: 900px) { .gh-toc { display: block; } }
-    .gh-toc.open { display: block; }
+    .gdl-step.in-view { opacity: 1; transform: translateY(0); transition: opacity .6s var(--gdl-ease), transform .6s var(--gdl-ease), border-color .3s, background .3s; }
+    .gdl-step:hover { border-color: rgba(16,185,129,.4); background: rgba(16,185,129,.05); transform: translateY(-4px); }
+    .gdl-step::after {
+      content: ''; position: absolute; top: 2.6rem; left: calc(100% - 0.1rem); width: 1.2rem; height: 2px;
+      background: linear-gradient(90deg, rgba(16,185,129,.5), rgba(16,185,129,0));
+      display: none;
+    }
+    @media (min-width: 981px) { .gdl-step:not(:last-child)::after { display: block; } }
+    .gdl-step-icon {
+      width: 52px; height: 52px; margin: 0 auto .9rem;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(16,185,129,.18), rgba(20,184,166,.08));
+      border: 1px solid rgba(16,185,129,.3);
+      display: grid; place-items: center;
+      color: var(--gdl-emerald);
+      transition: box-shadow .3s, transform .3s;
+    }
+    .gdl-step:hover .gdl-step-icon { box-shadow: 0 0 26px rgba(16,185,129,.4); transform: scale(1.08); }
+    .gdl-step-num {
+      font-family: var(--font-display); font-size: .64rem; font-weight: 700; letter-spacing: .16em;
+      color: rgba(16,185,129,.65); margin-bottom: .4rem;
+    }
+    .gdl-step-title { font-weight: 700; font-size: .92rem; color: #fff; margin-bottom: .35rem; }
+    .gdl-step-desc { font-size: .76rem; line-height: 1.55; color: var(--gdl-text-faint); }
+
+    /* ══════════════════════ SECTION 3 — TEMPLATES ══════════════════════ */
+    .gdl-templates { padding: 6.5rem 1.5rem; background: var(--gdl-bg); }
+    .gdl-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.75rem;
+    }
+    @media (max-width: 720px) { .gdl-grid { grid-template-columns: 1fr; } }
+
+    .gdl-card {
+      position: relative;
+      background: var(--gdl-glass);
+      border: 1px solid var(--gdl-border);
+      border-radius: var(--gdl-radius-lg);
+      overflow: hidden;
+      transition: transform .45s var(--gdl-ease), border-color .45s var(--gdl-ease), box-shadow .45s var(--gdl-ease);
+      opacity: 0; transform: translateY(32px);
+      --gdl-accent: var(--gdl-emerald);
+      --mx: 50%; --my: 50%;
+    }
+    .gdl-card.in-view { opacity: 1; transform: translateY(0); transition: opacity .7s var(--gdl-ease), transform .7s var(--gdl-ease); }
+    .gdl-card::before {
+      content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; border-radius: inherit;
+      background: radial-gradient(420px circle at var(--mx) var(--my), color-mix(in srgb, var(--gdl-accent) 22%, transparent), transparent 70%);
+      opacity: 0; transition: opacity .35s;
+    }
+    .gdl-card:hover::before { opacity: 1; }
+    .gdl-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: color-mix(in srgb, var(--gdl-accent) 45%, transparent);
+      box-shadow: 0 24px 60px -20px color-mix(in srgb, var(--gdl-accent) 45%, transparent);
+    }
+    .gdl-card-media { position: relative; aspect-ratio: 16/9; overflow: hidden; background: #0a1018; }
+    .gdl-card-media img {
+      width: 100%; height: 100%; object-fit: cover;
+      transform: scale(1.02);
+      transition: transform .7s var(--gdl-ease), opacity .5s;
+      opacity: 0;
+    }
+    .gdl-card-media img.gdl-loaded { opacity: 1; }
+    .gdl-card:hover .gdl-card-media img { transform: scale(1.12); }
+    .gdl-card-media::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 45%, rgba(5,11,20,.9) 100%);
+    }
+    .gdl-card-skel {
+      position: absolute; inset: 0;
+      background: linear-gradient(100deg, #0c1420 30%, #131e2e 50%, #0c1420 70%);
+      background-size: 200% 100%;
+      animation: gdlShimmer 1.6s ease-in-out infinite;
+    }
+    @keyframes gdlShimmer { 0% { background-position: 150% 0; } 100% { background-position: -50% 0; } }
+    .gdl-card-badges {
+      position: absolute; top: .9rem; left: .9rem; right: .9rem; z-index: 2;
+      display: flex; flex-wrap: wrap; gap: .4rem;
+    }
+    .gdl-badge {
+      display: inline-flex; align-items: center; gap: .3rem;
+      font-size: .66rem; font-weight: 700;
+      padding: .32rem .65rem; border-radius: 99px;
+      background: rgba(5,11,20,.65);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.14);
+      color: #fff;
+      transition: transform .3s var(--gdl-ease);
+    }
+    .gdl-card:hover .gdl-badge { transform: translateY(-2px); }
+    .gdl-card:hover .gdl-card-badges .gdl-badge:nth-child(2) { transition-delay: .05s; }
+    .gdl-card:hover .gdl-card-badges .gdl-badge:nth-child(3) { transition-delay: .1s; }
+    .gdl-badge-category { background: color-mix(in srgb, var(--gdl-accent) 30%, rgba(5,11,20,.7)); border-color: color-mix(in srgb, var(--gdl-accent) 55%, transparent); color: #fff; }
+    .gdl-badge-cooling svg, .gdl-badge-sustain svg { width: 11px; height: 11px; }
+
+    .gdl-card-body { position: relative; z-index: 2; padding: 1.4rem 1.5rem 1.6rem; }
+    .gdl-card-name { font-family: var(--font-display); font-size: 1.35rem; font-weight: 800; color: #fff; margin-bottom: .4rem; }
+    .gdl-card-desc { font-size: .84rem; line-height: 1.65; color: var(--gdl-text-dim); margin-bottom: 1rem; min-height: 2.6rem; }
+    .gdl-card-metric {
+      display: flex; align-items: center; gap: .5rem;
+      font-size: .78rem; color: var(--gdl-text-faint);
+      padding: .7rem .9rem; border-radius: 12px;
+      background: rgba(255,255,255,.03); border: 1px solid var(--gdl-border);
+      margin-bottom: 1.15rem;
+    }
+    .gdl-card-metric strong { color: var(--gdl-accent); font-family: var(--font-display); font-size: .95rem; }
+    .gdl-card-btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-size: .83rem; font-weight: 700; color: #fff;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--gdl-border);
+      padding: .65rem 1.15rem; border-radius: 11px;
+      cursor: pointer; transition: background .25s, border-color .25s, transform .25s var(--gdl-ease), gap .25s;
+    }
+    .gdl-card-btn:hover { background: color-mix(in srgb, var(--gdl-accent) 22%, transparent); border-color: color-mix(in srgb, var(--gdl-accent) 55%, transparent); gap: .75rem; }
+
+    /* ══════════════════════ MODAL ══════════════════════ */
+    dialog.gdl-modal {
+      max-width: 880px; width: min(92vw, 880px);
+      max-height: 88vh;
+      padding: 0; border: none; border-radius: 28px;
+      background: #0a121e;
+      color: #fff;
+      opacity: 0; transform: scale(.92) translateY(18px);
+      transition: opacity .4s var(--gdl-ease), transform .4s var(--gdl-ease);
+      overflow: hidden;
+    }
+    dialog.gdl-modal.gdl-open { opacity: 1; transform: scale(1) translateY(0); }
+    dialog.gdl-modal::backdrop {
+      background: rgba(3,6,12,.7);
+      backdrop-filter: blur(0px);
+      transition: backdrop-filter .4s var(--gdl-ease), background .4s var(--gdl-ease);
+    }
+    dialog.gdl-modal.gdl-open::backdrop { backdrop-filter: blur(10px); background: rgba(3,6,12,.82); }
+    .gdl-modal-scroll { overflow-y: auto; max-height: 88vh; }
+    .gdl-modal-media { position: relative; aspect-ratio: 16/8; background: #060a12; }
+    .gdl-modal-media img { width: 100%; height: 100%; object-fit: cover; }
+    .gdl-modal-media::after { content:''; position:absolute; inset:0; background: linear-gradient(180deg, rgba(5,11,20,0) 55%, #0a121e 100%); }
+    .gdl-modal-close {
+      position: absolute; top: 1rem; right: 1rem; z-index: 3;
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(5,11,20,.6); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.18); color: #fff;
+      font-size: 1.2rem; line-height: 1; cursor: pointer;
+      display: grid; place-items: center;
+      transition: background .2s, transform .2s;
+    }
+    .gdl-modal-close:hover { background: rgba(255,255,255,.15); transform: rotate(90deg); }
+    .gdl-modal-category {
+      position: absolute; left: 1.4rem; bottom: 1.2rem; z-index: 2;
+      font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      padding: .4rem .85rem; border-radius: 99px;
+      background: rgba(5,11,20,.6); border: 1px solid rgba(255,255,255,.16);
+    }
+    .gdl-modal-body { padding: 1.8rem 2rem 2.4rem; }
+    .gdl-modal-title { font-family: var(--font-display); font-size: 2rem; font-weight: 800; margin-bottom: .7rem; }
+    .gdl-modal-overview { font-size: .92rem; line-height: 1.85; color: var(--gdl-text-dim); margin-bottom: 1.5rem; }
+    .gdl-modal-chips { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 2rem; }
+    .gdl-modal-chip {
+      background: rgba(255,255,255,.04); border: 1px solid var(--gdl-border);
+      border-radius: 14px; padding: .7rem 1rem; min-width: 120px;
+    }
+    .gdl-modal-chip-label { font-size: .62rem; letter-spacing: .08em; text-transform: uppercase; color: var(--gdl-text-faint); margin-bottom: .25rem; }
+    .gdl-modal-chip-val { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: #fff; }
+    .gdl-modal-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem 2rem; margin-bottom: 1.8rem; }
+    @media (max-width: 640px) { .gdl-modal-columns { grid-template-columns: 1fr; } }
+    .gdl-modal-columns h3 {
+      font-family: var(--font-display); font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+      color: var(--gdl-emerald); margin-bottom: .7rem;
+    }
+    .gdl-modal-columns ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
+    .gdl-modal-columns li {
+      font-size: .84rem; line-height: 1.55; color: var(--gdl-text-dim);
+      display: flex; gap: .55rem; align-items: flex-start;
+    }
+    .gdl-modal-columns li::before {
+      content: ''; flex-shrink: 0; margin-top: .5rem;
+      width: 5px; height: 5px; border-radius: 50%; background: var(--gdl-emerald);
+    }
+    .gdl-modal-plants { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .gdl-plant-tag { font-size: .78rem; padding: .4rem .8rem; border-radius: 99px; background: rgba(16,185,129,.12); border: 1px solid rgba(16,185,129,.28); color: #a7f3d0; }
+    .gdl-modal-cooling {
+      background: linear-gradient(120deg, rgba(16,185,129,.12), rgba(20,184,166,.06));
+      border: 1px solid rgba(16,185,129,.25);
+      border-radius: 16px; padding: 1.1rem 1.3rem;
+      font-size: .86rem; line-height: 1.7; color: rgba(255,255,255,.85);
+      margin-bottom: 1.6rem;
+    }
+    .gdl-modal-cooling strong { color: var(--gdl-emerald); }
+    .gdl-modal-cta {
+      display: inline-flex; align-items: center; gap: .55rem;
+      background: linear-gradient(120deg, var(--gdl-emerald), var(--gdl-teal));
+      color: #04120c; font-weight: 700; font-size: .88rem;
+      padding: .8rem 1.6rem; border-radius: 12px; text-decoration: none;
+      transition: transform .25s var(--gdl-ease), box-shadow .25s var(--gdl-ease);
+    }
+    .gdl-modal-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 34px -8px rgba(16,185,129,.6); }
+
+    /* ══════════════════════ SECTION 4 — COMPARISON ══════════════════════ */
+    .gdl-compare { padding: 6.5rem 1.5rem; background: #060c17; }
+    .gdl-compare-wrap { overflow-x: auto; border-radius: 22px; border: 1px solid var(--gdl-border); }
+    table.gdl-compare-table { width: 100%; min-width: 860px; border-collapse: collapse; font-size: .84rem; background: var(--gdl-glass); }
+    .gdl-compare-table th {
+      text-align: left; font-family: var(--font-display); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; font-size: .68rem;
+      color: var(--gdl-text-faint); padding: 1rem 1.15rem; border-bottom: 1px solid var(--gdl-border);
+      white-space: nowrap; background: rgba(255,255,255,.02);
+    }
+    .gdl-compare-table td { padding: 1.05rem 1.15rem; border-bottom: 1px solid rgba(255,255,255,.05); vertical-align: middle; color: var(--gdl-text-dim); }
+    .gdl-compare-table tr:last-child td { border-bottom: none; }
+    .gdl-compare-table tr:hover td { background: rgba(255,255,255,.02); }
+    .gdl-compare-name { display: flex; align-items: center; gap: .65rem; font-weight: 700; color: #fff; white-space: nowrap; }
+    .gdl-compare-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .gdl-level { display: inline-flex; gap: 3px; align-items: center; }
+    .gdl-level i { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.14); display: inline-block; }
+    .gdl-level i.gdl-on { background: var(--gdl-lvl-color, var(--gdl-emerald)); }
+
+    /* ══════════════════════ SECTION 5 — BENEFITS BENTO ══════════════════════ */
+    .gdl-benefits { padding: 6.5rem 1.5rem; background: var(--gdl-bg); }
+    .gdl-bento {
+      display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 170px; gap: 1.25rem;
+    }
+    @media (max-width: 900px) { .gdl-bento { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; } }
+    @media (max-width: 560px) { .gdl-bento { grid-template-columns: 1fr; grid-auto-rows: auto; } }
+    .gdl-bento-item {
+      position: relative; overflow: hidden;
+      background: var(--gdl-glass); border: 1px solid var(--gdl-border);
+      border-radius: 22px; padding: 1.4rem;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      transition: transform .35s var(--gdl-ease), border-color .35s;
+      opacity: 0; transform: translateY(24px);
+    }
+    .gdl-bento-item.in-view { opacity: 1; transform: translateY(0); transition: opacity .6s var(--gdl-ease), transform .6s var(--gdl-ease); }
+    .gdl-bento-item:hover { transform: translateY(-4px); border-color: rgba(16,185,129,.35); }
+    .gdl-bento-item--wide { grid-column: span 2; }
+    @media (max-width: 560px) { .gdl-bento-item--wide { grid-column: span 1; } }
+    .gdl-bento-icon {
+      position: absolute; top: 1.25rem; left: 1.25rem;
+      width: 42px; height: 42px; border-radius: 13px;
+      background: rgba(16,185,129,.14); border: 1px solid rgba(16,185,129,.3);
+      display: grid; place-items: center; color: var(--gdl-emerald);
+      transition: transform .4s var(--gdl-ease);
+    }
+    .gdl-bento-item:hover .gdl-bento-icon { transform: scale(1.1) rotate(-6deg); }
+    .gdl-bento-title { font-weight: 700; font-size: 1rem; color: #fff; margin-bottom: .3rem; }
+    .gdl-bento-desc { font-size: .78rem; line-height: 1.55; color: var(--gdl-text-faint); }
+    .gdl-bento-item--wide .gdl-bento-title { font-size: 1.2rem; }
+
+    /* ══════════════════════ SECTION 6 — FAQ ══════════════════════ */
+    .gdl-faq { padding: 6.5rem 1.5rem; background: #060c17; }
+    .gdl-faq-list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: .85rem; }
+    .gdl-faq-item {
+      background: var(--gdl-glass); border: 1px solid var(--gdl-border); border-radius: 18px; overflow: hidden;
+      transition: border-color .3s;
+    }
+    .gdl-faq-item[data-open="true"] { border-color: rgba(16,185,129,.35); }
+    .gdl-faq-q {
+      width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      background: transparent; border: none; color: #fff; text-align: left; cursor: pointer;
+      font-size: .92rem; font-weight: 700; padding: 1.15rem 1.4rem;
+      font-family: var(--font-body,'Noto Sans Thai',sans-serif);
+    }
+    .gdl-faq-icon { flex-shrink: 0; transition: transform .35s var(--gdl-ease); color: var(--gdl-emerald); }
+    .gdl-faq-item[data-open="true"] .gdl-faq-icon { transform: rotate(45deg); }
+    .gdl-faq-a-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .38s var(--gdl-ease); }
+    .gdl-faq-item[data-open="true"] .gdl-faq-a-wrap { grid-template-rows: 1fr; }
+    .gdl-faq-a-inner { overflow: hidden; }
+    .gdl-faq-a { padding: 0 1.4rem 1.3rem; font-size: .85rem; line-height: 1.75; color: var(--gdl-text-dim); }
+
+    /* ══════════════════════ SECTION 7 — CTA ══════════════════════ */
+    .gdl-cta-section { padding: 6rem 1.5rem 7rem; background: var(--gdl-bg); }
+    .gdl-cta-card {
+      position: relative; overflow: hidden;
+      max-width: 1000px; margin: 0 auto;
+      border-radius: 36px; border: 1px solid rgba(16,185,129,.3);
+      padding: 4.5rem 2rem; text-align: center;
+      background: #06110c;
+    }
+    .gdl-cta-card .gdl-aurora--1, .gdl-cta-card .gdl-aurora--2 { opacity: .5; }
+    .gdl-cta-content { position: relative; z-index: 2; }
+    .gdl-cta-title { font-family: var(--font-display); font-size: clamp(1.8rem, 1.4rem + 1.8vw, 2.6rem); font-weight: 800; color: #fff; margin-bottom: .9rem; }
+    .gdl-cta-sub { font-size: .95rem; color: var(--gdl-text-dim); max-width: 480px; margin: 0 auto 2rem; line-height: 1.7; }
+
+    /* ══════════════════════ FOOTER ══════════════════════ */
+    .gdl-footer { background: #04080f; border-top: 1px solid var(--gdl-border); padding: 2.4rem 1.25rem; text-align: center; }
+    .gdl-footer p { font-size: .75rem; color: rgba(255,255,255,.25); font-family: var(--font-display,'Barlow Condensed',sans-serif); letter-spacing: .05em; }
+    .gdl-footer a { color: rgba(16,185,129,.6); text-decoration: none; }
+    .gdl-footer a:hover { color: rgba(16,185,129,.9); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .gdl *, .gdl *::before, .gdl *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+      .gdl-reveal, .gdl-step, .gdl-card, .gdl-bento-item { opacity: 1 !important; transform: none !important; filter: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -395,463 +549,573 @@
     </div>
   </header>
 
-  <main id="main-content">
+  <main id="main-content" class="gdl">
 
-    <!-- ── HERO ─────────────────────────────────────────── -->
-    <section class="gh-hero" aria-labelledby="guide-title">
-      <div class="gh-hero-inner">
-        <span class="gh-eyebrow">
-          <span class="gh-eyebrow-dot" aria-hidden="true"></span>
-          คู่มือประชาชน · Green Space Guide
-        </span>
-        <h1 class="gh-title" id="guide-title">คู่มือ<em>เพิ่มพื้นที่<br>สีเขียว</em></h1>
-        <p class="gh-lead">แนวทางสำหรับประชาชนและหน่วยงานในการเพิ่มพื้นที่สีเขียว ลดเกาะความร้อนเมือง และสร้างขอนแก่นให้น่าอยู่มากขึ้น</p>
-        <a href="vote-park.html" class="gh-hero-cta">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-          ร่วมโหวตสวนสีเขียวตอนนี้
-        </a>
+    <!-- ══════════ SECTION 1 — HERO ══════════ -->
+    <section class="gdl-hero" aria-labelledby="gdl-hero-title">
+      <div class="gdl-hero-bg" aria-hidden="true">
+        <div class="gdl-aurora gdl-aurora--1"></div>
+        <div class="gdl-aurora gdl-aurora--2"></div>
+        <div class="gdl-aurora gdl-aurora--3"></div>
+        <div class="gdl-hero-grid"></div>
+        <svg class="gdl-leaf" style="top:18%;left:10%;width:34px;height:34px;animation-delay:.2s;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2C6 2 3 7 3 12c0 5 4 9 9 9 1-6 3-10 7-13-4 1-7 3-9 7C9 10 10 5 12 2z"/></svg>
+        <svg class="gdl-leaf" style="top:65%;left:6%;width:26px;height:26px;animation-delay:1.4s;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2C6 2 3 7 3 12c0 5 4 9 9 9 1-6 3-10 7-13-4 1-7 3-9 7C9 10 10 5 12 2z"/></svg>
+        <svg class="gdl-leaf" style="top:24%;right:9%;width:30px;height:30px;animation-delay:.8s;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2C6 2 3 7 3 12c0 5 4 9 9 9 1-6 3-10 7-13-4 1-7 3-9 7C9 10 10 5 12 2z"/></svg>
+        <svg class="gdl-leaf" style="top:70%;right:14%;width:22px;height:22px;animation-delay:2.2s;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2C6 2 3 7 3 12c0 5 4 9 9 9 1-6 3-10 7-13-4 1-7 3-9 7C9 10 10 5 12 2z"/></svg>
+      </div>
+
+      <div class="gdl-hero-inner gdl-reveal">
+        <span class="gdl-eyebrow"><span class="gdl-eyebrow-dot"></span> AI Design Library · Heat Safe Khon Kaen</span>
+        <h1 class="gdl-hero-title" id="gdl-hero-title">Garden Design <span>Library</span></h1>
+        <p class="gdl-hero-sub">Discover AI-generated landscape designs optimized for cooling, sustainability, and urban environments.</p>
+        <p class="gdl-hero-sub-th">คลังแบบสวนที่คัดสรรและวิเคราะห์ด้วย AI สำหรับลดความร้อนเมือง เพิ่มพื้นที่สีเขียว และบริหารจัดการน้ำฝนในขอนแก่น</p>
+        <div class="gdl-hero-cta-row">
+          <a href="https://geoheat-ai-frontend.vercel.app" class="gdl-btn gdl-btn-primary" data-ripple target="_blank" rel="noopener">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+            เริ่มออกแบบด้วย AI
+          </a>
+          <a href="#templates" class="gdl-btn gdl-btn-ghost" data-ripple>
+            ดูแบบสวนทั้งหมด
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+          </a>
+        </div>
+
+        <div class="gdl-hero-stats">
+          <div class="gdl-hero-stat"><div class="gdl-hero-stat-val" data-count="5">0</div><div class="gdl-hero-stat-label">แบบสวนพร้อมใช้</div></div>
+          <div class="gdl-hero-stat"><div class="gdl-hero-stat-val" data-count="12" data-suffix="°C">0°C</div><div class="gdl-hero-stat-label">ลดความร้อนสูงสุด</div></div>
+          <div class="gdl-hero-stat"><div class="gdl-hero-stat-val" data-count="100" data-suffix="%">0%</div><div class="gdl-hero-stat-label">วิเคราะห์ด้วย AI</div></div>
+        </div>
       </div>
     </section>
 
-    <!-- ── BODY ──────────────────────────────────────────── -->
-    <div class="gh-body">
+    <!-- ══════════ SECTION 2 — WORKFLOW TIMELINE ══════════ -->
+    <section class="gdl-flow" id="workflow" aria-labelledby="gdl-flow-title">
+      <div class="gdl-container">
+        <div class="gdl-section-head center gdl-reveal">
+          <span class="gdl-section-tag">How It Works</span>
+          <h2 class="gdl-section-title" id="gdl-flow-title">AI Recommendation Workflow</h2>
+          <p class="gdl-section-lead">ตั้งแต่อัปโหลดรูปพื้นที่ไปจนถึงลงมือปลูกจริง ระบบพาคุณผ่าน 6 ขั้นตอนอย่างเป็นระบบ</p>
+        </div>
 
-      <!-- Sidebar TOC (desktop) -->
-      <aside aria-label="สารบัญ">
-        <!-- Mobile toggle -->
-        <button class="gh-toc-mobile" id="toc-toggle" aria-expanded="false" aria-controls="gh-toc">
-          <span>สารบัญ</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <nav class="gh-toc" id="gh-toc" aria-label="สารบัญคู่มือ">
-          <div class="gh-toc-title">สารบัญ</div>
-          <ul class="gh-toc-list" role="list">
-            <li><a href="#why" id="toc-why"><span class="gh-toc-num">01</span>ทำไมต้องเพิ่มพื้นที่สีเขียว</a></li>
-            <li><a href="#types" id="toc-types"><span class="gh-toc-num">02</span>ประเภทพื้นที่สีเขียว</a></li>
-            <li><a href="#benefits" id="toc-benefits"><span class="gh-toc-num">03</span>ประโยชน์และผลลัพธ์</a></li>
-            <li><a href="#how-to" id="toc-how"><span class="gh-toc-num">04</span>วิธีเสนอโครงการ</a></li>
-            <li><a href="#participate" id="toc-part"><span class="gh-toc-num">05</span>วิธีมีส่วนร่วม</a></li>
-            <li><a href="#location" id="toc-loc"><span class="gh-toc-num">06</span>เลือกพื้นที่อย่างไร</a></li>
-            <li><a href="#faq" id="toc-faq"><span class="gh-toc-num">07</span>คำถามที่พบบ่อย</a></li>
-          </ul>
-        </nav>
-      </aside>
+        <div class="gdl-timeline" id="gdlTimeline">
+          <div class="gdl-step">
+            <div class="gdl-step-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+            <div class="gdl-step-num">STEP 01</div>
+            <div class="gdl-step-title">อัปโหลดรูปภาพ</div>
+            <div class="gdl-step-desc">ถ่ายหรืออัปโหลดรูปพื้นที่ของคุณเข้าสู่ระบบ</div>
+          </div>
+          <div class="gdl-step">
+            <div class="gdl-step-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/><circle cx="12" cy="12" r="3"/></svg></div>
+            <div class="gdl-step-num">STEP 02</div>
+            <div class="gdl-step-title">AI วิเคราะห์ภาพ</div>
+            <div class="gdl-step-desc">ตรวจจับพื้นคอนกรีต ต้นไม้ และสิ่งปลูกสร้างในภาพ</div>
+          </div>
+          <div class="gdl-step">
+            <div class="gdl-step-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="9" r="4"/><path d="M12 2v1M12 15v2M19 9h1M4 9h1M17 4l-.7.7M7.7 13.3 7 14M17 14l-.7-.7M7.7 4.7 7 4"/></svg></div>
+            <div class="gdl-step-num">STEP 03</div>
+            <div class="gdl-step-title">ประเมินความร้อน</div>
+            <div class="gdl-step-desc">คำนวณระดับความร้อนสะสมจากสัดส่วนพื้นผิว</div>
+          </div>
+          <div class="gdl-step">
+            <div class="gdl-step-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11z"/><path d="M9 12l2 2 4-4"/></svg></div>
+            <div class="gdl-step-num">STEP 04</div>
+            <div class="gdl-step-title">คำนวณ Green Score</div>
+            <div class="gdl-step-desc">ให้คะแนนความเป็นมิตรต่อสิ่งแวดล้อม 0–100</div>
+          </div>
+          <div class="gdl-step">
+            <div class="gdl-step-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22V12M12 12C12 7 7 4 3 6M12 12C12 7 17 4 21 6"/></svg></div>
+            <div class="gdl-step-num">STEP 05</div>
+            <div class="gdl-step-title">แนะนำแบบสวน</div>
+            <div class="gdl-step-desc">เสนอแบบสวนและพันธุ์ไม้ที่เหมาะกับพื้นที่</div>
+          </div>
+          <div class="gdl-step">
+            <div class="gdl-step-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="gdl-step-num">STEP 06</div>
+            <div class="gdl-step-title">ลงมือทำจริง</div>
+            <div class="gdl-step-desc">พัฒนาพื้นที่จริงและติดตามผลลัพธ์ความร้อน</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-      <!-- Main content -->
-      <div class="gh-content">
+    <!-- ══════════ SECTION 3 — GARDEN TEMPLATES ══════════ -->
+    <section class="gdl-templates" id="templates" aria-labelledby="gdl-templates-title">
+      <div class="gdl-container">
+        <div class="gdl-section-head gdl-reveal">
+          <span class="gdl-section-tag">Garden Templates</span>
+          <h2 class="gdl-section-title" id="gdl-templates-title">เลือกแบบสวนที่ใช่สำหรับพื้นที่ของคุณ</h2>
+          <p class="gdl-section-lead">แต่ละแบบผ่านการวิเคราะห์ผลด้านความร้อน ความยั่งยืน และงบประมาณ คลิก "ดูรายละเอียด" เพื่อดูข้อมูลเชิงลึก</p>
+        </div>
+        <div class="gdl-grid" id="gdlGrid"></div>
+      </div>
+    </section>
 
-        <!-- ── 01 ทำไมต้องเพิ่มพื้นที่สีเขียว ────────── -->
-        <section class="gh-section" id="why" aria-labelledby="why-title">
-          <div class="gh-section-header">
-            <div class="gh-section-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg>
+    <!-- ══════════ MODAL ══════════ -->
+    <dialog class="gdl-modal" id="gdlModal" aria-labelledby="gdlModalTitle">
+      <div class="gdl-modal-scroll">
+        <div class="gdl-modal-media">
+          <img id="gdlModalImg" src="" alt="" />
+          <span class="gdl-modal-category" id="gdlModalCategory"></span>
+          <button class="gdl-modal-close" id="gdlModalClose" aria-label="ปิดหน้าต่าง">×</button>
+        </div>
+        <div class="gdl-modal-body">
+          <h2 class="gdl-modal-title" id="gdlModalTitle"></h2>
+          <p class="gdl-modal-overview" id="gdlModalOverview"></p>
+
+          <div class="gdl-modal-chips" id="gdlModalChips"></div>
+
+          <div class="gdl-modal-columns">
+            <div>
+              <h3>คุณสมบัติเด่น</h3>
+              <ul id="gdlModalFeatures"></ul>
             </div>
             <div>
-              <div class="gh-section-num">01 — ทำไม</div>
-              <h2 class="gh-section-title" id="why-title">ทำไมต้องเพิ่มพื้นที่สีเขียว?</h2>
-            </div>
-          </div>
-
-          <p class="gh-text">ขอนแก่นเป็นเมืองที่กำลังขยายตัวอย่างรวดเร็ว พื้นที่สีเขียวที่เคยมีถูกแทนที่ด้วยคอนกรีตและยางมะตอย ส่งผลให้เกิด <strong>ปรากฏการณ์เกาะความร้อนเมือง (Urban Heat Island)</strong> ซึ่งทำให้อุณหภูมิในเมืองสูงกว่าพื้นที่โดยรอบถึง 4–8°C</p>
-
-          <div class="gh-stat-row" aria-label="สถิติสำคัญ">
-            <div class="gh-stat">
-              <div class="gh-stat-val">+6°C</div>
-              <div class="gh-stat-label">อุณหภูมิพื้นผิวสูงกว่าพื้นที่โดยรอบ</div>
-            </div>
-            <div class="gh-stat">
-              <div class="gh-stat-val">−4°C</div>
-              <div class="gh-stat-label">ลดได้ด้วยสวนขนาดเล็กในชุมชน</div>
-            </div>
-            <div class="gh-stat">
-              <div class="gh-stat-val">25%</div>
-              <div class="gh-stat-label">ประหยัดพลังงานแอร์เมื่อมีหลังคาเขียว</div>
-            </div>
-          </div>
-
-          <div class="gh-highlight">
-            <strong>ข้อมูลจากงานวิจัย GeoHeat:</strong> การวิเคราะห์ภาพถ่ายดาวเทียม Landsat พบว่าพื้นที่สีเขียว 1 ตารางกิโลเมตรสามารถลดอุณหภูมิพื้นผิวเฉลี่ยได้ 3–5°C โดยมีความสัมพันธ์ผกผันระหว่าง NDVI กับ LST ที่ r = −0.91
-          </div>
-
-          <p class="gh-text">นอกจากการลดความร้อน พื้นที่สีเขียวยังช่วย <strong>กรองฝุ่น PM2.5</strong> ลดมลพิษทางเสียง รองรับน้ำฝน ลดน้ำท่วม และสร้างพื้นที่พักผ่อนสำหรับคนทุกวัยในชุมชน</p>
-        </section>
-
-        <!-- ── 02 ประเภทพื้นที่สีเขียว ──────────────── -->
-        <section class="gh-section" id="types" aria-labelledby="types-title">
-          <div class="gh-section-header">
-            <div class="gh-section-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round"><path d="M12 22V12M12 12C12 7 7 4 3 6M12 12C12 7 17 4 21 6"/></svg>
+              <h3>ประโยชน์ต่อสิ่งแวดล้อม</h3>
+              <ul id="gdlModalBenefits"></ul>
             </div>
             <div>
-              <div class="gh-section-num">02 — ประเภท</div>
-              <h2 class="gh-section-title" id="types-title">ประเภทพื้นที่สีเขียว</h2>
-            </div>
-          </div>
-
-          <p class="gh-text">พื้นที่สีเขียวในเมืองมีหลายรูปแบบ แต่ละแบบเหมาะกับบริบทพื้นที่ต่างกัน เลือกให้ตรงกับความต้องการของชุมชน:</p>
-
-          <div class="gh-type-grid" role="list">
-            <div class="gh-type" role="listitem">
-              <div class="gh-type-dot" style="background:#4ADE80;" aria-hidden="true"></div>
-              <div>
-                <div class="gh-type-name">🌳 Pocket Park — สวนชุมชนขนาดเล็ก</div>
-                <div class="gh-type-desc">สวนพักผ่อนในย่านที่อยู่อาศัย ขนาด 200–2,000 ตร.ม. มีต้นไม้ ม้านั่ง และพื้นที่ออกกำลังกาย เหมาะกับที่ดินว่างเปล่าหรือพื้นที่รกร้าง</div>
-                <div class="gh-type-impact">ผล: ลดอุณหภูมิ <span>−4°C</span> ในรัศมี 200 ม.</div>
-              </div>
-            </div>
-            <div class="gh-type" role="listitem">
-              <div class="gh-type-dot" style="background:#22D3EE;" aria-hidden="true"></div>
-              <div>
-                <div class="gh-type-name">🌿 Green Walkway — ทางเดินสีเขียว</div>
-                <div class="gh-type-desc">เส้นทางเดินและปั่นจักรยานที่ร่มรื่น เชื่อมย่านต่างๆ เข้าด้วยกัน ลดการใช้รถยนต์และสร้างระบบโครงข่ายสีเขียวในเมือง</div>
-                <div class="gh-type-impact">ผล: ลดฝุ่น PM2.5 <span>−18%</span> ตามแนวทาง</div>
-              </div>
-            </div>
-            <div class="gh-type" role="listitem">
-              <div class="gh-type-dot" style="background:#A3E635;" aria-hidden="true"></div>
-              <div>
-                <div class="gh-type-name">🏙 Green Roof — หลังคาสีเขียว</div>
-                <div class="gh-type-desc">ปลูกต้นไม้บนดาดฟ้าอาคาร ไม่ต้องใช้พื้นที่ดิน เหมาะกับอาคารพาณิชย์ โรงเรียน และโรงพยาบาล ช่วยกักน้ำฝนและลดความร้อนในอาคาร</div>
-                <div class="gh-type-impact">ผล: ประหยัดพลังงาน <span>−25%</span> ต่ออาคาร</div>
-              </div>
-            </div>
-            <div class="gh-type" role="listitem">
-              <div class="gh-type-dot" style="background:#FB923C;" aria-hidden="true"></div>
-              <div>
-                <div class="gh-type-name">💧 Sponge Plaza — ลานซับน้ำ</div>
-                <div class="gh-type-desc">พื้นที่สาธารณะที่ใช้วัสดุซึมน้ำ รองรับน้ำฝนหนักได้โดยไม่ท่วม เหมาะกับลานหน้าชุมชน ตลาด หรือพื้นที่จัดกิจกรรม</div>
-                <div class="gh-type-impact">ผล: ลดน้ำท่วม <span>−60%</span> ช่วงฝนหนัก</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="gh-table-wrap">
-            <table class="gh-table" aria-label="เปรียบเทียบประเภทพื้นที่สีเขียว">
-              <thead>
-                <tr>
-                  <th>ประเภท</th>
-                  <th>พื้นที่ขั้นต่ำ</th>
-                  <th>งบประมาณโดยประมาณ</th>
-                  <th>เหมาะกับ</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Pocket Park</td>
-                  <td>200 ตร.ม.</td>
-                  <td class="gh-table-highlight">200,000–1,500,000 บาท</td>
-                  <td>ที่ดินว่าง, ริมถนน</td>
-                </tr>
-                <tr>
-                  <td>Green Walkway</td>
-                  <td>ระยะทาง 500 ม.</td>
-                  <td class="gh-table-highlight">500,000–5,000,000 บาท</td>
-                  <td>ทางเท้า, ริมคลอง</td>
-                </tr>
-                <tr>
-                  <td>Green Roof</td>
-                  <td>100 ตร.ม.</td>
-                  <td class="gh-table-highlight">80,000–400,000 บาท</td>
-                  <td>อาคาร, โรงเรียน</td>
-                </tr>
-                <tr>
-                  <td>Sponge Plaza</td>
-                  <td>500 ตร.ม.</td>
-                  <td class="gh-table-highlight">300,000–2,000,000 บาท</td>
-                  <td>ลาน, ตลาด, ชุมชน</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <!-- ── 03 ประโยชน์และผลลัพธ์ ─────────────────── -->
-        <section class="gh-section" id="benefits" aria-labelledby="benefits-title">
-          <div class="gh-section-header">
-            <div class="gh-section-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <h3>องค์ประกอบภูมิทัศน์</h3>
+              <ul id="gdlModalElements"></ul>
             </div>
             <div>
-              <div class="gh-section-num">03 — ประโยชน์</div>
-              <h2 class="gh-section-title" id="benefits-title">ประโยชน์และผลลัพธ์</h2>
+              <h3>พันธุ์ไม้แนะนำ</h3>
+              <div class="gdl-modal-plants" id="gdlModalPlants"></div>
             </div>
           </div>
 
-          <div class="gh-card-grid" role="list">
-            <div class="gh-card" role="listitem">
-              <div class="gh-card-icon" aria-hidden="true">🌡</div>
-              <div class="gh-card-title">ลดอุณหภูมิ</div>
-              <div class="gh-card-sub">ร่มเงาและการระเหยน้ำจากพืชช่วยลดอุณหภูมิพื้นผิวได้สูงสุด 6°C ลดความเสี่ยงโรคลมแดดในชุมชน</div>
-              <span class="gh-card-tag">ด้านสุขภาพ</span>
-            </div>
-            <div class="gh-card" role="listitem">
-              <div class="gh-card-icon" aria-hidden="true">💨</div>
-              <div class="gh-card-title">กรองฝุ่น PM2.5</div>
-              <div class="gh-card-sub">ใบไม้ดักจับและดูดซับอนุภาคฝุ่นขนาดเล็ก ช่วยปรับปรุงคุณภาพอากาศในชุมชนได้อย่างต่อเนื่อง</div>
-              <span class="gh-card-tag">คุณภาพอากาศ</span>
-            </div>
-            <div class="gh-card" role="listitem">
-              <div class="gh-card-icon" aria-hidden="true">💧</div>
-              <div class="gh-card-title">บริหารน้ำฝน</div>
-              <div class="gh-card-sub">พื้นที่สีเขียวดูดซับน้ำฝนลดการไหลบ่าบนผิวถนน ช่วยลดความเสี่ยงน้ำท่วมในช่วงฤดูฝน</div>
-              <span class="gh-card-tag">ป้องกันน้ำท่วม</span>
-            </div>
-            <div class="gh-card" role="listitem">
-              <div class="gh-card-icon" aria-hidden="true">⚡</div>
-              <div class="gh-card-title">ประหยัดพลังงาน</div>
-              <div class="gh-card-sub">ร่มเงาจากต้นไม้และ Green Roof ลดการใช้เครื่องปรับอากาศในอาคารโดยรอบ ประหยัดค่าไฟได้จริง</div>
-              <span class="gh-card-tag">พลังงาน</span>
-            </div>
-            <div class="gh-card" role="listitem">
-              <div class="gh-card-icon" aria-hidden="true">🧠</div>
-              <div class="gh-card-title">สุขภาพจิต</div>
-              <div class="gh-card-sub">งานวิจัยพบว่าการเข้าถึงพื้นที่สีเขียวลดความเครียดและอาการซึมเศร้า สร้างพื้นที่พบปะสังคมสำหรับทุกคน</div>
-              <span class="gh-card-tag">คุณภาพชีวิต</span>
-            </div>
-            <div class="gh-card" role="listitem">
-              <div class="gh-card-icon" aria-hidden="true">🏘</div>
-              <div class="gh-card-title">มูลค่าที่ดิน</div>
-              <div class="gh-card-sub">ที่ดินในรัศมี 400 ม. จากสวนสาธารณะมีมูลค่าสูงขึ้น 5–15% เพิ่มความน่าดึงดูดของย่านที่อยู่อาศัย</div>
-              <span class="gh-card-tag">เศรษฐกิจ</span>
-            </div>
+          <div class="gdl-modal-cooling" id="gdlModalCooling"></div>
+
+          <a class="gdl-modal-cta" href="https://geoheat-ai-frontend.vercel.app" target="_blank" rel="noopener">
+            ออกแบบสวนแบบนี้สำหรับพื้นที่ของคุณด้วย AI →
+          </a>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- ══════════ SECTION 4 — COMPARISON ══════════ -->
+    <section class="gdl-compare" id="compare" aria-labelledby="gdl-compare-title">
+      <div class="gdl-container">
+        <div class="gdl-section-head gdl-reveal">
+          <span class="gdl-section-tag">Compare</span>
+          <h2 class="gdl-section-title" id="gdl-compare-title">เปรียบเทียบแบบสวนทั้ง 5 รูปแบบ</h2>
+          <p class="gdl-section-lead">ดูภาพรวมด้านพื้นที่ ความสามารถในการลดความร้อน การดูแลรักษา และงบประมาณ เพื่อเลือกแบบที่เหมาะกับคุณที่สุด</p>
+        </div>
+        <div class="gdl-compare-wrap gdl-reveal">
+          <table class="gdl-compare-table">
+            <thead>
+              <tr>
+                <th>รูปแบบ</th>
+                <th>พื้นที่ที่เหมาะสม</th>
+                <th>ลดความร้อน</th>
+                <th>การดูแลรักษา</th>
+                <th>งบประมาณก่อสร้าง</th>
+                <th>บริหารน้ำฝน</th>
+                <th>เหมาะกับ</th>
+              </tr>
+            </thead>
+            <tbody id="gdlCompareBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ SECTION 5 — BENEFITS BENTO ══════════ -->
+    <section class="gdl-benefits" id="benefits" aria-labelledby="gdl-benefits-title">
+      <div class="gdl-container">
+        <div class="gdl-section-head gdl-reveal">
+          <span class="gdl-section-tag">Why It Matters</span>
+          <h2 class="gdl-section-title" id="gdl-benefits-title">ประโยชน์ที่ได้มากกว่าความเขียว</h2>
+          <p class="gdl-section-lead">ทุกแบบสวนในคลังนี้ถูกออกแบบให้ตอบโจทย์เมืองอย่างรอบด้าน ไม่ใช่แค่ความสวยงาม</p>
+        </div>
+
+        <div class="gdl-bento" id="gdlBento">
+          <div class="gdl-bento-item gdl-bento-item--wide">
+            <div class="gdl-bento-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></div>
+            <div class="gdl-bento-title">ออกแบบด้วย AI</div>
+            <div class="gdl-bento-desc">วิเคราะห์ภาพพื้นที่จริงและแนะนำแบบสวนที่เหมาะสมโดยอัตโนมัติ ไม่ต้องเดาเอง</div>
           </div>
-        </section>
-
-        <!-- ── 04 วิธีเสนอโครงการ ──────────────────── -->
-        <section class="gh-section" id="how-to" aria-labelledby="howto-title">
-          <div class="gh-section-header">
-            <div class="gh-section-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-            </div>
-            <div>
-              <div class="gh-section-num">04 — ขั้นตอน</div>
-              <h2 class="gh-section-title" id="howto-title">วิธีเสนอโครงการ</h2>
-            </div>
+          <div class="gdl-bento-item">
+            <div class="gdl-bento-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M12 12v8M9 3l3-1 3 1M6 19c2-3 4-4 6-4s4 1 6 4"/></svg></div>
+            <div class="gdl-bento-title">ลดความร้อนเมือง</div>
+            <div class="gdl-bento-desc">ลดอุณหภูมิพื้นผิวเฉลี่ยได้สูงสุดถึง 12°C</div>
           </div>
-
-          <p class="gh-text">ประชาชนทั่วไปสามารถเสนอโครงการพื้นที่สีเขียวต่อหน่วยงานท้องถิ่นได้โดยทำตามขั้นตอนต่อไปนี้:</p>
-
-          <div class="gh-steps" role="list">
-            <div class="gh-step" role="listitem">
-              <div class="gh-step-num" aria-label="ขั้นที่ 1">01</div>
-              <div>
-                <div class="gh-step-title">สำรวจพื้นที่เป้าหมาย</div>
-                <div class="gh-step-desc">ระบุพื้นที่ที่ต้องการเพิ่มสวนในชุมชน เช่น ที่ดินรกร้าง ริมถนน หรือพื้นที่สาธารณะที่ไม่ได้ใช้ประโยชน์ ถ่ายภาพและจดบันทึก GPS ไว้</div>
-              </div>
-            </div>
-            <div class="gh-step" role="listitem">
-              <div class="gh-step-num" aria-label="ขั้นที่ 2">02</div>
-              <div>
-                <div class="gh-step-title">รวบรวมเสียงสนับสนุนจากชุมชน</div>
-                <div class="gh-step-desc">พูดคุยกับเพื่อนบ้านและชุมชนโดยรอบ รวบรวมรายชื่อผู้สนับสนุนอย่างน้อย 20 คน หรือโหวตผ่านระบบออนไลน์ของโครงการนี้</div>
-              </div>
-            </div>
-            <div class="gh-step" role="listitem">
-              <div class="gh-step-num" aria-label="ขั้นที่ 3">03</div>
-              <div>
-                <div class="gh-step-title">เขียนข้อเสนอโครงการ</div>
-                <div class="gh-step-desc">ระบุ: ประเภทพื้นที่สีเขียวที่ต้องการ ที่ตั้ง ขนาดประมาณ ประโยชน์ที่ชุมชนจะได้รับ และแหล่งงบประมาณที่อาจขอได้ (อบจ. / เทศบาล / งบ สสส.)</div>
-              </div>
-            </div>
-            <div class="gh-step" role="listitem">
-              <div class="gh-step-num" aria-label="ขั้นที่ 4">04</div>
-              <div>
-                <div class="gh-step-title">ยื่นเรื่องต่อหน่วยงานท้องถิ่น</div>
-                <div class="gh-step-desc">ยื่นข้อเสนอต่อเทศบาลนครขอนแก่น / อบต. / อบจ.ขอนแก่น พร้อมรายชื่อสนับสนุน เอกสาร และรูปถ่าย สามารถยื่นออนไลน์ผ่าน QueQ หรือยื่นที่ศูนย์บริการประชาชน</div>
-              </div>
-            </div>
-            <div class="gh-step" role="listitem">
-              <div class="gh-step-num" aria-label="ขั้นที่ 5">05</div>
-              <div>
-                <div class="gh-step-title">ติดตามผลและมีส่วนร่วม</div>
-                <div class="gh-step-desc">ติดตามความคืบหน้ากับหน่วยงาน เข้าร่วมประชุมประชาคม และช่วยดูแลรักษาพื้นที่สีเขียวหลังจากสร้างเสร็จเพื่อความยั่งยืน</div>
-              </div>
-            </div>
+          <div class="gdl-bento-item">
+            <div class="gdl-bento-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22V12M12 12C12 7 7 4 3 6M12 12C12 7 17 4 21 6"/></svg></div>
+            <div class="gdl-bento-title">เพิ่มพื้นที่สีเขียว</div>
+            <div class="gdl-bento-desc">แปลงพื้นที่คอนกรีตรกร้างให้กลับมามีชีวิต</div>
           </div>
-
-          <div class="gh-highlight">
-            <strong>เคล็ดลับ:</strong> โครงการที่มีข้อมูลสนับสนุน เช่น ข้อมูลอุณหภูมิจาก <a href="heat.html" style="color:#4ADE80;">แผนที่ความร้อน</a> หรือจำนวนผู้สนับสนุนจากการโหวต มักได้รับการพิจารณาเร็วกว่า
+          <div class="gdl-bento-item">
+            <div class="gdl-bento-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 20h18a5.5 5.5 0 1 0-5-7.5" transform="scale(0.7) translate(3,4)"/><circle cx="17" cy="17" r="1.6" fill="currentColor" stroke="none"/><circle cx="13" cy="20" r="1.6" fill="currentColor" stroke="none"/></svg></div>
+            <div class="gdl-bento-title">ยกระดับคุณภาพอากาศ</div>
+            <div class="gdl-bento-desc">ใบไม้ช่วยกรองฝุ่น PM2.5 ได้อย่างต่อเนื่อง</div>
           </div>
-        </section>
-
-        <!-- ── 05 วิธีมีส่วนร่วม ────────────────────── -->
-        <section class="gh-section" id="participate" aria-labelledby="part-title">
-          <div class="gh-section-header">
-            <div class="gh-section-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            </div>
-            <div>
-              <div class="gh-section-num">05 — มีส่วนร่วม</div>
-              <h2 class="gh-section-title" id="part-title">วิธีมีส่วนร่วม</h2>
-            </div>
+          <div class="gdl-bento-item gdl-bento-item--wide">
+            <div class="gdl-bento-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.5c3 4 6 7.5 6 11.5a6 6 0 1 1-12 0c0-4 3-7.5 6-11.5z"/></svg></div>
+            <div class="gdl-bento-title">บริหารจัดการน้ำฝนอย่างยั่งยืน</div>
+            <div class="gdl-bento-desc">พื้นผิวซึมน้ำและพื้นที่หน่วงน้ำช่วยลดความเสี่ยงน้ำท่วมขังในเมือง</div>
           </div>
+        </div>
+      </div>
+    </section>
 
-          <p class="gh-text">ทุกคนมีส่วนร่วมได้ตั้งแต่วันนี้ ไม่ว่าจะเป็นการโหวต การแชร์ข้อมูล หรือการลงมือทำในชุมชนของตัวเอง:</p>
+    <!-- ══════════ SECTION 6 — FAQ ══════════ -->
+    <section class="gdl-faq" id="faq" aria-labelledby="gdl-faq-title">
+      <div class="gdl-container">
+        <div class="gdl-section-head center gdl-reveal">
+          <span class="gdl-section-tag">FAQ</span>
+          <h2 class="gdl-section-title" id="gdl-faq-title">คำถามที่พบบ่อย</h2>
+        </div>
 
-          <div class="gh-tips" role="list">
-            <div class="gh-tip" role="listitem">
-              <span class="gh-tip-icon" aria-hidden="true">✅</span>
-              <span><strong style="color:rgba(255,255,255,.8);">โหวตออนไลน์</strong> — เลือกประเภทสวนที่อยากเห็นในขอนแก่นผ่านระบบโหวตบนเว็บไซต์นี้ เสียงของคุณจะถูกรวบรวมเสนอต่อหน่วยงานที่เกี่ยวข้อง</span>
-            </div>
-            <div class="gh-tip" role="listitem">
-              <span class="gh-tip-icon" aria-hidden="true">✅</span>
-              <span><strong style="color:rgba(255,255,255,.8);">ปักหมุดพื้นที่</strong> — เมื่อโหวต ให้ปักหมุดบนแผนที่ระบุจุดที่อยากให้สร้างสวน ข้อมูลจะช่วยให้วางแผนได้แม่นยำขึ้น</span>
-            </div>
-            <div class="gh-tip" role="listitem">
-              <span class="gh-tip-icon" aria-hidden="true">✅</span>
-              <span><strong style="color:rgba(255,255,255,.8);">แชร์ข้อมูล</strong> — แชร์ผลการวิเคราะห์ความร้อนและแผนที่ให้เพื่อนบ้าน สมาชิกชุมชน และผู้นำท้องถิ่นรับรู้</span>
-            </div>
-            <div class="gh-tip" role="listitem">
-              <span class="gh-tip-icon" aria-hidden="true">✅</span>
-              <span><strong style="color:rgba(255,255,255,.8);">ปลูกต้นไม้เอง</strong> — เริ่มจากบ้านตัวเองได้เลย ปลูกต้นไม้ในกระถางบนระเบียง บนดาดฟ้า หรือหน้าบ้าน ทุกต้นมีความหมาย</span>
-            </div>
-            <div class="gh-tip" role="listitem">
-              <span class="gh-tip-icon" aria-hidden="true">✅</span>
-              <span><strong style="color:rgba(255,255,255,.8);">เข้าร่วมกลุ่มอาสา</strong> — ติดต่อกลุ่มอาสาสมัครปลูกต้นไม้ในขอนแก่น เช่น โครงการ "ขอนแก่นเมืองสีเขียว" ของเทศบาลนครขอนแก่น</span>
-            </div>
+        <div class="gdl-faq-list gdl-reveal" id="gdlFaqList">
+          <div class="gdl-faq-item" data-open="false">
+            <button class="gdl-faq-q" aria-expanded="false">
+              <span>AI Garden Recommendation คืออะไร?</span>
+              <span class="gdl-faq-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+            </button>
+            <div class="gdl-faq-a-wrap"><div class="gdl-faq-a-inner"><p class="gdl-faq-a">เป็นระบบของ GeoHeat AI Green Designer ที่วิเคราะห์ภาพถ่ายพื้นที่จริงของคุณ ตรวจจับสัดส่วนพื้นคอนกรีตและต้นไม้ แล้วแนะนำแบบสวนที่เหมาะสมพร้อมพันธุ์ไม้และงบประมาณโดยอัตโนมัติ</p></div></div>
           </div>
-
-          <div class="gh-cta-banner" aria-label="ร่วมโหวตสวนสีเขียว">
-            <div class="gh-cta-banner-text">
-              <h3>ร่วมโหวตเลือกสวนที่คุณอยากเห็น</h3>
-              <p>ใช้เวลาแค่ 1 นาที เสียงของคุณจะถูกนำเสนอต่อหน่วยงานที่เกี่ยวข้องจริง</p>
-            </div>
-            <a href="vote-park.html" class="gh-cta-banner-btn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-              โหวตเลย
-            </a>
+          <div class="gdl-faq-item" data-open="false">
+            <button class="gdl-faq-q" aria-expanded="false">
+              <span>Green Score คำนวณอย่างไร?</span>
+              <span class="gdl-faq-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+            </button>
+            <div class="gdl-faq-a-wrap"><div class="gdl-faq-a-inner"><p class="gdl-faq-a">รวมคะแนนจาก 5 ปัจจัยแบบถ่วงน้ำหนัก ได้แก่ พืชพรรณ (30%) ร่มเงา (25%) การลดความร้อน (20%) ความหลากหลาย (15%) และการดูแลรักษา (10%) รวมเป็นคะแนนเต็ม 100</p></div></div>
           </div>
-        </section>
-
-        <!-- ── 06 เลือกพื้นที่อย่างไร ───────────────── -->
-        <section class="gh-section" id="location" aria-labelledby="loc-title">
-          <div class="gh-section-header">
-            <div class="gh-section-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="10" r="4"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
-            </div>
-            <div>
-              <div class="gh-section-num">06 — พื้นที่</div>
-              <h2 class="gh-section-title" id="loc-title">เลือกพื้นที่อย่างไร?</h2>
-            </div>
+          <div class="gdl-faq-item" data-open="false">
+            <button class="gdl-faq-q" aria-expanded="false">
+              <span>เลือกแบบสวนที่เหมาะสมอย่างไร?</span>
+              <span class="gdl-faq-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+            </button>
+            <div class="gdl-faq-a-wrap"><div class="gdl-faq-a-inner"><p class="gdl-faq-a">พิจารณาจากขนาดพื้นที่ งบประมาณ และเป้าหมายหลัก เช่น ต้องการลดความร้อน จัดการน้ำฝน หรือเพิ่มพื้นที่สีเขียว แล้วเทียบกับตารางเปรียบเทียบในหัวข้อ "Compare" ด้านบน</p></div></div>
           </div>
-
-          <p class="gh-text">การเลือกที่ตั้งที่เหมาะสมเป็นปัจจัยสำคัญที่สุดในการสร้างพื้นที่สีเขียวให้มีประสิทธิภาพสูงสุด ควรพิจารณาจากเกณฑ์เหล่านี้:</p>
-
-          <div class="gh-card-grid" role="list">
-            <div class="gh-card" role="listitem">
-              <div class="gh-card-icon" aria-hidden="true">🌡</div>
-              <div class="gh-card-title">จุดร้อนสูง (LST สูง)</div>
-              <div class="gh-card-sub">ดูแผนที่ความร้อนดาวเทียมเพื่อระบุพื้นที่ที่มีอุณหภูมิพื้นผิวสูงกว่า 45°C ซึ่งได้ประโยชน์สูงสุดจากพื้นที่สีเขียว</div>
-            </div>
-            <div class="gh-card" role="listitem">
-              <div class="gh-card-icon" aria-hidden="true">🏘</div>
-              <div class="gh-card-title">ความหนาแน่นประชากร</div>
-              <div class="gh-card-sub">พื้นที่ที่มีคนอาศัยมากแต่เข้าถึงสวนสาธารณะยาก (รัศมี 400 ม. ไม่มีสวน) ควรได้รับการพิจารณาก่อน</div>
-            </div>
-            <div class="gh-card" role="listitem">
-              <div class="gh-card-icon" aria-hidden="true">🌿</div>
-              <div class="gh-card-title">ค่า NDVI ต่ำ</div>
-              <div class="gh-card-sub">พื้นที่ที่ดัชนีพืชพรรณ (NDVI) ต่ำกว่า 0.2 หมายถึงมีพืชน้อย และจะได้รับประโยชน์มากที่สุดจากการปลูกต้นไม้เพิ่ม</div>
-            </div>
-            <div class="gh-card" role="listitem">
-              <div class="gh-card-icon" aria-hidden="true">🚶</div>
-              <div class="gh-card-title">การเข้าถึง</div>
-              <div class="gh-card-sub">ควรอยู่ใกล้ทางเดินเท้าหรือขนส่งสาธารณะ เพื่อให้ประชาชนเข้าถึงได้ง่ายโดยไม่ต้องใช้รถยนต์</div>
-            </div>
+          <div class="gdl-faq-item" data-open="false">
+            <button class="gdl-faq-q" aria-expanded="false">
+              <span>ปรับแต่งคำแนะนำให้เข้ากับพื้นที่ของฉันได้หรือไม่?</span>
+              <span class="gdl-faq-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+            </button>
+            <div class="gdl-faq-a-wrap"><div class="gdl-faq-a-inner"><p class="gdl-faq-a">ได้ครับ อัปโหลดภาพพื้นที่จริงผ่าน GeoHeat AI Green Designer เพื่อรับคำแนะนำที่ปรับตามขนาด ทิศทางแดด และงบประมาณของพื้นที่นั้นๆ โดยเฉพาะ ไม่ใช่แบบสำเร็จรูปตายตัว</p></div></div>
           </div>
+        </div>
+      </div>
+    </section>
 
-          <div class="gh-highlight">
-            <strong>เครื่องมือช่วยเลือกพื้นที่:</strong> ดูแผนที่ดัชนีพืชพรรณ NDVI ที่ <a href="ndvi.html" style="color:#4ADE80;">หน้า NDVI</a> และแผนที่ความร้อนดาวเทียมที่ <a href="heat.html" style="color:#4ADE80;">หน้าความร้อน</a> เพื่อระบุจุดที่ต้องการพื้นที่สีเขียวมากที่สุด
-          </div>
-        </section>
-
-        <!-- ── 07 FAQ ───────────────────────────────── -->
-        <section class="gh-section" id="faq" aria-labelledby="faq-title">
-          <div class="gh-section-header">
-            <div class="gh-section-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17" stroke-width="3"/></svg>
-            </div>
-            <div>
-              <div class="gh-section-num">07 — FAQ</div>
-              <h2 class="gh-section-title" id="faq-title">คำถามที่พบบ่อย</h2>
-            </div>
-          </div>
-
-          <div class="gh-steps" role="list">
-            <div class="gh-step" role="listitem">
-              <div class="gh-step-num" aria-hidden="true">Q</div>
-              <div>
-                <div class="gh-step-title">ใครเป็นคนตัดสินใจสร้างสวน?</div>
-                <div class="gh-step-desc">เทศบาลนครขอนแก่น / อบจ.ขอนแก่น / อบต. ในพื้นที่รับผิดชอบ เสียงโหวตจากประชาชนเป็นข้อมูลสนับสนุนการตัดสินใจ ไม่ใช่การตัดสินใจโดยตรง</div>
-              </div>
-            </div>
-            <div class="gh-step" role="listitem">
-              <div class="gh-step-num" aria-hidden="true">Q</div>
-              <div>
-                <div class="gh-step-title">โหวตแล้วมีผลจริงมั้ย?</div>
-                <div class="gh-step-desc">ผลโหวตจะถูกรวบรวมและนำเสนอต่อหน่วยงานท้องถิ่นโดยตรง พร้อมข้อมูลเชิงพื้นที่จากการปักหมุด ซึ่งช่วยให้หน่วยงานเห็นว่าชุมชนไหนต้องการสวนมากที่สุด</div>
-              </div>
-            </div>
-            <div class="gh-step" role="listitem">
-              <div class="gh-step-num" aria-hidden="true">Q</div>
-              <div>
-                <div class="gh-step-title">ฉันไม่มีที่ดิน จะช่วยได้ยังไง?</div>
-                <div class="gh-step-desc">โหวต แชร์ข้อมูล ปลูกต้นไม้ในกระถาง เข้าร่วมกลุ่มอาสา หรือเสนอแนวคิดให้นายกเทศมนตรี / ผู้แทนชุมชนในพื้นที่ของคุณ ทุกการกระทำมีความหมาย</div>
-              </div>
-            </div>
-            <div class="gh-step" role="listitem">
-              <div class="gh-step-num" aria-hidden="true">Q</div>
-              <div>
-                <div class="gh-step-title">ต้นไม้แบบไหนเหมาะกับขอนแก่น?</div>
-                <div class="gh-step-desc">พันธุ์ไม้ที่ทนร้อน แล้ง และโตเร็ว เช่น ประดู่ป่า กัลปพฤกษ์ อินทนิล สะเดา และไทรย้อยใบแหลม เหมาะสำหรับปลูกในสภาพอากาศขอนแก่น</div>
-              </div>
-            </div>
-          </div>
-
-        </section>
-
-      </div><!-- /gh-content -->
-    </div><!-- /gh-body -->
+    <!-- ══════════ SECTION 7 — CTA ══════════ -->
+    <section class="gdl-cta-section">
+      <div class="gdl-cta-card gdl-reveal">
+        <div class="gdl-hero-bg" aria-hidden="true">
+          <div class="gdl-aurora gdl-aurora--1" style="width:60%;height:140%;top:-40%;left:-15%;"></div>
+          <div class="gdl-aurora gdl-aurora--2" style="width:55%;height:130%;top:-30%;right:-15%;"></div>
+        </div>
+        <div class="gdl-cta-content">
+          <span class="gdl-eyebrow" style="margin-bottom:1.2rem;"><span class="gdl-eyebrow-dot"></span> GeoHeat AI Green Designer</span>
+          <h2 class="gdl-cta-title">พร้อมเปลี่ยนพื้นที่ของคุณหรือยัง?</h2>
+          <p class="gdl-cta-sub">ให้ AI วิเคราะห์พื้นที่และออกแบบสวนที่ใช่สำหรับคุณภายในไม่กี่นาที — ฟรี ไม่ต้องติดตั้งอะไรเพิ่ม</p>
+          <a href="https://geoheat-ai-frontend.vercel.app" class="gdl-btn gdl-btn-primary" data-ripple target="_blank" rel="noopener" style="padding:1rem 2.1rem;font-size:.95rem;">
+            เริ่มวิเคราะห์พื้นที่ของคุณ
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
 
   </main>
 
-  <footer style="background:#04080f;border-top:1px solid rgba(255,255,255,.06);padding:2rem 1.25rem;text-align:center;">
-    <p style="font-size:.75rem;color:rgba(255,255,255,.22);font-family:var(--font-display,'Barlow Condensed',sans-serif);letter-spacing:.05em;">
-      HEAT SAFE KHON KAEN · คู่มือเพิ่มพื้นที่สีเขียว · โครงงาน GeoHeat
-    </p>
-    <p style="font-size:.72rem;color:rgba(255,255,255,.15);margin-top:.4rem;">
-      <a href="index.html" style="color:rgba(74,222,128,.5);text-decoration:none;">← กลับหน้าแรก</a>
+  <footer class="gdl-footer">
+    <p>HEAT SAFE KHON KAEN · GARDEN DESIGN LIBRARY · โครงงาน GeoHeat</p>
+    <p style="margin-top:.5rem;">
+      <a href="index.html">← กลับหน้าแรก</a>
       &nbsp;·&nbsp;
-      <a href="vote-park.html" style="color:rgba(74,222,128,.5);text-decoration:none;">ร่วมโหวตสวนสีเขียว</a>
+      <a href="vote-park.html">ร่วมโหวตสวนสีเขียว</a>
+      &nbsp;·&nbsp;
+      <a href="https://geoheat-ai-frontend.vercel.app" target="_blank" rel="noopener">GeoHeat AI Green Designer</a>
     </p>
   </footer>
 
   <script>
-    /* Mobile TOC toggle */
-    var tocToggle = document.getElementById('toc-toggle');
-    var tocEl = document.getElementById('gh-toc');
-    if (tocToggle && tocEl) {
-      tocToggle.addEventListener('click', function () {
-        var open = tocEl.classList.toggle('open');
-        tocToggle.setAttribute('aria-expanded', open);
+  (function () {
+    'use strict';
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ── Garden data ─────────────────────────────────────────── */
+    var GARDENS = [
+      {
+        id: 'pocket-park', accent: 'var(--gdl-emerald)', accentKey: 'emerald',
+        image: '../assets/garden-designs/pocket-park.png',
+        name: 'Pocket Park', category: 'สวนชุมชนขนาดเล็ก',
+        coolingLabel: '−4°C', sustainLabel: 'ยั่งยืนสูง',
+        desc: 'สวนพักผ่อนขนาดเล็กในย่านที่อยู่อาศัย เติมร่มเงาและพื้นที่สีเขียวให้ชุมชนได้อย่างรวดเร็ว',
+        overview: 'Pocket Park คือสวนสาธารณะขนาดเล็กที่แทรกตัวอยู่ในย่านที่อยู่อาศัยหรือที่ดินว่างเปล่า ใช้พื้นที่น้อยแต่ให้ผลลัพธ์ด้านการลดความร้อนและคุณภาพชีวิตที่ชัดเจน เหมาะเป็นจุดเริ่มต้นของการเพิ่มพื้นที่สีเขียวในชุมชนเมือง',
+        area: '200–2,000 ตร.ม.', cost: '200,000–1,500,000 บาท',
+        difficulty: 'ง่าย', maintenance: 'ปานกลาง', space: '200 ตร.ม. ขึ้นไป',
+        coolingLevel: 4, maintenanceLevel: 3, rainwaterLevel: 3,
+        features: ['ม้านั่งใต้ร่มไม้', 'ทางเดินซึมน้ำ', 'สนามเด็กเล่นขนาดเล็ก', 'ไฟส่องสว่างพลังงานแสงอาทิตย์'],
+        benefits: ['ลดอุณหภูมิพื้นผิวโดยรอบ', 'เพิ่มความหลากหลายทางชีวภาพในเมือง', 'กรองฝุ่น PM2.5 ในระยะใกล้'],
+        elements: ['ไม้ยืนต้นให้ร่มเงา', 'พุ่มไม้ประดับ', 'สนามหญ้า', 'ทางเดินซึมน้ำ'],
+        plants: ['ประดู่ป่า', 'อินทนิลน้ำ', 'ทองอุไร', 'หมากเหลือง'],
+        coolingEffect: 'ลดอุณหภูมิพื้นผิวเฉลี่ย <strong>4°C</strong> ในรัศมี 200 เมตรจากใจกลางสวน',
+        bestFor: 'ที่ดินว่างในชุมชน, ริมถนน'
+      },
+      {
+        id: 'green-walkway', accent: 'var(--gdl-green)', accentKey: 'green',
+        image: '../assets/garden-designs/green-walkway.png',
+        name: 'Green Walkway', category: 'โครงข่ายสีเขียว',
+        coolingLabel: '−3°C', sustainLabel: 'ยั่งยืนสูง',
+        desc: 'เส้นทางเดินและปั่นจักรยานร่มรื่นที่เชื่อมย่านต่างๆ เข้าด้วยกัน ลดการพึ่งพารถยนต์',
+        overview: 'Green Walkway คือแนวทางเดิน/ปั่นจักรยานที่มีต้นไม้ให้ร่มเงาต่อเนื่องตลอดเส้นทาง ทำหน้าที่เป็นทั้งโครงข่ายสัญจรสีเขียวและตัวเชื่อมพื้นที่สีเขียวจุดต่างๆ ในเมืองเข้าด้วยกัน ส่งเสริมการเดินเท้าแทนการใช้รถยนต์',
+        area: 'ระยะทาง 500 ม. ขึ้นไป', cost: '500,000–5,000,000 บาท',
+        difficulty: 'ปานกลาง', maintenance: 'ปานกลาง', space: 'แนวเขตทาง 3–6 ม.',
+        coolingLevel: 3, maintenanceLevel: 3, rainwaterLevel: 3,
+        features: ['ทางเดิน/ปั่นจักรยานแยกจากถนน', 'แนวต้นไม้ให้ร่มเงาต่อเนื่อง', 'ไฟส่องสว่างตลอดเส้นทาง', 'ป้ายบอกทางและระยะ'],
+        benefits: ['ลดฝุ่น PM2.5 ตามแนวทางเดินได้ราว 18%', 'เชื่อมโครงข่ายระบบนิเวศในเมือง', 'ส่งเสริมการเดินและปั่นจักรยาน'],
+        elements: ['แนวไม้ยืนต้นสองข้างทาง', 'พื้นผิวซึมน้ำ', 'ที่นั่งพักระหว่างทาง'],
+        plants: ['ประดู่ป่า', 'ตะแบก', 'ชมพูพันธุ์ทิพย์', 'ไทรย้อยใบแหลม'],
+        coolingEffect: 'ลดอุณหภูมิผิวถนนเฉลี่ย <strong>2–3°C</strong> ตลอดแนวเส้นทาง',
+        bestFor: 'ทางเท้า, ริมคลอง, เส้นทางเชื่อมชุมชน'
+      },
+      {
+        id: 'sponge-park', accent: 'var(--gdl-blue)', accentKey: 'blue',
+        image: '../assets/garden-designs/sponge-park.png',
+        name: 'Sponge Park', category: 'อุทยานกักเก็บน้ำ',
+        coolingLabel: '−4°C', sustainLabel: 'ยั่งยืนสูง',
+        desc: 'สวนสาธารณะที่ออกแบบให้เป็นพื้นที่กักเก็บและซึมน้ำฝนตามธรรมชาติ ผสานพื้นที่พักผ่อนกับระบบจัดการน้ำ',
+        overview: 'Sponge Park ผสานแนวคิด "เมืองฟองน้ำ" (Sponge City) เข้ากับสวนสาธารณะ โดยใช้บึงหน่วงน้ำและพื้นที่ชุ่มน้ำเทียมดูดซับน้ำฝนปริมาณมากในคราวเดียว ลดภาระระบบระบายน้ำเมืองและฟื้นฟูระบบนิเวศไปพร้อมกัน',
+        area: '1,000–5,000 ตร.ม.', cost: '2,000,000–8,000,000 บาท',
+        difficulty: 'ยาก', maintenance: 'สูง', space: '1,000 ตร.ม. ขึ้นไป พร้อมพื้นที่ลาดเอียงตามธรรมชาติ',
+        coolingLevel: 4, maintenanceLevel: 5, rainwaterLevel: 5,
+        features: ['บึงหน่วงน้ำ (Retention Pond)', 'พื้นที่ชุ่มน้ำเทียม', 'ทางเดินยกระดับ', 'พืชริมน้ำกรองมลพิษ'],
+        benefits: ['ลดความเสี่ยงน้ำท่วมฉับพลัน', 'ฟื้นฟูระบบนิเวศพื้นที่ชุ่มน้ำ', 'เพิ่มความหลากหลายทางชีวภาพในเมือง'],
+        elements: ['บึงน้ำหลายระดับ', 'พืชกรองน้ำ', 'สะพานไม้', 'พื้นที่ชุ่มน้ำ'],
+        plants: ['ธูปฤาษี', 'บัวหลวง', 'หญ้าแฝก', 'จามจุรี'],
+        coolingEffect: 'ลดอุณหภูมิเฉลี่ย <strong>3–4°C</strong> จากผิวน้ำและพืชพรรณโดยรอบ',
+        bestFor: 'พื้นที่ลุ่มต่ำ, ริมลำน้ำ, สวนสาธารณะขนาดใหญ่'
+      },
+      {
+        id: 'sponge-plaza', accent: 'var(--gdl-teal)', accentKey: 'teal',
+        image: '../assets/garden-designs/sponge-plaza.png',
+        name: 'Sponge Plaza', category: 'ลานสาธารณะซึมน้ำ',
+        coolingLabel: '−3°C', sustainLabel: 'ยั่งยืนปานกลาง',
+        desc: 'พื้นที่สาธารณะที่ใช้วัสดุปูพื้นซึมน้ำ รองรับฝนหนักได้โดยไม่เกิดน้ำท่วมขัง',
+        overview: 'Sponge Plaza เปลี่ยนลานคอนกรีตแบบเดิมให้เป็นพื้นผิวซึมน้ำ (Permeable Pavement) ที่ยังใช้งานเป็นลานกิจกรรมได้ตามปกติ แต่สามารถรองรับน้ำฝนปริมาณมากได้โดยไม่เกิดน้ำท่วมขัง เหมาะกับพื้นที่ที่มีการใช้งานหนาแน่น',
+        area: '500–3,000 ตร.ม.', cost: '300,000–2,000,000 บาท',
+        difficulty: 'ปานกลาง', maintenance: 'ต่ำ', space: '500 ตร.ม. ขึ้นไป',
+        coolingLevel: 3, maintenanceLevel: 2, rainwaterLevel: 4,
+        features: ['วัสดุปูพื้นซึมน้ำ', 'ร่องระบายน้ำซ่อนใต้ดิน', 'ต้นไม้แซมในลาน', 'พื้นที่จัดกิจกรรมชุมชน'],
+        benefits: ['ลดน้ำท่วมขังช่วงฝนหนักได้ถึง 60%', 'ลดภาระท่อระบายน้ำเมือง', 'เพิ่มพื้นที่กิจกรรมให้ชุมชน'],
+        elements: ['บล็อกปูพื้นซึมน้ำ', 'กระบะต้นไม้แซม', 'ที่นั่งเชิงภูมิสถาปัตย์', 'ไฟส่องสว่าง'],
+        plants: ['อินทนิลน้ำ', 'ลีลาวดี', 'หมากเขียว', 'หญ้านวลน้อย'],
+        coolingEffect: 'ลดอุณหภูมิพื้นผิวลาน <strong>2–3°C</strong> เทียบกับคอนกรีตเดิม',
+        bestFor: 'ลานหน้าชุมชน, ตลาด, พื้นที่จัดกิจกรรม'
+      },
+      {
+        id: 'green-roof', accent: 'var(--gdl-lime)', accentKey: 'lime',
+        image: '../assets/garden-designs/green-roof.png',
+        name: 'Green Roof', category: 'พื้นที่สีเขียวบนอาคาร',
+        coolingLabel: '−12°C', sustainLabel: 'ยั่งยืนสูง',
+        desc: 'ปลูกต้นไม้บนดาดฟ้าอาคารโดยไม่ต้องใช้พื้นที่ดินเพิ่ม เหมาะกับอาคารพาณิชย์ โรงเรียน และโรงพยาบาล',
+        overview: 'Green Roof คือการปลูกพืชคลุมดินและไม้พุ่มบนดาดฟ้าอาคาร ช่วยลดอุณหภูมิพื้นผิวหลังคาได้อย่างมีนัยสำคัญ ลดภาระเครื่องปรับอากาศ และกักเก็บน้ำฝนบนอาคารก่อนปล่อยลงระบบระบายน้ำ เหมาะกับเมืองที่มีพื้นที่ดินจำกัด',
+        area: '100 ตร.ม. ขึ้นไป (พื้นที่ดาดฟ้า)', cost: '80,000–400,000 บาท',
+        difficulty: 'ยาก', maintenance: 'ต่ำ', space: 'ดาดฟ้า 100 ตร.ม. ขึ้นไป โครงสร้างรับน้ำหนักได้',
+        coolingLevel: 5, maintenanceLevel: 2, rainwaterLevel: 3,
+        features: ['ระบบกันซึมและกันราก', 'ชั้นระบายน้ำใต้พืช', 'พืชคลุมดินทนแล้ง', 'ระบบให้น้ำอัตโนมัติ'],
+        benefits: ['ประหยัดพลังงานเครื่องปรับอากาศได้ถึง 25%', 'กักเก็บน้ำฝนบนอาคารก่อนระบาย', 'ยืดอายุการใช้งานแผ่นหลังคา'],
+        elements: ['พืชคลุมดินตระกูล Sedum', 'กระบะปลูกแบบโมดูลาร์', 'ทางเดินตรวจสอบระบบ'],
+        plants: ['ว่านหางจระเข้', 'เศรษฐีเรือนใน', 'หญ้าเวติเวอร์', 'ไม้อวบน้ำทนแล้ง'],
+        coolingEffect: 'ลดอุณหภูมิพื้นผิวหลังคาได้ถึง <strong>10–15°C</strong> เมื่อเทียบกับหลังคาเปลือย',
+        bestFor: 'อาคารพาณิชย์, โรงเรียน, โรงพยาบาล'
+      }
+    ];
+
+    /* ── Render template cards ───────────────────────────────── */
+    var grid = document.getElementById('gdlGrid');
+    var cardHtml = GARDENS.map(function (g) {
+      return (
+        '<article class="gdl-card" style="--gdl-accent:' + g.accent + '" data-id="' + g.id + '">' +
+          '<div class="gdl-card-media">' +
+            '<div class="gdl-card-skel"></div>' +
+            '<img src="' + g.image + '" alt="ตัวอย่างแบบสวน ' + g.name + '" loading="lazy" decoding="async">' +
+            '<div class="gdl-card-badges">' +
+              '<span class="gdl-badge gdl-badge-category">' + g.category + '</span>' +
+              '<span class="gdl-badge gdl-badge-cooling"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 2v20M12 2 8 6M12 2l4 4M4 12h16M4 12l4-4M4 12l4 4M20 12l-4-4M20 12l-4 4M12 22l-4-4M12 22l4-4"/></svg>' + g.coolingLabel + '</span>' +
+              '<span class="gdl-badge gdl-badge-sustain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 22V12M12 12C12 7 7 4 3 6M12 12C12 7 17 4 21 6"/></svg>' + g.sustainLabel + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="gdl-card-body">' +
+            '<h3 class="gdl-card-name">' + g.name + '</h3>' +
+            '<p class="gdl-card-desc">' + g.desc + '</p>' +
+            '<div class="gdl-card-metric"><strong>' + g.coolingLabel + '</strong> อุณหภูมิพื้นผิวโดยประมาณ</div>' +
+            '<button class="gdl-card-btn" data-open-modal="' + g.id + '">ดูรายละเอียด <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>' +
+          '</div>' +
+        '</article>'
+      );
+    }).join('');
+    grid.innerHTML = cardHtml;
+
+    /* Fade skeleton out once image loads */
+    grid.querySelectorAll('img').forEach(function (img) {
+      var mark = function () { img.classList.add('gdl-loaded'); };
+      if (img.complete) mark(); else img.addEventListener('load', mark);
+    });
+
+    /* Mouse-tracking spotlight + tilt per card */
+    grid.querySelectorAll('.gdl-card').forEach(function (card) {
+      if (reduceMotion) return;
+      card.addEventListener('mousemove', function (e) {
+        var r = card.getBoundingClientRect();
+        var mx = ((e.clientX - r.left) / r.width) * 100;
+        var my = ((e.clientY - r.top) / r.height) * 100;
+        card.style.setProperty('--mx', mx + '%');
+        card.style.setProperty('--my', my + '%');
       });
+    });
+
+    /* ── Comparison table ────────────────────────────────────── */
+    function levelDots(n, colorVar) {
+      var out = '<span class="gdl-level" style="--gdl-lvl-color:' + colorVar + '">';
+      for (var i = 1; i <= 5; i++) out += '<i class="' + (i <= n ? 'gdl-on' : '') + '"></i>';
+      return out + '</span>';
+    }
+    var compareBody = document.getElementById('gdlCompareBody');
+    compareBody.innerHTML = GARDENS.map(function (g) {
+      return (
+        '<tr>' +
+          '<td><span class="gdl-compare-name"><span class="gdl-compare-dot" style="background:' + g.accent + '"></span>' + g.name + '</span></td>' +
+          '<td>' + g.area + '</td>' +
+          '<td>' + levelDots(g.coolingLevel, g.accent) + '</td>' +
+          '<td>' + levelDots(g.maintenanceLevel, g.accent) + '</td>' +
+          '<td>' + g.cost + '</td>' +
+          '<td>' + levelDots(g.rainwaterLevel, g.accent) + '</td>' +
+          '<td>' + g.bestFor + '</td>' +
+        '</tr>'
+      );
+    }).join('');
+
+    /* ── Modal ───────────────────────────────────────────────── */
+    var modal = document.getElementById('gdlModal');
+    var lastActive = null;
+
+    function fillList(id, arr) {
+      document.getElementById(id).innerHTML = arr.map(function (x) { return '<li>' + x + '</li>'; }).join('');
     }
 
-    /* Highlight active TOC item on scroll */
-    var sections = document.querySelectorAll('.gh-section[id]');
-    var tocLinks = document.querySelectorAll('.gh-toc-list a');
-    function onScroll() {
-      var scrollY = window.scrollY + 120;
-      var current = '';
-      sections.forEach(function (sec) {
-        if (sec.offsetTop <= scrollY) current = sec.id;
-      });
-      tocLinks.forEach(function (a) {
-        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-      });
+    function openModal(id) {
+      var g = GARDENS.filter(function (x) { return x.id === id; })[0];
+      if (!g) return;
+      lastActive = document.activeElement;
+
+      document.getElementById('gdlModalImg').src = g.image;
+      document.getElementById('gdlModalImg').alt = 'ภาพตัวอย่างแบบสวน ' + g.name;
+      document.getElementById('gdlModalCategory').textContent = g.category;
+      document.getElementById('gdlModalTitle').textContent = g.name;
+      document.getElementById('gdlModalOverview').textContent = g.overview;
+      document.getElementById('gdlModalChips').innerHTML =
+        '<div class="gdl-modal-chip"><div class="gdl-modal-chip-label">พื้นที่เหมาะสม</div><div class="gdl-modal-chip-val">' + g.area + '</div></div>' +
+        '<div class="gdl-modal-chip"><div class="gdl-modal-chip-label">ความยาก</div><div class="gdl-modal-chip-val">' + g.difficulty + '</div></div>' +
+        '<div class="gdl-modal-chip"><div class="gdl-modal-chip-label">การดูแลรักษา</div><div class="gdl-modal-chip-val">' + g.maintenance + '</div></div>' +
+        '<div class="gdl-modal-chip"><div class="gdl-modal-chip-label">งบประมาณ</div><div class="gdl-modal-chip-val">' + g.cost + '</div></div>';
+      fillList('gdlModalFeatures', g.features);
+      fillList('gdlModalBenefits', g.benefits);
+      fillList('gdlModalElements', g.elements);
+      document.getElementById('gdlModalPlants').innerHTML = g.plants.map(function (p) { return '<span class="gdl-plant-tag">' + p + '</span>'; }).join('');
+      document.getElementById('gdlModalCooling').innerHTML = '<strong>ผลลดความร้อนโดยประมาณ:</strong> ' + g.coolingEffect;
+
+      modal.style.setProperty('--gdl-emerald', g.accent);
+      if (typeof modal.showModal === 'function') modal.showModal();
+      else modal.setAttribute('open', '');
+      document.body.style.overflow = 'hidden';
+      requestAnimationFrame(function () { modal.classList.add('gdl-open'); });
     }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+
+    function closeModal() {
+      modal.classList.remove('gdl-open');
+      document.body.style.overflow = '';
+      var done = function () {
+        modal.removeEventListener('transitionend', done);
+        if (typeof modal.close === 'function') modal.close();
+        else modal.removeAttribute('open');
+        if (lastActive) lastActive.focus();
+      };
+      if (reduceMotion) done(); else modal.addEventListener('transitionend', done);
+    }
+
+    grid.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-open-modal]');
+      if (btn) openModal(btn.getAttribute('data-open-modal'));
+    });
+    document.getElementById('gdlModalClose').addEventListener('click', closeModal);
+    modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+    modal.addEventListener('cancel', function (e) { e.preventDefault(); closeModal(); });
+
+    /* ── FAQ accordion ───────────────────────────────────────── */
+    document.querySelectorAll('.gdl-faq-item').forEach(function (item) {
+      var btn = item.querySelector('.gdl-faq-q');
+      btn.addEventListener('click', function () {
+        var isOpen = item.getAttribute('data-open') === 'true';
+        document.querySelectorAll('.gdl-faq-item').forEach(function (other) {
+          other.setAttribute('data-open', 'false');
+          other.querySelector('.gdl-faq-q').setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.setAttribute('data-open', 'true');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    /* ── Ripple effect ───────────────────────────────────────── */
+    document.querySelectorAll('[data-ripple]').forEach(function (el) {
+      el.addEventListener('pointerdown', function (e) {
+        if (reduceMotion) return;
+        var r = el.getBoundingClientRect();
+        var span = document.createElement('span');
+        var size = Math.max(r.width, r.height) * 1.4;
+        span.className = 'gdl-ripple';
+        span.style.width = span.style.height = size + 'px';
+        span.style.left = (e.clientX - r.left - size / 2) + 'px';
+        span.style.top = (e.clientY - r.top - size / 2) + 'px';
+        el.appendChild(span);
+        span.addEventListener('animationend', function () { span.remove(); });
+      });
+    });
+
+    /* ── Count-up hero stats ─────────────────────────────────── */
+    function countUp(el) {
+      var target = parseFloat(el.getAttribute('data-count'));
+      var suffix = el.getAttribute('data-suffix') || '';
+      if (reduceMotion) { el.textContent = target + suffix; return; }
+      var start = null, dur = 1400;
+      function step(ts) {
+        if (!start) start = ts;
+        var p = Math.min(1, (ts - start) / dur);
+        var eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target * eased) + suffix;
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    /* ── Scroll reveal (IntersectionObserver) ────────────────── */
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('in-view');
+        if (entry.target.id === 'gdlTimeline') {
+          Array.prototype.forEach.call(entry.target.children, function (step, i) {
+            setTimeout(function () { step.classList.add('in-view'); }, i * 110);
+          });
+        }
+        if (entry.target === heroStatsWrap) {
+          heroStatsWrap.querySelectorAll('[data-count]').forEach(countUp);
+        }
+        io.unobserve(entry.target);
+      });
+    }, { threshold: 0.18 });
+
+    var heroStatsWrap = document.querySelector('.gdl-hero-stats');
+    document.querySelectorAll('.gdl-reveal, #gdlTimeline, .gdl-card, .gdl-bento-item').forEach(function (el) { io.observe(el); });
+    if (heroStatsWrap) io.observe(heroStatsWrap);
+
+  })();
   </script>
+  <script src="../js/nav.js"></script>
 </body>
 </html>

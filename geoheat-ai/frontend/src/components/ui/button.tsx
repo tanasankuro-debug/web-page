@@ -1,10 +1,13 @@
+"use client";
+
+import { useState, type ComponentProps } from "react"
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
@@ -41,19 +44,59 @@ const buttonVariants = cva(
   }
 )
 
+interface Ripple {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+}
+
 function Button({
   className,
   variant = "default",
   size = "default",
+  onPointerDown,
+  children,
   ...props
 }: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+  const [ripples, setRipples] = useState<Ripple[]>([]);
+
   return (
     <ButtonPrimitive
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(buttonVariants({ variant, size, className }), "relative overflow-hidden")}
+      onPointerDown={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height) * 2.2;
+        const id = Date.now() + Math.random();
+        setRipples((prev) => [
+          ...prev,
+          { id, x: e.clientX - rect.left - size / 2, y: e.clientY - rect.top - size / 2, size },
+        ]);
+        setTimeout(() => setRipples((prev) => prev.filter((r) => r.id !== id)), 600);
+        onPointerDown?.(e);
+      }}
       {...props}
-    />
+    >
+      {children}
+      <span className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]" aria-hidden="true">
+        {ripples.map((r) => (
+          <span
+            key={r.id}
+            className="absolute rounded-full bg-white/25"
+            style={{
+              left: r.x,
+              top: r.y,
+              width: r.size,
+              height: r.size,
+              animation: "ripple-fade 600ms ease-out forwards",
+            }}
+          />
+        ))}
+      </span>
+    </ButtonPrimitive>
   )
 }
 
 export { Button, buttonVariants }
+export type ButtonProps = ComponentProps<typeof Button>

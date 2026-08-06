@@ -1,16 +1,29 @@
-import Image from "next/image";
 import Link from "next/link";
-import { Camera, Flame, Leaf, ArrowRight, ChevronRight } from "lucide-react";
+import { Camera, Leaf, ArrowRight, ChevronRight, Sparkles, Users, TreePine } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Button } from "@/components/ui/button";
+import { GardenShowcase } from "@/components/landing/garden-showcase";
+import { HeroVisual } from "@/components/landing/hero-visual";
+import { HeatFlowGraphic } from "@/components/landing/heat-flow-graphic";
+import { GreenScoreShowcase } from "@/components/dashboard/green-score-showcase";
+import { Reveal } from "@/components/motion/reveal";
+import { TiltCard } from "@/components/motion/tilt-card";
+import { Magnetic } from "@/components/motion/magnetic";
+import { AnimatedNumber } from "@/components/ui/animated-number";
 import { createClient } from "@/lib/supabase/server";
 
-const scoreComponents = [
-  { label: "พืชพรรณ (Vegetation)", weight: 30, color: "bg-primary" },
-  { label: "ร่มเงา (Shade)", weight: 25, color: "bg-sky-blue" },
-  { label: "ลดความร้อน (Heat Reduction)", weight: 20, color: "bg-heat-orange" },
-  { label: "ความหลากหลาย (Diversity)", weight: 15, color: "bg-deep-forest" },
-  { label: "การดูแลรักษา (Maintenance)", weight: 10, color: "bg-muted-foreground" },
+const greenSubScores = [
+  { label: "พืชพรรณ (Vegetation)", value: 28, weight: 30, color: "bg-primary" },
+  { label: "ร่มเงา (Shade)", value: 23, weight: 25, color: "bg-sky-blue" },
+  { label: "ลดความร้อน (Heat Reduction)", value: 18, weight: 20, color: "bg-heat-orange" },
+  { label: "ความหลากหลาย (Diversity)", value: 14, weight: 15, color: "bg-deep-forest" },
+  { label: "การดูแลรักษา (Maintenance)", value: 9, weight: 10, color: "bg-muted-foreground" },
+];
+
+const trustStats = [
+  { icon: TreePine, value: 22, suffix: "+", label: "พันธุ์ไม้ในฐานข้อมูล" },
+  { icon: Sparkles, value: 92, suffix: "", label: "Green Score เฉลี่ยหลังออกแบบ" },
+  { icon: Users, value: 4, suffix: ".2°C", label: "อุณหภูมิลดลงโดยเฉลี่ย" },
 ];
 
 export default async function LandingPage() {
@@ -32,12 +45,12 @@ export default async function LandingPage() {
       <main className="flex-1">
         {/* Hero */}
         <section className="relative overflow-hidden px-6 pt-20 pb-16 md:pt-28 md:pb-24">
-          <div className="mx-auto max-w-4xl text-center">
+          <Reveal className="mx-auto max-w-4xl text-center">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm font-medium text-muted-foreground backdrop-blur-sm">
               <Leaf className="size-4 text-primary" />
               GeoHeat AI Green Designer
             </span>
-            <h1 className="mt-6 text-5xl font-extrabold leading-[1.05] tracking-tight md:text-7xl lg:text-8xl">
+            <h1 className="text-display-1 mt-6 font-extrabold">
               เปลี่ยนพื้นที่ร้อน
               <br />
               <span className="text-primary">ให้เป็นพื้นที่สีเขียว</span>
@@ -47,15 +60,17 @@ export default async function LandingPage() {
               และลดความร้อนให้บ้านคุณ ภายในไม่กี่นาที
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
-              <Button
-                size="lg"
-                className="rounded-full px-8"
-                render={<Link href="/dashboard/projects/new" />}
-                nativeButton={false}
-              >
-                เริ่มวิเคราะห์พื้นที่
-                <ArrowRight className="size-4" />
-              </Button>
+              <Magnetic>
+                <Button
+                  size="lg"
+                  className="rounded-full px-8"
+                  render={<Link href="/dashboard/projects/new" />}
+                  nativeButton={false}
+                >
+                  เริ่มวิเคราะห์พื้นที่
+                  <ArrowRight className="size-4" />
+                </Button>
+              </Magnetic>
               <Link
                 href="/dashboard"
                 className="inline-flex items-center gap-1 text-base font-medium text-primary hover:underline"
@@ -64,166 +79,146 @@ export default async function LandingPage() {
                 <ChevronRight className="size-4" />
               </Link>
             </div>
-          </div>
+          </Reveal>
 
-          <div className="relative mx-auto mt-16 max-w-5xl">
-            <div className="absolute -inset-x-10 -inset-y-6 -z-10 rounded-[3rem] bg-primary/15 blur-[80px]" />
-            <div className="relative aspect-[1200/800] w-full overflow-hidden rounded-[2.5rem] shadow-2xl ring-1 ring-border">
-              <Image
-                src="/illustrations/hero-transform.svg"
-                alt="พื้นที่คอนกรีตร้อนเปลี่ยนเป็นสวนสีเขียวด้วย AI"
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-          </div>
+          <Reveal delay={0.15}>
+            <HeroVisual />
+          </Reveal>
         </section>
 
-        {/* Step 1: AI Scanner */}
+        {/* Step 1: AI Scanner — asymmetric split */}
         <section className="border-t border-border bg-background px-6 py-20 md:py-28">
-          <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2">
-            <div>
+          <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-[1.15fr_0.85fr]">
+            <Reveal>
               <span className="text-sm font-semibold uppercase tracking-wide text-primary">
                 ขั้นตอนที่ 1
               </span>
-              <h2 className="mt-3 text-3xl font-extrabold tracking-tight md:text-5xl">
+              <h2 className="text-display-2 mt-3 font-extrabold">
                 ถ่ายภาพ ให้ AI วิเคราะห์ทันที
               </h2>
               <p className="mt-4 max-w-md text-lg text-muted-foreground">
                 เปิดกล้องหรือเลือกรูปพื้นที่ของคุณ AI จะตรวจจับพื้นคอนกรีต
                 พื้นหญ้า ต้นไม้ และสิ่งกีดขวางโดยอัตโนมัติ
               </p>
-            </div>
-            <div className="relative aspect-square overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-primary/15 to-primary/5">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <Camera className="size-24 text-primary" strokeWidth={1.25} />
-              </div>
-              <div className="absolute inset-10 rounded-3xl border-2 border-dashed border-primary/40" />
-            </div>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <TiltCard
+                strength={5}
+                className="relative aspect-square overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-primary/15 to-primary/5"
+              >
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Camera className="size-24 text-primary" strokeWidth={1.25} />
+                </div>
+                <div
+                  className="absolute inset-10 rounded-3xl border-2 border-dashed border-primary/40"
+                  style={{ animation: "grid-pulse 4s ease-in-out infinite" }}
+                />
+              </TiltCard>
+            </Reveal>
           </div>
         </section>
 
-        {/* Step 2: Heat Analysis — subtly elevated panel for rhythm */}
-        <section className="border-t border-border bg-white/[0.02] px-6 py-20 md:py-28">
-          <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2">
-            <div className="relative order-2 aspect-square overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-heat-orange/25 to-heat-orange/5 md:order-1">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <Flame className="size-24 text-heat-orange" strokeWidth={1.25} />
-              </div>
-              <div className="absolute inset-10 rounded-full border-2 border-dashed border-heat-orange/40" />
-            </div>
-            <div className="order-1 md:order-2">
-              <span className="text-sm font-semibold uppercase tracking-wide text-primary">
-                GeoHeat Intelligence
-              </span>
-              <h2 className="mt-3 text-3xl font-extrabold tracking-tight md:text-5xl">
-                รู้ระดับความร้อนที่แท้จริงของพื้นที่คุณ
-              </h2>
-              <p className="mt-4 max-w-md text-lg text-muted-foreground">
-                เชื่อมข้อมูลความร้อนพื้นผิวจริงในพื้นที่ วิเคราะห์ Heat
-                Level และความเสี่ยงจากความร้อนสะสม
-              </p>
-            </div>
-          </div>
+        {/* Step 2: Heat Analysis — full-bleed cinematic panel */}
+        <section className="relative overflow-hidden border-t border-border bg-[#08090b] py-24 md:py-32">
+          <HeatFlowGraphic className="absolute inset-0 size-full opacity-70" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#08090b] via-transparent to-[#08090b]" />
+          <Reveal className="relative mx-auto max-w-2xl px-6 text-center">
+            <span className="text-sm font-semibold uppercase tracking-wide text-heat-orange">
+              GeoHeat Intelligence
+            </span>
+            <h2 className="text-display-2 mt-3 font-extrabold">
+              รู้ระดับความร้อนที่แท้จริงของพื้นที่คุณ
+            </h2>
+            <p className="mt-4 text-lg text-muted-foreground">
+              เชื่อมข้อมูลความร้อนพื้นผิวจริงในพื้นที่ วิเคราะห์ Heat
+              Level และความเสี่ยงจากความร้อนสะสม
+            </p>
+          </Reveal>
         </section>
 
         {/* Step 3: Garden Design */}
         <section className="border-t border-border bg-background px-6 py-20 md:py-28">
           <div className="mx-auto max-w-6xl">
-            <div className="mx-auto max-w-2xl text-center">
+            <Reveal className="mx-auto max-w-2xl text-center">
               <span className="text-sm font-semibold uppercase tracking-wide text-primary">
                 ขั้นตอนที่ 3
               </span>
-              <h2 className="mt-3 text-3xl font-extrabold tracking-tight md:text-5xl">
+              <h2 className="text-display-2 mt-3 font-extrabold">
                 แบบสวนที่ AI ออกแบบมาเพื่อพื้นที่คุณ
               </h2>
               <p className="mt-4 text-lg text-muted-foreground">
                 เลือกสไตล์ที่ชอบ ระบบแนะนำพันธุ์ไม้ งบประมาณ
                 และภาพจำลองก่อน-หลังให้ทันที
               </p>
-            </div>
-            <div className="mt-12 grid items-center gap-4 sm:grid-cols-2">
-              <div className="relative aspect-video overflow-hidden rounded-[2rem] shadow-xl ring-1 ring-border">
-                <Image
-                  src="/illustrations/before-backyard.svg"
-                  alt="ก่อนออกแบบสวน"
-                  fill
-                  className="object-cover"
-                />
-                <span className="absolute left-4 top-4 rounded-full bg-background/90 px-3 py-1 text-xs font-semibold">
-                  ก่อน
-                </span>
-              </div>
-              <div className="relative aspect-video overflow-hidden rounded-[2rem] shadow-xl ring-1 ring-primary/30">
-                <Image
-                  src="/illustrations/after-tropical.svg"
-                  alt="หลังออกแบบสวน สไตล์ Tropical"
-                  fill
-                  className="object-cover"
-                />
-                <span className="absolute left-4 top-4 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
-                  หลัง
-                </span>
-              </div>
-            </div>
+            </Reveal>
+            <GardenShowcase />
           </div>
         </section>
 
-        {/* Green Score breakdown */}
+        {/* Green Score showcase */}
         <section className="border-t border-border bg-white/[0.02] px-6 py-20 md:py-28">
           <div className="mx-auto max-w-4xl">
-            <div className="mx-auto max-w-2xl text-center">
+            <Reveal className="mx-auto max-w-2xl text-center">
               <span className="text-sm font-semibold uppercase tracking-wide text-primary">
                 ผลลัพธ์ที่วัดได้
               </span>
-              <h2 className="mt-3 text-3xl font-extrabold tracking-tight md:text-5xl">
+              <h2 className="text-display-2 mt-3 font-extrabold">
                 Green Score บอกความเป็นมิตรต่อสิ่งแวดล้อมของพื้นที่คุณ
               </h2>
               <p className="mt-4 text-lg text-muted-foreground">
                 คำนวณจาก 5 องค์ประกอบ ครอบคลุมทั้งพืชพรรณ ร่มเงา
-                และผลลดความร้อนจริง
+                และผลลดความร้อนจริง — เลื่อนเมาส์ชี้แต่ละแถบเพื่อดูรายละเอียด
               </p>
-            </div>
-            <div className="mt-12 flex flex-col gap-5">
-              {scoreComponents.map((c) => (
-                <div key={c.label}>
-                  <div className="mb-2 flex items-center justify-between text-sm font-medium">
-                    <span>{c.label}</span>
-                    <span className="text-muted-foreground">{c.weight}%</span>
+            </Reveal>
+            <Reveal delay={0.1} className="mt-12">
+              <GreenScoreShowcase score={92} subScores={greenSubScores} />
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Trust stats trio — asymmetric */}
+        <section className="border-t border-border bg-background px-6 py-16 md:py-20">
+          <div className="mx-auto grid max-w-5xl gap-4 sm:grid-cols-3">
+            {trustStats.map((s, i) => (
+              <Reveal key={s.label} delay={i * 0.08}>
+                <TiltCard className="glass h-full rounded-3xl p-6 text-center" strength={5}>
+                  <span className="mx-auto flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                    <s.icon className="size-5" />
+                  </span>
+                  <div className="mt-4 text-3xl font-extrabold tracking-tight">
+                    <AnimatedNumber value={s.value} suffix={s.suffix} className="inline" />
                   </div>
-                  <div className="h-3 w-full overflow-hidden rounded-full bg-muted">
-                    <div
-                      className={`h-full rounded-full ${c.color}`}
-                      style={{ width: `${c.weight}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
+                  <p className="mt-1 text-sm text-muted-foreground">{s.label}</p>
+                </TiltCard>
+              </Reveal>
+            ))}
           </div>
         </section>
 
         {/* Closing CTA */}
         <section className="bg-primary px-6 py-20 text-center text-primary-foreground md:py-28">
-          <h2 className="text-3xl font-extrabold tracking-tight md:text-5xl">
-            พร้อมเปลี่ยนพื้นที่ร้อนให้เป็นพื้นที่สีเขียวหรือยัง?
-          </h2>
-          <p className="mx-auto mt-4 max-w-md text-lg opacity-90">
-            เริ่มต้นฟรี วิเคราะห์พื้นที่แรกของคุณได้ในไม่กี่นาที
-          </p>
-          <div className="mt-8">
-            <Button
-              size="lg"
-              variant="secondary"
-              className="rounded-full px-8"
-              render={<Link href="/dashboard/projects/new" />}
-              nativeButton={false}
-            >
-              เริ่มต้นฟรี
-              <ArrowRight className="size-4" />
-            </Button>
-          </div>
+          <Reveal>
+            <h2 className="text-display-2 font-extrabold">
+              พร้อมเปลี่ยนพื้นที่ร้อนให้เป็นพื้นที่สีเขียวหรือยัง?
+            </h2>
+            <p className="mx-auto mt-4 max-w-md text-lg opacity-90">
+              เริ่มต้นฟรี วิเคราะห์พื้นที่แรกของคุณได้ในไม่กี่นาที
+            </p>
+            <div className="mt-8">
+              <Magnetic>
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  className="rounded-full px-8"
+                  render={<Link href="/dashboard/projects/new" />}
+                  nativeButton={false}
+                >
+                  เริ่มต้นฟรี
+                  <ArrowRight className="size-4" />
+                </Button>
+              </Magnetic>
+            </div>
+          </Reveal>
         </section>
       </main>
 

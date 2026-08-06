@@ -17,6 +17,10 @@
   --color-sky-blue: var(--sky-blue);
   --color-success: var(--success);
   --color-primary-hover: var(--primary-hover);
+  --color-surface-1: var(--surface-1);
+  --color-aura-primary: var(--aura-primary);
+  --color-aura-heat: var(--aura-heat);
+  --color-aura-sky: var(--aura-sky);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -97,6 +101,14 @@
   --sidebar-accent-foreground: #ffffff;
   --sidebar-border: rgba(255, 255, 255, 0.08);
   --sidebar-ring: #10b981;
+
+  /* Elevation rhythm: background < surface-1 < card < popover */
+  --surface-1: #0d0d10;
+
+  /* Aura / glow tokens — reused by AmbientBackground, hero glow, showcases */
+  --aura-primary: #10b981;
+  --aura-heat: #f59e0b;
+  --aura-sky: #3b82f6;
 }
 
 @layer base {
@@ -116,10 +128,102 @@
     @apply bg-card/70 border border-white/[0.08] backdrop-blur-xl shadow-[0_8px_32px_-8px_rgba(0,0,0,0.5)];
   }
 
+  .glass-interactive {
+    position: relative;
+  }
+  .glass-interactive::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.6), rgba(59, 130, 246, 0.35), transparent 65%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .glass-interactive:hover::before {
+    opacity: 1;
+  }
+
   .bg-grid {
     background-image:
       linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
     background-size: 48px 48px;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-14px) rotate(6deg); }
+  }
+
+  /* Fluid type scale — smoother than fixed breakpoint jumps */
+  .text-display-1 {
+    font-size: clamp(2.75rem, 2rem + 4vw, 6.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+  .text-display-2 {
+    font-size: clamp(2rem, 1.4rem + 2.6vw, 3.75rem);
+    line-height: 1.06;
+    letter-spacing: -0.015em;
+  }
+
+  @keyframes aurora-drift-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(5%, -7%) scale(1.15); }
+  }
+  @keyframes aurora-drift-2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-7%, 6%) scale(1.1); }
+  }
+  @keyframes aurora-drift-3 {
+    0%, 100% { transform: translate(0, 0) scale(0.95); }
+    50% { transform: translate(4%, 5%) scale(1.05); }
+  }
+  @keyframes shimmer-sweep {
+    0% { transform: translateX(-120%); }
+    100% { transform: translateX(220%); }
+  }
+  @keyframes grid-pulse {
+    0%, 100% { opacity: 0.15; }
+    50% { opacity: 0.35; }
+  }
+  @keyframes dash-flow {
+    to { stroke-dashoffset: -48; }
+  }
+  @keyframes ripple-fade {
+    0% { transform: scale(0); opacity: 0.55; }
+    100% { transform: scale(1); opacity: 0; }
+  }
+  @keyframes orbit {
+    from { transform: rotate(0deg) translateX(var(--orbit-radius, 110px)) rotate(0deg); }
+    to { transform: rotate(360deg) translateX(var(--orbit-radius, 110px)) rotate(-360deg); }
+  }
+  @keyframes laser-sweep {
+    0% { top: 0%; opacity: 0; }
+    12% { opacity: 1; }
+    88% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+  @keyframes reveal-wipe {
+    from { clip-path: inset(0 100% 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+  }
+}
+
+/* Global a11y safety net: one rule covers every animation added anywhere
+   in the app, so individual components don't each need their own
+   prefers-reduced-motion override. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

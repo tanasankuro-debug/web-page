@@ -96,22 +96,37 @@ export function ImageUploadForm({ projectId }: { projectId: string }) {
           if (e.key === "Enter" || e.key === " ") inputRef.current?.click();
         }}
         className={cn(
-          "relative flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-white/15 bg-white/[0.02] px-6 py-10 text-center transition-colors hover:border-primary/40 hover:bg-primary/5",
+          "relative flex cursor-pointer flex-col items-center justify-center gap-2 overflow-hidden rounded-2xl border-2 border-dashed border-white/15 bg-white/[0.02] px-6 py-10 text-center transition-colors hover:border-primary/40 hover:bg-primary/5",
           dragOver && "border-primary bg-primary/10",
         )}
       >
+        {/* Vision-grid overlay — reinforces the "AI vision system" feel */}
+        <div className="bg-grid pointer-events-none absolute inset-0 opacity-40" />
+
+        {/* Scanning laser sweep, only while actively dragging a file over */}
+        {dragOver && (
+          <div
+            className="pointer-events-none absolute inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent shadow-[0_0_16px_2px_rgba(16,185,129,0.7)]"
+            style={{ animation: "laser-sweep 1.4s ease-in-out infinite" }}
+          />
+        )}
+
         {previewUrl ? (
-          <div className="relative aspect-video w-full max-w-xs overflow-hidden rounded-xl">
+          <div
+            key={previewUrl}
+            className="relative aspect-video w-full max-w-xs overflow-hidden rounded-xl"
+            style={{ animation: "reveal-wipe 0.5s cubic-bezier(0.16,1,0.3,1)" }}
+          >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={previewUrl} alt="ตัวอย่างรูปที่เลือก" className="size-full object-cover" />
           </div>
         ) : (
           <>
-            <span className="flex size-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+            <span className="relative flex size-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
               <Upload className="size-6" />
             </span>
-            <p className="text-sm font-medium">หรือลากรูปมาวาง</p>
-            <p className="text-xs text-muted-foreground">JPG, PNG, WEBP</p>
+            <p className="relative text-sm font-medium">หรือลากรูปมาวาง</p>
+            <p className="relative text-xs text-muted-foreground">JPG, PNG, WEBP</p>
           </>
         )}
         <input

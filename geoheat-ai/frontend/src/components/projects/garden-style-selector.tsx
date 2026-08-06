@@ -9,7 +9,7 @@ import { GARDEN_STYLE_IMAGE, GARDEN_STYLE_LABEL, type GardenStyle } from "@/lib/
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BeforeAfterSlider } from "@/components/ui/before-after-slider";
+import { PremiumSliderFrame } from "@/components/ui/premium-slider-frame";
 import { cn } from "@/lib/utils";
 
 interface RecommendedPlant {
@@ -92,15 +92,13 @@ export function GardenStyleSelector({
         <GlassCard className="p-6">
           <CardContent className="flex flex-col gap-6 p-0">
             {beforeImageUrl ? (
-              <div className="ring-1 ring-border rounded-[2rem]">
-                <BeforeAfterSlider
-                  beforeSrc={beforeImageUrl}
-                  afterSrc={GARDEN_STYLE_IMAGE[recommendation.style]}
-                  beforeAlt="ก่อนออกแบบสวน"
-                  afterAlt={GARDEN_STYLE_LABEL[recommendation.style]}
-                  afterLabel={`หลัง (${GARDEN_STYLE_LABEL[recommendation.style]})`}
-                />
-              </div>
+              <PremiumSliderFrame
+                beforeSrc={beforeImageUrl}
+                afterSrc={GARDEN_STYLE_IMAGE[recommendation.style]}
+                beforeAlt="ก่อนออกแบบสวน"
+                afterAlt={GARDEN_STYLE_LABEL[recommendation.style]}
+                afterLabel={`หลัง (${GARDEN_STYLE_LABEL[recommendation.style]})`}
+              />
             ) : (
               <div className="relative aspect-video overflow-hidden rounded-[2rem] border border-border">
                 <Image

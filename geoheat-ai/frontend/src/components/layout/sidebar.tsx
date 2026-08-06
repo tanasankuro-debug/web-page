@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 import { Home, Leaf, ChevronsLeft, ChevronsRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -27,13 +28,23 @@ function SidebarNav({ collapsed }: { collapsed?: boolean }) {
             href={item.href}
             title={collapsed ? item.label : undefined}
             className={cn(
-              "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground",
+              "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground",
               collapsed && "justify-center px-0",
-              active && "bg-primary/10 text-primary",
+              active && "text-primary",
             )}
           >
-            <Icon className="size-4 shrink-0" />
-            {!collapsed && item.label}
+            {active && (
+              <motion.span
+                layoutId="sidebar-active-pill"
+                className="absolute inset-0 rounded-xl bg-primary/10"
+                transition={{ type: "spring", stiffness: 380, damping: 32 }}
+              />
+            )}
+            {!active && (
+              <span className="absolute inset-0 rounded-xl bg-white/5 opacity-0 transition-opacity group-hover:opacity-100" />
+            )}
+            <Icon className="relative z-10 size-4 shrink-0 transition-transform duration-200 group-hover:scale-110" />
+            {!collapsed && <span className="relative z-10">{item.label}</span>}
           </Link>
         );
       })}
@@ -62,11 +73,10 @@ export function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <aside
-      className={cn(
-        "glass sticky top-3 mb-3 ml-3 hidden h-[calc(100vh-1.5rem)] shrink-0 flex-col rounded-3xl transition-all duration-200 md:flex",
-        collapsed ? "w-[76px]" : "w-64",
-      )}
+    <motion.aside
+      animate={{ width: collapsed ? 76 : 256 }}
+      transition={{ type: "spring", stiffness: 300, damping: 32 }}
+      className="glass sticky top-3 mb-3 ml-3 hidden h-[calc(100vh-1.5rem)] shrink-0 flex-col overflow-hidden rounded-3xl md:flex"
     >
       <SidebarBrand collapsed={collapsed} />
       <SidebarNav collapsed={collapsed} />
@@ -84,7 +94,7 @@ export function Sidebar() {
           </>
         )}
       </button>
-    </aside>
+    </motion.aside>
   );
 }
 
