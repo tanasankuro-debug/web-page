@@ -110,6 +110,16 @@
     @keyframes gdlDrift1 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(6%,8%) scale(1.15);} }
     @keyframes gdlDrift2 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-8%,6%) scale(1.1);} }
     @keyframes gdlDrift3 { 0%,100%{transform:translate(0,0) scale(.95);} 50%{transform:translate(5%,-6%) scale(1.08);} }
+    /* On narrow screens a vw-sized blob blurred at desktop radius washes out to
+       almost nothing — shrink the blur and grow the blob so it still reads as
+       a clear glow instead of a faint smudge. */
+    @media (max-width: 720px) {
+      .gdl-aurora { filter: blur(46px); opacity: .72; }
+      .gdl-aurora--1 { width: 78vw; height: 78vw; top: -20%; left: -30%; }
+      .gdl-aurora--2 { width: 68vw; height: 68vw; top: 2%; right: -32%; }
+      .gdl-aurora--3 { width: 72vw; height: 72vw; bottom: -16%; left: 12%; }
+      .gdl-hero-grid { background-size: 38px 38px; }
+    }
     .gdl-hero-grid {
       position: absolute; inset: 0;
       background-image:
@@ -230,6 +240,15 @@
       display: none;
     }
     @media (min-width: 981px) { .gdl-step:not(:last-child)::after { display: block; } }
+    @media (max-width: 620px) {
+      .gdl-timeline { gap: 1.85rem; }
+      .gdl-step:not(:last-child) { position: relative; }
+      .gdl-step:not(:last-child)::before {
+        content: ''; position: absolute; left: 50%; bottom: -1.85rem; width: 2px; height: 1.85rem;
+        background: linear-gradient(180deg, rgba(16,185,129,.55), rgba(16,185,129,.1));
+        transform: translateX(-50%);
+      }
+    }
     .gdl-step-icon {
       width: 52px; height: 52px; margin: 0 auto .9rem;
       border-radius: 16px;
@@ -337,6 +356,46 @@
       cursor: pointer; transition: background .25s, border-color .25s, transform .25s var(--gdl-ease), gap .25s;
     }
     .gdl-card-btn:hover { background: color-mix(in srgb, var(--gdl-accent) 22%, transparent); border-color: color-mix(in srgb, var(--gdl-accent) 55%, transparent); gap: .75rem; }
+    .gdl-card-btn:active, .gdl-card:active { transform: scale(.98); }
+
+    /* Touch devices never trigger :hover, so the mouse-spotlight / zoom-on-hover
+       effects above would never play — give cards their own always-on motion
+       instead of a static image + flat border. */
+    @media (hover: none) {
+      .gdl-card { animation: gdlCardGlow 5s ease-in-out infinite; }
+      .gdl-card:nth-child(2) { animation-delay: .6s; }
+      .gdl-card:nth-child(3) { animation-delay: 1.2s; }
+      .gdl-card:nth-child(4) { animation-delay: 1.8s; }
+      .gdl-card:nth-child(5) { animation-delay: 2.4s; }
+      @keyframes gdlCardGlow {
+        0%, 100% { border-color: var(--gdl-border); box-shadow: none; }
+        50% { border-color: color-mix(in srgb, var(--gdl-accent) 45%, transparent); box-shadow: 0 18px 46px -22px color-mix(in srgb, var(--gdl-accent) 55%, transparent); }
+      }
+      .gdl-card::before { opacity: .55; animation: gdlSpotPulse 5s ease-in-out infinite; }
+      .gdl-card:nth-child(2)::before { animation-delay: .6s; }
+      .gdl-card:nth-child(3)::before { animation-delay: 1.2s; }
+      .gdl-card:nth-child(4)::before { animation-delay: 1.8s; }
+      .gdl-card:nth-child(5)::before { animation-delay: 2.4s; }
+      @keyframes gdlSpotPulse { 0%,100%{ opacity: .2; } 50%{ opacity: .6; } }
+      .gdl-card-media img { animation: gdlKenBurns 9s ease-in-out infinite; }
+      @keyframes gdlKenBurns { 0%,100%{ transform: scale(1.02); } 50%{ transform: scale(1.11); } }
+      .gdl-badge { animation: gdlFloat 4.5s ease-in-out infinite; }
+      .gdl-card-badges .gdl-badge:nth-child(2) { animation-delay: .3s; }
+      .gdl-card-badges .gdl-badge:nth-child(3) { animation-delay: .6s; }
+      .gdl-bento-icon { animation: gdlIconPulse 3.4s ease-in-out infinite; }
+      .gdl-bento-item:nth-child(2) .gdl-bento-icon { animation-delay: .4s; }
+      .gdl-bento-item:nth-child(3) .gdl-bento-icon { animation-delay: .8s; }
+      .gdl-bento-item:nth-child(4) .gdl-bento-icon { animation-delay: 1.2s; }
+      .gdl-bento-item:nth-child(5) .gdl-bento-icon { animation-delay: 1.6s; }
+      @keyframes gdlIconPulse { 0%,100%{ transform: scale(1); box-shadow: none; } 50%{ transform: scale(1.08); box-shadow: 0 0 20px rgba(16,185,129,.35); } }
+      .gdl-step-icon { animation: gdlIconPulse 3.4s ease-in-out infinite; }
+      .gdl-step:nth-child(2) .gdl-step-icon { animation-delay: .3s; }
+      .gdl-step:nth-child(3) .gdl-step-icon { animation-delay: .6s; }
+      .gdl-step:nth-child(4) .gdl-step-icon { animation-delay: .9s; }
+      .gdl-step:nth-child(5) .gdl-step-icon { animation-delay: 1.2s; }
+      .gdl-step:nth-child(6) .gdl-step-icon { animation-delay: 1.5s; }
+      .gdl-bento-item:active, .gdl-step:active, .gdl-faq-item:active { transform: scale(.98); }
+    }
 
     /* ══════════════════════ MODAL ══════════════════════ */
     dialog.gdl-modal {
@@ -835,6 +894,25 @@
   (function () {
     'use strict';
     var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ── Scroll parallax on hero aurora (touch scroll drives it, no hover needed) ── */
+    (function () {
+      if (reduceMotion) return;
+      var layers = document.querySelectorAll('.gdl-hero .gdl-hero-bg .gdl-aurora');
+      if (!layers.length) return;
+      var ticking = false;
+      function apply() {
+        var y = window.scrollY || window.pageYOffset;
+        layers.forEach(function (el, i) {
+          var speed = 0.06 + i * 0.035;
+          el.style.translate = '0 ' + (y * speed).toFixed(1) + 'px';
+        });
+        ticking = false;
+      }
+      window.addEventListener('scroll', function () {
+        if (!ticking) { requestAnimationFrame(apply); ticking = true; }
+      }, { passive: true });
+    })();
 
     /* ── Garden data ─────────────────────────────────────────── */
     var GARDENS = [
