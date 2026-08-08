@@ -52,34 +52,34 @@ function MiniStat({
 export default async function DashboardPage() {
   const supabase = await createClient();
 
+  // Fetch projects together with their green_scores / analysis_results in a
+  // single round trip via PostgREST embedding, instead of waiting for the
+  // project list before firing a second dependent query — that waterfall
+  // was adding a full extra network round trip to every dashboard load.
   const [{ data: userData }, { data: projects }] = await Promise.all([
     supabase.auth.getUser(),
-    supabase.from("projects").select("*").order("created_at", { ascending: false }),
+    supabase
+      .from("projects")
+      .select("*, green_scores(*), analysis_results(*)")
+      .order("created_at", { ascending: false }),
   ]);
 
   const displayName = userData?.user?.user_metadata?.full_name || userData?.user?.email || "";
   const latestProject = projects?.[0];
 
-  const [{ data: scores }, { data: analyses }] = latestProject
-    ? await Promise.all([
-        supabase
-          .from("green_scores")
-          .select("*")
-          .eq("project_id", latestProject.id)
-          .eq("stage", "current")
-          .order("created_at", { ascending: false })
-          .limit(1),
-        supabase
-          .from("analysis_results")
-          .select("*")
-          .eq("project_id", latestProject.id)
-          .order("created_at", { ascending: false })
-          .limit(1),
-      ])
-    : [{ data: null }, { data: null }];
+  const latestScore = latestProject?.green_scores
+    ?.filter((s: { stage: string }) => s.stage === "current")
+    .sort(
+      (a: { created_at: string }, b: { created_at: string }) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    )[0];
 
-  const latestScore = scores?.[0];
-  const latestAnalysis = analyses?.[0];
+  const latestAnalysis = latestProject?.analysis_results
+    ?.slice()
+    .sort(
+      (a: { created_at: string }, b: { created_at: string }) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    )[0];
   const totalProjects = projects?.length ?? 0;
   const demoProjects = projects?.filter((p) => p.is_demo).length ?? 0;
 
