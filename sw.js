@@ -8,7 +8,7 @@
    ========================================================================== */
 'use strict';
 
-var CACHE = 'hskk-v2';
+var CACHE = 'hskk-v3';
 var OFFLINE = '/html/offline.html';
 
 var PRECACHE = [
