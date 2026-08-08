@@ -306,17 +306,6 @@
     }
     .gdl-card-media img.gdl-loaded { opacity: 1; }
     .gdl-card:hover .gdl-card-media img { transform: scale(1.07); }
-    /* Scrim only where badges sit, so the image's own content (title,
-       plant/layout panels baked into these renders) stays fully visible
-       instead of being cropped or faded into a black box. */
-    .gdl-card-media::before {
-      content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-      background: linear-gradient(180deg, rgba(5,11,20,.7) 0%, rgba(5,11,20,.28) 32%, transparent 55%);
-    }
-    .gdl-card-media::after {
-      content: ''; position: absolute; inset: 0; pointer-events: none;
-      background: linear-gradient(0deg, rgba(5,11,20,.4) 0%, transparent 16%);
-    }
     .gdl-card-skel {
       position: absolute; inset: 0;
       background: linear-gradient(100deg, #0c1420 30%, #131e2e 50%, #0c1420 70%);
@@ -324,24 +313,25 @@
       animation: gdlShimmer 1.6s ease-in-out infinite;
     }
     @keyframes gdlShimmer { 0% { background-position: 150% 0; } 100% { background-position: -50% 0; } }
+    /* Badges live in the text area now, not overlaid on the photo — these
+       renders already carry their own title + callouts baked in near the
+       top edge, so any overlay badge there just fights the image for the
+       same space no matter how the scrim is tuned. */
     .gdl-card-badges {
-      position: absolute; top: .9rem; left: .9rem; right: .9rem; z-index: 2;
       display: flex; flex-wrap: wrap; gap: .4rem;
+      margin-bottom: .9rem;
     }
     .gdl-badge {
       display: inline-flex; align-items: center; gap: .3rem;
       font-size: .66rem; font-weight: 700;
       padding: .32rem .65rem; border-radius: 99px;
-      background: rgba(5,11,20,.65);
-      backdrop-filter: blur(8px);
+      background: rgba(255,255,255,.06);
       border: 1px solid rgba(255,255,255,.14);
       color: #fff;
-      transition: transform .3s var(--gdl-ease);
+      transition: transform .3s var(--gdl-ease), background .2s;
     }
-    .gdl-card:hover .gdl-badge { transform: translateY(-2px); }
-    .gdl-card:hover .gdl-card-badges .gdl-badge:nth-child(2) { transition-delay: .05s; }
-    .gdl-card:hover .gdl-card-badges .gdl-badge:nth-child(3) { transition-delay: .1s; }
-    .gdl-badge-category { background: color-mix(in srgb, var(--gdl-accent) 30%, rgba(5,11,20,.7)); border-color: color-mix(in srgb, var(--gdl-accent) 55%, transparent); color: #fff; }
+    .gdl-card:hover .gdl-badge { transform: translateY(-1px); }
+    .gdl-badge-category { background: color-mix(in srgb, var(--gdl-accent) 26%, transparent); border-color: color-mix(in srgb, var(--gdl-accent) 50%, transparent); color: #fff; }
     .gdl-badge-cooling svg, .gdl-badge-sustain svg { width: 11px; height: 11px; }
 
     .gdl-card-body { position: relative; z-index: 2; padding: 1.4rem 1.5rem 1.6rem; }
@@ -386,10 +376,7 @@
       .gdl-card:nth-child(5)::before { animation-delay: 2.4s; }
       @keyframes gdlSpotPulse { 0%,100%{ opacity: .2; } 50%{ opacity: .6; } }
       .gdl-card-media img { animation: gdlKenBurns 9s ease-in-out infinite; }
-      @keyframes gdlKenBurns { 0%,100%{ transform: scale(1.02); } 50%{ transform: scale(1.11); } }
-      .gdl-badge { animation: gdlFloat 4.5s ease-in-out infinite; }
-      .gdl-card-badges .gdl-badge:nth-child(2) { animation-delay: .3s; }
-      .gdl-card-badges .gdl-badge:nth-child(3) { animation-delay: .6s; }
+      @keyframes gdlKenBurns { 0%,100%{ transform: scale(1.02); } 50%{ transform: scale(1.07); } }
       .gdl-bento-icon { animation: gdlIconPulse 3.4s ease-in-out infinite; }
       .gdl-bento-item:nth-child(2) .gdl-bento-icon { animation-delay: .4s; }
       .gdl-bento-item:nth-child(3) .gdl-bento-icon { animation-delay: .8s; }
@@ -1139,13 +1126,13 @@
           '<div class="gdl-card-media">' +
             '<div class="gdl-card-skel"></div>' +
             '<img src="' + g.image + '" alt="ตัวอย่างแบบสวน ' + g.name + '" loading="lazy" decoding="async">' +
+          '</div>' +
+          '<div class="gdl-card-body">' +
             '<div class="gdl-card-badges">' +
               '<span class="gdl-badge gdl-badge-category">' + g.category + '</span>' +
               '<span class="gdl-badge gdl-badge-cooling"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 2v20M12 2 8 6M12 2l4 4M4 12h16M4 12l4-4M4 12l4 4M20 12l-4-4M20 12l-4 4M12 22l-4-4M12 22l4-4"/></svg>' + g.coolingLabel + '</span>' +
               '<span class="gdl-badge gdl-badge-sustain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 22V12M12 12C12 7 7 4 3 6M12 12C12 7 17 4 21 6"/></svg>' + g.sustainLabel + '</span>' +
             '</div>' +
-          '</div>' +
-          '<div class="gdl-card-body">' +
             '<h3 class="gdl-card-name">' + g.name + '</h3>' +
             '<p class="gdl-card-desc">' + g.desc + '</p>' +
             '<div class="gdl-card-metric"><strong>' + g.coolingLabel + '</strong> อุณหภูมิพื้นผิวโดยประมาณ</div>' +
