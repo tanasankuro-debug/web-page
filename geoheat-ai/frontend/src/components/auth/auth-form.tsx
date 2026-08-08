@@ -32,9 +32,8 @@ export function AuthForm({ mode }: { mode: "login" | "register" }) {
             options: { data: { full_name: fullName } },
           });
 
-    setLoading(false);
-
     if (error) {
+      setLoading(false);
       toast.error(error.message);
       return;
     }
