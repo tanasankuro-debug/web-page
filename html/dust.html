@@ -993,8 +993,15 @@
         var cfg = window.HSKK_CONFIG || {};
         var lat = (cfg.loc && cfg.loc.lat) || 16.44;
         var lng = (cfg.loc && cfg.loc.lng) || 102.82;
+        /* forecast_hours=24 used to be here, but combined with past_days it
+           makes Open-Meteo cap the ENTIRE response to 24 hours total
+           (today only) instead of just capping the forward-looking window
+           on top of the past 7 days — leaving under 2 calendar days of
+           data, which always tripped the 'insufficient' error below. This
+           widget only ever reads past/today data, so the forecast window
+           isn't needed at all. */
         var url = 'https://air-quality-api.open-meteo.com/v1/air-quality?latitude=' + lat +
-          '&longitude=' + lng + '&hourly=pm2_5&past_days=7&forecast_hours=24&timezone=Asia%2FBangkok';
+          '&longitude=' + lng + '&hourly=pm2_5&past_days=7&timezone=Asia%2FBangkok';
 
         function drawSparkline(data, color) {
           var canvas = document.getElementById('pm25-spark');
