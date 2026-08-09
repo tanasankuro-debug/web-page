@@ -1583,17 +1583,33 @@
     modal.addEventListener('cancel', function (e) { e.preventDefault(); closeModal(); });
 
     /* ── FAQ accordion ───────────────────────────────────────── */
+    /* `inert` on the closed panel removes it from both the tab order and the
+       accessibility tree in one line — a link inside a collapsed answer
+       (the budget-section link in FAQ #4) was Tab-reachable while invisible
+       (grid-template-rows:0fr hides it visually but doesn't affect focus),
+       a real WCAG 2.4.3/2.4.7 violation. `inert` is Baseline-supported
+       everywhere relevant here (Chrome/Edge 102+, Firefox 112+, Safari
+       15.5+) — safe for a page already relying on similarly modern CSS
+       (color-mix, :focus-visible, standalone translate/scale). */
+    function gdlSetFaqPanelInert(item, open) {
+      var wrap = item.querySelector('.gdl-faq-a-wrap');
+      if (open) wrap.removeAttribute('inert');
+      else wrap.setAttribute('inert', '');
+    }
     document.querySelectorAll('.gdl-faq-item').forEach(function (item) {
+      gdlSetFaqPanelInert(item, item.getAttribute('data-open') === 'true');
       var btn = item.querySelector('.gdl-faq-q');
       btn.addEventListener('click', function () {
         var isOpen = item.getAttribute('data-open') === 'true';
         document.querySelectorAll('.gdl-faq-item').forEach(function (other) {
           other.setAttribute('data-open', 'false');
           other.querySelector('.gdl-faq-q').setAttribute('aria-expanded', 'false');
+          gdlSetFaqPanelInert(other, false);
         });
         if (!isOpen) {
           item.setAttribute('data-open', 'true');
           btn.setAttribute('aria-expanded', 'true');
+          gdlSetFaqPanelInert(item, true);
         }
       });
     });
