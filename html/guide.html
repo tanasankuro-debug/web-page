@@ -439,6 +439,14 @@
     .gdl-grid {
       display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.75rem;
     }
+    /* This section is card/image-heavy, not a reading-width text block, so
+       on genuinely wide desktop monitors it can use more of the screen
+       than the sitewide 1240px .gdl-container cap — scoped to #types only,
+       every other section (including text-heavy ones) keeps the original
+       width. */
+    @media (min-width: 1440px) {
+      #types.gdl-templates .gdl-container { max-width: 1600px; }
+    }
     @media (max-width: 720px) { .gdl-grid { grid-template-columns: 1fr; } }
 
     .gdl-card {
@@ -578,6 +586,35 @@
     }
     dialog.gdl-modal.gdl-open::backdrop { backdrop-filter: blur(10px); background: color-mix(in srgb, var(--gdl-surface-0) 82%, transparent); }
     .gdl-modal-scroll { overflow-y: auto; max-height: 88vh; }
+
+    /* ══════════════════════ IMAGE LIGHTBOX ══════════════════════ */
+    /* Click-to-zoom on a card photo — separate from the richer detail
+       .gdl-modal above, just a full-size view of the image itself. */
+    .gdl-card-media { cursor: zoom-in; }
+    dialog.gdl-lightbox {
+      max-width: 94vw; width: max-content; max-height: 92vh;
+      padding: 0; border: none; border-radius: var(--gdl-radius-md);
+      background: transparent; overflow: visible;
+      opacity: 0; transform: scale(.94);
+      transition: opacity .3s var(--gdl-ease), transform .3s var(--gdl-ease);
+    }
+    dialog.gdl-lightbox.gdl-open { opacity: 1; transform: scale(1); }
+    dialog.gdl-lightbox::backdrop {
+      background: color-mix(in srgb, var(--gdl-surface-0) 70%, transparent);
+      backdrop-filter: blur(0px);
+      transition: backdrop-filter .3s var(--gdl-ease), background .3s var(--gdl-ease);
+    }
+    dialog.gdl-lightbox.gdl-open::backdrop { backdrop-filter: blur(10px); background: color-mix(in srgb, var(--gdl-surface-0) 82%, transparent); }
+    dialog.gdl-lightbox img { display: block; max-width: 94vw; max-height: 92vh; border-radius: var(--gdl-radius-md); object-fit: contain; }
+    .gdl-lightbox-close {
+      position: absolute; top: -14px; right: -14px; z-index: 3;
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--gdl-surface-1); backdrop-filter: blur(8px);
+      border: 1px solid var(--gdl-border-strong); color: var(--gdl-text-primary);
+      font-size: 1.2rem; line-height: 1; cursor: pointer;
+      display: grid; place-items: center;
+      transition: background 200ms ease-out, transform 200ms ease-out;
+    }
     .gdl-modal-media { position: relative; aspect-ratio: 16/9; background: var(--gdl-surface-1); }
     .gdl-modal-media img { width: 100%; height: 100%; object-fit: contain; }
     .gdl-modal-media::before { content:''; position:absolute; inset:0; z-index:1; pointer-events:none; background: linear-gradient(180deg, color-mix(in srgb, var(--gdl-surface-0) 55%, transparent) 0%, transparent 30%); }
@@ -761,7 +798,12 @@
       margin-top: 1.5rem;
     }
     .gdl-highlight strong { color: var(--gdl-emerald); }
-    .gdl-highlight a { color: var(--gdl-emerald); text-underline-offset: 2px; }
+    /* :not(.gdl-btn) so a full button component dropped inside a highlight
+       box keeps its own text color instead of inheriting the inline-link
+       green — that collision was making the participate section's "โหวตเลย"
+       button render emerald-on-emerald (invisible against its own gradient
+       background). */
+    .gdl-highlight a:not(.gdl-btn) { color: var(--gdl-emerald); text-underline-offset: 2px; }
     /* max-width here is currently always overridden to 100% at its one call
        site (see the participate section HTML) — kept mapped to a token
        anyway so it's correct by default if reused unstyled elsewhere later. */
@@ -843,6 +885,7 @@
       .gdl-card-btn:hover svg { translate: 3px 0; }
 
       .gdl-modal-close:hover { background: rgba(255,255,255,.15); transform: rotate(90deg); }
+      .gdl-lightbox-close:hover { background: var(--gdl-border-subtle); transform: rotate(90deg); }
 
       .gdl-compare-table tr:hover td { background: var(--gdl-glass); }
 
@@ -1006,6 +1049,12 @@
           <div class="gdl-modal-cooling" id="gdlModalCooling"></div>
         </div>
       </div>
+    </dialog>
+
+    <!-- ══════════ IMAGE LIGHTBOX ══════════ -->
+    <dialog class="gdl-lightbox" id="gdlLightbox" aria-label="ภาพขยาย">
+      <button class="gdl-lightbox-close" id="gdlLightboxClose" aria-label="ปิดภาพขยาย">×</button>
+      <img id="gdlLightboxImg" src="" alt="" />
     </dialog>
 
     <!-- ══════════ SECTION 2.1 — งบไม่ถึงก็เริ่มได้ที่บ้าน ══════════ -->
@@ -1574,13 +1623,47 @@
       if (reduceMotion) done(); else modal.addEventListener('transitionend', done);
     }
 
+    /* ── Image lightbox (click a card photo to see it full-size) ── */
+    var lightbox = document.getElementById('gdlLightbox');
+    var lightboxImg = document.getElementById('gdlLightboxImg');
+    var lightboxLastActive = null;
+
+    function openLightbox(img) {
+      lightboxLastActive = document.activeElement;
+      lightboxImg.src = img.currentSrc || img.src;
+      lightboxImg.alt = img.alt;
+      if (typeof lightbox.showModal === 'function') lightbox.showModal();
+      else lightbox.setAttribute('open', '');
+      document.body.style.overflow = 'hidden';
+      requestAnimationFrame(function () { lightbox.classList.add('gdl-open'); });
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('gdl-open');
+      document.body.style.overflow = '';
+      var done = function () {
+        lightbox.removeEventListener('transitionend', done);
+        if (typeof lightbox.close === 'function') lightbox.close();
+        else lightbox.removeAttribute('open');
+        lightboxImg.src = '';
+        if (lightboxLastActive) lightboxLastActive.focus();
+      };
+      if (reduceMotion) done(); else lightbox.addEventListener('transitionend', done);
+    }
+
     grid.addEventListener('click', function (e) {
+      var img = e.target.closest('.gdl-card-media img');
+      if (img) { openLightbox(img); return; }
       var btn = e.target.closest('[data-open-modal]');
       if (btn) openModal(btn.getAttribute('data-open-modal'));
     });
     document.getElementById('gdlModalClose').addEventListener('click', closeModal);
     modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
     modal.addEventListener('cancel', function (e) { e.preventDefault(); closeModal(); });
+
+    document.getElementById('gdlLightboxClose').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function (e) { if (e.target === lightbox) closeLightbox(); });
+    lightbox.addEventListener('cancel', function (e) { e.preventDefault(); closeLightbox(); });
 
     /* ── FAQ accordion ───────────────────────────────────────── */
     /* `inert` on the closed panel removes it from both the tab order and the

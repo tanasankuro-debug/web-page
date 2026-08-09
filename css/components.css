@@ -77,11 +77,19 @@
   background: linear-gradient(135deg, var(--hot), var(--fire));
   color: var(--text);
   border-color: transparent;
-  box-shadow: 0 2px 12px rgba(239,68,68,0.3);
+  /* Was a hardcoded rgba(239,68,68) red — matched --fire on the default
+     heat theme by coincidence, but --fire wasn't themed per-topic, so
+     every other topic's primary button carried the same red shadow
+     regardless of its own palette. Now themed via --fire on every page
+     (see themes.css per-topic --fire overrides). */
+  box-shadow: 0 2px 12px color-mix(in srgb, var(--fire) 30%, transparent);
 }
 .btn-primary:hover {
-  box-shadow: 0 4px 20px rgba(239,68,68,0.5);
-  background: linear-gradient(135deg, #FF6B35, var(--fire));
+  box-shadow: 0 4px 20px color-mix(in srgb, var(--fire) 50%, transparent);
+  /* Was a hardcoded #FF6B35 (a brighter orange than --hot, heat-only) —
+     replaced with a formula that brightens whatever --hot the current
+     theme has, so the hover effect works the same way everywhere. */
+  background: linear-gradient(135deg, color-mix(in srgb, var(--hot) 80%, white), var(--fire));
 }
 
 .btn-outline {
@@ -98,6 +106,53 @@
 .btn-sm  { font-size: 0.875rem; padding: 0.5rem 1.1rem; }
 .btn-lg  { font-size: 1.125rem; padding: 1rem 2.25rem; }
 .nav-cta { margin-left: 0.5rem; }
+
+/* ── Rotating glow border (hero primary CTAs) ──────────────────────────────
+   Two synced pseudo-elements sharing one animated angle: a thin
+   conic-gradient ring right on the button's edge (::before, cut to a ring
+   via mask-composite so only the border-width shows, not a solid fill) and
+   a larger, heavily blurred copy behind it (::after) for the soft bleed.
+   Uses --hot/--warm (not --fire) because those two are the ones themes.css
+   actually re-themes per topic — heat stays orange/amber, dust turns
+   violet/magenta, rain/flood turn blue — so one shared rule automatically
+   matches whichever topic page it's used on. */
+@property --btn-glow-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+.btn-glow { position: relative; isolation: isolate; }
+.btn-glow::before {
+  content: '';
+  position: absolute; inset: -3px;
+  border-radius: inherit; padding: 3px;
+  background: conic-gradient(from var(--btn-glow-angle),
+    transparent 0deg, transparent 250deg,
+    var(--hot) 300deg, var(--warm) 322deg, var(--hot) 345deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: btnGlowSpin 2.6s linear infinite;
+  z-index: -1;
+  pointer-events: none;
+}
+.btn-glow::after {
+  content: '';
+  position: absolute; inset: -12px;
+  border-radius: inherit;
+  background: conic-gradient(from var(--btn-glow-angle),
+    transparent 0deg, transparent 270deg, var(--hot) 312deg, transparent 350deg, transparent 360deg);
+  filter: blur(12px);
+  opacity: .85;
+  animation: btnGlowSpin 2.6s linear infinite;
+  z-index: -2;
+  pointer-events: none;
+}
+@keyframes btnGlowSpin { to { --btn-glow-angle: 360deg; } }
+@media (prefers-reduced-motion: reduce) {
+  .btn-glow::before, .btn-glow::after { animation: none; }
+}
 
 /* Nav icons — inline SVG, 18×18, colored per category */
 .nav-icon     { display: inline-flex; width: 18px; height: 18px; vertical-align: -4px; flex-shrink: 0; }

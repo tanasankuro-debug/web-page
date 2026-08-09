@@ -9,6 +9,13 @@
   --cool:  #A78BFA;
   --hot:   #7C3AED;
   --warm:  #C026D3;
+  /* Deep-purple counterpart to --fire (base.css's --fire stays a fixed
+     red — never themed — so .btn-primary's gradient/shadow, which are
+     written as --hot -> --fire, would otherwise clash red against every
+     non-heat topic's own palette). Reuses the same #4C1D95 already used
+     for this theme's .hero-overlay tint below, rather than inventing a
+     new color. */
+  --fire:  #4C1D95;
   --grad-thermal: linear-gradient(to right, #22C55E, #A3E635, #FACC15, #FB923C, #EF4444, #C026D3, #7C3AED);
 }
 
@@ -40,6 +47,10 @@
   --cool:  #38BDF8;
   --hot:   #0EA5E9;
   --warm:  #7DD3FC;
+  /* Deep-teal counterpart to --fire — see the dust theme's comment above
+     for why this is needed. Reuses the same #075985 already used for this
+     theme's .hero-overlay tint below. */
+  --fire:  #075985;
   --grad-thermal: linear-gradient(to right, #1E3A8A, #1D4ED8, #0EA5E9, #38BDF8, #7DD3FC, #BAE6FD);
 }
 
@@ -71,6 +82,10 @@
   --cool:  #22D3EE;
   --hot:   #1D4ED8;
   --warm:  #0EA5E9;
+  /* Deep-navy counterpart to --fire — see the dust theme's comment above
+     for why this is needed. Reuses the same #1E3A8A already used for this
+     theme's .hero-overlay tint below. */
+  --fire:  #1E3A8A;
   --grad-thermal: linear-gradient(to right, #1E3A8A, #1E40AF, #1D4ED8, #0284C7, #0EA5E9, #22D3EE);
 }
 
