@@ -148,6 +148,12 @@
   animation: btnGlowSpin 2.6s linear infinite;
   z-index: -2;
   pointer-events: none;
+  /* Safari/WebKit has a long-standing bug where border-radius clipping is
+     dropped on an element that also has `filter` unless it's forced onto
+     its own compositing layer — without this, the blur bleeds out in a
+     rectangle following the box edges instead of the pill's curve. */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 @keyframes btnGlowSpin { to { --btn-glow-angle: 360deg; } }
 @media (prefers-reduced-motion: reduce) {
