@@ -3,6 +3,41 @@
    Page-specific styles and SVG animations for heat.html
    ========================================================================== */
 
+/* ── Wider content column for heat-dome & UHI sections ────────────────────
+   Shared 820px .article-container / 72ch .article-body (content.css) felt
+   too cramped/empty against the page's wide dark background once these two
+   sections got real photo illustrations instead of small hand-drawn
+   diagrams. --article-w is a shared custom property (base.css); overriding
+   it locally on just these two sections widens the container without
+   touching other pages or other sections on this one.
+
+   The 72ch cap lived on .article-body itself, which constrained the
+   figure/action-box too even though line-length limits only matter for
+   actual reading paragraphs — dropped it from the container and put a
+   narrower cap on just <p>/<ul> instead, so the photo and the highlighted
+   tip box get to use the full wider column while paragraph text stays a
+   comfortable reading width (just a bit more generous than the sitewide
+   default, not unlimited). */
+#heat-dome, #uhi {
+  --article-w: 1040px;
+}
+#heat-dome .article-body,
+#uhi .article-body {
+  max-width: none;
+}
+#heat-dome .article-body > p,
+#heat-dome .article-body > ul,
+#uhi .article-body > p,
+#uhi .article-body > ul {
+  max-width: 80ch;
+}
+#heat-dome .article-body p,
+#heat-dome .article-body li,
+#uhi .article-body p,
+#uhi .article-body li {
+  font-size: clamp(1.15rem, 1.6vw, 1.25rem);
+}
+
 /* ── Phenomenon Label Badge ──────────────────────────────────────────────── */
 .pheno-tag {
   display: inline-flex;
@@ -642,6 +677,45 @@
     88%  { transform: translate(var(--tx, 0px), -162px) scale(0.35);     opacity: 0;    }
     100% { transform: translate(0, 0) scale(1);                          opacity: 0;    }
   }
+
+
+/* ── Heat-dome photo: real illustration (replaces the old hand-drawn SVG)
+   plus a twinkling-stars overlay across its night-sky band ── */
+.hd-photo-wrap { position: relative; }
+.hd-twinkle {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.hd-twinkle span {
+  position: absolute;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 4px 1px rgba(255,255,255,.85);
+  opacity: 0;
+  animation: hd-twinkle-star var(--dur, 3s) ease-in-out var(--delay, 0s) infinite;
+}
+@keyframes hd-twinkle-star {
+  0%, 100% { opacity: 0;   transform: scale(.5);  }
+  50%      { opacity: 1;   transform: scale(1.15); }
+}
+.hd-twinkle span:nth-child(1)  { top: 6%;  left: 10%; --dur: 2.6s; --delay: 0s;    }
+.hd-twinkle span:nth-child(2)  { top: 14%; left: 22%; --dur: 3.4s; --delay: .6s;   }
+.hd-twinkle span:nth-child(3)  { top: 8%;  left: 38%; --dur: 2.9s; --delay: 1.3s;  }
+.hd-twinkle span:nth-child(4)  { top: 20%; left: 48%; --dur: 3.8s; --delay: .2s;   }
+.hd-twinkle span:nth-child(5)  { top: 10%; left: 62%; --dur: 3.1s; --delay: 1.8s;  }
+.hd-twinkle span:nth-child(6)  { top: 18%; left: 74%; --dur: 2.7s; --delay: .9s;   }
+.hd-twinkle span:nth-child(7)  { top: 7%;  left: 86%; --dur: 3.5s; --delay: 2.2s;  }
+.hd-twinkle span:nth-child(8)  { top: 26%; left: 15%; --dur: 3.0s; --delay: 1.5s;  }
+.hd-twinkle span:nth-child(9)  { top: 30%; left: 90%; --dur: 3.3s; --delay: .4s;   }
+.hd-twinkle span:nth-child(10) { top: 4%;  left: 55%; --dur: 2.5s; --delay: 2.6s;  }
+.hd-twinkle span:nth-child(11) { top: 24%; left: 34%; --dur: 3.6s; --delay: 1.1s;  }
+.hd-twinkle span:nth-child(12) { top: 12%; left: 5%;  --dur: 2.8s; --delay: 2.0s;  }
+
+@media (prefers-reduced-motion: reduce) {
+  .hd-twinkle span { animation: none; opacity: .55; }
+}
 
 
 /* ═══════════════════════════════════════════════════════════════════════════

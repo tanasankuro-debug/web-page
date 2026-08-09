@@ -48,6 +48,40 @@
     #hero .hero-content { position: relative; z-index: 2; }
     #hero .thermal-hero-bar { z-index: 3; }
 
+    /* ── Phase 1 redesign: asymmetric two-column hero (headline+CTA left,
+       image placeholder + floating live-temp badge right), bigger type,
+       more breathing room — everything here is scoped to #hero because
+       hero.css/layout.css are shared by every topic page, and only
+       heat.html is getting this treatment for now. */
+    #hero .hero-content--split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+      align-items: center;
+      gap: 4.5rem;
+      max-width: 1240px;
+      padding-top: calc(var(--header-h) + 4.5rem + env(safe-area-inset-top, 0px));
+      padding-bottom: 7rem;
+    }
+    #hero .hero-text { display: flex; flex-direction: column; gap: 1.7rem; max-width: 620px; }
+    #hero .hero-title { font-size: clamp(3.75rem, 8.5vw, 7rem); line-height: .92; }
+    #hero .hero-sub { margin-top: -.5rem; }
+    #hero .hero-actions { margin-top: .6rem; }
+
+    /* No frame/placeholder box anymore — this column just holds the
+       live-temp card, centered, until a real photo replaces it. */
+    #hero .hero-visual {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 320px;
+    }
+    #hero .hero-live-temp.hero-live-temp--badge {
+      box-shadow: 0 20px 50px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    @media (max-width: 900px) {
+      #hero .hero-content--split { grid-template-columns: 1fr; gap: 3rem; padding-bottom: 5rem; }
+      #hero .hero-visual { min-height: 0; }
+    }
+
     /* ── Hero: staggered entry animation ────────────── */
     @keyframes heroFadeUp {
       from { opacity: 0; transform: translateY(30px); }
@@ -425,33 +459,42 @@
     <!-- ─── 1. HERO ─────────────────────────────────────────────────────── -->
     <section id="hero" class="hero" aria-label="Urban Heat — ความร้อนเมืองขอนแก่น">
 
-      <div class="hero-content container">
-        <p class="hero-badge reveal">ข้อมูลสาธารณะ &middot; ขอนแก่น ประเทศไทย &middot; 2569</p>
-        <h1 class="hero-title reveal">
-          URBAN<br />
-          <span class="hero-title-accent">HEAT</span>
-        </h1>
-        <p class="hero-sub reveal">ความร้อนเมืองขอนแก่น</p>
+      <div class="hero-content container hero-content--split">
+        <div class="hero-text">
+          <p class="hero-badge reveal">ข้อมูลสาธารณะ &middot; ขอนแก่น ประเทศไทย &middot; 2569</p>
+          <h1 class="hero-title reveal">
+            URBAN<br />
+            <span class="hero-title-accent">HEAT</span>
+          </h1>
+          <p class="hero-sub reveal">ความร้อนเมืองขอนแก่น</p>
 
-        <!-- Live temperature display — values injected by live.js -->
-        <div class="hero-live-temp" id="hero-live-temp" aria-live="polite" aria-atomic="true">
-          <div class="htl-label">
-            <span class="htl-dot" aria-hidden="true"></span>
-            ขอนแก่น &middot; ตอนนี้
+          <div class="hero-actions reveal">
+            <a href="smart-map.html" class="btn btn-primary btn-glow">ดูแผนที่จริง &#x2192;</a>
+            <a href="lst.html" class="btn btn-outline" style="display:inline-flex;align-items:center;gap:.4rem;">
+              <svg viewBox="0 0 16 16" fill="none" width="13" height="13" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
+              ดูค่า LST
+            </a>
           </div>
-          <div class="htl-row">
-            <span class="htl-val" id="hero-temp-val">—</span>
-            <span class="htl-unit">°C</span>
-          </div>
-          <div class="htl-feels" id="hero-temp-feels">กำลังโหลด…</div>
         </div>
 
-        <div class="hero-actions reveal">
-          <a href="smart-map.html" class="btn btn-primary btn-glow">ดูแผนที่จริง &#x2192;</a>
-          <a href="lst.html" class="btn btn-outline" style="display:inline-flex;align-items:center;gap:.4rem;">
-            <svg viewBox="0 0 16 16" fill="none" width="13" height="13" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
-            ดูค่า LST
-          </a>
+        <div class="hero-visual reveal">
+          <!-- No image yet — placeholder frame removed per feedback.
+               This column just holds the live-temp card for now; drop a
+               <img>/frame back in here once there's a real photo. -->
+
+          <!-- Live temperature display — values injected by live.js.
+               Same widget/IDs as before, just moved into this column. -->
+          <div class="hero-live-temp hero-live-temp--badge" id="hero-live-temp" aria-live="polite" aria-atomic="true">
+            <div class="htl-label">
+              <span class="htl-dot" aria-hidden="true"></span>
+              ขอนแก่น &middot; ตอนนี้
+            </div>
+            <div class="htl-row">
+              <span class="htl-val" id="hero-temp-val">—</span>
+              <span class="htl-unit">°C</span>
+            </div>
+            <div class="htl-feels" id="hero-temp-feels">กำลังโหลด…</div>
+          </div>
         </div>
       </div>
 
@@ -1313,135 +1356,20 @@
             </ul>
           </div>
 
-          <!-- To use a real image instead: replace the <svg> with <img src="..." alt="...">.
-               Free/public-domain sources: NASA Earth Observatory, NOAA climate.gov,
-               Wikimedia Commons (CC), Unsplash/Pexels.
-               Keep the <figcaption>. Add attribution in the caption if the license requires it. -->
           <figure class="article-figure reveal" data-anim="hd">
-            <svg viewBox="0 0 820 420" width="100%"
-                 role="img"
-                 aria-label="แผนภาพโดมความร้อน แสดงระบบความกดอากาศสูงกักอากาศร้อนไว้เหนือพื้นดินเหมือนฝาครอบยักษ์"
-                 style="display:block;height:auto;border-radius:12px;background:#090D18;font-family:'Noto Sans Thai',sans-serif">
-              <defs>
-                <linearGradient id="hd-hot" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%"   stop-color="#FACC15" stop-opacity="0.06"/>
-                  <stop offset="55%"  stop-color="#FB923C" stop-opacity="0.20"/>
-                  <stop offset="100%" stop-color="#EF4444" stop-opacity="0.32"/>
-                </linearGradient>
-                <linearGradient id="hd-dome-ln" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%"   stop-color="#FB923C" stop-opacity="0.5"/>
-                  <stop offset="50%"  stop-color="#EF4444"/>
-                  <stop offset="100%" stop-color="#FB923C" stop-opacity="0.5"/>
-                </linearGradient>
-                <linearGradient id="hd-gnd" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%"   stop-color="#1E293B"/>
-                  <stop offset="100%" stop-color="#0F172A"/>
-                </linearGradient>
-                <radialGradient id="hd-sun-halo" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%"   stop-color="#FACC15" stop-opacity="0.50"/>
-                  <stop offset="100%" stop-color="#FACC15" stop-opacity="0"/>
-                </radialGradient>
-                <filter id="hd-glow-f" x="-20%" y="-20%" width="140%" height="140%">
-                  <feGaussianBlur stdDeviation="4" result="blur"/>
-                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                </filter>
-              </defs>
-
-              <!-- Ground -->
-              <rect x="0" y="356" width="820" height="64" fill="url(#hd-gnd)"/>
-              <line x1="0" y1="356" x2="820" y2="356" stroke="#334155" stroke-width="1"/>
-
-              <!-- Trapped hot zone under dome -->
-              <path id="hdar-hotzone" d="M 44,286 Q 410,76 776,286 L 776,356 L 44,356 Z" fill="url(#hd-hot)"/>
-
-              <!-- Dome arc: glow layer then sharp line -->
-              <path id="hdar-dome-glow" d="M 44,286 Q 410,76 776,286"
-                    fill="none" stroke="#EF4444" stroke-width="12" stroke-opacity="0.18"
-                    filter="url(#hd-glow-f)"/>
-              <path id="hdar-dome-line" d="M 44,286 Q 410,76 776,286"
-                    fill="none" stroke="url(#hd-dome-ln)" stroke-width="3.5" stroke-linecap="round"/>
-
-              <!-- Sun -->
-              <circle id="hdar-sun-halo" cx="716" cy="56" r="42" fill="url(#hd-sun-halo)"/>
-              <circle id="hdar-sun-core" cx="716" cy="56" r="19" fill="#FACC15" opacity="0.9"/>
-              <g id="hdar-sun-rays" stroke="#FACC15" stroke-width="2.2" stroke-linecap="round" opacity="0.72">
-                <line x1="716" y1="22" x2="716" y2="14"/>
-                <line x1="716" y1="90" x2="716" y2="98"/>
-                <line x1="682" y1="56" x2="674" y2="56"/>
-                <line x1="750" y1="56" x2="758" y2="56"/>
-                <line x1="692" y1="32" x2="686" y2="26"/>
-                <line x1="740" y1="80" x2="746" y2="86"/>
-                <line x1="740" y1="32" x2="746" y2="26"/>
-                <line x1="692" y1="80" x2="686" y2="86"/>
-              </g>
-              <text x="716" y="118" text-anchor="middle" font-size="11" fill="#FACC15" opacity="0.75">ดวงอาทิตย์</text>
-
-              <!-- Building silhouette -->
-              <rect x="58"  y="340" width="28" height="16" rx="1" fill="#1E293B"/>
-              <rect x="92"  y="335" width="22" height="21" rx="1" fill="#243347"/>
-              <rect x="148" y="322" width="26" height="34" rx="1" fill="#1E293B"/>
-              <rect x="180" y="314" width="22" height="42" rx="1" fill="#243347"/>
-              <rect x="208" y="326" width="18" height="30" rx="1" fill="#1E293B"/>
-              <rect x="276" y="292" width="30" height="64" rx="1" fill="#1E293B"/>
-              <rect x="312" y="275" width="34" height="81" rx="1" fill="#243347"/>
-              <rect x="352" y="260" width="38" height="96" rx="1" fill="#1E293B"/>
-              <rect x="396" y="270" width="36" height="86" rx="1" fill="#243347"/>
-              <rect x="438" y="282" width="30" height="74" rx="1" fill="#1E293B"/>
-              <rect x="474" y="295" width="26" height="61" rx="1" fill="#243347"/>
-              <rect x="538" y="320" width="24" height="36" rx="1" fill="#1E293B"/>
-              <rect x="568" y="312" width="22" height="44" rx="1" fill="#243347"/>
-              <rect x="596" y="328" width="20" height="28" rx="1" fill="#1E293B"/>
-              <rect x="660" y="338" width="22" height="18" rx="1" fill="#1E293B"/>
-              <rect x="688" y="342" width="26" height="14" rx="1" fill="#243347"/>
-
-              <!-- High-pressure "H" symbol -->
-              <text id="hdar-H" x="410" y="44" text-anchor="middle" fill="#EF4444" font-size="30" font-weight="700" opacity="0.82" letter-spacing="2">H</text>
-              <text x="410" y="62" text-anchor="middle" fill="#EF4444" font-size="10.5" opacity="0.68">ความกดอากาศสูง</text>
-
-              <!-- Downward pressure arrows -->
-              <text x="410" y="108" text-anchor="middle" fill="#FB923C" font-size="11.5" opacity="0.85">ความกดอากาศสูงกดอากาศร้อนลงมา</text>
-              <g id="hdar-arrows-down" fill="none" stroke="#FB923C" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5">
-                <line x1="410" y1="118" x2="410" y2="175"/>
-                <polyline points="397,162 410,177 423,162"/>
-                <line x1="245" y1="168" x2="245" y2="218" opacity="0.70"/>
-                <polyline points="233,206 245,220 257,206" opacity="0.70"/>
-                <line x1="575" y1="166" x2="575" y2="216" opacity="0.70"/>
-                <polyline points="563,203 575,218 587,203" opacity="0.70"/>
-              </g>
-
-              <!-- Upward blocked arrows (trapped, can't escape) -->
-              <g id="hdar-blocked-l" fill="none" stroke="#22D3EE" stroke-linecap="round" stroke-linejoin="round"
-                 stroke-width="2" stroke-dasharray="5,3" opacity="0.65">
-                <line x1="155" y1="300" x2="155" y2="254"/>
-                <polyline points="145,265 155,250 165,265"/>
-              </g>
-              <g id="hdar-blocked-r" fill="none" stroke="#22D3EE" stroke-linecap="round" stroke-linejoin="round"
-                 stroke-width="2" stroke-dasharray="5,3" opacity="0.65">
-                <line x1="655" y1="302" x2="655" y2="256"/>
-                <polyline points="645,267 655,252 665,267"/>
-              </g>
-              <text x="100" y="274" text-anchor="middle" fill="#22D3EE" font-size="10" opacity="0.70">อากาศร้อน</text>
-              <text x="100" y="286" text-anchor="middle" fill="#22D3EE" font-size="10" opacity="0.70">ระบายออกไม่ได้</text>
-
-              <!-- Trapped-air label -->
-              <text id="hdar-trapped" x="410" y="238" text-anchor="middle" fill="#FACC15" font-size="14" font-weight="600" opacity="0.85">อากาศร้อนถูกกักไว้</text>
-
-              <!-- Heat particles: rise from buildings, fade before reaching dome -->
-              <g aria-hidden="true">
-                <circle class="hdar-particle" cx="182"  cy="350" r="2.5" fill="#FB923C" opacity="0" style="--tx:-10px;--dur:7.2s;--delay:-0.0s"/>
-                <circle class="hdar-particle" cx="275"  cy="350" r="2.0" fill="#FACC15" opacity="0" style="--tx:9px;  --dur:6.5s;--delay:-2.1s"/>
-                <circle class="hdar-particle" cx="320"  cy="350" r="1.8" fill="#FB923C" opacity="0" style="--tx:-8px; --dur:7.4s;--delay:-6.8s"/>
-                <circle class="hdar-particle" cx="375"  cy="350" r="3.0" fill="#EF4444" opacity="0" style="--tx:-14px;--dur:8.1s;--delay:-4.0s"/>
-                <circle class="hdar-particle" cx="455"  cy="350" r="2.0" fill="#FB923C" opacity="0" style="--tx:12px; --dur:7.0s;--delay:-1.3s"/>
-                <circle class="hdar-particle" cx="500"  cy="350" r="1.8" fill="#FACC15" opacity="0" style="--tx:10px; --dur:6.9s;--delay:-3.7s"/>
-                <circle class="hdar-particle" cx="545"  cy="350" r="2.5" fill="#FACC15" opacity="0" style="--tx:-9px; --dur:6.8s;--delay:-3.2s"/>
-                <circle class="hdar-particle" cx="635"  cy="350" r="2.0" fill="#EF4444" opacity="0" style="--tx:11px; --dur:7.6s;--delay:-5.5s"/>
-              </g>
-
-              <!-- Bottom title bar -->
-              <rect x="0" y="392" width="820" height="28" fill="#0A0E18" opacity="0.85"/>
-              <text x="410" y="410" text-anchor="middle" fill="#64748B" font-size="11">โดมความร้อน (Heat Dome) — ความกดอากาศสูงกักอากาศร้อนไว้เหนือพื้นดิน</text>
-            </svg>
+            <div class="hd-photo-wrap">
+              <img
+                src="../assets/โดมความร้อน.png"
+                alt="แผนภาพโดมความร้อน แสดงระบบความกดอากาศสูงกักอากาศร้อนไว้เหนือเมือง พร้อมระดับอุณหภูมิของย่านต่าง ๆ ตั้งแต่ชนบทไปจนถึงใจกลางเมือง"
+                loading="lazy" decoding="async" width="1672" height="941"
+                style="display:block;width:100%;height:auto;border-radius:12px" />
+              <!-- Twinkling stars over the night-sky part of the illustration -->
+              <div class="hd-twinkle" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+              </div>
+            </div>
             <figcaption>โดมความร้อน: ระบบความกดอากาศสูง (H) ทำหน้าที่เหมือน "ฝาครอบ" กักอากาศร้อนไว้เหนือพื้นดินหลายวัน ผลักลงมาและไม่ยอมให้ระบายออก — ปรากฏการณ์ชั่วคราวแต่รุนแรงมาก ส่งผลทั้งในเมืองและชนบทพร้อมกัน</figcaption>
           </figure>
 
@@ -1491,189 +1419,20 @@
             <li><strong>ความร้อนจากกิจกรรมคน:</strong> รถ แอร์ โรงงาน — ปล่อยความร้อนเข้าบรรยากาศโดยตรง</li>
           </ul>
 
-          <!-- To use a real image instead: replace the <svg> with <img src="..." alt="...">.
-               Free/public-domain sources: NASA Earth Observatory, US EPA (UHI temperature profile),
-               Wikimedia Commons (CC), Unsplash/Pexels.
-               Keep the <figcaption>. Add attribution in the caption if the license requires it. -->
           <figure class="article-figure reveal" data-anim="uhi">
-            <svg viewBox="0 0 820 420" width="100%"
-                 role="img"
-                 aria-label="แผนภาพเกาะความร้อนเมือง แสดงกราฟอุณหภูมิที่พุ่งสูงขึ้นเหนือย่านใจกลางเมือง เทียบกับพื้นที่ชนบทรอบข้าง"
-                 style="display:block;height:auto;border-radius:12px;background:#090D18;font-family:'Noto Sans Thai',sans-serif">
-              <defs>
-                <linearGradient id="uhi-curve" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%"   stop-color="#22D3EE"/>
-                  <stop offset="28%"  stop-color="#FACC15"/>
-                  <stop offset="50%"  stop-color="#EF4444"/>
-                  <stop offset="72%"  stop-color="#FACC15"/>
-                  <stop offset="100%" stop-color="#22D3EE"/>
-                </linearGradient>
-                <linearGradient id="uhi-gnd" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%"   stop-color="#1E293B"/>
-                  <stop offset="100%" stop-color="#0F172A"/>
-                </linearGradient>
-                <linearGradient id="uhi-rural-l" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%"   stop-color="#064E3B" stop-opacity="0.22"/>
-                  <stop offset="100%" stop-color="#064E3B" stop-opacity="0"/>
-                </linearGradient>
-                <linearGradient id="uhi-rural-r" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%"   stop-color="#064E3B" stop-opacity="0"/>
-                  <stop offset="100%" stop-color="#064E3B" stop-opacity="0.22"/>
-                </linearGradient>
-                <radialGradient id="uhi-city-hot" cx="50%" cy="30%" r="60%">
-                  <stop offset="0%"   stop-color="#EF4444" stop-opacity="0.10"/>
-                  <stop offset="100%" stop-color="#EF4444" stop-opacity="0"/>
-                </radialGradient>
-                <filter id="uhi-glow-f" x="-20%" y="-40%" width="140%" height="180%">
-                  <feGaussianBlur stdDeviation="3.5" result="blur"/>
-                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                </filter>
-              </defs>
-
-              <!-- Zone background tints -->
-              <rect x="0"   y="0" width="195" height="420" fill="url(#uhi-rural-l)"/>
-              <rect x="625" y="0" width="195" height="420" fill="url(#uhi-rural-r)"/>
-              <rect id="uhiar-city-hot" x="270" y="60" width="280" height="300" fill="url(#uhi-city-hot)"/>
-
-              <!-- Ground -->
-              <rect x="0" y="295" width="820" height="125" fill="url(#uhi-gnd)"/>
-              <line x1="64" y1="295" x2="820" y2="295" stroke="#334155" stroke-width="1"/>
-
-              <!-- Y-axis -->
-              <line x1="68" y1="76" x2="68" y2="295" stroke="#334155" stroke-width="1.5"/>
-              <text x="19" y="188" text-anchor="middle" fill="#64748B" font-size="12.5"
-                    transform="rotate(-90,19,188)">อุณหภูมิ</text>
-              <g stroke="#334155" stroke-width="1">
-                <line x1="62" y1="108" x2="68" y2="108"/>
-                <line x1="62" y1="148" x2="68" y2="148"/>
-                <line x1="62" y1="188" x2="68" y2="188"/>
-                <line x1="62" y1="228" x2="68" y2="228"/>
-                <line x1="62" y1="268" x2="68" y2="268"/>
-              </g>
-              <!-- Reference baseline (dashed) -->
-              <line x1="68" y1="270" x2="780" y2="270" stroke="#334155" stroke-width="1" stroke-dasharray="6,4"/>
-
-              <!-- Buildings -->
-              <!-- Rural left: trees -->
-              <ellipse cx="108" cy="281" rx="15" ry="18" fill="#064E3B" opacity="0.55"/>
-              <rect x="105" y="288" width="6" height="9"  fill="#064E3B" opacity="0.5"/>
-              <ellipse cx="144" cy="283" rx="13" ry="15" fill="#065F46" opacity="0.55"/>
-              <rect x="141" y="290" width="6" height="7"  fill="#065F46" opacity="0.5"/>
-              <ellipse cx="174" cy="282" rx="14" ry="16" fill="#064E3B" opacity="0.45"/>
-              <rect x="171" y="289" width="6" height="8"  fill="#064E3B" opacity="0.45"/>
-
-              <!-- Suburb left -->
-              <rect x="208" y="262" width="26" height="33" rx="1" fill="#1E293B"/>
-              <rect x="240" y="255" width="22" height="40" rx="1" fill="#243347"/>
-              <rect x="268" y="267" width="20" height="28" rx="1" fill="#1E293B"/>
-
-              <!-- City center (tall) -->
-              <rect x="296" y="225" width="28" height="70"  rx="1" fill="#1E293B"/>
-              <rect x="330" y="208" width="30" height="87"  rx="1" fill="#243347"/>
-              <rect x="366" y="192" width="34" height="103" rx="1" fill="#1E293B"/>
-              <rect x="406" y="178" width="36" height="117" rx="1" fill="#243347"/>
-              <rect x="448" y="190" width="32" height="105" rx="1" fill="#1E293B"/>
-              <rect x="486" y="205" width="28" height="90"  rx="1" fill="#243347"/>
-              <rect x="520" y="222" width="24" height="73"  rx="1" fill="#1E293B"/>
-              <!-- Window glints -->
-              <g id="uhiar-windows" fill="#FACC15" opacity="0.20">
-                <rect x="335" y="216" width="4" height="3" rx="0.5"/>
-                <rect x="344" y="216" width="4" height="3" rx="0.5"/>
-                <rect x="335" y="224" width="4" height="3" rx="0.5"/>
-                <rect x="344" y="224" width="4" height="3" rx="0.5"/>
-                <rect x="372" y="200" width="4" height="3" rx="0.5"/>
-                <rect x="381" y="200" width="4" height="3" rx="0.5"/>
-                <rect x="390" y="200" width="4" height="3" rx="0.5"/>
-                <rect x="372" y="208" width="4" height="3" rx="0.5"/>
-                <rect x="381" y="208" width="4" height="3" rx="0.5"/>
-                <rect x="412" y="186" width="4" height="3" rx="0.5"/>
-                <rect x="421" y="186" width="4" height="3" rx="0.5"/>
-                <rect x="430" y="186" width="4" height="3" rx="0.5"/>
-                <rect x="412" y="194" width="4" height="3" rx="0.5"/>
-                <rect x="421" y="194" width="4" height="3" rx="0.5"/>
-              </g>
-
-              <!-- Suburb right -->
-              <rect x="554" y="260" width="24" height="35" rx="1" fill="#1E293B"/>
-              <rect x="584" y="253" width="22" height="42" rx="1" fill="#243347"/>
-              <rect x="612" y="265" width="20" height="30" rx="1" fill="#1E293B"/>
-
-              <!-- Rural right: trees -->
-              <ellipse cx="652" cy="282" rx="14" ry="16" fill="#064E3B" opacity="0.45"/>
-              <rect x="649" y="289" width="6" height="8" fill="#064E3B" opacity="0.45"/>
-              <ellipse cx="684" cy="281" rx="13" ry="15" fill="#065F46" opacity="0.55"/>
-              <rect x="681" y="288" width="6" height="7" fill="#065F46" opacity="0.5"/>
-              <ellipse cx="716" cy="283" rx="15" ry="14" fill="#064E3B" opacity="0.50"/>
-              <rect x="713" y="289" width="6" height="8" fill="#064E3B" opacity="0.45"/>
-
-              <!-- Temperature curve: glow then main -->
-              <path id="uhiar-curve-glow"
-                    d="M 82,270 C 122,269 158,266 202,256 C 242,246 262,234 296,214
-                        C 334,192 360,150 410,120 C 460,150 486,192 524,214
-                        C 558,234 578,246 618,256 C 662,266 698,269 738,270"
-                    pathLength="1"
-                    fill="none" stroke="#EF4444" stroke-width="8" stroke-opacity="0.22"
-                    stroke-linecap="round" filter="url(#uhi-glow-f)"/>
-              <path id="uhiar-curve-main"
-                    d="M 82,270 C 122,269 158,266 202,256 C 242,246 262,234 296,214
-                        C 334,192 360,150 410,120 C 460,150 486,192 524,214
-                        C 558,234 578,246 618,256 C 662,266 698,269 738,270"
-                    pathLength="1"
-                    fill="none" stroke="url(#uhi-curve)" stroke-width="3" stroke-linecap="round"/>
-
-              <!-- Peak dot + two sonar rings -->
-              <circle id="uhiar-peak-ring"  cx="410" cy="120" r="5.5"
-                      fill="none" stroke="#EF4444" stroke-width="1.5" opacity="0"/>
-              <circle id="uhiar-peak-ring2" cx="410" cy="120" r="5.5"
-                      fill="none" stroke="#EF4444" stroke-width="1"   opacity="0"/>
-              <circle id="uhiar-peak" cx="410" cy="120" r="5.5" fill="#EF4444" stroke="#090D18" stroke-width="2"/>
-
-              <!-- Callout: city hotter than rural -->
-              <g id="uhiar-callout">
-                <line x1="410" y1="120" x2="466" y2="90" stroke="#EF4444" stroke-width="1" stroke-opacity="0.55"/>
-                <rect x="468" y="72" width="224" height="30" rx="6" fill="#1A2236" stroke="#EF4444" stroke-width="1" stroke-opacity="0.45"/>
-                <text x="580" y="92" text-anchor="middle" fill="#EF4444" font-size="12" font-weight="600">เมืองร้อนกว่าชนบท ~3–5°C</text>
-              </g>
-
-              <!-- Zone dividers -->
-              <g stroke="#334155" stroke-width="0.8" stroke-dasharray="3,4" opacity="0.7">
-                <line x1="198" y1="295" x2="198" y2="352"/>
-                <line x1="296" y1="295" x2="296" y2="352"/>
-                <line x1="524" y1="295" x2="524" y2="352"/>
-                <line x1="626" y1="295" x2="626" y2="352"/>
-              </g>
-
-              <!-- Zone labels -->
-              <text x="108" y="320" text-anchor="middle" fill="#4B5563" font-size="10.5">ชนบท</text>
-              <text x="248" y="320" text-anchor="middle" fill="#6B7280" font-size="10.5">ชานเมือง</text>
-              <text x="410" y="318" text-anchor="middle" fill="#94A3B8" font-size="11" font-weight="600">ย่านการค้า / ใจกลางเมือง</text>
-              <text x="572" y="320" text-anchor="middle" fill="#6B7280" font-size="10.5">ชานเมือง</text>
-              <text x="714" y="320" text-anchor="middle" fill="#4B5563" font-size="10.5">ชนบท</text>
-
-              <!-- Heat shimmer: wavy lines rising above tallest buildings -->
-              <g aria-hidden="true">
-                <path class="uhiar-shimmer"
-                      d="M 374,186 Q 378,180 382,186 Q 386,192 390,186 Q 394,180 398,186"
-                      fill="none" stroke="rgba(251,146,60,0.45)" stroke-width="1.8" stroke-linecap="round"
-                      style="--dur:3.2s;--delay:0s"/>
-                <path class="uhiar-shimmer"
-                      d="M 413,172 Q 418,165 423,172 Q 428,179 433,172 Q 438,165 443,172"
-                      fill="none" stroke="rgba(239,68,68,0.45)" stroke-width="1.8" stroke-linecap="round"
-                      style="--dur:2.8s;--delay:-0.8s"/>
-                <path class="uhiar-shimmer"
-                      d="M 454,184 Q 459,177 464,184 Q 469,191 474,184 Q 479,177 484,184"
-                      fill="none" stroke="rgba(251,146,60,0.40)" stroke-width="1.8" stroke-linecap="round"
-                      style="--dur:3.6s;--delay:-1.5s"/>
-                <path class="uhiar-shimmer"
-                      d="M 333,202 Q 337,196 341,202 Q 345,208 349,202"
-                      fill="none" stroke="rgba(250,204,21,0.35)" stroke-width="1.5" stroke-linecap="round"
-                      style="--dur:3.0s;--delay:-0.4s"/>
-              </g>
-
-              <!-- Bottom title bar -->
-              <rect x="0" y="392" width="820" height="28" fill="#0A0E18" opacity="0.85"/>
-              <text x="410" y="410" text-anchor="middle" fill="#64748B" font-size="11">ปรากฏการณ์เกาะความร้อนเมือง (Urban Heat Island) — อุณหภูมิในเมืองสูงกว่าชนบทอย่างต่อเนื่อง</text>
-            </svg>
+            <div class="hd-photo-wrap">
+              <img
+                src="../assets/เกาะความร้อน.png"
+                alt="แผนภาพเกาะความร้อนเมือง แสดงเส้นอุณหภูมิที่พุ่งสูงขึ้นเหนือใจกลางเมือง เทียบกับพื้นที่ชานเมืองและชนบทรอบข้าง พร้อมสาเหตุหลักและผลกระทบ"
+                loading="lazy" decoding="async" width="1672" height="941"
+                style="display:block;width:100%;height:auto;border-radius:12px" />
+              <!-- Twinkling stars over the night-sky part of the illustration -->
+              <div class="hd-twinkle" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+              </div>
+            </div>
             <figcaption>เกาะความร้อนเมือง: ใจกลางเมืองที่หนาแน่นด้วยคอนกรีตและแอสฟัลต์ร้อนกว่าพื้นที่ชนบทรอบนอกอย่างต่อเนื่อง โดยเฉพาะในตอนกลางคืน — นี่คือปรากฏการณ์ที่ชั้น Heat Accumulation และ Hotspot ในแอปวัดและแสดงผลแบบเรียลไทม์</figcaption>
           </figure>
 
