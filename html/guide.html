@@ -761,6 +761,50 @@
     @media (min-width: 640px) { .gdl-bento--budget { grid-template-columns: repeat(2, 1fr); } }
     @media (min-width: 900px) { .gdl-bento--budget { grid-template-columns: repeat(3, 1fr); } }
 
+    /* ══════════════════════ SECTION 3.1 — หาสวนที่ใช่สำหรับคุณ ══════════════════════ */
+    .gdl-fg-tabs {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem;
+      margin-top: 2rem; margin-bottom: 2rem;
+    }
+    .gdl-fg-tab {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--font-body,'Noto Sans Thai',sans-serif);
+      font-size: .88rem; font-weight: 700; color: var(--gdl-text-secondary);
+      background: var(--gdl-glass); border: 1px solid var(--gdl-border);
+      padding: .7rem 1.3rem; border-radius: 999px;
+      cursor: pointer; transition: background 180ms ease-out, border-color 180ms ease-out, color 180ms ease-out;
+      min-height: 44px;
+    }
+    .gdl-fg-tab.is-active {
+      background: var(--gdl-emerald-surface); border-color: var(--gdl-emerald-border); color: var(--gdl-text-primary);
+    }
+    .gdl-fg-tab.is-active svg { color: var(--gdl-emerald); }
+    @media (hover: hover) {
+      .gdl-fg-tab:not(.is-active):hover { background: var(--gdl-border-subtle); color: var(--gdl-text-primary); }
+    }
+
+    .gdl-fg-panel {
+      background: var(--gdl-glass); border: 1px solid var(--gdl-border); border-radius: var(--gdl-radius-md);
+      padding: 2rem 2.2rem;
+    }
+    .gdl-fg-photo { display: block; width: 100%; height: auto; border-radius: var(--gdl-radius-sm); margin-bottom: 1.6rem; }
+    .gdl-fg-desc { font-size: 1rem; line-height: 1.75; color: var(--gdl-text-primary); margin-bottom: 1.5rem; }
+    .gdl-fg-style {
+      display: flex; align-items: flex-start; gap: .8rem;
+      background: linear-gradient(120deg, var(--gdl-emerald-surface), rgba(20,184,166,.06));
+      border: 1px solid var(--gdl-emerald-border); border-radius: var(--gdl-radius-sm);
+      padding: 1.1rem 1.3rem; margin-bottom: 1.6rem;
+    }
+    .gdl-fg-style svg { flex-shrink: 0; margin-top: .15rem; color: var(--gdl-emerald); }
+    .gdl-fg-style-label { font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--gdl-emerald); margin-bottom: .3rem; }
+    .gdl-fg-style-text { font-size: .92rem; line-height: 1.65; color: var(--gdl-text-primary); }
+    .gdl-fg-plants-label { font-size: 1rem; font-weight: 700; color: var(--gdl-text-primary); margin-bottom: .9rem; }
+    .gdl-fg-tip { font-size: .88rem; line-height: 1.7; color: var(--gdl-text-secondary); margin-top: 1.6rem; padding-top: 1.4rem; border-top: 1px solid var(--gdl-border-subtle); }
+    .gdl-fg-tip strong { color: var(--gdl-text-primary); }
+    @media (max-width: 640px) {
+      .gdl-fg-panel { padding: 1.5rem 1.3rem; }
+    }
+
     /* ══════════════════════ SECTION 6 — FAQ ══════════════════════ */
     .gdl-faq { padding: 6.5rem 1.5rem; background: var(--gdl-surface-1); }
     .gdl-faq-list { max-width: var(--gdl-measure-lg); margin: 0 auto; display: flex; flex-direction: column; gap: .85rem; }
@@ -1117,6 +1161,34 @@
       </div>
     </section>
 
+    <!-- ══════════ SECTION 3.1 — หาสวนที่ใช่สำหรับคุณ ══════════ -->
+    <section class="gdl-templates" id="find-garden" aria-labelledby="gdl-fg-title">
+      <div class="gdl-container" style="max-width:var(--gdl-measure-lg);">
+        <div class="gdl-section-head gdl-reveal">
+          <span class="gdl-section-tag">04 — หาสวนที่ใช่</span>
+          <h2 class="gdl-section-title" id="gdl-fg-title">หาสวนที่ใช่สำหรับคุณ</h2>
+          <p class="gdl-section-lead" style="max-width:100%;">เลือกลักษณะที่อยู่อาศัยของคุณ เพื่อดูพันธุ์ไม้และรูปแบบสวนที่เหมาะกับพื้นที่จริงมากที่สุด</p>
+        </div>
+
+        <div class="gdl-fg-tabs gdl-reveal" role="tablist" aria-label="เลือกลักษณะที่อยู่อาศัย">
+          <button class="gdl-fg-tab" type="button" data-fg="condo" role="tab" aria-selected="false">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="1"/><line x1="9" y1="6" x2="9" y2="6.01"/><line x1="15" y1="6" x2="15" y2="6.01"/><line x1="9" y1="10" x2="9" y2="10.01"/><line x1="15" y1="10" x2="15" y2="10.01"/><line x1="9" y1="14" x2="9" y2="14.01"/><line x1="15" y1="14" x2="15" y2="14.01"/><line x1="10" y1="22" x2="10" y2="18" /><line x1="14" y1="22" x2="14" y2="18"/></svg>
+            คอนโด / ระเบียง
+          </button>
+          <button class="gdl-fg-tab" type="button" data-fg="house" role="tab" aria-selected="false">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+            บ้านเดี่ยวมีสวน
+          </button>
+          <button class="gdl-fg-tab" type="button" data-fg="townhouse" role="tab" aria-selected="false">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 21h20"/><path d="M4 21V9l4-3 4 3v12"/><path d="M12 21V6l4-3 4 3v15"/></svg>
+            ทาวน์เฮาส์ / พื้นที่จำกัด
+          </button>
+        </div>
+
+        <div class="gdl-fg-panel gdl-reveal" id="gdlFgPanel"></div>
+      </div>
+    </section>
+
     <!-- ══════════ SECTION 4 — COMPARISON ══════════ -->
     <section class="gdl-compare" id="compare" aria-labelledby="gdl-compare-title">
       <div class="gdl-container">
@@ -1148,7 +1220,7 @@
     <section class="gdl-benefits" id="benefits" aria-labelledby="gdl-benefits-title">
       <div class="gdl-container">
         <div class="gdl-section-head gdl-reveal">
-          <span class="gdl-section-tag">04 — ประโยชน์</span>
+          <span class="gdl-section-tag">05 — ประโยชน์</span>
           <h2 class="gdl-section-title" id="gdl-benefits-title">ประโยชน์และผลลัพธ์</h2>
           <p class="gdl-section-lead">พื้นที่สีเขียวให้ประโยชน์กับเมืองอย่างรอบด้าน ไม่ใช่แค่ความสวยงาม</p>
         </div>
@@ -1187,7 +1259,7 @@
     <section class="gdl-flow" id="how-to" aria-labelledby="gdl-howto-title">
       <div class="gdl-container">
         <div class="gdl-section-head center gdl-reveal">
-          <span class="gdl-section-tag">05 — ขั้นตอน</span>
+          <span class="gdl-section-tag">06 — ขั้นตอน</span>
           <h2 class="gdl-section-title" id="gdl-howto-title">วิธีเสนอโครงการต่อเทศบาล</h2>
           <p class="gdl-section-lead">ประชาชนทั่วไปสามารถเสนอโครงการพื้นที่สีเขียวต่อหน่วยงานท้องถิ่นได้ ตามขั้นตอนต่อไปนี้</p>
         </div>
@@ -1235,7 +1307,7 @@
     <section class="gdl-templates" id="participate" aria-labelledby="gdl-participate-title">
       <div class="gdl-container" style="max-width:var(--gdl-measure-lg);">
         <div class="gdl-section-head gdl-reveal">
-          <span class="gdl-section-tag">06 — มีส่วนร่วม</span>
+          <span class="gdl-section-tag">07 — มีส่วนร่วม</span>
           <h2 class="gdl-section-title" id="gdl-participate-title">วิธีมีส่วนร่วม</h2>
           <p class="gdl-section-lead" style="max-width:100%;">ทุกคนมีส่วนร่วมได้ตั้งแต่วันนี้ ไม่ว่าจะเป็นการโหวต การแชร์ข้อมูล หรือการลงมือทำในชุมชนของตัวเอง</p>
         </div>
@@ -1280,7 +1352,7 @@
     <section class="gdl-benefits" id="location" aria-labelledby="gdl-location-title">
       <div class="gdl-container">
         <div class="gdl-section-head gdl-reveal">
-          <span class="gdl-section-tag">07 — เลือกพื้นที่</span>
+          <span class="gdl-section-tag">08 — เลือกพื้นที่</span>
           <h2 class="gdl-section-title" id="gdl-location-title">เลือกพื้นที่อย่างไร?</h2>
           <p class="gdl-section-lead">การเลือกที่ตั้งที่เหมาะสมเป็นปัจจัยสำคัญที่สุดในการสร้างพื้นที่สีเขียวให้มีประสิทธิภาพสูงสุด ควรพิจารณาจากเกณฑ์เหล่านี้</p>
         </div>
@@ -1318,7 +1390,7 @@
     <section class="gdl-faq" id="faq" aria-labelledby="gdl-faq-title">
       <div class="gdl-container">
         <div class="gdl-section-head center gdl-reveal">
-          <span class="gdl-section-tag">08 — FAQ</span>
+          <span class="gdl-section-tag">09 — FAQ</span>
           <h2 class="gdl-section-title" id="gdl-faq-title">คำถามที่พบบ่อย</h2>
         </div>
 
@@ -1664,6 +1736,67 @@
     document.getElementById('gdlLightboxClose').addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', function (e) { if (e.target === lightbox) closeLightbox(); });
     lightbox.addEventListener('cancel', function (e) { e.preventDefault(); closeLightbox(); });
+
+    /* ── หาสวนที่ใช่สำหรับคุณ: recommend plants + garden style by home type ── */
+    var FIND_GARDEN = {
+      condo: {
+        image: '../assets/คอนโด.png',
+        imageAlt: 'ตัวอย่างสวนระเบียงคอนโด ปลูกไม้เลื้อยเกาะโครงระแนง จัดวางกระถางว่านหางจระเข้ กระบองเพชร และผักสวนครัวบนชั้นวางไม้',
+        desc: 'พื้นที่จำกัดที่สุด แต่เริ่มได้ทันทีด้วยกระถางและไม้เลื้อย ไม่ต้องรอที่ดินหรืองบก้อนใหญ่',
+        styleLabel: 'รูปแบบที่แนะนำ',
+        style: 'สวนกระถาง + แนวตั้งบนระเบียง — ต่อยอดจากหัวข้อ <a href="#budget" style="color:var(--gdl-emerald);">"งบไม่ถึงก็เริ่มได้ที่บ้านคุณเอง"</a> ด้านบน เริ่มจากงบ 0 บาทได้เลย',
+        plants: ['ว่านหางจระเข้', 'เศรษฐีเรือนใน', 'ไทรใบสัก', 'พลูด่าง', 'กระบองเพชร', 'โหระพา', 'กะเพรา', 'พริก', 'ดาวเรือง', 'ผกากรอง'],
+        tip: '<strong>เคล็ดลับ:</strong> วางกระถางไม้เลื้อยไว้ทิศที่แดดแรงที่สุดของระเบียง (มักเป็นทิศตะวันตก) ช่วยกันความร้อนเข้าห้องได้ดีกว่าวางไว้มุมร่ม'
+      },
+      house: {
+        image: '../assets/บ้านเดี๋ยวสวน.png',
+        imageAlt: 'ตัวอย่างสวนบ้านเดี่ยว ปลูกไม้ยืนต้นให้ร่มเงาใกล้ตัวบ้าน พร้อมจุดซึมน้ำฝนแบบร่องกรวดหินขนาดย่อมในสนามหญ้า',
+        desc: 'มีพื้นดินจริง ปลูกไม้ยืนต้นให้ร่มเงาได้ และวางระบบซึมน้ำฝนเล็ก ๆ เสริมได้ด้วย',
+        styleLabel: 'รูปแบบที่แนะนำ',
+        style: 'สวนร่มเงา + จุดซึมน้ำฝนขนาดย่อม — แนวคิดคล้าย Sponge Plaza ในหัวข้อ "ประเภทพื้นที่สีเขียว" ด้านบน แต่ย่อขนาดลงมาระดับบ้านเดี่ยว',
+        plants: ['ประดู่ป่า', 'กัลปพฤกษ์', 'อินทนิล', 'สะเดา', 'ไทรย้อยใบแหลม'],
+        tip: '<strong>เคล็ดลับ:</strong> ปลูกไม้ยืนต้นห่างจากตัวบ้านพอสมควร (รากและทรงพุ่มจะใหญ่) เลือกจุดที่ร่มเงาตกกระทบผนัง/หลังคาช่วงบ่าย จะช่วยลดความร้อนสะสมในบ้านได้มากที่สุด'
+      },
+      townhouse: {
+        desc: 'มีพื้นที่แคบแบบหน้าบ้านหรือข้างบ้าน เน้นไม้เลื้อยแนวตั้งและไม้พุ่มทรงแคบแทนไม้ใหญ่ที่ใช้พื้นที่มาก',
+        styleLabel: 'รูปแบบที่แนะนำ',
+        style: 'สวนแนวตั้งริมรั้ว/ผนัง — แนวคิดย่อส่วนจาก Green Walkway ในหัวข้อ "ประเภทพื้นที่สีเขียว" ด้านบน',
+        plants: ['เล็บมือนาง', 'พวงชมพู', 'มะลิเลื้อย', 'ชบา', 'ไผ่กระถาง', 'ทองอุไร'],
+        tip: '<strong>เคล็ดลับ:</strong> ปลูกไม้เลื้อยเกาะรั้วหรือผนังทิศตะวันตกของบ้าน ช่วยกันแดดบ่ายซึ่งเป็นช่วงที่ร้อนที่สุดของวันได้ดี'
+      }
+    };
+    var fgTabs = document.querySelectorAll('.gdl-fg-tab');
+    var fgPanel = document.getElementById('gdlFgPanel');
+
+    function renderFindGarden(key) {
+      var d = FIND_GARDEN[key];
+      if (!d) return;
+      fgPanel.innerHTML =
+        (d.image ? '<img class="gdl-fg-photo" src="' + d.image + '" alt="' + d.imageAlt + '" loading="lazy" decoding="async" width="1672" height="941" />' : '') +
+        '<p class="gdl-fg-desc">' + d.desc + '</p>' +
+        '<div class="gdl-fg-style">' +
+          '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5c3 4 6 7.5 6 11.5a6 6 0 1 1-12 0c0-4 3-7.5 6-11.5z"/></svg>' +
+          '<div><div class="gdl-fg-style-label">' + d.styleLabel + '</div><div class="gdl-fg-style-text">' + d.style + '</div></div>' +
+        '</div>' +
+        '<div class="gdl-fg-plants-label">พันธุ์ไม้ที่แนะนำ</div>' +
+        '<div class="gdl-modal-plants">' + d.plants.map(function (p) { return '<span class="gdl-plant-tag">' + p + '</span>'; }).join('') + '</div>' +
+        '<p class="gdl-fg-tip">' + d.tip + '</p>';
+    }
+
+    fgTabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        fgTabs.forEach(function (t) {
+          t.classList.remove('is-active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('is-active');
+        tab.setAttribute('aria-selected', 'true');
+        renderFindGarden(tab.getAttribute('data-fg'));
+      });
+    });
+    fgTabs[0].classList.add('is-active');
+    fgTabs[0].setAttribute('aria-selected', 'true');
+    renderFindGarden(fgTabs[0].getAttribute('data-fg'));
 
     /* ── FAQ accordion ───────────────────────────────────────── */
     /* `inert` on the closed panel removes it from both the tab order and the
