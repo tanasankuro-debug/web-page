@@ -772,7 +772,7 @@
       font-size: .88rem; font-weight: 700; color: var(--gdl-text-secondary);
       background: var(--gdl-glass); border: 1px solid var(--gdl-border);
       padding: .7rem 1.3rem; border-radius: 999px;
-      cursor: pointer; transition: background 180ms ease-out, border-color 180ms ease-out, color 180ms ease-out;
+      cursor: pointer; transition: background 180ms ease-out, border-color 180ms ease-out, color 180ms ease-out, translate 180ms ease-out;
       min-height: 44px;
     }
     .gdl-fg-tab.is-active {
@@ -780,7 +780,7 @@
     }
     .gdl-fg-tab.is-active svg { color: var(--gdl-emerald); }
     @media (hover: hover) {
-      .gdl-fg-tab:not(.is-active):hover { background: var(--gdl-border-subtle); color: var(--gdl-text-primary); }
+      .gdl-fg-tab:not(.is-active):hover { background: var(--gdl-border-subtle); color: var(--gdl-text-primary); translate: 0 -2px; }
     }
 
     .gdl-fg-panel {
@@ -803,6 +803,46 @@
     .gdl-fg-tip strong { color: var(--gdl-text-primary); }
     @media (max-width: 640px) {
       .gdl-fg-panel { padding: 1.5rem 1.3rem; }
+    }
+
+    /* ── Motion for the find-garden panel — every piece of it is rebuilt via
+       innerHTML on each tab click, so a plain `animation:` here replays
+       automatically on real new DOM nodes each time, no JS re-trigger
+       needed. Staggered so it reads as one thing settling in, not a flat
+       swap. Scoped to .gdl-fg-panel so it can't touch .gdl-plant-tag /
+       .gdl-modal-plants elsewhere (budget section, detail modal). */
+    @keyframes gdlFgFadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes gdlFgTagIn { from { opacity: 0; transform: scale(.85) translateY(6px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    @keyframes gdlFgTabPop { 0% { transform: scale(1); } 45% { transform: scale(1.06); } 100% { transform: scale(1); } }
+
+    .gdl-fg-panel .gdl-fg-photo        { animation: gdlFgFadeUp .5s var(--gdl-ease) both; }
+    .gdl-fg-panel .gdl-fg-desc         { animation: gdlFgFadeUp .5s var(--gdl-ease) .06s both; }
+    .gdl-fg-panel .gdl-fg-style        { animation: gdlFgFadeUp .5s var(--gdl-ease) .12s both; }
+    .gdl-fg-panel .gdl-fg-plants-label { animation: gdlFgFadeUp .5s var(--gdl-ease) .18s both; }
+    .gdl-fg-panel .gdl-fg-tip          { animation: gdlFgFadeUp .5s var(--gdl-ease) .5s both; }
+    .gdl-fg-panel .gdl-plant-tag { opacity: 0; animation: gdlFgTagIn .4s var(--gdl-ease) both; }
+    .gdl-fg-panel .gdl-plant-tag:nth-child(1)  { animation-delay: .22s; }
+    .gdl-fg-panel .gdl-plant-tag:nth-child(2)  { animation-delay: .25s; }
+    .gdl-fg-panel .gdl-plant-tag:nth-child(3)  { animation-delay: .28s; }
+    .gdl-fg-panel .gdl-plant-tag:nth-child(4)  { animation-delay: .31s; }
+    .gdl-fg-panel .gdl-plant-tag:nth-child(5)  { animation-delay: .34s; }
+    .gdl-fg-panel .gdl-plant-tag:nth-child(6)  { animation-delay: .37s; }
+    .gdl-fg-panel .gdl-plant-tag:nth-child(7)  { animation-delay: .40s; }
+    .gdl-fg-panel .gdl-plant-tag:nth-child(8)  { animation-delay: .43s; }
+    .gdl-fg-panel .gdl-plant-tag:nth-child(9)  { animation-delay: .46s; }
+    .gdl-fg-panel .gdl-plant-tag:nth-child(10) { animation-delay: .49s; }
+
+    /* Active-tab micro-bounce: retriggers naturally each click since the
+       .is-active class always moves to a *different* button element. */
+    .gdl-fg-tab.is-active { animation: gdlFgTabPop .3s ease-out; }
+
+    /* Photo hover-zoom uses the standalone `scale` property (not
+       `transform`) so it can never collide with the entrance keyframe's
+       own `transform: translateY(...)` — same fix as the hover/reveal
+       collision found earlier on .gdl-card/.gdl-step. */
+    @media (hover: hover) {
+      .gdl-fg-photo { transition: scale .45s var(--gdl-ease); }
+      .gdl-fg-panel:hover .gdl-fg-photo { scale: 1.025; }
     }
 
     /* ══════════════════════ SECTION 6 — FAQ ══════════════════════ */
@@ -1758,6 +1798,8 @@
         tip: '<strong>เคล็ดลับ:</strong> ปลูกไม้ยืนต้นห่างจากตัวบ้านพอสมควร (รากและทรงพุ่มจะใหญ่) เลือกจุดที่ร่มเงาตกกระทบผนัง/หลังคาช่วงบ่าย จะช่วยลดความร้อนสะสมในบ้านได้มากที่สุด'
       },
       townhouse: {
+        image: '../assets/ทาวน์เฮาส์.png',
+        imageAlt: 'ตัวอย่างสวนแนวตั้งริมรั้วและผนังทางเดินข้างบ้านทาวน์เฮาส์ ปลูกไม้เลื้อยเกาะโครงระแนงและไม้พุ่มทรงแคบตลอดแนวทางเดิน',
         desc: 'มีพื้นที่แคบแบบหน้าบ้านหรือข้างบ้าน เน้นไม้เลื้อยแนวตั้งและไม้พุ่มทรงแคบแทนไม้ใหญ่ที่ใช้พื้นที่มาก',
         styleLabel: 'รูปแบบที่แนะนำ',
         style: 'สวนแนวตั้งริมรั้ว/ผนัง — แนวคิดย่อส่วนจาก Green Walkway ในหัวข้อ "ประเภทพื้นที่สีเขียว" ด้านบน',

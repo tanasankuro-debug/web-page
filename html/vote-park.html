@@ -587,7 +587,7 @@
       </svg>
     </div>
     <div class="success-title" id="success-title">โหวตสำเร็จ!</div>
-    <div class="success-sub">ขอบคุณที่ร่วมแสดงความคิดเห็น<br>เสียงของคุณจะช่วยพัฒนาเมืองขอนแก่นให้น่าอยู่ยิ่งขึ้น</div>
+    <div class="success-sub">ขอบคุณที่ร่วมแสดงความคิดเห็น<br>เสียงของคุณจะช่วยพัฒนาเมืองของคุณให้น่าอยู่ยิ่งขึ้น</div>
     <a href="index.html" class="success-btn">กลับหน้าแรก</a>
   </div>
 
@@ -600,7 +600,7 @@
       Your City · Your Voice
     </div>
     <h1 class="hero-title">คุณอยากเห็น<br><em>สวนแบบไหน</em>?</h1>
-    <p class="hero-sub">เลือกพื้นที่สีเขียวที่คุณอยากให้ขอนแก่นมีมากขึ้น เสียงของคุณจะถูกนำเสนอต่อหน่วยงานที่เกี่ยวข้อง</p>
+    <p class="hero-sub">เลือกพื้นที่สีเขียวที่คุณอยากให้เมืองของคุณมีมากขึ้น เสียงของคุณจะถูกนำเสนอต่อหน่วยงานที่เกี่ยวข้อง</p>
   </div>
 
   <!-- step indicator -->
@@ -1127,24 +1127,17 @@
         </div>
       </div>
 
-      <!-- ── STEP 3: district ────────────────────────── -->
+      <!-- ── STEP 3: province + district ────────────────────────── -->
       <div class="district-section">
+        <div class="sec-label" style="margin-bottom:.7rem;">จังหวัด</div>
+        <select class="dist-select" id="province-select" aria-label="เลือกจังหวัด" style="margin-bottom:1rem;">
+          <option value="ขอนแก่น">ขอนแก่น</option>
+          <option value="ระยอง">ระยอง</option>
+        </select>
+
         <div class="sec-label" style="margin-bottom:.7rem;">พื้นที่ที่คุณอยู่</div>
         <select class="dist-select" id="district-select" aria-label="เลือกอำเภอ">
           <option value="">— เลือกอำเภอ —</option>
-          <option value="อำเภอเมืองขอนแก่น">อำเภอเมืองขอนแก่น</option>
-          <option value="อำเภอน้ำพอง">อำเภอน้ำพอง</option>
-          <option value="อำเภอบ้านไผ่">อำเภอบ้านไผ่</option>
-          <option value="อำเภอพล">อำเภอพล</option>
-          <option value="อำเภอชุมแพ">อำเภอชุมแพ</option>
-          <option value="อำเภออุบลรัตน์">อำเภออุบลรัตน์</option>
-          <option value="อำเภอชนบท">อำเภอชนบท</option>
-          <option value="อำเภอมัญจาคีรี">อำเภอมัญจาคีรี</option>
-          <option value="อำเภอภูเวียง">อำเภอภูเวียง</option>
-          <option value="อำเภอกระนวน">อำเภอกระนวน</option>
-          <option value="อำเภอหนองเรือ">อำเภอหนองเรือ</option>
-          <option value="อำเภอหนองสองห้อง">อำเภอหนองสองห้อง</option>
-          <option value="อำเภออื่นๆ">อำเภออื่นๆ</option>
         </select>
         <div class="field-err" id="err-district">กรุณาเลือกอำเภอที่คุณอยู่</div>
       </div>
@@ -1323,6 +1316,49 @@
       document.getElementById('sl3').className = 'step-label on';
     });
 
+    /* ── Province → district list + map recenter ──────────────
+       District list is keyed by the province's own Thai label (same string
+       submitted in the vote row), not a slug — one less translation layer. */
+    var DISTRICTS = {
+      'ขอนแก่น': [
+        'อำเภอเมืองขอนแก่น', 'อำเภอน้ำพอง', 'อำเภอบ้านไผ่', 'อำเภอพล', 'อำเภอชุมแพ',
+        'อำเภออุบลรัตน์', 'อำเภอชนบท', 'อำเภอมัญจาคีรี', 'อำเภอภูเวียง', 'อำเภอกระนวน',
+        'อำเภอหนองเรือ', 'อำเภอหนองสองห้อง', 'อำเภออื่นๆ'
+      ],
+      'ระยอง': [
+        'อำเภอเมืองระยอง', 'อำเภอบ้านฉาง', 'อำเภอแกลง', 'อำเภอวังจันทร์', 'อำเภอบ้านค่าย',
+        'อำเภอปลวกแดง', 'อำเภอเขาชะเมา', 'อำเภอนิคมพัฒนา', 'อำเภออื่นๆ'
+      ]
+    };
+    var PROVINCE_MAP_CENTER = {
+      'ขอนแก่น': { lat: 16.44, lng: 102.82, zoom: 13 },
+      'ระยอง':   { lat: 12.68, lng: 101.28, zoom: 13 }
+    };
+    var provinceSel = document.getElementById('province-select');
+
+    function populateDistricts(province) {
+      var list = DISTRICTS[province] || [];
+      distSel.innerHTML = '<option value="">— เลือกอำเภอ —</option>' +
+        list.map(function (d) { return '<option value="' + d + '">' + d + '</option>'; }).join('');
+    }
+
+    provinceSel.addEventListener('change', function () {
+      populateDistricts(provinceSel.value);
+      document.getElementById('err-district').classList.remove('show');
+      var c = PROVINCE_MAP_CENTER[provinceSel.value];
+      if (c) {
+        if (!_pinMap) initPinMap();
+        _pinMap.setView([c.lat, c.lng], c.zoom);
+        /* province change implies the old pin (if any) no longer applies */
+        if (_pinMarker) { _pinMap.removeLayer(_pinMarker); _pinMarker = null; }
+        selectedLat = null; selectedLng = null;
+        document.getElementById('pin-clear-btn').style.display = 'none';
+        document.getElementById('pin-info').style.display = 'none';
+      }
+    });
+
+    populateDistricts(provinceSel.value); /* initial fill for the default province */
+
     document.querySelectorAll('.park-card').forEach(function (card) {
       function selectCard() {
         document.querySelectorAll('.park-card').forEach(function (c) {
@@ -1377,7 +1413,14 @@
       btn.disabled = true;
       btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="animation:pvw-spin .8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> กำลังส่ง...';
 
-      var row = { park_type: selectedPark, district: district, fingerprint: 'sub_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9) };
+      var row = {
+        park_type: selectedPark, district: district, province: provinceSel.value,
+        fingerprint: 'sub_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9)
+      };
+      /* `province` requires this column to exist first — run once in the
+         Supabase SQL editor before testing a submission:
+         ALTER TABLE park_votes ADD COLUMN IF NOT EXISTS province text;
+      */
       /* lat/lng saved only when columns exist in DB — run SQL below to enable:
          ALTER TABLE park_votes ADD COLUMN IF NOT EXISTS lat double precision, ADD COLUMN IF NOT EXISTS lng double precision;
       */
