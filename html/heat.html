@@ -375,6 +375,24 @@
       z-index: 10;
     }
 
+    /* ── GISTDA agency card: live map embed ───────────
+       #agency-gistda specifically (not .agency-card generally — that's
+       shared via topics.css across dust/rain/flood/team too) so only this
+       one card spans the full grid row to fit the embedded map. */
+    #agency-gistda { grid-column: 1 / -1; }
+    .agency-map-embed { margin: .25rem 0 .1rem; }
+    .agency-map-embed iframe {
+      width: 100%; height: 440px; border: 0; border-radius: 10px;
+      display: block; background: #0B1829;
+    }
+    .agency-map-note {
+      font-size: .74rem; line-height: 1.6; color: rgba(255,255,255,.45);
+      margin-top: .6rem;
+    }
+    @media (max-width: 640px) {
+      .agency-map-embed iframe { height: 320px; }
+    }
+
     /* ── Reduced motion: kill everything ────────────── */
     @media (prefers-reduced-motion: reduce) {
       #hero.hero                             { animation: none; }
@@ -2948,6 +2966,51 @@
             <p>ศูนย์วิจัยด้านสภาพภูมิอากาศเมืองและเกาะความร้อน ผลิตงานวิจัยอุณหภูมิเมืองขอนแก่น
                และพัฒนาแนวทางแก้ปัญหาความร้อนในระดับท้องถิ่น</p>
             <a href="https://www.kku.ac.th" target="_blank" rel="noopener noreferrer" class="agency-link">kku.ac.th &#x2192;</a>
+          </article>
+
+          <article class="agency-card reveal" id="agency-gistda">
+            <div class="agency-header">
+              <div class="agency-icon" aria-hidden="true">
+                <!-- satellite + signal — GISTDA geoinformatics / space technology -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 38" fill="none" width="38" height="38" style="display:block">
+                  <!-- solar panels -->
+                  <rect x="2" y="16" width="9" height="6" rx="0.8" stroke="#0EA5E9" stroke-width="1.3" fill="rgba(14,165,233,0.08)" transform="rotate(45 6.5 19)"/>
+                  <rect x="27" y="16" width="9" height="6" rx="0.8" stroke="#0EA5E9" stroke-width="1.3" fill="rgba(14,165,233,0.08)" transform="rotate(45 31.5 19)"/>
+                  <!-- satellite body -->
+                  <rect x="15" y="15" width="8" height="8" rx="1.2" stroke="#0EA5E9" stroke-width="1.4" fill="rgba(14,165,233,0.14)" transform="rotate(45 19 19)"/>
+                  <!-- antenna -->
+                  <line x1="19" y1="13" x2="19" y2="8" stroke="#0EA5E9" stroke-width="1.3" stroke-linecap="round"/>
+                  <circle cx="19" cy="7" r="1.3" fill="#0EA5E9" opacity="0.7"/>
+                  <!-- downlink signal to ground -->
+                  <path d="M14 24Q19 30 24 24" stroke="#0EA5E9" stroke-width="1.1" stroke-linecap="round" opacity="0.45" fill="none"/>
+                  <path d="M11 27Q19 35 27 27" stroke="#0EA5E9" stroke-width="1.1" stroke-linecap="round" opacity="0.25" fill="none"/>
+                </svg>
+              </div>
+              <div class="agency-name">
+                <h3>สำนักงานพัฒนาเทคโนโลยีอวกาศและภูมิสารสนเทศ (องค์การมหาชน)</h3>
+                <p class="agency-abbr">GISTDA — Geo-Informatics and Space Technology Development Agency</p>
+              </div>
+            </div>
+            <p>พัฒนาแบบจำลองเกาะความร้อนเมือง (Urban Heat Island) ในพื้นที่ขอนแก่นร่วมกับจังหวัดขอนแก่นภายใต้โครงการ Digital Twin
+               ให้บริการข้อมูลภูมิสารสนเทศจากดาวเทียมและแผนที่ 3 มิติสำหรับวิเคราะห์ความร้อนเมือง</p>
+
+            <!-- Live embed of GISTDA's own UHI tool. The heat-index terrain
+                 layer is currently failing to load on GISTDA's own site
+                 (confirmed via both direct visit and embed — their terrain
+                 provider request is being rejected, unrelated to this page)
+                 so the note below is honest about what may or may not show. -->
+            <div class="agency-map-embed">
+              <iframe
+                src="https://3d.gistda.or.th/use-cases/urban-heat-island"
+                title="แผนที่เกาะความร้อนเมือง (Urban Heat Island) จาก GISTDA"
+                loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+              </iframe>
+              <p class="agency-map-note">
+                &#x26A0;&#xFE0F; ชั้นข้อมูลความร้อน (heat layer) ของ GISTDA อาจไม่แสดงผลชั่วคราว เนื่องจากปัญหาฝั่งผู้ให้บริการข้อมูลภูมิประเทศของ GISTDA เอง — แผนที่ฐานและเครื่องมือส่วนอื่นยังใช้งานได้ตามปกติ
+              </p>
+            </div>
+
+            <a href="https://3d.gistda.or.th/use-cases/urban-heat-island" target="_blank" rel="noopener noreferrer" class="agency-link">3d.gistda.or.th &#x2192;</a>
           </article>
 
         </div>
