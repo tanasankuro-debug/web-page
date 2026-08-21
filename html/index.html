@@ -1800,6 +1800,69 @@
 
 
   <!-- =====================================================================
+       GISTDA — live embed of their own Urban Heat Island 3D map tool
+  ====================================================================== -->
+  <section id="gistda-map-section" style="background:#080c18;border-top:1px solid rgba(255,255,255,.07);padding:2.25rem 1.25rem 3rem;">
+    <div style="max-width:880px;margin:0 auto;">
+
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;">
+        <div style="
+          width:34px;height:34px;border-radius:8px;flex-shrink:0;
+          background:rgba(14,165,233,.12);border:1px solid rgba(14,165,233,.25);
+          display:flex;align-items:center;justify-content:center;
+        ">
+          <svg width="16" height="16" viewBox="0 0 38 38" fill="none" aria-hidden="true">
+            <rect x="2" y="16" width="9" height="6" rx="0.8" stroke="#0EA5E9" stroke-width="1.6" fill="rgba(14,165,233,0.1)" transform="rotate(45 6.5 19)"/>
+            <rect x="27" y="16" width="9" height="6" rx="0.8" stroke="#0EA5E9" stroke-width="1.6" fill="rgba(14,165,233,0.1)" transform="rotate(45 31.5 19)"/>
+            <rect x="15" y="15" width="8" height="8" rx="1.2" stroke="#0EA5E9" stroke-width="1.7" fill="rgba(14,165,233,0.16)" transform="rotate(45 19 19)"/>
+            <line x1="19" y1="13" x2="19" y2="8" stroke="#0EA5E9" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="19" cy="7" r="1.5" fill="#0EA5E9"/>
+          </svg>
+        </div>
+        <div style="text-align:left;">
+          <p style="font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#0EA5E9;margin:0 0 .1rem;">GISTDA · แผนที่เกาะความร้อนเมือง</p>
+          <p style="font-size:.9rem;font-weight:700;color:#fff;margin:0;line-height:1.2;">Urban Heat Island — ขอนแก่น</p>
+        </div>
+      </div>
+
+      <p style="font-size:.88rem;color:rgba(255,255,255,.45);margin:0 0 1.25rem;line-height:1.65;max-width:620px;">
+        แผนที่ 3 มิติจากสำนักงานพัฒนาเทคโนโลยีอวกาศและภูมิสารสนเทศ (GISTDA) ซึ่งพัฒนาแบบจำลองเกาะความร้อนเมืองนี้ร่วมกับจังหวัดขอนแก่นภายใต้โครงการ Digital Twin — ลากเพื่อหมุนมุมมอง หรือกดไอคอนเพื่อซูม/สลับชั้นแผนที่ได้จริง
+      </p>
+
+      <div style="position:relative;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.6);">
+        <iframe
+          id="gistda-lp-map"
+          src="https://3d.gistda.or.th/use-cases/urban-heat-island"
+          title="แผนที่เกาะความร้อนเมือง (Urban Heat Island) จาก GISTDA"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          style="width:100%;height:520px;border:0;display:block;background:#0B1829;">
+        </iframe>
+      </div>
+
+      <p style="font-size:.76rem;line-height:1.65;color:rgba(255,255,255,.4);margin:.9rem 0 0;">
+        &#x26A0;&#xFE0F; ชั้นข้อมูลความร้อน (heat layer) ของ GISTDA อาจไม่แสดงผลชั่วคราว เนื่องจากปัญหาฝั่งผู้ให้บริการข้อมูลภูมิประเทศของ GISTDA เอง — แผนที่ฐานและเครื่องมือส่วนอื่นยังใช้งานได้ตามปกติ
+      </p>
+      <p style="font-size:.76rem;line-height:1.65;color:rgba(255,255,255,.4);margin:.4rem 0 0;">
+        &#x1F4A1; อยากดูเป็นภาพถ่ายดาวเทียม? กดไอคอนแผนที่ (ไอคอนที่ 2 จากบนในแผนที่) แล้วเลือก "Satellite" — ครั้งต่อไปที่เข้าหน้านี้ เบราว์เซอร์เครื่องนี้จะจำการตั้งค่าไว้ให้อัตโนมัติ
+      </p>
+
+      <a href="https://3d.gistda.or.th/use-cases/urban-heat-island" target="_blank" rel="noopener noreferrer"
+         style="display:inline-flex;align-items:center;gap:.4rem;margin-top:1rem;font-size:.82rem;font-weight:700;color:#0EA5E9;text-decoration:none;">
+        3d.gistda.or.th
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+
+    </div>
+  </section>
+
+  <style>
+    @media (max-width: 640px) {
+      #gistda-lp-map { height: 380px !important; }
+    }
+  </style>
+
+
+  <!-- =====================================================================
        CREDITS — คณะผู้จัดทำ (footer-credit style)
   ====================================================================== -->
   <section id="lp-team" style="background:#080c18;border-top:1px solid rgba(255,255,255,.07);padding:2rem 1.5rem 1.8rem">
