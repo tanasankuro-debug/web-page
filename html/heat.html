@@ -393,6 +393,116 @@
       .agency-map-embed iframe { height: 320px; }
     }
 
+    /* Poster (real GISTDA satellite screenshot of Khon Kaen) shown before
+       the live map loads — click swaps it for the real iframe. Solves the
+       "show it already zoomed in on Khon Kaen" request: GISTDA gives no
+       URL/localStorage way to force that camera state for new visitors,
+       so this poster is a real captured screenshot standing in until the
+       user opts into the live tool. */
+    .agency-map-poster {
+      width: 100%; height: 440px; border-radius: 10px; overflow: hidden;
+      position: relative; display: flex; align-items: center; justify-content: center;
+      background: #0B1829 center / cover no-repeat;
+      background-image: url('../assets/gistda-khonkaen-poster.jpg');
+      cursor: pointer; border: 0; padding: 0;
+    }
+    .agency-map-poster::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(5,12,22,.1), rgba(5,12,22,.55));
+    }
+    .agency-map-poster-btn {
+      position: relative; z-index: 1;
+      display: inline-flex; align-items: center; gap: .55rem;
+      background: rgba(11,24,41,.88); color: #fff; font-weight: 700; font-size: .85rem;
+      padding: .75rem 1.4rem; border-radius: 999px; border: 1px solid rgba(255,255,255,.25);
+    }
+    .agency-map-poster-btn svg { flex: none; }
+    .agency-map-poster:focus-visible {
+      outline: 3px solid #0EA5E9; outline-offset: 3px;
+    }
+    @media (hover: hover) {
+      .agency-map-poster-btn { transition: transform .18s ease-out, background .18s ease-out; }
+      .agency-map-poster:hover .agency-map-poster-btn {
+        transform: scale(1.05); background: rgba(14,165,233,.92);
+      }
+    }
+    @media (max-width: 640px) {
+      .agency-map-poster { height: 320px; }
+    }
+
+    /* ── Future-vision section: Before (heat) → GeoHeat AI → After (green) ──
+       Deliberately framed as a direction/vision, not a temperature forecast —
+       GeoHeat has no predictive model, so the copy never claims a specific
+       future temperature. Illustrations are hand-drawn SVG (same approach as
+       the rest of the site's diagrams), not photography, so nothing here
+       claims to depict an actual planned Khon Kaen project. */
+    .fv-panels {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 1.25rem;
+      margin: 2rem 0 1.75rem;
+    }
+    .fv-panel {
+      border-radius: 14px; overflow: hidden; position: relative;
+      background: #0B1829; border: 1px solid rgba(255,255,255,.08);
+    }
+    .fv-panel--now svg, .fv-panel--future svg { display: block; width: 100%; height: auto; }
+    .fv-panel-tag {
+      position: absolute; top: .75rem; left: .75rem; z-index: 1;
+      font-size: .7rem; font-weight: 700; letter-spacing: .06em;
+      padding: .3rem .7rem; border-radius: 999px;
+      background: rgba(5,12,22,.75); backdrop-filter: blur(4px);
+    }
+    .fv-panel--now .fv-panel-tag  { color: #FB923C; border: 1px solid rgba(251,146,60,.35); }
+    .fv-panel--future .fv-panel-tag { color: #4ADE80; border: 1px solid rgba(74,222,128,.35); }
+    .fv-panel--ai {
+      background: none; border: none;
+      display: flex; flex-direction: column; align-items: center; gap: .6rem;
+      padding: 0 .25rem; text-align: center;
+    }
+    .fv-ai-badge {
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      background: rgba(14,165,233,.1); border: 1px solid rgba(14,165,233,.3);
+      border-radius: 14px; padding: 1rem 1.1rem;
+    }
+    .fv-ai-badge span {
+      font-size: .78rem; font-weight: 800; color: #38BDF8; white-space: nowrap;
+    }
+    .fv-ai-flow {
+      font-size: .72rem; color: rgba(255,255,255,.4); white-space: nowrap;
+      margin: 0;
+    }
+    .fv-arrow { color: rgba(255,255,255,.25); flex: none; }
+    @media (max-width: 760px) {
+      .fv-panels { grid-template-columns: 1fr; }
+      .fv-panel--ai { flex-direction: row; justify-content: center; padding: .5rem 0; }
+      .fv-arrow { transform: rotate(90deg); }
+    }
+
+    .fv-actions {
+      list-style: none; margin: 0 0 1.75rem; padding: 0;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: .6rem;
+    }
+    .fv-actions li {
+      display: flex; align-items: center; gap: .55rem;
+      font-size: .85rem; color: rgba(255,255,255,.75);
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.06);
+      border-radius: 10px; padding: .65rem .85rem;
+    }
+    .fv-tagline {
+      font-size: 1.05rem; font-weight: 700; text-align: center;
+      color: #fff; font-style: italic; margin: 0 0 .5rem;
+      padding: 1.25rem; border-radius: 14px;
+      background: linear-gradient(135deg, rgba(251,146,60,.08), rgba(74,222,128,.08));
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .fv-disclaimer {
+      font-size: .74rem; line-height: 1.6; color: rgba(255,255,255,.4);
+      text-align: center; margin: 0;
+    }
+
     /* ── Reduced motion: kill everything ────────────── */
     @media (prefers-reduced-motion: reduce) {
       #hero.hero                             { animation: none; }
@@ -404,6 +514,7 @@
       .toc-link:hover, .toc-link:focus-visible { transform: none; }
       .hero-live-temp { animation: none; opacity: 1; }
       .htl-dot        { animation: none; }
+      .fv-ai-badge svg { animation: none; }
     }
 
   </style>
@@ -586,6 +697,12 @@
                 <a href="#agencies" class="toc-link" data-target="agencies">
                   <span class="toc-num">09</span>
                   หน่วยงานที่เกี่ยวข้อง
+                </a>
+              </li>
+              <li>
+                <a href="#future-vision" class="toc-link" data-target="future-vision">
+                  <span class="toc-num">10</span>
+                  แนวทางสู่ขอนแก่นในอนาคต
                 </a>
               </li>
             </ol>
@@ -2994,37 +3111,178 @@
             <p>พัฒนาแบบจำลองเกาะความร้อนเมือง (Urban Heat Island) ในพื้นที่ขอนแก่นร่วมกับจังหวัดขอนแก่นภายใต้โครงการ Digital Twin
                ให้บริการข้อมูลภูมิสารสนเทศจากดาวเทียมและแผนที่ 3 มิติสำหรับวิเคราะห์ความร้อนเมือง</p>
 
-            <!-- Live embed of GISTDA's own UHI tool. The heat-index terrain
-                 layer is currently failing to load on GISTDA's own site
-                 (confirmed via both direct visit and embed — their terrain
-                 provider request is being rejected, unrelated to this page)
-                 so the note below is honest about what may or may not show. -->
+            <!-- Poster-first: a real screenshot of GISTDA's own tool already
+                 zoomed into Khon Kaen in satellite view stands in until the
+                 visitor clicks — GISTDA gives no URL/localStorage way to force
+                 that exact camera state for new visitors on the live tool, so
+                 this is how "already zoomed in" actually works by default.
+                 The heat-index terrain layer is also currently failing to load
+                 on GISTDA's own site (confirmed via direct visit) so the note
+                 below is honest about what may or may not show once opened. -->
             <div class="agency-map-embed">
-              <iframe
-                src="https://3d.gistda.or.th/use-cases/urban-heat-island"
-                title="แผนที่เกาะความร้อนเมือง (Urban Heat Island) จาก GISTDA"
-                loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-              </iframe>
+              <button type="button" class="agency-map-poster" id="agencyGistdaPoster"
+                      aria-label="กดเพื่อเปิดแผนที่ Urban Heat Island แบบโต้ตอบจาก GISTDA">
+                <span class="agency-map-poster-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3l14 9-14 9V3z"/></svg>
+                  กดเพื่อเปิดแผนที่แบบโต้ตอบ
+                </span>
+              </button>
               <p class="agency-map-note">
                 &#x26A0;&#xFE0F; ชั้นข้อมูลความร้อน (heat layer) ของ GISTDA อาจไม่แสดงผลชั่วคราว เนื่องจากปัญหาฝั่งผู้ให้บริการข้อมูลภูมิประเทศของ GISTDA เอง — แผนที่ฐานและเครื่องมือส่วนอื่นยังใช้งานได้ตามปกติ
               </p>
               <p class="agency-map-note">
-                &#x1F4A1; อยากดูเป็นภาพถ่ายดาวเทียม? กดไอคอนแผนที่ (ไอคอนที่ 2 จากบนในแผนที่) แล้วเลือก "Satellite" — ครั้งต่อไปที่เข้าหน้านี้ เบราว์เซอร์เครื่องนี้จะจำการตั้งค่าไว้ให้อัตโนมัติ
-              </p>
-              <p class="agency-map-note">
-                &#x1F30D; ข้อมูลชุดนี้ของ GISTDA ครอบคลุมเฉพาะจังหวัดขอนแก่น — สำหรับจังหวัดระยอง สามารถดูภาพถ่ายดาวเทียมอุณหภูมิพื้นผิว (Land Surface Temperature) แบบเรียลไทม์จาก NASA Worldview ได้ที่ลิงก์ด้านล่าง
+                &#x1F4A1; ภาพด้านบนคือสแนปช็อตจริงของแผนที่นี้ (ซูมดาวเทียมเข้าขอนแก่น) เมื่อกดเปิดแผนที่โต้ตอบแล้ว หากอยากได้มุมมองดาวเทียมแบบเดิม กดไอคอนแผนที่ (ไอคอนที่ 2 จากบนในแผนที่) แล้วเลือก "Satellite"
               </p>
             </div>
 
             <a href="https://3d.gistda.or.th/use-cases/urban-heat-island" target="_blank" rel="noopener noreferrer" class="agency-link">3d.gistda.or.th &#x2192;</a>
-            <br>
-            <a href="https://worldview.earthdata.nasa.gov/?v=100.2,11.9,102.3,13.4&l=Reference_Labels_15m,Coastlines_15m,MODIS_Terra_Land_Surface_Temp_Day,VIIRS_SNPP_CorrectedReflectance_TrueColor" target="_blank" rel="noopener noreferrer" class="agency-link">NASA Worldview — ระยอง &#x2192;</a>
           </article>
 
         </div>
       </div>
     </section>
 
+    <script>
+      (function () {
+        var poster = document.getElementById('agencyGistdaPoster');
+        if (!poster) return;
+        poster.addEventListener('click', function () {
+          var iframe = document.createElement('iframe');
+          iframe.src = 'https://3d.gistda.or.th/use-cases/urban-heat-island';
+          iframe.title = 'แผนที่เกาะความร้อนเมือง (Urban Heat Island) จาก GISTDA';
+          iframe.loading = 'lazy';
+          iframe.referrerPolicy = 'no-referrer-when-downgrade';
+          poster.replaceWith(iframe);
+        });
+      })();
+    </script>
+
+
+    <!-- ─── FUTURE VISION ────────────────────────────────────────────────── -->
+    <section id="future-vision" class="section article-section" aria-labelledby="future-vision-heading">
+      <div class="container">
+        <p class="section-label reveal">วิสัยทัศน์</p>
+        <h2 id="future-vision-heading" class="section-heading reveal">แนวทางสู่ขอนแก่นในอนาคต</h2>
+        <p class="section-intro reveal">
+          จากข้อมูลความร้อนสู่แนวทางออกแบบเมือง — GeoHeat เป็นเครื่องมือสนับสนุนการตัดสินใจ
+          ไม่ใช่แบบจำลองพยากรณ์อุณหภูมิในอนาคต
+        </p>
+
+        <div class="fv-panels reveal" role="img" aria-label="ภาพประกอบเปรียบเทียบ: เมืองปัจจุบันที่มีความร้อนสะสมสูง เทียบกับแนวทางเมืองในอนาคตที่เพิ่มพื้นที่สีเขียวและร่มเงาเพื่อลดความร้อน โดยมี GeoHeat AI เป็นเครื่องมือวิเคราะห์และวางแผนตรงกลาง">
+
+          <div class="fv-panel fv-panel--now">
+            <span class="fv-panel-tag">ปัจจุบัน</span>
+            <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <radialGradient id="fvHeatGlow" cx="50%" cy="70%" r="65%">
+                  <stop offset="0%" stop-color="#F97316" stop-opacity="0.55"/>
+                  <stop offset="55%" stop-color="#EF4444" stop-opacity="0.22"/>
+                  <stop offset="100%" stop-color="#EF4444" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <rect width="320" height="200" fill="#0B1829"/>
+              <rect width="320" height="200" fill="url(#fvHeatGlow)"/>
+              <g fill="#33415580" stroke="#475569" stroke-width="1">
+                <rect x="8"   y="96"  width="34" height="90"/>
+                <rect x="48"  y="66"  width="30" height="120"/>
+                <rect x="84"  y="112" width="34" height="74"/>
+                <rect x="124" y="50"  width="28" height="136"/>
+                <rect x="158" y="88"  width="34" height="98"/>
+                <rect x="198" y="70"  width="30" height="116"/>
+                <rect x="234" y="104" width="34" height="82"/>
+                <rect x="274" y="60"  width="30" height="126"/>
+              </g>
+              <g stroke="#FDBA74" stroke-width="1" opacity="0.35">
+                <line x1="0" y1="186" x2="320" y2="186"/>
+              </g>
+              <line x1="0" y1="188" x2="320" y2="188" stroke="#1E293B" stroke-width="2"/>
+            </svg>
+          </div>
+
+          <div class="fv-panel fv-panel--ai">
+            <div class="fv-ai-badge">
+              <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+                <rect x="9" y="9" width="12" height="12" rx="2" stroke="#38BDF8" stroke-width="1.6"/>
+                <circle cx="15" cy="15" r="2.4" fill="#38BDF8"/>
+                <g stroke="#38BDF8" stroke-width="1.4" stroke-linecap="round">
+                  <line x1="15" y1="1"  x2="15" y2="6"/>
+                  <line x1="15" y1="24" x2="15" y2="29"/>
+                  <line x1="1"  y1="15" x2="6"  y2="15"/>
+                  <line x1="24" y1="15" x2="29" y2="15"/>
+                  <line x1="5"  y1="5"  x2="8.5" y2="8.5"/>
+                  <line x1="21.5" y1="21.5" x2="25" y2="25"/>
+                  <line x1="25" y1="5" x2="21.5" y2="8.5"/>
+                  <line x1="8.5" y1="21.5" x2="5" y2="25"/>
+                </g>
+              </svg>
+              <span>GeoHeat AI</span>
+            </div>
+            <svg class="fv-arrow" width="26" height="16" viewBox="0 0 26 16" fill="none" aria-hidden="true">
+              <line x1="0" y1="8" x2="20" y2="8" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M14 2l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <p class="fv-ai-flow">วิเคราะห์ &rarr; วางแผน &rarr; ออกแบบ</p>
+          </div>
+
+          <div class="fv-panel fv-panel--future">
+            <span class="fv-panel-tag">แนวทาง</span>
+            <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <radialGradient id="fvCoolGlow" cx="50%" cy="70%" r="65%">
+                  <stop offset="0%" stop-color="#4ADE80" stop-opacity="0.35"/>
+                  <stop offset="55%" stop-color="#22D3EE" stop-opacity="0.16"/>
+                  <stop offset="100%" stop-color="#22D3EE" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <rect width="320" height="200" fill="#0B1829"/>
+              <rect width="320" height="200" fill="url(#fvCoolGlow)"/>
+              <g fill="#33415580" stroke="#475569" stroke-width="1">
+                <rect x="8"   y="96"  width="34" height="90"/>
+                <rect x="48"  y="66"  width="30" height="120"/>
+                <rect x="84"  y="112" width="34" height="74"/>
+                <rect x="124" y="50"  width="28" height="136"/>
+                <rect x="158" y="88"  width="34" height="98"/>
+                <rect x="198" y="70"  width="30" height="116"/>
+                <rect x="234" y="104" width="34" height="82"/>
+                <rect x="274" y="60"  width="30" height="126"/>
+              </g>
+              <g fill="#16A34A" opacity="0.8">
+                <rect x="8"   y="93" width="34" height="4" rx="1"/>
+                <rect x="48"  y="63" width="30" height="4" rx="1"/>
+                <rect x="84"  y="109" width="34" height="4" rx="1"/>
+                <rect x="124" y="47" width="28" height="4" rx="1"/>
+                <rect x="158" y="85" width="34" height="4" rx="1"/>
+                <rect x="198" y="67" width="30" height="4" rx="1"/>
+                <rect x="234" y="101" width="34" height="4" rx="1"/>
+                <rect x="274" y="57" width="30" height="4" rx="1"/>
+              </g>
+              <g fill="#22C55E" stroke="#16A34A" stroke-width="1">
+                <path d="M22 186 L34 186 L28 172 Z"/>
+                <path d="M60 186 L74 186 L67 168 Z"/>
+                <path d="M100 186 L112 186 L106 174 Z"/>
+                <path d="M178 186 L192 186 L185 170 Z"/>
+                <path d="M244 186 L258 186 L251 173 Z"/>
+                <path d="M296 186 L308 186 L302 175 Z"/>
+              </g>
+              <line x1="0" y1="188" x2="320" y2="188" stroke="#1E293B" stroke-width="2"/>
+            </svg>
+          </div>
+
+        </div>
+
+        <ul class="fv-actions reveal">
+          <li>&#x1F333; เพิ่มพื้นที่สีเขียว</li>
+          <li>&#x2600;&#xFE0F; เพิ่มร่มเงาในจุดที่ร้อนที่สุด</li>
+          <li>&#x1F5FA;&#xFE0F; วางแผนพื้นที่เสี่ยงก่อน</li>
+          <li>&#x1F4CA; ใช้ข้อมูลประกอบการตัดสินใจ</li>
+        </ul>
+
+        <p class="fv-tagline reveal">&ldquo;ขอนแก่น เมืองที่ใช้ข้อมูลเพื่อออกแบบพื้นที่ให้เย็นลง&rdquo;</p>
+        <p class="fv-disclaimer reveal">
+          ภาพประกอบเป็นแนวคิดเชิงแนวทาง ไม่ใช่ภาพจำลองโครงการจริงหรือการคาดการณ์อุณหภูมิ
+        </p>
+      </div>
+    </section>
 
     <!-- ─── 11. CONCLUSION / CTA ─────────────────────────────────────────── -->
     <section id="conclusion" class="section section-cta" aria-labelledby="conclusion-heading">

@@ -1112,13 +1112,20 @@
     .ng-cta-future {
       background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.16);
       border-radius: 14px; padding: .9rem 1rem;
-      color: rgba(255,255,255,.38); font-family: 'Noto Sans Thai', sans-serif;
+      color: rgba(255,255,255,.75); font-family: 'Noto Sans Thai', sans-serif;
       font-size: .78rem; font-weight: 600;
       display: flex; align-items: center; gap: .5rem;
       text-decoration: none;
-      cursor: not-allowed; pointer-events: none; opacity: .5;
+      transition: background var(--dur, .2s) ease-out, border-color var(--dur, .2s) ease-out, transform var(--dur, .2s) ease-out;
       -webkit-tap-highlight-color: transparent;
     }
+    @media (hover: hover) {
+      .ng-cta-future:hover {
+        background: rgba(74,222,128,.1); border-color: rgba(74,222,128,.4);
+        color: #fff; transform: translateY(-2px);
+      }
+    }
+    .ng-cta-future:focus-visible { outline: 2px solid #4ADE80; outline-offset: 2px; }
 
     @media (max-width: 540px) {
       .ng-grid { grid-template-columns: repeat(2,1fr); gap: .5rem; }
@@ -1288,7 +1295,7 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
           Smart Map
         </a>
-        <a href="#" class="ng-cta-future">
+        <a href="heat.html#future-vision" class="ng-cta-future">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           ขอนแก่นในอนาคต
         </a>
@@ -1830,34 +1837,31 @@
       </p>
 
       <div style="position:relative;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.6);">
-        <iframe
-          id="gistda-lp-map"
-          src="https://3d.gistda.or.th/use-cases/urban-heat-island"
-          title="แผนที่เกาะความร้อนเมือง (Urban Heat Island) จาก GISTDA"
-          loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-          style="width:100%;height:520px;border:0;display:block;background:#0B1829;">
-        </iframe>
+        <button type="button" id="gistda-lp-poster"
+                aria-label="กดเพื่อเปิดแผนที่ Urban Heat Island แบบโต้ตอบจาก GISTDA"
+                style="width:100%;height:520px;border:0;display:flex;align-items:center;justify-content:center;
+                       cursor:pointer;padding:0;position:relative;
+                       background:#0B1829 url('../assets/gistda-khonkaen-poster.jpg') center/cover no-repeat;">
+          <span style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,12,22,.1),rgba(5,12,22,.55));"></span>
+          <span style="position:relative;z-index:1;display:inline-flex;align-items:center;gap:.55rem;
+                        background:rgba(11,24,41,.88);color:#fff;font-weight:700;font-size:.85rem;
+                        padding:.75rem 1.4rem;border-radius:999px;border:1px solid rgba(255,255,255,.25);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3l14 9-14 9V3z"/></svg>
+            กดเพื่อเปิดแผนที่แบบโต้ตอบ
+          </span>
+        </button>
       </div>
 
       <p style="font-size:.76rem;line-height:1.65;color:rgba(255,255,255,.4);margin:.9rem 0 0;">
         &#x26A0;&#xFE0F; ชั้นข้อมูลความร้อน (heat layer) ของ GISTDA อาจไม่แสดงผลชั่วคราว เนื่องจากปัญหาฝั่งผู้ให้บริการข้อมูลภูมิประเทศของ GISTDA เอง — แผนที่ฐานและเครื่องมือส่วนอื่นยังใช้งานได้ตามปกติ
       </p>
       <p style="font-size:.76rem;line-height:1.65;color:rgba(255,255,255,.4);margin:.4rem 0 0;">
-        &#x1F4A1; อยากดูเป็นภาพถ่ายดาวเทียม? กดไอคอนแผนที่ (ไอคอนที่ 2 จากบนในแผนที่) แล้วเลือก "Satellite" — ครั้งต่อไปที่เข้าหน้านี้ เบราว์เซอร์เครื่องนี้จะจำการตั้งค่าไว้ให้อัตโนมัติ
-      </p>
-      <p style="font-size:.76rem;line-height:1.65;color:rgba(255,255,255,.4);margin:.4rem 0 0;">
-        &#x1F30D; ข้อมูลชุดนี้ของ GISTDA ครอบคลุมเฉพาะจังหวัดขอนแก่น — สำหรับจังหวัดระยอง สามารถดูภาพถ่ายดาวเทียมอุณหภูมิพื้นผิว (Land Surface Temperature) แบบเรียลไทม์จาก NASA Worldview ได้ที่ลิงก์ด้านล่าง
+        &#x1F4A1; ภาพด้านบนคือสแนปช็อตจริงของแผนที่นี้ (ซูมดาวเทียมเข้าขอนแก่น) เมื่อกดเปิดแผนที่โต้ตอบแล้ว หากอยากได้มุมมองดาวเทียมแบบเดิม กดไอคอนแผนที่ (ไอคอนที่ 2 จากบนในแผนที่) แล้วเลือก "Satellite"
       </p>
 
       <a href="https://3d.gistda.or.th/use-cases/urban-heat-island" target="_blank" rel="noopener noreferrer"
          style="display:inline-flex;align-items:center;gap:.4rem;margin-top:1rem;font-size:.82rem;font-weight:700;color:#0EA5E9;text-decoration:none;">
         3d.gistda.or.th
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-      <br>
-      <a href="https://worldview.earthdata.nasa.gov/?v=100.2,11.9,102.3,13.4&l=Reference_Labels_15m,Coastlines_15m,MODIS_Terra_Land_Surface_Temp_Day,VIIRS_SNPP_CorrectedReflectance_TrueColor" target="_blank" rel="noopener noreferrer"
-         style="display:inline-flex;align-items:center;gap:.4rem;margin-top:.6rem;font-size:.82rem;font-weight:700;color:#0EA5E9;text-decoration:none;">
-        NASA Worldview — ระยอง
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
 
@@ -1866,9 +1870,26 @@
 
   <style>
     @media (max-width: 640px) {
-      #gistda-lp-map { height: 380px !important; }
+      #gistda-lp-poster, #gistda-lp-map { height: 380px !important; }
     }
   </style>
+
+  <script>
+    (function () {
+      var poster = document.getElementById('gistda-lp-poster');
+      if (!poster) return;
+      poster.addEventListener('click', function () {
+        var iframe = document.createElement('iframe');
+        iframe.id = 'gistda-lp-map';
+        iframe.src = 'https://3d.gistda.or.th/use-cases/urban-heat-island';
+        iframe.title = 'แผนที่เกาะความร้อนเมือง (Urban Heat Island) จาก GISTDA';
+        iframe.loading = 'lazy';
+        iframe.referrerPolicy = 'no-referrer-when-downgrade';
+        iframe.style.cssText = 'width:100%;height:520px;border:0;display:block;background:#0B1829;';
+        poster.replaceWith(iframe);
+      });
+    })();
+  </script>
 
 
   <!-- =====================================================================
