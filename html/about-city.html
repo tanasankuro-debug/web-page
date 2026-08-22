@@ -185,6 +185,12 @@
       font-size: 1.1rem; font-weight: 800; color: #fb923c;
     }
     .cc-sub { font-size: .65rem; color: rgba(255,255,255,.45); margin-top: .15rem; }
+    .compass-icon { width: 40px; height: 40px; margin: 0 auto .5rem; display: block; }
+    .cn .compass-icon { color: #93c5fd; }
+    .cw .compass-icon { color: #c084fc; }
+    .cc .compass-icon { color: #fb923c; margin-bottom: .4rem; }
+    .ce .compass-icon { color: #4ade80; }
+    .cs .compass-icon { color: #f87171; }
 
     /* ── Terrain cards ── */
     .ac-terrains { display: grid; gap: .65rem; margin: 1.2rem 0; }
@@ -241,12 +247,23 @@
 
     /* ── Callout ── */
     .ac-callout {
+      display: flex; align-items: center; gap: 1rem;
       background: rgba(251,146,60,.07); border: 1px solid rgba(251,146,60,.22);
-      border-left: 3px solid #fb923c; border-radius: 12px;
-      padding: 1rem 1.3rem; margin: 1.2rem 0;
+      border-radius: 999px;
+      padding: 1rem 1.5rem; margin: 1.2rem 0;
       font-size: .9rem; line-height: 1.85; color: rgba(255,255,255,.78);
     }
     .ac-callout strong { color: #fdba74; }
+    .ac-callout-text { flex: 1; }
+    .ac-callout-icon {
+      flex: none; width: 34px; height: 34px; color: #fb923c;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ac-callout-icon svg { width: 100%; height: 100%; }
+    @media (max-width: 700px) {
+      .ac-callout { flex-wrap: wrap; border-radius: 20px; }
+      .ac-callout-icon--train { display: none; }
+    }
 
     /* ── References ── */
     .ac-refs { margin-top: 2.5rem; padding-top: 1.4rem; border-top: 1px solid rgba(255,255,255,.08); }
@@ -549,25 +566,55 @@
 
       <div class="compass-wrap" aria-label="แผนภาพอาณาเขตจังหวัดขอนแก่น">
         <div class="compass-card cn">
+          <svg class="compass-icon" viewBox="0 0 24 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 18L8 6l3.5 6L14 8l8 10"/></svg>
           <div class="compass-dir">ทิศเหนือ ↑</div>
           <div class="compass-prov">เลย · อุดรธานี</div>
           <div class="compass-note">แนวเทือกเขาภูพาน</div>
         </div>
         <div class="compass-card cw">
+          <svg class="compass-icon" viewBox="0 0 24 28" fill="currentColor" aria-hidden="true">
+            <rect x="11" y="0" width="2" height="3"/>
+            <path d="M8.5 5h7l-1 3h-5z"/>
+            <path d="M6.5 9.5h11l-1.5 3.5h-8z"/>
+            <path d="M4 15h16l-2 4.5H6z"/>
+            <rect x="5" y="21" width="14" height="1.6" rx=".5"/>
+          </svg>
           <div class="compass-dir">← ทิศตะวันตก</div>
           <div class="compass-prov">ชัยภูมิ<br>เพชรบูรณ์</div>
-          <div class="compass-note">เทือกเขาเพชรบูรณ์</div>
+          <div class="compass-note">เส้นทางสายมรดกอีสาน</div>
         </div>
         <div class="compass-card cc">
+          <svg class="compass-icon" viewBox="0 0 24 28" fill="currentColor" aria-hidden="true">
+            <rect x="11" y="0" width="2" height="3"/>
+            <path d="M8.5 5h7l-1 3h-5z"/>
+            <path d="M6.5 9.5h11l-1.5 3.5h-8z"/>
+            <path d="M4 15h16l-2 4.5H6z"/>
+            <rect x="5" y="21" width="14" height="1.6" rx=".5"/>
+          </svg>
           <div class="cc-logo">ขอนแก่น</div>
           <div class="cc-sub">16°26'N 102°50'E</div>
         </div>
         <div class="compass-card ce">
+          <svg class="compass-icon" viewBox="0 0 48 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <ellipse cx="26" cy="20" rx="10" ry="6" fill="currentColor" stroke="none"/>
+            <path d="M17 17C11 11 7 9 5 5"/>
+            <circle cx="5" cy="5" r="2.2" fill="currentColor" stroke="none"/>
+            <path d="M36 18C42 16 45 20 47 25"/>
+            <rect x="18" y="24" width="3" height="6" rx="1" fill="currentColor" stroke="none"/>
+            <rect x="31" y="24" width="3" height="6" rx="1" fill="currentColor" stroke="none"/>
+          </svg>
           <div class="compass-dir">ทิศตะวันออก →</div>
           <div class="compass-prov">กาฬสินธุ์<br>มหาสารคาม</div>
-          <div class="compass-note">ที่ราบลุ่มชี–มูล</div>
+          <div class="compass-note">ที่ราบลุ่มแม่น้ำชี</div>
         </div>
         <div class="compass-card cs">
+          <svg class="compass-icon" viewBox="0 0 24 28" fill="currentColor" aria-hidden="true">
+            <rect x="11" y="0" width="2" height="3"/>
+            <path d="M8.5 5h7l-1 3h-5z"/>
+            <path d="M6.5 9.5h11l-1.5 3.5h-8z"/>
+            <path d="M4 15h16l-2 4.5H6z"/>
+            <rect x="5" y="21" width="14" height="1.6" rx=".5"/>
+          </svg>
           <div class="compass-dir">↓ ทิศใต้</div>
           <div class="compass-prov">ชัยภูมิ · นครราชสีมา</div>
           <div class="compass-note">ที่ราบสูงโคราช</div>
@@ -575,9 +622,17 @@
       </div>
 
       <div class="ac-callout">
+        <span class="ac-callout-icon ac-callout-icon--pin" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </span>
+        <span class="ac-callout-text">
         ด้วยที่ตั้งใจกลางภาคอีสาน ขอนแก่นเป็นจุดเชื่อมต่อการเดินทางสำคัญ ทั้ง
         <strong>ทางหลวงมิตรภาพ (หมายเลข 2)</strong> · <strong>ท่าอากาศยานขอนแก่น</strong> ·
         <strong>รถไฟสายตะวันออกเฉียงเหนือ</strong> และโครงการ<strong>รถไฟความเร็วสูง</strong>ที่กำลังพัฒนา
+        </span>
+        <span class="ac-callout-icon ac-callout-icon--train" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="13" rx="4"/><path d="M4 11h16"/><path d="M8 19l-2 3M16 19l2 3"/><circle cx="8" cy="13.5" r="1" fill="currentColor" stroke="none"/><circle cx="16" cy="13.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </span>
       </div>
     </section>
 
