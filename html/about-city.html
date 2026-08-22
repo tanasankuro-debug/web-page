@@ -77,7 +77,10 @@
 
     /* ── Wrap & sections ── */
     .ac-wrap { max-width: 880px; margin: 0 auto; padding: 0 1.4rem 5rem; }
-    .ac-section { padding: 3rem 0 1rem; }
+    .ac-section { padding: 3.25rem 0 1rem; }
+    .ac-section + .ac-section {
+      border-top: 1px solid rgba(255,255,255,.07);
+    }
 
     /* ── Kicker ── */
     .ac-kicker {
@@ -267,6 +270,139 @@
     .ac-pnb--graph { background: rgba(251,146,60,.1); border: 1px solid rgba(251,146,60,.3); color: #fdba74; }
     .ac-pnb--shel  { background: rgba(34,197,94,.08); border: 1px solid rgba(34,197,94,.25); color: #86efac; }
 
+    /* ── 06 · วิสัยทัศน์อนาคต: Before → GeoHeat AI → After panels ──
+       Framed as a direction/vision, not a temperature forecast — GeoHeat
+       has no predictive model, so the copy never claims a specific future
+       temperature. Panel illustrations are hand-drawn SVG, not photography,
+       so nothing here claims to depict an actual planned Khon Kaen project. */
+    .fv-panels {
+      display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+      gap: 1.25rem; margin: 1.5rem 0 1.75rem;
+    }
+    .fv-panel {
+      border-radius: 14px; overflow: hidden; position: relative;
+      background: #0B1829; border: 1px solid rgba(255,255,255,.08);
+    }
+    .fv-panel--now svg, .fv-panel--future svg { display: block; width: 100%; height: auto; }
+    .fv-panel-tag {
+      position: absolute; top: .75rem; left: .75rem; z-index: 1;
+      font-size: .7rem; font-weight: 700; letter-spacing: .06em;
+      padding: .3rem .7rem; border-radius: 999px;
+      background: rgba(5,12,22,.75); backdrop-filter: blur(4px);
+    }
+    .fv-panel--now .fv-panel-tag  { color: #FB923C; border: 1px solid rgba(251,146,60,.35); }
+    .fv-panel--future .fv-panel-tag { color: #4ADE80; border: 1px solid rgba(74,222,128,.35); }
+    .fv-panel--ai {
+      background: none; border: none;
+      display: flex; flex-direction: column; align-items: center; gap: .6rem;
+      padding: 0 .25rem; text-align: center;
+    }
+    .fv-ai-badge {
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      background: rgba(14,165,233,.1); border: 1px solid rgba(14,165,233,.3);
+      border-radius: 14px; padding: 1rem 1.1rem;
+    }
+    .fv-ai-badge span { font-size: .78rem; font-weight: 800; color: #38BDF8; white-space: nowrap; }
+    .fv-ai-flow { font-size: .72rem; color: rgba(255,255,255,.4); white-space: nowrap; margin: 0; }
+    .fv-arrow { color: rgba(255,255,255,.25); flex: none; }
+    @media (max-width: 760px) {
+      .fv-panels { grid-template-columns: 1fr; }
+      .fv-panel--ai { flex-direction: row; justify-content: center; padding: .5rem 0; }
+      .fv-arrow { transform: rotate(90deg); }
+    }
+    .fv-actions {
+      list-style: none; margin: 0 0 1.75rem; padding: 0;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: .6rem;
+    }
+    .fv-actions li {
+      display: flex; align-items: center; gap: .55rem;
+      font-size: .85rem; color: rgba(255,255,255,.75);
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.06);
+      border-radius: 10px; padding: .65rem .85rem;
+    }
+    .fv-tagline {
+      font-size: 1.05rem; font-weight: 700; text-align: center;
+      color: #fff; font-style: italic; margin: 0 0 .5rem;
+      padding: 1.25rem; border-radius: 14px;
+      background: linear-gradient(135deg, rgba(251,146,60,.08), rgba(74,222,128,.08));
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .fv-disclaimer {
+      font-size: .74rem; line-height: 1.6; color: rgba(255,255,255,.4);
+      text-align: center; margin: 0 0 2.5rem;
+    }
+
+    /* ── Real-world before/after case studies ── */
+    .fk-cases-intro { margin: 0 0 1.5rem; }
+    .fk-cases-kicker {
+      display: inline-flex; align-items: center; gap: .45rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .7rem; font-weight: 700; letter-spacing: .15em;
+      text-transform: uppercase; color: #4ADE80; margin-bottom: .5rem;
+    }
+    .fk-cases-kicker::before {
+      content: ''; width: 18px; height: 2px;
+      background: linear-gradient(90deg, #4ADE80, transparent);
+      border-radius: 1px;
+    }
+    .fk-cases-h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(1.4rem, 4vw, 1.9rem); font-weight: 800;
+      color: #fff; line-height: 1.15; margin: 0 0 .6rem;
+    }
+    .fk-cases-p { font-size: .9rem; line-height: 1.85; color: rgba(226,232,240,.72); margin: 0; }
+    .fk-case { margin: 2.25rem 0; }
+    .fk-case-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.3rem; font-weight: 800; color: #fff; margin: 0 0 .35rem;
+    }
+    .fk-case-desc {
+      font-size: .85rem; line-height: 1.7; color: rgba(255,255,255,.6);
+      margin: 0 0 .9rem; max-width: 640px;
+    }
+    .fk-ba {
+      position: relative; aspect-ratio: 16/9; border-radius: 14px; overflow: hidden;
+      background: #0B1829; cursor: ew-resize; -webkit-user-select: none; user-select: none;
+      touch-action: pan-y;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .fk-ba img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; display: block; pointer-events: none;
+    }
+    .fk-ba-before-wrap {
+      position: absolute; inset: 0;
+      clip-path: inset(0 50% 0 0);
+    }
+    .fk-ba-handle {
+      position: absolute; top: 0; bottom: 0; left: 50%;
+      width: 2px; background: rgba(255,255,255,.85);
+      box-shadow: 0 0 10px rgba(0,0,0,.5);
+      transform: translateX(-50%);
+    }
+    .fk-ba-grip {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 42px; height: 42px; border-radius: 50%;
+      background: #fff; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 14px rgba(0,0,0,.4);
+      color: #0B1829;
+    }
+    .fk-ba-grip:focus-visible { outline: 3px solid #4ADE80; outline-offset: 3px; }
+    .fk-case-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .9rem; }
+    .fk-case-tags span {
+      font-size: .72rem; font-weight: 600; color: rgba(255,255,255,.65);
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 999px; padding: .3rem .75rem;
+    }
+    .fk-cases-note {
+      font-size: .74rem; line-height: 1.6; color: rgba(255,255,255,.4);
+      margin: 1.75rem 0 0;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .fk-ba-grip, .fv-ai-badge svg { transition: none; animation: none; }
+    }
+
     @media (max-width: 600px) {
       .ac-stats  { grid-template-columns: repeat(2,1fr); }
       .compass-wrap { grid-template-columns: 1fr 1fr 1fr; gap: .4rem; }
@@ -318,7 +454,7 @@
       <h1 class="ac-title">ประวัติขอนแก่น<br><span>เมืองใหญ่แห่งภาคอีสาน</span></h1>
       <p class="ac-lead">
         จังหวัดขอนแก่นมีประวัติความเป็นมายาวนานกว่า 200 ปี
-        ในฐานะศูนย์กลางของภาคตะวันออกเฉียงเหนือ
+        เติบโตจนกลายเป็นศูนย์กลางของภาคตะวันออกเฉียงเหนือ
         ทั้งด้านการปกครอง การค้า การศึกษา และการแพทย์
       </p>
       <div class="ac-hero-badges">
@@ -338,12 +474,12 @@
       <p class="ac-kicker">01 · ประวัติความเป็นมา</p>
       <h2 class="ac-h2">ประวัติความเป็นมาของจังหวัดขอนแก่น</h2>
       <p class="ac-p">
-        ชื่อ <span class="hl">"ขอนแก่น"</span> สันนิษฐานว่ามาจากต้นไม้ขนาดใหญ่ที่มีแก่นแข็ง
-        ซึ่งพบมากในบริเวณพื้นที่นั้นในอดีต
+        ชื่อ <span class="hl">"ขอนแก่น"</span> สันนิษฐานว่ามาจากต้นไม้ขนาดใหญ่ที่มีแก่นไม้แข็งแรง
+        ซึ่งเคยขึ้นอยู่ทั่วบริเวณนี้ในอดีต
         เมืองขอนแก่นได้รับการสถาปนาอย่างเป็นทางการในสมัย
         <span class="hl">รัชกาลที่ 1 แห่งกรุงรัตนโกสินทร์</span>
-        โดยทรงโปรดเกล้าฯ ให้ยกบ้านบึงบอนขึ้นเป็นเมืองขอนแก่น
-        จนกลายเป็นศูนย์กลางของภาคตะวันออกเฉียงเหนือในเวลาต่อมา
+        เมื่อทรงโปรดเกล้าฯ ให้ยกบ้านบึงบอนขึ้นเป็นเมืองขอนแก่น
+        ก่อนจะเติบโตกลายเป็นศูนย์กลางของภาคตะวันออกเฉียงเหนือในเวลาต่อมา
       </p>
 
       <ul class="ac-timeline">
@@ -396,9 +532,9 @@
       </div>
 
       <p class="ac-p">
-        ตัวเมืองขอนแก่นตั้งอยู่ริม<span class="hl">บึงแก่นนคร</span> บึงน้ำสาธารณะสัญลักษณ์ของเมือง
-        เขตเทศบาลนครขอนแก่นมีพื้นที่ประมาณ 46.5 ตารางกิโลเมตร
-        เป็นที่ตั้งของหน่วยงานภาครัฐ สถาบันการศึกษา โรงพยาบาล และศูนย์การค้าสำคัญ
+        ตัวเมืองขอนแก่นตั้งอยู่ริม<span class="hl">บึงแก่นนคร</span> บึงน้ำสาธารณะอันเป็นสัญลักษณ์ของเมือง
+        เขตเทศบาลนครขอนแก่นครอบคลุมพื้นที่ประมาณ 46.5 ตารางกิโลเมตร
+        เป็นที่ตั้งของหน่วยงานภาครัฐ สถาบันการศึกษา โรงพยาบาล และศูนย์การค้าสำคัญของภูมิภาค
       </p>
     </section>
 
@@ -450,10 +586,10 @@
       <p class="ac-kicker">04 · ลักษณะภูมิประเทศ</p>
       <h2 class="ac-h2">ภูมิประเทศและภูมิอากาศ</h2>
       <p class="ac-p">
-        พื้นที่ส่วนใหญ่เป็น<span class="hl">ที่ราบสูง</span>
-        ความสูงจากระดับน้ำทะเลเฉลี่ย 150–200 เมตร
-        ทางเหนือและตะวันตกมีเทือกเขา<span class="hl">เพชรบูรณ์</span>
-        ซึ่งเป็นแหล่งต้นน้ำสำคัญ
+        พื้นที่ส่วนใหญ่ของจังหวัดเป็น<span class="hl">ที่ราบสูง</span>
+        มีความสูงจากระดับน้ำทะเลเฉลี่ย 150–200 เมตร
+        โดยทางเหนือและตะวันตกเป็นแนวเทือกเขา<span class="hl">เพชรบูรณ์</span>
+        ซึ่งเป็นแหล่งต้นน้ำสำคัญของภูมิภาค
       </p>
       <div class="ac-terrains">
         <div class="ac-terrain">
@@ -479,6 +615,10 @@
     <section class="ac-section">
       <p class="ac-kicker">05 · ข้อมูลพื้นฐาน</p>
       <h2 class="ac-h2">ข้อมูลพื้นฐานจังหวัดขอนแก่น</h2>
+      <p class="ac-p">
+        ตัวเลขการปกครอง สัญลักษณ์ประจำจังหวัด และสถาบันสำคัญ
+        ที่สะท้อนความเป็น<span class="hl">ศูนย์กลางภาคอีสาน</span>ของขอนแก่นในปัจจุบัน
+      </p>
 
       <div class="ac-infogrid">
         <div class="ac-infocard ac-infocard--a">
@@ -539,6 +679,192 @@
       </div>
     </section>
 
+    <!-- 6. วิสัยทัศน์อนาคต -->
+    <section class="ac-section" id="future-vision">
+      <p class="ac-kicker">06 · วิสัยทัศน์อนาคต</p>
+      <h2 class="ac-h2">แนวทางสู่ขอนแก่นในอนาคต</h2>
+      <p class="ac-p">
+        ขอนแก่นเดินทางมาไกลตลอด 200 กว่าปี และกำลังก้าวต่อไปด้วยข้อมูล —
+        จากข้อมูลความร้อนเมืองที่เก็บและวิเคราะห์ในโครงงานนี้ สู่แนวทางออกแบบเมืองที่เย็นขึ้น
+        GeoHeat เป็นเครื่องมือสนับสนุนการตัดสินใจ ไม่ใช่แบบจำลองพยากรณ์อุณหภูมิในอนาคต
+      </p>
+
+      <div class="fv-panels" role="img" aria-label="ภาพประกอบเปรียบเทียบ: เมืองปัจจุบันที่มีความร้อนสะสมสูง เทียบกับแนวทางเมืองในอนาคตที่เพิ่มพื้นที่สีเขียวและร่มเงาเพื่อลดความร้อน โดยมี GeoHeat AI เป็นเครื่องมือวิเคราะห์และวางแผนตรงกลาง">
+
+        <div class="fv-panel fv-panel--now">
+          <span class="fv-panel-tag">ปัจจุบัน</span>
+          <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <radialGradient id="fvHeatGlow2" cx="50%" cy="70%" r="65%">
+                <stop offset="0%" stop-color="#F97316" stop-opacity="0.55"/>
+                <stop offset="55%" stop-color="#EF4444" stop-opacity="0.22"/>
+                <stop offset="100%" stop-color="#EF4444" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="320" height="200" fill="#0B1829"/>
+            <rect width="320" height="200" fill="url(#fvHeatGlow2)"/>
+            <g fill="#33415580" stroke="#475569" stroke-width="1">
+              <rect x="8"   y="96"  width="34" height="90"/>
+              <rect x="48"  y="66"  width="30" height="120"/>
+              <rect x="84"  y="112" width="34" height="74"/>
+              <rect x="124" y="50"  width="28" height="136"/>
+              <rect x="158" y="88"  width="34" height="98"/>
+              <rect x="198" y="70"  width="30" height="116"/>
+              <rect x="234" y="104" width="34" height="82"/>
+              <rect x="274" y="60"  width="30" height="126"/>
+            </g>
+            <g stroke="#FDBA74" stroke-width="1" opacity="0.35">
+              <line x1="0" y1="186" x2="320" y2="186"/>
+            </g>
+            <line x1="0" y1="188" x2="320" y2="188" stroke="#1E293B" stroke-width="2"/>
+          </svg>
+        </div>
+
+        <div class="fv-panel fv-panel--ai">
+          <div class="fv-ai-badge">
+            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+              <rect x="9" y="9" width="12" height="12" rx="2" stroke="#38BDF8" stroke-width="1.6"/>
+              <circle cx="15" cy="15" r="2.4" fill="#38BDF8"/>
+              <g stroke="#38BDF8" stroke-width="1.4" stroke-linecap="round">
+                <line x1="15" y1="1"  x2="15" y2="6"/>
+                <line x1="15" y1="24" x2="15" y2="29"/>
+                <line x1="1"  y1="15" x2="6"  y2="15"/>
+                <line x1="24" y1="15" x2="29" y2="15"/>
+                <line x1="5"  y1="5"  x2="8.5" y2="8.5"/>
+                <line x1="21.5" y1="21.5" x2="25" y2="25"/>
+                <line x1="25" y1="5" x2="21.5" y2="8.5"/>
+                <line x1="8.5" y1="21.5" x2="5" y2="25"/>
+              </g>
+            </svg>
+            <span>GeoHeat AI</span>
+          </div>
+          <svg class="fv-arrow" width="26" height="16" viewBox="0 0 26 16" fill="none" aria-hidden="true">
+            <line x1="0" y1="8" x2="20" y2="8" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M14 2l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <p class="fv-ai-flow">วิเคราะห์ &rarr; วางแผน &rarr; ออกแบบ</p>
+        </div>
+
+        <div class="fv-panel fv-panel--future">
+          <span class="fv-panel-tag">แนวทาง</span>
+          <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <radialGradient id="fvCoolGlow2" cx="50%" cy="70%" r="65%">
+                <stop offset="0%" stop-color="#4ADE80" stop-opacity="0.35"/>
+                <stop offset="55%" stop-color="#22D3EE" stop-opacity="0.16"/>
+                <stop offset="100%" stop-color="#22D3EE" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="320" height="200" fill="#0B1829"/>
+            <rect width="320" height="200" fill="url(#fvCoolGlow2)"/>
+            <g fill="#33415580" stroke="#475569" stroke-width="1">
+              <rect x="8"   y="96"  width="34" height="90"/>
+              <rect x="48"  y="66"  width="30" height="120"/>
+              <rect x="84"  y="112" width="34" height="74"/>
+              <rect x="124" y="50"  width="28" height="136"/>
+              <rect x="158" y="88"  width="34" height="98"/>
+              <rect x="198" y="70"  width="30" height="116"/>
+              <rect x="234" y="104" width="34" height="82"/>
+              <rect x="274" y="60"  width="30" height="126"/>
+            </g>
+            <g fill="#16A34A" opacity="0.8">
+              <rect x="8"   y="93" width="34" height="4" rx="1"/>
+              <rect x="48"  y="63" width="30" height="4" rx="1"/>
+              <rect x="84"  y="109" width="34" height="4" rx="1"/>
+              <rect x="124" y="47" width="28" height="4" rx="1"/>
+              <rect x="158" y="85" width="34" height="4" rx="1"/>
+              <rect x="198" y="67" width="30" height="4" rx="1"/>
+              <rect x="234" y="101" width="34" height="4" rx="1"/>
+              <rect x="274" y="57" width="30" height="4" rx="1"/>
+            </g>
+            <g fill="#22C55E" stroke="#16A34A" stroke-width="1">
+              <path d="M22 186 L34 186 L28 172 Z"/>
+              <path d="M60 186 L74 186 L67 168 Z"/>
+              <path d="M100 186 L112 186 L106 174 Z"/>
+              <path d="M178 186 L192 186 L185 170 Z"/>
+              <path d="M244 186 L258 186 L251 173 Z"/>
+              <path d="M296 186 L308 186 L302 175 Z"/>
+            </g>
+            <line x1="0" y1="188" x2="320" y2="188" stroke="#1E293B" stroke-width="2"/>
+          </svg>
+        </div>
+
+      </div>
+
+      <ul class="fv-actions">
+        <li>&#x1F333; เพิ่มพื้นที่สีเขียว</li>
+        <li>&#x2600;&#xFE0F; เพิ่มร่มเงาในจุดที่ร้อนที่สุด</li>
+        <li>&#x1F5FA;&#xFE0F; วางแผนพื้นที่เสี่ยงก่อน</li>
+        <li>&#x1F4CA; ใช้ข้อมูลประกอบการตัดสินใจ</li>
+      </ul>
+
+      <p class="fv-tagline">&ldquo;ขอนแก่น เมืองที่ใช้ข้อมูลเพื่อออกแบบพื้นที่ให้เย็นลง&rdquo;</p>
+      <p class="fv-disclaimer">
+        ภาพประกอบด้านบนเป็นแนวคิดเชิงแนวทาง ไม่ใช่ภาพจำลองโครงการจริงหรือการคาดการณ์อุณหภูมิ
+      </p>
+
+      <!-- Real-world before/after case studies -->
+      <div class="fk-cases-intro">
+        <p class="fk-cases-kicker">ตัวอย่างจริง</p>
+        <h3 class="fk-cases-h2">แนวทางแบบนี้หน้าตาเป็นอย่างไรเมื่อสร้างจริง</h3>
+        <p class="fk-cases-p">
+          ตัวอย่างพื้นที่ที่นำแนวคิด "Sponge" (พื้นที่ซึมซับน้ำ + เพิ่มพื้นที่สีเขียว) ไปใช้จริง
+          — ลากแถบตรงกลางเพื่อเปรียบเทียบก่อนและหลัง
+        </p>
+      </div>
+
+      <div class="fk-case">
+        <h3 class="fk-case-title">Sponge Park</h3>
+        <p class="fk-case-desc">สวนสาธารณะที่ออกแบบเพื่อรองรับน้ำฝน ลดปัญหาน้ำท่วม เพิ่มพื้นที่สีเขียว และสร้างคุณภาพชีวิตที่ดีให้กับชุมชน</p>
+        <div class="fk-ba" data-fk-ba>
+          <img src="../assets/future-examples/sponge-park-after.png" alt="Sponge Park หลังปรับปรุง — สวนพร้อมทางเดิน พื้นที่สีเขียว และบ่อรับน้ำ">
+          <div class="fk-ba-before-wrap">
+            <img src="../assets/future-examples/sponge-park-before.png" alt="Sponge Park ก่อนปรับปรุง — พื้นที่รกร้างริมน้ำ">
+          </div>
+          <div class="fk-ba-handle" aria-hidden="true"></div>
+          <div class="fk-ba-grip" role="slider" tabindex="0"
+               aria-label="ลากเพื่อเปรียบเทียบภาพก่อนและหลังของ Sponge Park"
+               aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg>
+          </div>
+        </div>
+        <div class="fk-case-tags">
+          <span>&#x1F4A7; Infiltration</span>
+          <span>&#x1F331; Green Space</span>
+          <span>&#x1F3D5;&#xFE0F; Water Retention</span>
+          <span>&#x1F426; Biodiversity</span>
+          <span>&#x1F465; Community</span>
+        </div>
+      </div>
+
+      <div class="fk-case">
+        <h3 class="fk-case-title">Sponge Plaza</h3>
+        <p class="fk-case-desc">ลานกิจกรรมกลางแจ้งที่ปรับพื้นผิวให้น้ำซึมได้ เพิ่มร่มเงาและพื้นที่สีเขียวแทรกในลาน ลดความร้อนสะสมจากพื้นคอนกรีต</p>
+        <div class="fk-ba" data-fk-ba>
+          <img src="../assets/future-examples/sponge-plaza-after.png" alt="Sponge Plaza หลังปรับปรุง — ลานพร้อมต้นไม้ให้ร่มเงาและแปลงปลูกซึมน้ำ">
+          <div class="fk-ba-before-wrap">
+            <img src="../assets/future-examples/sponge-plaza-before.png" alt="Sponge Plaza ก่อนปรับปรุง — ลานคอนกรีตโล่งไม่มีร่มเงา">
+          </div>
+          <div class="fk-ba-handle" aria-hidden="true"></div>
+          <div class="fk-ba-grip" role="slider" tabindex="0"
+               aria-label="ลากเพื่อเปรียบเทียบภาพก่อนและหลังของ Sponge Plaza"
+               aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg>
+          </div>
+        </div>
+        <div class="fk-case-tags">
+          <span>&#x1F4A7; Infiltration</span>
+          <span>&#x1F331; Green Space</span>
+          <span>&#x1F333; Shade</span>
+          <span>&#x1F465; Community</span>
+        </div>
+      </div>
+
+      <p class="fk-cases-note">
+        ภาพตัวอย่างจากโครงการจริงที่ใช้แนวคิดออกแบบเดียวกัน ไม่ใช่ภาพจำลองพื้นที่เฉพาะเจาะจงในขอนแก่น
+      </p>
+    </section>
+
     <!-- References -->
     <div class="ac-refs">
       <h3>เอกสารอ้างอิง</h3>
@@ -559,5 +885,57 @@
   </main>
 
   <script src="../js/nav.js"></script>
+  <script>
+    (function () {
+      function initBeforeAfter(root) {
+        var beforeWrap = root.querySelector('.fk-ba-before-wrap');
+        var handle = root.querySelector('.fk-ba-handle');
+        var grip = root.querySelector('.fk-ba-grip');
+
+        function setPct(pct) {
+          pct = Math.max(0, Math.min(100, pct));
+          beforeWrap.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+          handle.style.left = pct + '%';
+          grip.style.left = pct + '%';
+          grip.setAttribute('aria-valuenow', Math.round(pct));
+        }
+
+        function pctFromClientX(clientX) {
+          var rect = root.getBoundingClientRect();
+          return ((clientX - rect.left) / rect.width) * 100;
+        }
+
+        var dragging = false;
+        function onDown(e) {
+          dragging = true;
+          var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+          setPct(pctFromClientX(clientX));
+        }
+        function onMove(e) {
+          if (!dragging) return;
+          var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+          setPct(pctFromClientX(clientX));
+        }
+        function onUp() { dragging = false; }
+
+        root.addEventListener('mousedown', onDown);
+        root.addEventListener('touchstart', onDown, { passive: true });
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('touchmove', onMove, { passive: true });
+        window.addEventListener('mouseup', onUp);
+        window.addEventListener('touchend', onUp);
+
+        grip.addEventListener('keydown', function (e) {
+          var current = parseFloat(grip.getAttribute('aria-valuenow')) || 50;
+          if (e.key === 'ArrowLeft')  { setPct(current - 5); e.preventDefault(); }
+          if (e.key === 'ArrowRight') { setPct(current + 5); e.preventDefault(); }
+          if (e.key === 'Home')       { setPct(0);  e.preventDefault(); }
+          if (e.key === 'End')        { setPct(100); e.preventDefault(); }
+        });
+      }
+
+      document.querySelectorAll('[data-fk-ba]').forEach(initBeforeAfter);
+    })();
+  </script>
 </body>
 </html>

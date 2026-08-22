@@ -1112,20 +1112,13 @@
     .ng-cta-future {
       background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.16);
       border-radius: 14px; padding: .9rem 1rem;
-      color: rgba(255,255,255,.75); font-family: 'Noto Sans Thai', sans-serif;
+      color: rgba(255,255,255,.38); font-family: 'Noto Sans Thai', sans-serif;
       font-size: .78rem; font-weight: 600;
       display: flex; align-items: center; gap: .5rem;
       text-decoration: none;
-      transition: background var(--dur, .2s) ease-out, border-color var(--dur, .2s) ease-out, transform var(--dur, .2s) ease-out;
+      cursor: not-allowed; pointer-events: none; opacity: .5;
       -webkit-tap-highlight-color: transparent;
     }
-    @media (hover: hover) {
-      .ng-cta-future:hover {
-        background: rgba(74,222,128,.1); border-color: rgba(74,222,128,.4);
-        color: #fff; transform: translateY(-2px);
-      }
-    }
-    .ng-cta-future:focus-visible { outline: 2px solid #4ADE80; outline-offset: 2px; }
 
     @media (max-width: 540px) {
       .ng-grid { grid-template-columns: repeat(2,1fr); gap: .5rem; }
@@ -1295,7 +1288,7 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
           Smart Map
         </a>
-        <a href="heat.html#future-vision" class="ng-cta-future">
+        <a href="#" class="ng-cta-future">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           ขอนแก่นในอนาคต
         </a>
